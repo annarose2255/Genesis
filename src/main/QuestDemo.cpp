@@ -31,9 +31,9 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
     character->addAnimation("./resources/character/", "Dead", 30, 1, false);
 
     character->play("Idle");
-    instance->addChild(character);
-    character->position = {0, 700};
-    character->pivot = {character->width / 2, character->height / 2};
+    allSprites->addChild(character);
+    character->position = {-500, 200};
+
 	coinlis = new CoinListener(character, coin);
 	eDispatcher = new EventDispatcher();
 	eDispatcher->addEventListener(coinlis, PICKUP);
