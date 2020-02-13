@@ -1,4 +1,4 @@
-TARGET_EXEC ?= myGame
+TARGET_EXEC ?= questDemo
 
 BUILD_DIR ?= ./bin
 SRC_DIRS ?= ./src
