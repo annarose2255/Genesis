@@ -7,7 +7,7 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "AnimatedSprite.h"
-
+#include "CoinListener.h"
 
 using namespace std;
 
@@ -30,7 +30,8 @@ private:
 	// DisplayObjectContainer* p1container;
 	// DisplayObjectContainer* p2container;
 	DisplayObjectContainer* allSprites;
-
+	EventListener* coinlis;
+	EventDispatcher* eDispatch;
 	AnimatedSprite* character;
 	bool isWalking = false;
 	bool left = false;

@@ -34,7 +34,9 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
     instance->addChild(character);
     character->position = {0, 700};
     character->pivot = {character->width / 2, character->height / 2};
-
+	coinlis = new CoinListener(character, coin);
+	eDispatcher = new EventDispatcher();
+	eDispatcher.addEventListener(coinlis, PICKUP)
     isWalking = false;
     left = false;
 
@@ -48,6 +50,7 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
     // character->play("Idle");
 	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		character->position.x += 3;
+		eDispatcher.dispatchEvent(new Event(PICKUP, eDispatcher));
         if (!isWalking){
             character->play("Walk");
             isWalking = true;
@@ -61,6 +64,7 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
     }
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		character->position.x -= 3;
+		eDispatcher.dispatchEvent(new Event(PICKUP, eDispatcher));
         if (!isWalking){
             // character->scaleX = -1 * character->scaleX;
             // character->scaleY = -1;
@@ -76,9 +80,10 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
 	// if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
 	// 	sun->position.y += 2;
 	// }
-	// if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-	// 	sun->position.y -= 2;
-	// }
+	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+		eDispatcher.dispatchEvent(new Event(PICKUP, eDispatcher));
+		character->position.y -= 2;
+	}
 	// if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 	// 	// sun->rotation += 0.01;
 	// 	p1container->rotation += 0.05;

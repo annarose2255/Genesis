@@ -3,13 +3,16 @@
 
 #include "Event.h"
 #include "EventListener.h"
+#include "AnimatedSprite.h"
 #define PICKUP "PICKUP" 
-class CoinListener:EventListener{
+
+class CoinListener: public EventListener{
 
 public:
+
     CoinListener(DisplayObject *mc, DisplayObject *obj);
     ~CoinListener();
-	virtual void handleEvent(Event* e) = 0;
+	void handleEvent(Event* e) = 0;
 
 private:	
     DisplayObject* character;
