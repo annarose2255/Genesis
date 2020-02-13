@@ -36,7 +36,7 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
     character->pivot = {character->width / 2, character->height / 2};
 	coinlis = new CoinListener(character, coin);
 	eDispatcher = new EventDispatcher();
-	eDispatcher.addEventListener(coinlis, PICKUP)
+	eDispatcher->addEventListener(coinlis, PICKUP);
     isWalking = false;
     isJumping = false;
     left = false;
@@ -51,7 +51,7 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
     // character->play("Idle");
 	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		character->position.x += 3;
-		eDispatcher.dispatchEvent(new Event(PICKUP, eDispatcher));
+		eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (left){
             // character->scaleY = -1 * character->scaleX;
             left = false;
@@ -68,10 +68,11 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
     }
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		character->position.x -= 3;
-		eDispatcher.dispatchEvent(new Event(PICKUP, eDispatcher));
+		eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (!isWalking){
             // character->scaleX = -1 * character->scaleX;
             // character->scaleY = -1;
+        }
         if (!left){
             // character->scaleY = -1 * character->scaleX;
             left = true;
@@ -89,7 +90,7 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
     }
 	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
 		character->position.y += 3;
-		eDispatcher.dispatchEvent(new Event(PICKUP, eDispatcher));
+		eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (!isJumping){
             character->play("Jump");
             isJumping = true;
@@ -97,7 +98,7 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
 	}
 	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
 		character->position.y -= 3;
-		eDispatcher.dispatchEvent(new Event(PICKUP, eDispatcher));
+		eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (!isJumping){
             character->play("Jump");
             isJumping = true;

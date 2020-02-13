@@ -12,7 +12,7 @@ public:
 
     CoinListener(DisplayObject *mc, DisplayObject *obj);
     ~CoinListener();
-	void handleEvent(Event* e) = 0;
+	void handleEvent(Event* e);
 
 private:	
     DisplayObject* character;

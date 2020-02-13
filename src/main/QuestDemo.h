@@ -31,7 +31,7 @@ private:
 	// DisplayObjectContainer* p2container;
 	DisplayObjectContainer* allSprites;
 	EventListener* coinlis;
-	EventDispatcher* eDispatch;
+	EventDispatcher* eDispatcher;
 	AnimatedSprite* character;
 	bool isWalking = false;
 	bool left = false;
