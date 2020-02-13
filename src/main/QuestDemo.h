@@ -35,6 +35,7 @@ private:
 	AnimatedSprite* character;
 	bool isWalking = false;
 	bool left = false;
+	bool isJumping = false;
 };
 
 #endif

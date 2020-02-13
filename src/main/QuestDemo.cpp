@@ -38,6 +38,7 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
 	eDispatcher = new EventDispatcher();
 	eDispatcher.addEventListener(coinlis, PICKUP)
     isWalking = false;
+    isJumping = false;
     left = false;
 
 }
@@ -51,10 +52,13 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
 	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		character->position.x += 3;
 		eDispatcher.dispatchEvent(new Event(PICKUP, eDispatcher));
+        if (left){
+            // character->scaleY = -1 * character->scaleX;
+            left = false;
+        }
         if (!isWalking){
             character->play("Walk");
             isWalking = true;
-            left = false;
         }
 	} else {
         if (!left && isWalking){
@@ -68,7 +72,13 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
         if (!isWalking){
             // character->scaleX = -1 * character->scaleX;
             // character->scaleY = -1;
+        if (!left){
+            // character->scaleY = -1 * character->scaleX;
             left = true;
+        }
+        if (!isWalking){
+            character->play("Walk");
+            isWalking = true;
         }
 
 	} else {
@@ -77,12 +87,21 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
             isWalking = false;
         }
     }
-	// if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-	// 	sun->position.y += 2;
-	// }
-	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+		character->position.y += 3;
 		eDispatcher.dispatchEvent(new Event(PICKUP, eDispatcher));
-		character->position.y -= 2;
+        if (!isJumping){
+            character->play("Jump");
+            isJumping = true;
+        }
+	}
+	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+		character->position.y -= 3;
+		eDispatcher.dispatchEvent(new Event(PICKUP, eDispatcher));
+        if (!isJumping){
+            character->play("Jump");
+            isJumping = true;
+        }
 	}
 	// if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 	// 	// sun->rotation += 0.01;
