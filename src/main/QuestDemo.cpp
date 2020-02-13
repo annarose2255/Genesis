@@ -33,9 +33,10 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
     character->play("Idle");
     instance->addChild(character);
     character->position = {0, 700};
-    character->pivot = {character->width / 2, character->height / 2};
+    // character->pivot = {character->width / 2, character->height / 2};
 
     isWalking = false;
+    isJumping = false;
     left = false;
 
 }
@@ -48,10 +49,13 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
     // character->play("Idle");
 	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		character->position.x += 3;
+        if (left){
+            // character->scaleY = -1 * character->scaleX;
+            left = false;
+        }
         if (!isWalking){
             character->play("Walk");
             isWalking = true;
-            left = false;
         }
 	} else {
         if (!left && isWalking){
@@ -61,10 +65,13 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
     }
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		character->position.x -= 3;
-        if (!isWalking){
-            // character->scaleX = -1 * character->scaleX;
-            // character->scaleY = -1;
+        if (!left){
+            // character->scaleY = -1 * character->scaleX;
             left = true;
+        }
+        if (!isWalking){
+            character->play("Walk");
+            isWalking = true;
         }
 
 	} else {
@@ -73,12 +80,20 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
             isWalking = false;
         }
     }
-	// if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-	// 	sun->position.y += 2;
-	// }
-	// if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-	// 	sun->position.y -= 2;
-	// }
+	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+		character->position.y += 3;
+        if (!isJumping){
+            character->play("Jump");
+            isJumping = true;
+        }
+	}
+	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+		character->position.y -= 3;
+        if (!isJumping){
+            character->play("Jump");
+            isJumping = true;
+        }
+	}
 	// if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 	// 	// sun->rotation += 0.01;
 	// 	p1container->rotation += 0.05;
