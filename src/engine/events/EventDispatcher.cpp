@@ -18,7 +18,13 @@ EventDispatcher::~EventDispatcher() {
 }
 
 void EventDispatcher::addEventListener(EventListener* l, string eventType) {
-    (*listeners)[eventType]->push_back(l);
+    if ( listeners->find(eventType) != (*listeners).end() ){
+        (*listeners)[eventType]->push_back(l);
+    } else {
+        vector<EventListener*>* el = new vector<EventListener*>();
+        el->push_back(l);
+        listeners->insert(pair<string, vector<EventListener*>*>(eventType, el));
+    }
 }
 
 void EventDispatcher::removeEventListener(EventListener* l, string eventType) {
