@@ -23,6 +23,7 @@ public:
 private:
 	
 	AnimatedSprite* coin;
+	DisplayObjectContainer *questComplete;
 	// Sprite* planet1;
 	// Sprite* planet2;
 	// Sprite* moon1_1;
@@ -31,6 +32,7 @@ private:
 	// DisplayObjectContainer* p2container;
 	DisplayObjectContainer* allSprites;
 	EventListener* coinlis;
+	EventListener* myQuestManager;
 	EventDispatcher* eDispatcher;
 	AnimatedSprite* character;
 	bool isWalking = false;

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Sprite.h"
 #include "QuestDemo.h"
+#include "QuestManager.h"
 
 using namespace std;
 
@@ -15,6 +16,8 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
 	instance->addChild(allSprites);
 
 	coin = new AnimatedSprite("coin");
+	questComplete = new DisplayObjectContainer("quest complete", "./resources/quest/questComplete.png");
+	questComplete->visible = false;
 	coin->addAnimation("./resources/quest/", "Gold", 9, 4, true);
 	coin->play("Gold");
 	// cout << sun->getWidth() << sun->getHeight();
@@ -22,6 +25,7 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
 	coin->width = coin->height = 100;
 	coin->pivot = {50, 50};
 	allSprites->addChild(coin);
+	allSprites->addChild(questComplete);
 
     character = new AnimatedSprite("character");
     character->addAnimation("./resources/character/", "Walk", 20, 1, true);
@@ -33,10 +37,11 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
     character->play("Idle");
     allSprites->addChild(character);
     character->position = {-500, 200};
-
-	coinlis = new CoinListener(character, coin);
 	eDispatcher = new EventDispatcher();
+	coinlis = new CoinListener(character, coin);
+	myQuestManager = new QuestManager(questComplete);
 	eDispatcher->addEventListener(coinlis, PICKUP);
+	eDispatcher->addEventListener(myQuestManager, COLLECTED);
     isWalking = false;
     isJumping = false;
     left = false;
@@ -103,6 +108,11 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
             character->play("Jump");
             isJumping = true;
         }
+	}
+	if (!coin->visible)
+	{
+		cout << "collected event" << endl;
+		eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
 	}
 	// if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 	// 	// sun->rotation += 0.01;

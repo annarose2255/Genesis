@@ -4,7 +4,8 @@
 #include "Event.h"
 #include "EventListener.h"
 #include "AnimatedSprite.h"
-#define PICKUP "PICKUP" 
+#define PICKUP "MovedEvent"
+#define COLLECTED "PickedUpEvent" 
 
 class CoinListener: public EventListener{
 
@@ -15,8 +16,8 @@ public:
 	void handleEvent(Event* e);
 
 private:	
-    DisplayObject* character;
     DisplayObject* object;
+    DisplayObject* character;
 };
 
 #endif
