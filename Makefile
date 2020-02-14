@@ -1,4 +1,5 @@
 TARGET_EXEC ?= questDemo
+DATE=`date +"%m-%d-%H:%M"`
 
 BUILD_DIR ?= ./bin
 SRC_DIRS ?= ./src
@@ -38,6 +39,10 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 
 clean:
 	$(RM) -r $(BUILD_DIR)
+
+submit:
+	cd .. && \
+	zip -r genesis-$(DATE).zip Genesis/ --exclude=*.git*
 
 -include $(DEPS)
 
