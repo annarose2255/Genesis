@@ -38,6 +38,9 @@ private:
 	bool isWalking = false;
 	bool left = false;
 	bool isJumping = false;
+    bool isOngoing = true;
+
+    bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
 };
 
 #endif

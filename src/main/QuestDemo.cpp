@@ -37,7 +37,8 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
     character->play("Idle");
     allSprites->addChild(character);
     character->position = {-500, 200};
-	eDispatcher = new EventDispatcher();
+	character->pivot = {character->width/2, character->height/2};
+    eDispatcher = new EventDispatcher();
 	coinlis = new CoinListener(character, coin);
 	myQuestManager = new QuestManager(questComplete);
 	eDispatcher->addEventListener(coinlis, PICKUP);
@@ -45,7 +46,6 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
     isWalking = false;
     isJumping = false;
     left = false;
-
 }
 
 QuestDemo::~QuestDemo(){
@@ -54,9 +54,9 @@ QuestDemo::~QuestDemo(){
 
 void QuestDemo::update(set<SDL_Scancode> pressedKeys){
     // character->play("Idle");
-	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
+    if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		character->position.x += 3;
-		eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
+		//eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (left){
             // character->scaleY = -1 * character->scaleX;
             left = false;
@@ -73,7 +73,7 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
     }
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		character->position.x -= 3;
-		eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
+		//eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (!isWalking){
             // character->scaleX = -1 * character->scaleX;
             // character->scaleY = -1;
@@ -95,7 +95,7 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
     }
 	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
 		character->position.y += 3;
-		eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
+		//eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (!isJumping){
             character->play("Jump");
             isJumping = true;
@@ -103,16 +103,21 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
 	}
 	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
 		character->position.y -= 3;
-		eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
+		//eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (!isJumping){
             character->play("Jump");
             isJumping = true;
         }
 	}
-	if (!coin->visible)
+    if (coin->visible && isCharInCoin(character, coin)) { 
+        eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
+        allSprites->removeImmediateChild(coin);
+    }
+	if (!coin->visible && isOngoing)
 	{
 		cout << "collected event" << endl;
-		eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
+		isOngoing = false;
+        eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
 	}
 	// if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 	// 	// sun->rotation += 0.01;
@@ -149,4 +154,14 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
 
 void QuestDemo::draw(AffineTransform &at){
 	Game::draw(at);
+}
+
+bool QuestDemo::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
+    SDL_Point* charPos, charTemp;
+    SDL_Rect* cnRect, cnTemp;
+    charTemp = {chara->position.x + chara->pivot.x, chara->position.y + chara->pivot.y};
+    charPos = &charTemp;
+    cnTemp = {cn->position.x, cn->position.y, cn->width, cn->height};
+    cnRect = &cnTemp;
+    return SDL_PointInRect(charPos, cnRect);
 }
