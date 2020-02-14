@@ -2,6 +2,7 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include "Sprite.h"
+#include "Scene.h"
 #include "MyGame.h"
 
 using namespace std;
@@ -13,6 +14,9 @@ MyGame::MyGame() : Game(1200, 1000) {
 	// move that point to the middle
 	allSprites->position = {600, 500};
 	instance->addChild(allSprites);
+
+	Scene* scene1 = new Scene(); 
+	scene1->loadScene("././solarsystem.json");
 
 	sun = new AnimatedSprite("sun");
 	sun->addAnimation("./resources/solarSystem/", "Sun", 4, 2, true);
