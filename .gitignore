@@ -32,5 +32,10 @@
 *.out
 *.app
 
+# Vi Temp Files
+*~
+*.swp
+*.swo
+
 /bin
 settings.json
