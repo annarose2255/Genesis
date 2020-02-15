@@ -1,7 +1,7 @@
 #include "AnimatedSprite.h"
 #include "Game.h"
 #include <string>
-
+#include <iostream>
 using namespace std;
 
 AnimatedSprite::AnimatedSprite() : Sprite() {
@@ -39,6 +39,7 @@ void AnimatedSprite::addAnimation(string basepath, string animName, int numFrame
         f->texture = SDL_CreateTextureFromSurface(Game::renderer, f->image);
         anim->frames[i] = f;
     }
+    cout << basepath; 
     animations.push_back(anim);
 }
 

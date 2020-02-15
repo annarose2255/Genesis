@@ -14,18 +14,25 @@ MyGame::MyGame() : Game(1200, 1000) {
 	// move that point to the middle
 	allSprites->position = {600, 500};
 	instance->addChild(allSprites);
-
+	//currentScene variable
 	Scene* scene1 = new Scene(); 
 	scene1->loadScene("././solarsystem.json");
-
-	sun = new AnimatedSprite("sun");
-	sun->addAnimation("./resources/solarSystem/", "Sun", 4, 2, true);
+	sun = scene1->as.front();
 	sun->play("Sun");
-	// cout << sun->getWidth() << sun->getHeight();
-	sun->position = {0, 0};
-	sun->width = sun->height = 100;
-	sun->pivot = {50, 50};
 	allSprites->addChild(sun);
+
+	//load sun and add child to allSprites scene1->as
+	//access the vectors within scene1 to call specific Sprites, AnimatedSprites, and DisplayObjectContainers
+	//how do I get the actual Sprites within the vectors so that I can call them in keyboardPresses?
+	
+	// sun = new AnimatedSprite("sun");
+	// sun->addAnimation("./resources/solarSystem/", "Sun", 4, 2, true);
+	// sun->play("Sun");
+	// // cout << sun->getWidth() << sun->getHeight();
+	// sun->position = {0, 0};
+	// sun->width = sun->height = 100;
+	// sun->pivot = {50, 50};
+	// allSprites->addChild(sun);
 
 	p1container = new DisplayObjectContainer();
 	p2container = new DisplayObjectContainer();
@@ -56,7 +63,7 @@ MyGame::~MyGame(){
 
 void MyGame::update(set<SDL_Scancode> pressedKeys){
 	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-		sun->position.x += 2;
+		sun->position.x += 2; 
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		sun->position.x -= 2;
