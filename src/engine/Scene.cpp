@@ -28,7 +28,7 @@ void Scene::loadScene(string sceneFilePath){
     json j;
     ifstream ifs(sceneFilePath);
     ifs >> j;
-    //cout << j;
+    cout << j;
     if (sceneFilePath == "solarsystem.json") {
         //Sun
         json sun = j["sun"];
@@ -77,13 +77,25 @@ void Scene::loadScene(string sceneFilePath){
         moon1_1->height = m1["height"];
         planet1->addChild(moon1_1);
 
-        as.push_back(sunSprite);
+        as1.push_back(sunSprite);
         s.push_back(planet1);
         s.push_back(planet2);
         s.push_back(moon1_1);
         doc.push_back(p1container);
         doc.push_back(p2container);
     }
+    if (sceneFilePath == "character.json") {
+        json chara = j["character"];
+        AnimatedSprite* charSprite = new AnimatedSprite("character");
+        charSprite->position.x = chara["position.x"]; // person.name == "Rachel"
+        charSprite->position.y = chara["position.y"];
+        charSprite->width = chara["width"];
+        charSprite->height = chara["height"];
+        charSprite->pivot.x = chara["pivot.x"];
+        charSprite->pivot.y = chara["pivot.y"];
+        charSprite->addAnimation(chara["basepath"], chara["animName"], chara["numFrames"], chara["frameRate"], chara["loop"]);
+        as2.push_back(charSprite);
+    } 
     ifs.close();
 
     // std::ifstream in("../solarsystem.json");
@@ -118,14 +130,20 @@ void Scene::loadScene(string sceneFilePath){
 
 void Scene::update(set<SDL_Scancode> pressedKeys){
     DisplayObjectContainer::update(pressedKeys);
-    for (int i = 0; i < as.size(); i++) {
-        as[i]->update(pressedKeys);
+    for (int i = 0; i < as1.size(); i++) {
+        as1[i]->update(pressedKeys);
+    }
+     for (int i = 0; i < as2.size(); i++) {
+        as2[i]->update(pressedKeys);
     }
 }
 
 void Scene::draw(AffineTransform &at){
     DisplayObjectContainer::draw(at);
-    for (int i = 0; i < as.size(); i++) {
-        as[i]->draw(at);
+    for (int i = 0; i < as1.size(); i++) {
+        as1[i]->draw(at);
+    }
+    for (int i = 0; i < as2.size(); i++) {
+        as2[i]->draw(at);
     }
 }

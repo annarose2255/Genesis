@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Game.h"
 #include "Sprite.h"
+#include "Scene.h"
 #include "AnimatedSprite.h"
 
 
@@ -26,11 +27,14 @@ private:
 	Sprite* planet1;
 	Sprite* planet2;
 	Sprite* moon1_1;
-
 	DisplayObjectContainer* p1container;
 	DisplayObjectContainer* p2container;
 	DisplayObjectContainer* allSprites;
 
+	AnimatedSprite* character;
+	Scene* scene1; 
+	Scene* scene2; 
+	Scene* currentScene;
 	// DisplayObject* character;
 };
 

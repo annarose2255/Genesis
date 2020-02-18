@@ -15,9 +15,9 @@ MyGame::MyGame() : Game(1200, 1000) {
 	allSprites->position = {600, 500};
 	instance->addChild(allSprites);
 	//currentScene variable
-	Scene* scene1 = new Scene(); 
+	scene1 = new Scene(); 
 	scene1->loadScene("solarsystem.json");
-	sun = scene1->as.front();
+	sun = scene1->as1.front();
 	sun->play("Sun");
 	allSprites->addChild(sun);
 	p1container = scene1->doc.front(); 
@@ -26,7 +26,10 @@ MyGame::MyGame() : Game(1200, 1000) {
 	planet2 = scene1->s.at(1);
 	moon1_1 = scene1->s.back(); 
 
-	Scene* scene2 = new Scene(); 
+	scene2 = new Scene(); 
+	scene2->loadScene("character.json");
+	// character = scene2->as2.front();
+	// currentScene = scene1; 
 	//load sun and add child to allSprites scene1->as
 	//access the vectors within scene1 to call specific Sprites, AnimatedSprites, and DisplayObjectContainers
 
@@ -74,7 +77,13 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		allSprites->scaleY *= 1/1.05;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
-		sun->play("Sun");
+		// sun->play("Sun");
+		if (currentScene = scene1) {
+			currentScene = scene2; 
+		}
+		else {
+			currentScene = scene1; 
+		}
 	}
 	if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end()) {
 		sun->stop();
