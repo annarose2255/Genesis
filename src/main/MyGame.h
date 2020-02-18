@@ -31,7 +31,7 @@ private:
 	DisplayObjectContainer* p2container;
 	DisplayObjectContainer* allSprites;
 
-	AnimatedSprite* character;
+	Sprite* character;
 	Scene* scene1; 
 	Scene* scene2; 
 	Scene* currentScene;

@@ -16,20 +16,19 @@ MyGame::MyGame() : Game(1200, 1000) {
 	instance->addChild(allSprites);
 	//currentScene variable
 	scene1 = new Scene(); 
-	scene1->loadScene("solarsystem.json");
+	scene1->loadScene("././resources/solarsystem.json");
 	sun = scene1->as1.front();
 	sun->play("Sun");
-	allSprites->addChild(sun);
 	p1container = scene1->doc.front(); 
 	p2container = scene1->doc.back();
 	planet1 = scene1->s.front();
 	planet2 = scene1->s.at(1);
 	moon1_1 = scene1->s.back(); 
-
+	allSprites->addChild(sun);
 	scene2 = new Scene(); 
-	scene2->loadScene("character.json");
-	// character = scene2->as2.front();
-	// currentScene = scene1; 
+	scene2->loadScene("././resources/character.json");
+	character = scene2->s.front();
+	currentScene = scene1; 
 	//load sun and add child to allSprites scene1->as
 	//access the vectors within scene1 to call specific Sprites, AnimatedSprites, and DisplayObjectContainers
 
@@ -77,12 +76,16 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		allSprites->scaleY *= 1/1.05;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
-		// sun->play("Sun");
+		// sun->play("Sun"); 
 		if (currentScene = scene1) {
-			currentScene = scene2; 
+			allSprites->removeImmediateChild(0);
+			currentScene = scene2;
+			allSprites->addChild(character); 
 		}
 		else {
+			allSprites->removeImmediateChild(0);
 			currentScene = scene1; 
+			allSprites->addChild(sun); 
 		}
 	}
 	if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end()) {
@@ -93,4 +96,5 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 
 void MyGame::draw(AffineTransform &at){
 	Game::draw(at);
+
 }

@@ -24,12 +24,13 @@ Scene::Scene(){
 
 /* Load scene from a file */
 void Scene::loadScene(string sceneFilePath){
+    cout << sceneFilePath << endl;
     using json = nlohmann::json;
     json j;
     ifstream ifs(sceneFilePath);
     ifs >> j;
-    cout << j;
-    if (sceneFilePath == "solarsystem.json") {
+
+    if (sceneFilePath == "././resources/solarsystem.json") {
         //Sun
         json sun = j["sun"];
         AnimatedSprite* sunSprite = new AnimatedSprite("sun");
@@ -83,48 +84,21 @@ void Scene::loadScene(string sceneFilePath){
         s.push_back(moon1_1);
         doc.push_back(p1container);
         doc.push_back(p2container);
+        ifs.clear();
     }
-    if (sceneFilePath == "character.json") {
-        json chara = j["character"];
-        AnimatedSprite* charSprite = new AnimatedSprite("character");
-        charSprite->position.x = chara["position.x"]; // person.name == "Rachel"
-        charSprite->position.y = chara["position.y"];
-        charSprite->width = chara["width"];
-        charSprite->height = chara["height"];
-        charSprite->pivot.x = chara["pivot.x"];
-        charSprite->pivot.y = chara["pivot.y"];
-        charSprite->addAnimation(chara["basepath"], chara["animName"], chara["numFrames"], chara["frameRate"], chara["loop"]);
-        as2.push_back(charSprite);
+    if (sceneFilePath == "././resources/character.json") {
+            json chara = j["character"];
+            cout << j["character"] << endl;
+            Sprite* charSprite = new Sprite("character", chara["filepath"]);
+	        charSprite->position.x = chara["position.x"];
+            charSprite->position.y = chara["position.y"];
+            charSprite->width = chara["width"];
+            charSprite->height = chara["height"];
+            //charSprite->addAnimation(chara["basepath"], chara["animName"], chara["numFrames"], chara["frameRate"], chara["loop"]);
+            s.push_back(charSprite);
+            ifs.clear();
     } 
     ifs.close();
-
-    // std::ifstream in("../solarsystem.json");
-    // json file = json::parse(in);
-
-    // try {
-    //     auto& array = file.at("detectlist");
-
-    //     for (auto&& val: array) {
-    //         std::cout << val << std::endl;
-    //     }
-    // } catch(std::exception&) {
-    //     std::cout << "no luck" << std::endl;
-    // }
-
-    // string line;
-    // ifstream myfile (sceneFilePath);
-    // if (myfile.is_open()){
-    //     // while ( getline (myfile,line) )
-    //     // {
-    //     //     // object and its x,y location, its scale, rotation,image file path, etc    
-    //     // }
-
-    //     //hard code this part
-    //     //ex) string x = getline(myfile,line); --> x position of the character
-    //     //etc
-
-    //     myfile.close();
-    // }
 
 }
 

@@ -7,7 +7,7 @@
 		"height": 100, 
         "pivot.x": 50, 
         "pivot.y": 50,
-        "filepath": "./resources/solarSystem/Planet.png",
+        "filepath": "./resources/character/Walk_1.png",
         "animName": "Walk", 
 	  	"numFrames": 4, 
         "frameRate": 2,
