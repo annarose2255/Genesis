@@ -24,7 +24,6 @@ Scene::Scene(){
 
 /* Load scene from a file */
 void Scene::loadScene(string sceneFilePath){
-
     using json = nlohmann::json;
     json j;
     ifstream ifs("solarsystem.json");

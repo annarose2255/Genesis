@@ -20,7 +20,6 @@ MyGame::MyGame() : Game(1200, 1000) {
 	sun = scene1->as.front();
 	sun->play("Sun");
 	allSprites->addChild(sun);
-
 	//load sun and add child to allSprites scene1->as
 	//access the vectors within scene1 to call specific Sprites, AnimatedSprites, and DisplayObjectContainers
 	//how do I get the actual Sprites within the vectors so that I can call them in keyboardPresses?

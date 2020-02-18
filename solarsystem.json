@@ -10,7 +10,7 @@
 		"scaleX": 1, 
 		"scaleY": 1, 
 		"filepath": "/Documents/sun1.png",
-        "basepath": "/resources/solarSystem",
+        "basepath": "./resources/solarSystem/",
         "animName": "Sun", 
 	  	"numFrames": 4, 
         "frameRate": 2,
