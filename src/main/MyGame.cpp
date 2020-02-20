@@ -21,7 +21,7 @@ MyGame::MyGame() : Game(1200, 1000) {
 	sun->play("Sun");
 	p1container = scene1->doc.front(); 
 	p2container = scene1->doc.back();
-	planet1 = scene1->s.front();
+	planet1 = scene1->s.front();	
 	planet2 = scene1->s.at(1);
 	moon1_1 = scene1->s.back(); 
 	allSprites->addChild(sun);
@@ -76,16 +76,26 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		allSprites->scaleY *= 1/1.05;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
-		// sun->play("Sun"); 
-		if (currentScene = scene1) {
-			allSprites->removeImmediateChild(0);
+		cout << i << " hello" << endl;
+		cout << "Num Children " << allSprites->numChildren() << endl;
+		cout << "Scene 1 " << scene1 << endl;
+		cout << "Scene 2 " << scene2 << endl;
+		cout << "current scene " << currentScene << endl;
+		// sun->play("Sun");  
+		if (allSprites->getChild(0) == sun) {
+			cout << "SUN!" << endl;
 			currentScene = scene2;
-			allSprites->addChild(character); 
+			allSprites->removeImmediateChild(sun);
+			allSprites->addChild(character);
+			i++; 
 		}
 		else {
-			allSprites->removeImmediateChild(0);
-			currentScene = scene1; 
+			cout << "CHARACTER!" << endl;
+			currentScene = scene1;
+			allSprites->removeImmediateChild(character);
+			cout << "meh" << endl;
 			allSprites->addChild(sun); 
+			i++;
 		}
 	}
 	if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end()) {

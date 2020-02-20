@@ -35,6 +35,7 @@ private:
 	Scene* scene1; 
 	Scene* scene2; 
 	Scene* currentScene;
+	int i = 1; 
 	// DisplayObject* character;
 };
 

@@ -84,10 +84,13 @@ DisplayObject* DisplayObjectContainer::getChild(string id) {
 
 void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys) {
     DisplayObject::update(pressedKeys);
-    for (int i = 0; i < children.size(); i++) {
-        children[i]->update(pressedKeys);
+    if (children.size() > 0) {
+        for (int i = 0; i < children.size(); i++) {
+            children[i]->update(pressedKeys);
     }
 }
+    }
+    
 
 void DisplayObjectContainer::draw(AffineTransform &at) {
     DisplayObject::draw(at);

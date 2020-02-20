@@ -22,6 +22,7 @@ public:
 	virtual void draw(AffineTransform &at);
 	vector<AnimatedSprite*> as1; 
 	vector<AnimatedSprite*> as2; 
+	vector<Sprite*> s2;
 	vector<Sprite*> s; 
 	vector<DisplayObjectContainer*> doc; 
 

@@ -34,7 +34,7 @@ public:
 
 	vector<DisplayObject*> children;
 private:
-	
+	int numChild = 0; 
 	
 };
 

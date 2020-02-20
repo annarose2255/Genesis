@@ -107,17 +107,11 @@ void Scene::update(set<SDL_Scancode> pressedKeys){
     for (int i = 0; i < as1.size(); i++) {
         as1[i]->update(pressedKeys);
     }
-     for (int i = 0; i < as2.size(); i++) {
-        as2[i]->update(pressedKeys);
-    }
 }
 
 void Scene::draw(AffineTransform &at){
     DisplayObjectContainer::draw(at);
     for (int i = 0; i < as1.size(); i++) {
         as1[i]->draw(at);
-    }
-    for (int i = 0; i < as2.size(); i++) {
-        as2[i]->draw(at);
     }
 }
