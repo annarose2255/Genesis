@@ -9,7 +9,8 @@ using namespace std;
 
 MyGame::MyGame() : Game(1200, 1000) {
 	instance = this;
-
+	//currentScene child of myGame 
+	//currentScene references each scene 
 	allSprites = new DisplayObjectContainer();
 	// move that point to the middle
 	allSprites->position = {600, 500};
@@ -24,11 +25,13 @@ MyGame::MyGame() : Game(1200, 1000) {
 	planet1 = scene1->s.front();	
 	planet2 = scene1->s.at(1);
 	moon1_1 = scene1->s.back(); 
-	allSprites->addChild(sun);
 	scene2 = new Scene(); 
 	scene2->loadScene("././resources/character.json");
 	character = scene2->s.front();
 	currentScene = scene1; 
+	allSprites->addChild(currentScene);
+	// allSprites->addChild(sun);
+	// allSprites->addChild(character);
 	//load sun and add child to allSprites scene1->as
 	//access the vectors within scene1 to call specific Sprites, AnimatedSprites, and DisplayObjectContainers
 
@@ -76,26 +79,16 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		allSprites->scaleY *= 1/1.05;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
-		cout << i << " hello" << endl;
-		cout << "Num Children " << allSprites->numChildren() << endl;
-		cout << "Scene 1 " << scene1 << endl;
-		cout << "Scene 2 " << scene2 << endl;
-		cout << "current scene " << currentScene << endl;
-		// sun->play("Sun");  
-		if (allSprites->getChild(0) == sun) {
-			cout << "SUN!" << endl;
-			currentScene = scene2;
-			allSprites->removeImmediateChild(sun);
-			allSprites->addChild(character);
-			i++; 
+		// sun->play("Sun"); 
+
+		cout<<"pressed key command"<<endl; 
+		if (currentScene == scene1) {
+			cout << "SCENE 1" << endl;
+			currentScene = scene2; 
 		}
 		else {
-			cout << "CHARACTER!" << endl;
+			cout << "SCENE 2" << endl;
 			currentScene = scene1;
-			allSprites->removeImmediateChild(character);
-			cout << "meh" << endl;
-			allSprites->addChild(sun); 
-			i++;
 		}
 	}
 	if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end()) {
@@ -105,6 +98,9 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 }
 
 void MyGame::draw(AffineTransform &at){
+	cout<<"draw method"<<endl;
 	Game::draw(at);
-
+	SDL_RenderClear(Game::renderer);
+    currentScene->draw(at);
+    SDL_RenderPresent(Game::renderer);
 }
