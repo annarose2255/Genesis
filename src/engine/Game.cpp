@@ -3,6 +3,7 @@
 #include <string>
 #include <ctime>
 #include "DisplayObject.h"
+// #include "Scene.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
@@ -86,10 +87,12 @@ void Game::start(){
 void Game::update(set<SDL_Scancode> pressedKeys){
 	frameCounter++;
 	DisplayObjectContainer::update(pressedKeys);
+	// Scene::update(pressedKeys);
 }
 
 void Game::draw(AffineTransform &at){
 	SDL_RenderClear(Game::renderer);
 	DisplayObjectContainer::draw(at);
+	// Scene::draw(at);
 	SDL_RenderPresent(Game::renderer);
 }

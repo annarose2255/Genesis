@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "Scene.h"
+#include "Sound.h"
 #include "AnimatedSprite.h"
 
 
@@ -15,6 +16,7 @@ using namespace std;
 class MyGame : public Game{
 
 public:
+	int count =0;
 	MyGame();
 	virtual ~MyGame();
 
@@ -22,7 +24,9 @@ public:
 	virtual void draw(AffineTransform &at);
 
 private:
+	Sound* mainMusic;
 	bool a = false;
+
 	AnimatedSprite* sun;
 	Sprite* planet1;
 	Sprite* planet2;

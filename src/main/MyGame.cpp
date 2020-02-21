@@ -4,49 +4,26 @@
 #include "Sprite.h"
 #include "Scene.h"
 #include "MyGame.h"
+#include "Sound.h"
 
 using namespace std;
 
 MyGame::MyGame() : Game(1200, 1000) {
 	instance = this;
-	//currentScene child of myGame 
-	//currentScene references each scene 
-	// allSprites = new DisplayObjectContainer();
-	// move that point to the middle
-	// allSprites->position = {600, 500};
-	// instance->addChild(allSprites);
-	//currentScene variable
-
 
 	scene1 = new Scene(); 
 	scene1->loadScene("././resources/newsolarsystem.json");
-	// sun = scene1->as1.front();
-	// sun->play("Sun");
-	// p1container = scene1->doc.front(); 
-	// p2container = scene1->doc.back();
-	// planet1 = scene1->s.front();	
-	// planet2 = scene1->s.at(1);
-	// moon1_1 = scene1->s.back(); 
 	
 	scene2 = new Scene(); 
 	scene2->loadScene("././resources/character.json");
-	// character = scene2->as1.front();
-	// character->play("Sun");
-
+	
 	currentScene = scene1; 
 	instance -> addChild(currentScene);
-	
-	// currentScene = scene1; 
-	// instance -> addChild(currentScene);
-	// allSprites -> addChild(currentScene);
 
-	// allSprites->addChild(currentScene);
-	
-	// allSprites->addChild(sun);
-	// allSprites->addChild(character);
-	//load sun and add child to allSprites scene1->as
-	//access the vectors within scene1 to call specific Sprites, AnimatedSprites, and DisplayObjectContainers
+	//Sound 
+	mainMusic = new Sound();
 
+	
 }
 
 MyGame::~MyGame(){
@@ -54,6 +31,22 @@ MyGame::~MyGame(){
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys){
+	
+	//for music - press1 and the music will play
+	//user press 1 --> play music
+	if ((pressedKeys.find(SDL_SCANCODE_1) != pressedKeys.end())) {
+		cout<<"playing?"<<endl;
+		mainMusic->playMusic();
+		
+	}
+    
+	//user press2 --> stop music
+    if ((pressedKeys.find(SDL_SCANCODE_2) != pressedKeys.end())) {
+		cout<<"pause playing"<<endl;
+		mainMusic->pauseMusic();
+		
+	}
+
 	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		// allSprites->position.x += 2; 
 		currentScene->root->position.x += 2; 
@@ -93,16 +86,19 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	}
 	if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
 		// sun->play("Sun"); 
-		cout<<"pressed"<<endl;
+		count++;
 		a = !a;
+		// currentScene = NULL;
+		pressedKeys.erase(SDL_SCANCODE_P);
 	}
 	if (a == true) {
-			// cout << "SCENE 1" << endl;
+			// cout << " switch to SCENE 2" << endl;
 			currentScene = scene2;
 			// allSprites->addChild(scene2); 
 		}
-	else if(a == false) {
+	else if(a == false ) {
 		// cout << "SCENE 2" << endl;
+		// cout << "switch to SCENE 1" << endl;
 		currentScene = scene1;
 	}
 
@@ -116,6 +112,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 }
 
 void MyGame::draw(AffineTransform &at){
+	// cout<<"frame: " <<this ->frameCounter<<endl;
 	Game::draw(at);
 	SDL_RenderClear(Game::renderer);
     currentScene->draw(at);
