@@ -2,6 +2,7 @@
 #define SCENE_H
 
 #include "DisplayObjectContainer.h"
+#include "AnimatedSprite.h"
 #include "Sprite.h"
 #include <string>
 #include <vector>
@@ -19,10 +20,14 @@ public:
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
+	vector<AnimatedSprite*> as1; 
+	vector<AnimatedSprite*> as2; 
+	vector<Sprite*> s2;
+	vector<Sprite*> s; 
+	vector<DisplayObjectContainer*> doc; 
 
-
+	Sprite* sunSprite;
 private:
-
 };
 
 #endif
