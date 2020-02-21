@@ -24,7 +24,11 @@ Scene::Scene(){
 
 /* Load scene from a file */
 void Scene::loadScene(string sceneFilePath){
+<<<<<<< HEAD
     // cout << sceneFilePath << endl;
+=======
+    cout << sceneFilePath << endl;
+>>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
     using json = nlohmann::json;
     json j;
     ifstream ifs(sceneFilePath);
@@ -33,14 +37,22 @@ void Scene::loadScene(string sceneFilePath){
     if (sceneFilePath == "././resources/solarsystem.json") {
         //Sun
         json sun = j["sun"];
+<<<<<<< HEAD
         sunSprite = new Sprite("sun", sun["filepath"]);
+=======
+        AnimatedSprite* sunSprite = new AnimatedSprite("sun");
+>>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
         sunSprite->position.x = sun["position.x"]; // person.name == "Rachel"
         sunSprite->position.y = sun["position.y"];
         sunSprite->width = sun["width"];
         sunSprite->height = sun["height"];
         sunSprite->pivot.x = sun["pivot.x"];
         sunSprite->pivot.y = sun["pivot.y"];
+<<<<<<< HEAD
         // sunSprite->addAnimation(sun["basepath"], sun["animName"], sun["numFrames"], sun["frameRate"], sun["loop"]);
+=======
+        sunSprite->addAnimation(sun["basepath"], sun["animName"], sun["numFrames"], sun["frameRate"], sun["loop"]);
+>>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
 
         DisplayObjectContainer* p1container = new DisplayObjectContainer();
 	    DisplayObjectContainer* p2container = new DisplayObjectContainer();
@@ -78,7 +90,11 @@ void Scene::loadScene(string sceneFilePath){
         moon1_1->height = m1["height"];
         planet1->addChild(moon1_1);
 
+<<<<<<< HEAD
         s.push_back(sunSprite);
+=======
+        as1.push_back(sunSprite);
+>>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
         s.push_back(planet1);
         s.push_back(planet2);
         s.push_back(moon1_1);
@@ -87,6 +103,7 @@ void Scene::loadScene(string sceneFilePath){
         ifs.clear();
     }
     if (sceneFilePath == "././resources/character.json") {
+<<<<<<< HEAD
             // json chara = j["character"];
             // cout << j["character"] << endl;
             // Sprite* charSprite = new Sprite("character", chara["filepath"]);
@@ -113,6 +130,18 @@ void Scene::loadScene(string sceneFilePath){
         sunSprite->addChild(p2container);
 
         s.push_back(sunSprite);
+=======
+            json chara = j["character"];
+            cout << j["character"] << endl;
+            Sprite* charSprite = new Sprite("character", chara["filepath"]);
+	        charSprite->position.x = chara["position.x"];
+            charSprite->position.y = chara["position.y"];
+            charSprite->width = chara["width"];
+            charSprite->height = chara["height"];
+            //charSprite->addAnimation(chara["basepath"], chara["animName"], chara["numFrames"], chara["frameRate"], chara["loop"]);
+            s.push_back(charSprite);
+            ifs.clear();
+>>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
     } 
     ifs.close();
 
@@ -120,6 +149,7 @@ void Scene::loadScene(string sceneFilePath){
 
 void Scene::update(set<SDL_Scancode> pressedKeys){
     DisplayObjectContainer::update(pressedKeys);
+<<<<<<< HEAD
     sunSprite->update(pressedKeys);
     // for (int i = 0; i < s.size(); i++) {
     //     s[i]->update(pressedKeys);
@@ -127,12 +157,23 @@ void Scene::update(set<SDL_Scancode> pressedKeys){
 
 
 
+=======
+    for (int i = 0; i < as1.size(); i++) {
+        as1[i]->update(pressedKeys);
+    }
+>>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
 }
 
 void Scene::draw(AffineTransform &at){
     DisplayObjectContainer::draw(at);
+<<<<<<< HEAD
     sunSprite->draw(at);
     // for (int i = 0; i < s.size(); i++) {
     //     s[i]->draw(at);
     // }
+=======
+    for (int i = 0; i < as1.size(); i++) {
+        as1[i]->draw(at);
+    }
+>>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
 }

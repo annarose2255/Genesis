@@ -31,7 +31,11 @@ private:
 	DisplayObjectContainer* p2container;
 	DisplayObjectContainer* allSprites;
 
+<<<<<<< HEAD
 	AnimatedSprite* character;
+=======
+	Sprite* character;
+>>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
 	Scene* scene1; 
 	Scene* scene2; 
 	Scene* currentScene;

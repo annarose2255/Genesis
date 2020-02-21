@@ -26,7 +26,10 @@ public:
 	vector<Sprite*> s; 
 	vector<DisplayObjectContainer*> doc; 
 
+<<<<<<< HEAD
 	Sprite* sunSprite;
+=======
+>>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
 private:
 };
 
