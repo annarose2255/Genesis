@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 bin/./src/main/main.cpp.o: src/main/main.cpp \
   /usr/local/include/SDL2/SDL.h /usr/local/include/SDL2/SDL_main.h \
   /usr/local/include/SDL2/SDL_stdinc.h \
@@ -139,13 +138,6 @@ bin/./src/main/main.cpp.o: src/main/main.cpp \
 /usr/local/include/SDL2/SDL_version.h:
 
 /usr/local/include/SDL2/SDL_image.h:
-=======
-bin/./src/main/main.cpp.o: src/main/main.cpp src/engine/DisplayObject.h \
- src/engine/AffineTransform.h src/main/MyGame.h src/engine/Game.h \
- src/engine/DisplayObjectContainer.h src/engine/DisplayObject.h \
- src/engine/Sprite.h src/engine/Scene.h src/engine/AnimatedSprite.h \
- src/engine/Sprite.h src/engine/AnimatedSprite.h
->>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
 
 src/engine/DisplayObject.h:
 
@@ -162,13 +154,5 @@ src/engine/DisplayObjectContainer.h:
 src/engine/Sprite.h:
 
 src/engine/Scene.h:
-<<<<<<< HEAD
 
-=======
-
-src/engine/AnimatedSprite.h:
-
-src/engine/Sprite.h:
-
->>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
 src/engine/AnimatedSprite.h:

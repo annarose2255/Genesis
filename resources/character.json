@@ -1,27 +1,12 @@
 {
-<<<<<<< HEAD
     "sun": {
         "create": "Sprite",
 		"position.x": 100, 
 		"position.y": 100, 
-=======
-    "character": {
-        "create": "AnimatedSprite",
-		"position.x": 0, 
-		"position.y": 0, 
->>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
 		"width": 100,
 		"height": 100, 
         "pivot.x": 50, 
         "pivot.y": 50,
-<<<<<<< HEAD
-		"filepath": "./resources/solarSystem/Sun_1.png"
-=======
-        "filepath": "./resources/character/Walk_1.png",
-        "animName": "Walk", 
-	  	"numFrames": 4, 
-        "frameRate": 2,
-		"loop": true
->>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
+		"filepath": "./resources/solarSystem/Moon.png"
     }
 }

@@ -9,6 +9,7 @@
 #include "Scene.h"
 
 using namespace nlohmann;
+using namespace std;
 Scene::Scene(){
     this->type = "Scene";
 }
@@ -21,43 +22,84 @@ Scene::Scene(){
 //root --> display object container
 //draw should do the add children following the hierarchy
 
-
 /* Load scene from a file */
 void Scene::loadScene(string sceneFilePath){
-<<<<<<< HEAD
     // cout << sceneFilePath << endl;
-=======
-    cout << sceneFilePath << endl;
->>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
     using json = nlohmann::json;
     json j;
     ifstream ifs(sceneFilePath);
     ifs >> j;
 
-    if (sceneFilePath == "././resources/solarsystem.json") {
-        //Sun
+    if (sceneFilePath == "././resources/newsolarsystem.json") {
+            // json chara = j["character"];
+            // cout << j["character"] << endl;
+            // Sprite* charSprite = new Sprite("character", chara["filepath"]);
+	        // charSprite->position.x = chara["position.x"];
+            // charSprite->position.y = chara["position.y"];
+            // charSprite->width = chara["width"];
+            // charSprite->height = chara["height"];
+            // //charSprite->addAnimation(chara["basepath"], chara["animName"], chara["numFrames"], chara["frameRate"], chara["loop"]);
+            // s.push_back(charSprite);
+            // ifs.clear();
+        cout<<"??"<<endl;
+
         json sun = j["sun"];
-<<<<<<< HEAD
-        sunSprite = new Sprite("sun", sun["filepath"]);
-=======
-        AnimatedSprite* sunSprite = new AnimatedSprite("sun");
->>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
-        sunSprite->position.x = sun["position.x"]; // person.name == "Rachel"
-        sunSprite->position.y = sun["position.y"];
-        sunSprite->width = sun["width"];
-        sunSprite->height = sun["height"];
-        sunSprite->pivot.x = sun["pivot.x"];
-        sunSprite->pivot.y = sun["pivot.y"];
-<<<<<<< HEAD
-        // sunSprite->addAnimation(sun["basepath"], sun["animName"], sun["numFrames"], sun["frameRate"], sun["loop"]);
-=======
-        sunSprite->addAnimation(sun["basepath"], sun["animName"], sun["numFrames"], sun["frameRate"], sun["loop"]);
->>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
+        root = new Sprite("sun", sun["filepath"]);
+        root->position.x = sun["position.x"]; // person.name == "Rachel"
+        root->position.y = sun["position.y"];
+        root->width = sun["width"];
+        root->height = sun["height"];
+        root->pivot.x = sun["pivot.x"];
+        root->pivot.y = sun["pivot.y"];
+        // root->addAnimation(sun["basepath"], sun["animName"], sun["numFrames"], sun["frameRate"], sun["loop"]);
 
         DisplayObjectContainer* p1container = new DisplayObjectContainer();
 	    DisplayObjectContainer* p2container = new DisplayObjectContainer();
-        sunSprite->addChild(p1container);
-        sunSprite->addChild(p2container);
+        root->addChild(p1container);
+        root->addChild(p2container);
+
+        // cout<<"??"<<endl;
+        json children = sun["children"];
+        
+        json planet1 = children["planet1"];
+        Sprite* child1 = new Sprite("planet1", planet1["filepath"]);
+        child1->position.x = planet1["position.x"]; // person.name == "Rachel"
+        child1->position.y = planet1["position.y"];
+        child1->width = planet1["width"];
+        child1->height = planet1["height"];
+        child1->pivot.x = planet1["pivot.x"];
+        child1->pivot.y = planet1["pivot.y"];
+
+        p1container->addChild(child1);
+    //     for (auto& x : children.items())
+    //  {
+    //      std::cout << "key: " << x.key() << ", value: " << x.value() << '\n';
+    //      json temp = j[x.key()];
+    //      Sprite* child = new Sprite(x.key(), temp["filepath"]);
+    //      child->position.x = 
+
+         
+    //  }
+
+        s.push_back(root);
+    } 
+
+    if (sceneFilePath == "././resources/solarsystem.json") {
+        //Sun
+        json sun = j["sun"];
+        root = new Sprite("sun", sun["filepath"]);
+        root->position.x = sun["position.x"]; // person.name == "Rachel"
+        root->position.y = sun["position.y"];
+        root->width = sun["width"];
+        root->height = sun["height"];
+        root->pivot.x = sun["pivot.x"];
+        root->pivot.y = sun["pivot.y"];
+        // root->addAnimation(sun["basepath"], sun["animName"], sun["numFrames"], sun["frameRate"], sun["loop"]);
+
+        DisplayObjectContainer* p1container = new DisplayObjectContainer();
+	    DisplayObjectContainer* p2container = new DisplayObjectContainer();
+        root->addChild(p1container);
+        root->addChild(p2container);
 
         //planet 1
         json p1 = j["planet1"];
@@ -90,11 +132,7 @@ void Scene::loadScene(string sceneFilePath){
         moon1_1->height = m1["height"];
         planet1->addChild(moon1_1);
 
-<<<<<<< HEAD
-        s.push_back(sunSprite);
-=======
-        as1.push_back(sunSprite);
->>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
+        s.push_back(root);
         s.push_back(planet1);
         s.push_back(planet2);
         s.push_back(moon1_1);
@@ -103,7 +141,6 @@ void Scene::loadScene(string sceneFilePath){
         ifs.clear();
     }
     if (sceneFilePath == "././resources/character.json") {
-<<<<<<< HEAD
             // json chara = j["character"];
             // cout << j["character"] << endl;
             // Sprite* charSprite = new Sprite("character", chara["filepath"]);
@@ -115,33 +152,21 @@ void Scene::loadScene(string sceneFilePath){
             // s.push_back(charSprite);
             // ifs.clear();
         json sun = j["sun"];
-        sunSprite = new Sprite("sun", sun["filepath"]);
-        sunSprite->position.x = sun["position.x"]; // person.name == "Rachel"
-        sunSprite->position.y = sun["position.y"];
-        sunSprite->width = sun["width"];
-        sunSprite->height = sun["height"];
-        sunSprite->pivot.x = sun["pivot.x"];
-        sunSprite->pivot.y = sun["pivot.y"];
-        // sunSprite->addAnimation(sun["basepath"], sun["animName"], sun["numFrames"], sun["frameRate"], sun["loop"]);
+        root = new Sprite("sun", sun["filepath"]);
+        root->position.x = sun["position.x"]; // person.name == "Rachel"
+        root->position.y = sun["position.y"];
+        root->width = sun["width"];
+        root->height = sun["height"];
+        root->pivot.x = sun["pivot.x"];
+        root->pivot.y = sun["pivot.y"];
+        // root->addAnimation(sun["basepath"], sun["animName"], sun["numFrames"], sun["frameRate"], sun["loop"]);
 
         DisplayObjectContainer* p1container = new DisplayObjectContainer();
 	    DisplayObjectContainer* p2container = new DisplayObjectContainer();
-        sunSprite->addChild(p1container);
-        sunSprite->addChild(p2container);
+        root->addChild(p1container);
+        root->addChild(p2container);
 
-        s.push_back(sunSprite);
-=======
-            json chara = j["character"];
-            cout << j["character"] << endl;
-            Sprite* charSprite = new Sprite("character", chara["filepath"]);
-	        charSprite->position.x = chara["position.x"];
-            charSprite->position.y = chara["position.y"];
-            charSprite->width = chara["width"];
-            charSprite->height = chara["height"];
-            //charSprite->addAnimation(chara["basepath"], chara["animName"], chara["numFrames"], chara["frameRate"], chara["loop"]);
-            s.push_back(charSprite);
-            ifs.clear();
->>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
+        s.push_back(root);
     } 
     ifs.close();
 
@@ -149,31 +174,19 @@ void Scene::loadScene(string sceneFilePath){
 
 void Scene::update(set<SDL_Scancode> pressedKeys){
     DisplayObjectContainer::update(pressedKeys);
-<<<<<<< HEAD
-    sunSprite->update(pressedKeys);
+    root->update(pressedKeys);
     // for (int i = 0; i < s.size(); i++) {
     //     s[i]->update(pressedKeys);
     // }
 
 
 
-=======
-    for (int i = 0; i < as1.size(); i++) {
-        as1[i]->update(pressedKeys);
-    }
->>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
 }
 
 void Scene::draw(AffineTransform &at){
     DisplayObjectContainer::draw(at);
-<<<<<<< HEAD
-    sunSprite->draw(at);
+    root->draw(at);
     // for (int i = 0; i < s.size(); i++) {
     //     s[i]->draw(at);
     // }
-=======
-    for (int i = 0; i < as1.size(); i++) {
-        as1[i]->draw(at);
-    }
->>>>>>> 58f6041ed11549ce63a02449d051d5b029d95aad
 }
