@@ -44,7 +44,7 @@ bin/./src/engine/Game.cpp.o: src/engine/Game.cpp src/engine/Game.h \
   /usr/local/include/SDL2/SDL_version.h \
   /usr/local/include/SDL2/SDL_image.h /usr/local/include/SDL2/SDL_ttf.h \
   src/engine/DisplayObjectContainer.h src/engine/DisplayObject.h \
-  src/engine/AffineTransform.h
+  src/engine/AffineTransform.h src/engine/Camera.h
 
 src/engine/Game.h:
 
@@ -147,3 +147,5 @@ src/engine/DisplayObjectContainer.h:
 src/engine/DisplayObject.h:
 
 src/engine/AffineTransform.h:
+
+src/engine/Camera.h:

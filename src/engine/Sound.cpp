@@ -21,7 +21,7 @@ Sound::Sound(){
         success = false;
     }
     //the mp3 format does not work --> have to conver the music to ogg format
-    gMusic = Mix_LoadMUS( "/Users/apple/Desktop/Genesis-hw3/game.ogg" );
+    gMusic = Mix_LoadMUS( "game.ogg" );
     if( gMusic == NULL )
     {
         printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );

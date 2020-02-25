@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <set>
 #include "AffineTransform.h"
+#include "Camera.h"
 #include <string>
 #include <fstream>
 
@@ -13,6 +14,17 @@ using namespace std;
 class DisplayObject{
 
 public:
+	
+	// //for Camera
+	// float CameraPosX = 0.0f;
+	// float CameraPosY = 0.0f;
+
+	// float SpeedX = 5.0f;
+	// float SpeedY = 5.0f;
+
+	// float PlayerPosX = 50;
+	// float PlayerPosY = 50;
+
 	string id = "DEFAULT_ID";
 	string imgPath = "";
 	int red, green, blue;

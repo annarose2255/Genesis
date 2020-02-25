@@ -45,7 +45,8 @@ bin/./src/engine/AnimatedSprite.cpp.o: src/engine/AnimatedSprite.cpp \
   /usr/local/include/SDL2/SDL_timer.h \
   /usr/local/include/SDL2/SDL_version.h \
   /usr/local/include/SDL2/SDL_image.h src/engine/AffineTransform.h \
-  src/engine/Game.h /usr/local/include/SDL2/SDL_ttf.h
+  src/engine/Camera.h /usr/local/include/SDL2/SDL_ttf.h \
+  src/engine/Game.h
 
 src/engine/AnimatedSprite.h:
 
@@ -149,6 +150,8 @@ src/engine/DisplayObject.h:
 
 src/engine/AffineTransform.h:
 
-src/engine/Game.h:
+src/engine/Camera.h:
 
 /usr/local/include/SDL2/SDL_ttf.h:
+
+src/engine/Game.h:

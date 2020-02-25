@@ -9,6 +9,7 @@
 #include "Scene.h"
 #include "Sound.h"
 #include "AnimatedSprite.h"
+#include "Camera.h"
 
 
 using namespace std;
@@ -26,6 +27,10 @@ public:
 private:
 	Sound* mainMusic;
 	bool a = false;
+	bool trans = false;
+
+	//Camera
+	Camera* camera;
 
 	AnimatedSprite* sun;
 	Sprite* planet1;

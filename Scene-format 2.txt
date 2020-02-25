@@ -1,0 +1,10 @@
+x
+y
+Rotation angle
+ScaleX
+ScaleY
+Image Filepath
+Animation Basepath
+startFrame
+endFrame
+animationSpeed

@@ -44,10 +44,10 @@ bin/./src/main/MyGame.cpp.o: src/main/MyGame.cpp \
   /usr/local/include/SDL2/SDL_version.h \
   /usr/local/include/SDL2/SDL_image.h src/engine/Sprite.h \
   src/engine/DisplayObjectContainer.h src/engine/DisplayObject.h \
-  src/engine/AffineTransform.h src/engine/Scene.h \
+  src/engine/AffineTransform.h src/engine/Camera.h \
+  /usr/local/include/SDL2/SDL_ttf.h src/engine/Scene.h \
   src/engine/AnimatedSprite.h src/main/MyGame.h src/engine/Game.h \
-  /usr/local/include/SDL2/SDL_ttf.h src/engine/Sound.h \
-  /usr/local/include/SDL2/SDL_mixer.h
+  src/engine/Sound.h /usr/local/include/SDL2/SDL_mixer.h
 
 /usr/local/include/SDL2/SDL.h:
 
@@ -149,6 +149,10 @@ src/engine/DisplayObject.h:
 
 src/engine/AffineTransform.h:
 
+src/engine/Camera.h:
+
+/usr/local/include/SDL2/SDL_ttf.h:
+
 src/engine/Scene.h:
 
 src/engine/AnimatedSprite.h:
@@ -156,8 +160,6 @@ src/engine/AnimatedSprite.h:
 src/main/MyGame.h:
 
 src/engine/Game.h:
-
-/usr/local/include/SDL2/SDL_ttf.h:
 
 src/engine/Sound.h:
 

@@ -43,7 +43,8 @@ bin/./src/engine/Sprite.cpp.o: src/engine/Sprite.cpp src/engine/Sprite.h \
   /usr/local/include/SDL2/SDL_system.h \
   /usr/local/include/SDL2/SDL_timer.h \
   /usr/local/include/SDL2/SDL_version.h \
-  /usr/local/include/SDL2/SDL_image.h src/engine/AffineTransform.h
+  /usr/local/include/SDL2/SDL_image.h src/engine/AffineTransform.h \
+  src/engine/Camera.h /usr/local/include/SDL2/SDL_ttf.h
 
 src/engine/Sprite.h:
 
@@ -144,3 +145,7 @@ src/engine/DisplayObject.h:
 /usr/local/include/SDL2/SDL_image.h:
 
 src/engine/AffineTransform.h:
+
+src/engine/Camera.h:
+
+/usr/local/include/SDL2/SDL_ttf.h:

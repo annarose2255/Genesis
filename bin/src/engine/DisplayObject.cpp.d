@@ -44,8 +44,8 @@ bin/./src/engine/DisplayObject.cpp.o: src/engine/DisplayObject.cpp \
   /usr/local/include/SDL2/SDL_timer.h \
   /usr/local/include/SDL2/SDL_version.h \
   /usr/local/include/SDL2/SDL_image.h src/engine/AffineTransform.h \
-  src/engine/Game.h /usr/local/include/SDL2/SDL_ttf.h \
-  src/engine/DisplayObjectContainer.h
+  src/engine/Camera.h /usr/local/include/SDL2/SDL_ttf.h \
+  src/engine/Game.h src/engine/DisplayObjectContainer.h
 
 src/engine/DisplayObject.h:
 
@@ -143,8 +143,10 @@ src/engine/DisplayObject.h:
 
 src/engine/AffineTransform.h:
 
-src/engine/Game.h:
+src/engine/Camera.h:
 
 /usr/local/include/SDL2/SDL_ttf.h:
+
+src/engine/Game.h:
 
 src/engine/DisplayObjectContainer.h:

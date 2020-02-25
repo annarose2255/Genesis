@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "Game.h"
+#include "Camera.h"
 #include <iostream>
 #include <algorithm>
 #include <cmath>
@@ -73,7 +74,12 @@ void DisplayObject::draw(AffineTransform &at){
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
 
+		// camera.x = position.x - 320;
+		// camera.y = position.y - 240;
+
+		// cout<<"camera x: " << camera.x<<endl;
 		SDL_Rect dstrect = { origin.x, origin.y, w, h };
+		// SDL_Rect dstrect = { (int)PlayerPosX, (int)PlayerPosY, w, h };
 
 		SDL_RendererFlip flip;
 		if (facingRight) {

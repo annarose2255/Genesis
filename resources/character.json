@@ -1,8 +1,8 @@
 {
     "sun": {
         "create": "Sprite",
-		"position.x": 100, 
-		"position.y": 100, 
+		"position.x": 50, 
+		"position.y": 50, 
 		"width": 100,
 		"height": 100, 
         "pivot.x": 50, 
