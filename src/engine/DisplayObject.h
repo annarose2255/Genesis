@@ -3,75 +3,47 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <set>
-#include "AffineTransform.h"
-#include "Camera.h"
-#include <string>
-#include <fstream>
-
-using namespace std;
+#include "LTexture.h"
 
 class DisplayObject{
 
-public:
-	
-	// //for Camera
-	// float CameraPosX = 0.0f;
-	// float CameraPosY = 0.0f;
+   public:
+        LTexture gDotTexture;
+        
+        //The dimensions of the level
+        const int LEVEL_WIDTH = 1280;
+        const int LEVEL_HEIGHT = 960;
 
-	// float SpeedX = 5.0f;
-	// float SpeedY = 5.0f;
+		//The dimensions of the dot
+		static const int DOT_WIDTH = 20;
+		static const int DOT_HEIGHT = 20;
 
-	// float PlayerPosX = 50;
-	// float PlayerPosY = 50;
 
-	string id = "DEFAULT_ID";
-	string imgPath = "";
-	int red, green, blue;
-	string type = "DisplayObject";
+		//Maximum axis velocity of the dot
+		static const int DOT_VEL = 10;
 
-	DisplayObject* parent = NULL;
+		//Initializes the variables
+		DisplayObject();
 
-	bool isRGB = false;
+		//Takes key presses and adjusts the dot's velocity
+		void handleEvent( SDL_Event& e );
 
-	DisplayObject();
-	DisplayObject(string id, string path);
-	DisplayObject(string id, int red, int green, int blue);
-	virtual ~DisplayObject();
-	
-	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at);
+		//Moves the dot
+		void move();
 
-	void loadTexture(string filepath);
-	void loadRGBTexture(int red, int green, int blue);
-	void setTexture(SDL_Texture* t);
+		//Shows the dot on the screen relative to the camera
+		void render( int camX, int camY );
 
-	void applyTransformations(AffineTransform &at);
-	void reverseTransformations(AffineTransform &at);
+		//Position accessors
+		int getPosX();
+		int getPosY();
 
-	int getWidth();
-	int getHeight();
+    private:
+		//The X and Y offsets of the dot
+		int mPosX, mPosY;
 
-	bool visible = true;
-	SDL_Point position = {0, 0};
-	int width = 100;
-	int height = 100;
-	SDL_Point pivot = {0, 0};
-	double scaleX = 1.0;
-	double scaleY = 1.0;
-	double rotation = 0.0; // in radians
-	int alpha = 255;
-	bool facingRight = true;
-
-private:
-	double distance(SDL_Point &p1, SDL_Point &p2);
-	double calculateRotation(SDL_Point &origin, SDL_Point &p);
-	
-	SDL_Texture* texture = NULL;
-	SDL_Surface* image = NULL;
-
-	/* Texture currently being drawn. Equal to texture for normal DO */
-	SDL_Texture* curTexture;
+		//The velocity of the dot
+		int mVelX, mVelY;
 };
 
 #endif

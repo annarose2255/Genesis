@@ -1,129 +1,81 @@
-#include "DisplayObject.h"
-#include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "Game.h"
-#include "Camera.h"
-#include <iostream>
-#include <algorithm>
-#include <cmath>
+#include "DisplayObject.h"
 
-#define PI 3.14159265
+DisplayObject::DisplayObject()
+{
+    //Initialize the offsets
+    mPosX = 0;
+    mPosY = 0;
 
-DisplayObject::DisplayObject(){
-	image = NULL;
-	texture = NULL;
-	curTexture = NULL;
+    //Initialize the velocity
+    mVelX = 0;
+    mVelY = 0;
 }
 
-DisplayObject::DisplayObject(string id, string filepath){
-	this->id = id;
-	this->imgPath = filepath;
-
-	loadTexture(filepath);
+void DisplayObject::handleEvent( SDL_Event& e )
+{
+    //If a key was pressed
+	if( e.type == SDL_KEYDOWN && e.key.repeat == 0 )
+    {
+        //Adjust the velocity
+        switch( e.key.keysym.sym )
+        {
+            case SDLK_UP: mVelY -= DOT_VEL; break;
+            case SDLK_DOWN: mVelY += DOT_VEL; break;
+            case SDLK_LEFT: mVelX -= DOT_VEL; break;
+            case SDLK_RIGHT: mVelX += DOT_VEL; break;
+        }
+    }
+    //If a key was released
+    else if( e.type == SDL_KEYUP && e.key.repeat == 0 )
+    {
+        //Adjust the velocity
+        switch( e.key.keysym.sym )
+        {
+            case SDLK_UP: mVelY += DOT_VEL; break;
+            case SDLK_DOWN: mVelY -= DOT_VEL; break;
+            case SDLK_LEFT: mVelX += DOT_VEL; break;
+            case SDLK_RIGHT: mVelX -= DOT_VEL; break;
+        }
+    }
 }
 
-DisplayObject::DisplayObject(string id, int red, int green, int blue){
-	isRGB = true;
-	this->id = id;
+void DisplayObject::move()
+{
+    //Move the dot left or right
+    mPosX += mVelX;
 
-	this->red = red;
-	this->blue = blue;
-	this->green = green;
+    //If the dot went too far to the left or right
+    if( ( mPosX < 0 ) || ( mPosX + DOT_WIDTH > LEVEL_WIDTH ) )
+    {
+        //Move back
+        mPosX -= mVelX;
+    }
 
-	this->loadRGBTexture(red, green, blue);
+    //Move the dot up or down
+    mPosY += mVelY;
+
+    //If the dot went too far up or down
+    if( ( mPosY < 0 ) || ( mPosY + DOT_HEIGHT > LEVEL_HEIGHT ) )
+    {
+        //Move back
+        mPosY -= mVelY;
+    }
 }
 
-DisplayObject::~DisplayObject(){
-	//TODO: Get this freeing working
-	if(image != NULL) SDL_FreeSurface(image);
-	if(texture != NULL) SDL_DestroyTexture(texture);	
+void DisplayObject::render( int camX, int camY )
+{
+    //Show the dot relative to the camera
+	gDotTexture.render( mPosX - camX, mPosY - camY );
 }
 
-void DisplayObject::loadTexture(string filepath){
-	image = IMG_Load(filepath.c_str());
-	texture = SDL_CreateTextureFromSurface(Game::renderer, image);
-	setTexture(texture);
+int DisplayObject::getPosX()
+{
+	return mPosX;
 }
 
-void DisplayObject::loadRGBTexture(int red, int green, int blue){
-	image = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0x000000ff);
-	SDL_FillRect(image, NULL, SDL_MapRGB(image->format, red, green, blue));
-	texture = SDL_CreateTextureFromSurface(Game::renderer, image);
-	SDL_SetTextureBlendMode( texture, SDL_BLENDMODE_BLEND );
-	setTexture(texture);
-}
-
-void DisplayObject::setTexture(SDL_Texture* t){
-	this->curTexture = t;
-}
-
-void DisplayObject::update(set<SDL_Scancode> pressedKeys){
-	
-}
-
-void DisplayObject::draw(AffineTransform &at){
-	applyTransformations(at);
-	
-	if(curTexture != NULL && visible) {
-		SDL_Point origin = at.transformPoint(0, 0);
-		SDL_Point upperRight = at.transformPoint(width, 0);
-		SDL_Point lowerRight = at.transformPoint(width, height);
-		SDL_Point corner = {0, 0};
-
-		int w = (int)distance(origin, upperRight);
-		int h = (int)distance(upperRight, lowerRight);
-
-		// camera.x = position.x - 320;
-		// camera.y = position.y - 240;
-
-		// cout<<"camera x: " << camera.x<<endl;
-		SDL_Rect dstrect = { origin.x, origin.y, w, h };
-		// SDL_Rect dstrect = { (int)PlayerPosX, (int)PlayerPosY, w, h };
-
-		SDL_RendererFlip flip;
-		if (facingRight) {
-			flip = SDL_FLIP_NONE;
-		}
-		else {
-			flip = SDL_FLIP_HORIZONTAL;
-		}
-		
-		SDL_SetTextureAlphaMod(curTexture, alpha);
-		SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
-	}
-
-	reverseTransformations(at);
-}
-
-void DisplayObject::applyTransformations(AffineTransform &at) {
-	at.translate(position.x, position.y);
-	at.rotate(rotation);
-	at.scale(scaleX, scaleY);
-	at.translate(-pivot.x, -pivot.y);
-}
-
-void DisplayObject::reverseTransformations(AffineTransform &at) {
-	at.translate(pivot.x, pivot.y);
-	at.scale(1.0/scaleX, 1.0/scaleY);
-	at.rotate(-rotation);
-	at.translate(-position.x, -position.y);
-}
-
-int DisplayObject::getWidth() {
-	return this->image->w;
-}
-
-int DisplayObject::getHeight() {
-	return this->image->h;
-}
-
-double DisplayObject::distance(SDL_Point &p1, SDL_Point &p2) {
-	return sqrt(((p2.y - p1.y)*(p2.y - p1.y)) + ((p2.x - p1.x)*(p2.x - p1.x)));
-}
-
-double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
-	double y = p.y - origin.y;
-	double x = p.x - origin.x;
-	return (atan2(y, x) * 180 / PI);
+int DisplayObject::getPosY()
+{
+	return mPosY;
 }

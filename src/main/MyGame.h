@@ -4,48 +4,46 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
-#include "Game.h"
-#include "Sprite.h"
-#include "Scene.h"
-#include "Sound.h"
-#include "AnimatedSprite.h"
-#include "Camera.h"
+#include "LTexture.h"
 
 
 using namespace std;
 
-class MyGame : public Game{
+class MyGame {
 
 public:
-	int count =0;
-	MyGame();
-	virtual ~MyGame();
+	//The dimensions of the level
+	const int LEVEL_WIDTH = 1280;
+	const int LEVEL_HEIGHT = 960;
 
-	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at);
+	//Screen dimension constants
+	const int SCREEN_WIDTH = 640;
+	const int SCREEN_HEIGHT = 480;
+	//Starts up SDL and creates window
+	bool init();
 
-private:
-	Sound* mainMusic;
-	bool a = false;
-	bool trans = false;
+	//Loads media
+	bool loadMedia();
 
-	//Camera
-	Camera* camera;
+	//Frees media and shuts down SDL
+	void close();
 
-	AnimatedSprite* sun;
-	Sprite* planet1;
-	Sprite* planet2;
-	Sprite* moon1_1;
-	DisplayObjectContainer* p1container;
-	DisplayObjectContainer* p2container;
-	DisplayObjectContainer* allSprites;
+	//Loads individual image as texture
+	SDL_Texture* loadTexture( std::string path );
 
-	AnimatedSprite* character;
-	Scene* scene1; 
-	Scene* scene2; 
-	Scene* currentScene;
-	int i = 1; 
-	// DisplayObject* character;
+	//The window we'll be rendering to
+	SDL_Window* gWindow = NULL;
+
+	//The window renderer
+	SDL_Renderer* gRenderer = NULL;
+
+	// //Current displayed texture
+	// SDL_Texture* gTexture = NULL;
+	//Scene textures
+	LTexture gDotTexture;
+	LTexture gBGTexture;
+	
+
 };
 
 #endif
