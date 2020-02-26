@@ -1,12 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
-#include "Game.h"
 #include "MyGame.h"
-<<<<<<< HEAD
-=======
-#include "Scene.h"
->>>>>>> 044140141e47a9b39aa5af7fc4b27db617a787ce
 #include "LTexture.h"
 
 
@@ -71,14 +66,8 @@ bool MyGame::loadMedia(){
 	//Loading success flag
 	bool success = true;
 
-<<<<<<< HEAD
 	//Load dot texture
 	if( !gDotTexture.loadFromFile( "/Users/apple/Desktop/experiment/resources/solarSystem/Moon.png", gRenderer ) )
-=======
-	//Load PNG texture
-	gDotTexture = loadTexture( "resources/solarSystem/Moon.png" );
-	if( gDotTexture == NULL )
->>>>>>> 044140141e47a9b39aa5af7fc4b27db617a787ce
 	{
 		printf( "Failed to load dot texture!\n" );
 		success = false;
@@ -90,23 +79,15 @@ bool MyGame::loadMedia(){
 		printf( "Failed to load background texture!\n" );
 		success = false;
 	}
-	// Scene* scene1 = new Scene(); 
-	// scene1->loadScene("resources/scenes/scene1.json");
 
 	return success;
 }
 
 //Frees media and shuts down SDL
 void MyGame::close(){
-<<<<<<< HEAD
 	//Free loaded images
 	gDotTexture.free();
 	gBGTexture.free();
-=======
-	//Free loaded image
-	SDL_DestroyTexture( gDotTexture );
-	gDotTexture = NULL;
->>>>>>> 044140141e47a9b39aa5af7fc4b27db617a787ce
 
 	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );

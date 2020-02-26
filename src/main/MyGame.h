@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
-#include "Game.h"
 #include "LTexture.h"
 #include "DisplayObject.h"
 
@@ -15,8 +14,8 @@ class MyGame {
 
 public:
 	//The dimensions of the level
-	const int LEVEL_WIDTH = 1280;
-	const int LEVEL_HEIGHT = 960;
+	const int LEVEL_WIDTH = 15000;
+	const int LEVEL_HEIGHT = 1000;
 
 	//Screen dimension constants
 	const int SCREEN_WIDTH = 640;

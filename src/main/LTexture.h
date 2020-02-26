@@ -44,12 +44,6 @@ class LTexture
 		//Gets image dimensions
 		int getWidth();
 		int getHeight();
-		
-		string name;
-		SDL_Point position; 
-		SDL_Point pivot; 
-		int width, height;
-
 
 	private:
 		//The actual hardware texture

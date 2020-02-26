@@ -1,0 +1,34 @@
+{
+    "sun": {
+        "create": "Sprite",
+        "position.x":100,
+        "position.y":100,
+        "width": 100,
+		"height": 100, 
+        "pivot.x": 50, 
+        "pivot.y": 50,
+        "filepath":"./resources/solarSystem/Sun_1.png",
+        "children": {
+            "planet1": {
+                "create": "Sprite",
+                "position.x": 200, 
+                "position.y": 0, 
+                "width": 30,
+                "height": 30, 
+                "pivot.x": 15, 
+                "pivot.y": 15,
+                "filepath": "./resources/solarSystem/Planet.png"
+            }, 
+            "planet2": {
+                "create": "Sprite",
+                "position.x": 300, 
+                "position.y": 0, 
+                "width": 30,
+                "height": 30, 
+                "pivot.x": 15, 
+                "pivot.y": 15,
+                "filepath": "./resources/solarSystem/Planet.png"
+            }
+        } 
+    }
+}
