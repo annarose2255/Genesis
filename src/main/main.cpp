@@ -56,8 +56,8 @@ int main( int argc, char* args[] )
 				character.move();
 
 				//Center the camera over the dot
-				camera.x = ( character.getPosX() + Dot::DOT_WIDTH / 2 ) - SCREEN_WIDTH / 2;
-				camera.y = ( dot.getPosY() + Dot::DOT_HEIGHT / 2 ) - SCREEN_HEIGHT / 2;
+				camera.x = ( character.getPosX() + DisplayObject::DOT_WIDTH / 2 ) - game->SCREEN_WIDTH / 2;
+				camera.y = ( character.getPosY() + DisplayObject::DOT_HEIGHT / 2 ) - game->SCREEN_HEIGHT / 2;
 
 				//Keep the camera in bounds
 				if( camera.x < 0 )
@@ -68,33 +68,33 @@ int main( int argc, char* args[] )
 				{
 					camera.y = 0;
 				}
-				if( camera.x > LEVEL_WIDTH - camera.w )
+				if( camera.x > game->LEVEL_WIDTH - camera.w )
 				{
-					camera.x = LEVEL_WIDTH - camera.w;
+					camera.x = game->LEVEL_WIDTH - camera.w;
 				}
-				if( camera.y > LEVEL_HEIGHT - camera.h )
+				if( camera.y > game->LEVEL_HEIGHT - camera.h )
 				{
-					camera.y = LEVEL_HEIGHT - camera.h;
+					camera.y = game->LEVEL_HEIGHT - camera.h;
 				}
 
 				//Clear screen
-				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-				SDL_RenderClear( gRenderer );
+				SDL_SetRenderDrawColor( game->gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+				SDL_RenderClear( game->gRenderer );
 
 				//Render background
-				gBGTexture.render( 0, 0, &camera );
+				game->gBGTexture.render( 0, 0, &camera );
 
 				//Render objects
-				dot.render( camera.x, camera.y );
+				character.render( camera.x, camera.y , game->gDotTexture);
 
 				//Update screen
-				SDL_RenderPresent( gRenderer );
+				SDL_RenderPresent( game->gRenderer );
 			}
 		}
 	}
 
 	//Free resources and close SDL
-	close();
+	game->close();
 
 	return 0;
 }

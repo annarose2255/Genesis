@@ -2,12 +2,14 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include "MyGame.h"
+#include "LTexture.h"
 
 
 using namespace std;
 
-bool MyGame::init(){
-		//Initialization flag
+bool MyGame::init()
+{
+	//Initialization flag
 	bool success = true;
 
 	//Initialize SDL
@@ -33,8 +35,8 @@ bool MyGame::init(){
 		}
 		else
 		{
-			//Create renderer for window
-			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
+			//Create vsynced renderer for window
+			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 			if( gRenderer == NULL )
 			{
 				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -64,11 +66,17 @@ bool MyGame::loadMedia(){
 	//Loading success flag
 	bool success = true;
 
-	//Load PNG texture
-	gTexture = loadTexture( "resources/solarSystem/Moon.png" );
-	if( gTexture == NULL )
+	//Load dot texture
+	if( !gDotTexture.loadFromFile( "/Users/apple/Desktop/experiment/resources/solarSystem/Moon.png", gRenderer ) )
 	{
-		printf( "Failed to load texture image!\n" );
+		printf( "Failed to load dot texture!\n" );
+		success = false;
+	}
+
+	//Load background texture
+	if( !gBGTexture.loadFromFile( "/Users/apple/Desktop/experiment/resources/bg.png" , gRenderer) )
+	{
+		printf( "Failed to load background texture!\n" );
 		success = false;
 	}
 
@@ -77,9 +85,9 @@ bool MyGame::loadMedia(){
 
 //Frees media and shuts down SDL
 void MyGame::close(){
-	//Free loaded image
-	SDL_DestroyTexture( gTexture );
-	gTexture = NULL;
+	//Free loaded images
+	gDotTexture.free();
+	gBGTexture.free();
 
 	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );
@@ -92,29 +100,29 @@ void MyGame::close(){
 	SDL_Quit();
 }
 
-//Loads individual image as texture
-SDL_Texture* MyGame::loadTexture( std::string path ){
-	//The final texture
-	SDL_Texture* newTexture = NULL;
+// //Loads individual image as texture
+// SDL_Texture* MyGame::loadTexture( std::string path ){
+// 	//The final texture
+// 	SDL_Texture* newTexture = NULL;
 
-	//Load image at specified path
-	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
-	if( loadedSurface == NULL )
-	{
-		printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
-	}
-	else
-	{
-		//Create texture from surface pixels
-        newTexture = SDL_CreateTextureFromSurface( gRenderer, loadedSurface );
-		if( newTexture == NULL )
-		{
-			printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-		}
+// 	//Load image at specified path
+// 	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+// 	if( loadedSurface == NULL )
+// 	{
+// 		printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
+// 	}
+// 	else
+// 	{
+// 		//Create texture from surface pixels
+//         newTexture = SDL_CreateTextureFromSurface( gRenderer, loadedSurface );
+// 		if( newTexture == NULL )
+// 		{
+// 			printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+// 		}
 
-		//Get rid of old loaded surface
-		SDL_FreeSurface( loadedSurface );
-	}
+// 		//Get rid of old loaded surface
+// 		SDL_FreeSurface( loadedSurface );
+// 	}
 
-	return newTexture;
-}
+// 	return newTexture;
+// }

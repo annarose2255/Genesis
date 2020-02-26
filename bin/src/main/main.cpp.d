@@ -42,7 +42,8 @@ bin/./src/main/main.cpp.o: src/main/main.cpp \
   /usr/local/include/SDL2/SDL_system.h \
   /usr/local/include/SDL2/SDL_timer.h \
   /usr/local/include/SDL2/SDL_version.h \
-  /usr/local/include/SDL2/SDL_image.h src/main/MyGame.h
+  /usr/local/include/SDL2/SDL_image.h src/main/DisplayObject.h \
+  src/main/LTexture.h src/main/MyGame.h
 
 /usr/local/include/SDL2/SDL.h:
 
@@ -135,5 +136,9 @@ bin/./src/main/main.cpp.o: src/main/main.cpp \
 /usr/local/include/SDL2/SDL_version.h:
 
 /usr/local/include/SDL2/SDL_image.h:
+
+src/main/DisplayObject.h:
+
+src/main/LTexture.h:
 
 src/main/MyGame.h:

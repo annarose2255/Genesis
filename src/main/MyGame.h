@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include "LTexture.h"
+#include "DisplayObject.h"
 
 
 using namespace std;
@@ -29,7 +30,7 @@ public:
 	void close();
 
 	//Loads individual image as texture
-	SDL_Texture* loadTexture( std::string path );
+	// SDL_Texture * loadTexture( std::string path );
 
 	//The window we'll be rendering to
 	SDL_Window* gWindow = NULL;
