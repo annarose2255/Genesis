@@ -1,3 +1,4 @@
+<<<<<<< HEAD:bin/src/main/DisplayObject.cpp.d
 bin/./src/main/DisplayObject.cpp.o: src/main/DisplayObject.cpp \
   /usr/local/include/SDL2/SDL.h /usr/local/include/SDL2/SDL_main.h \
   /usr/local/include/SDL2/SDL_stdinc.h \
@@ -140,3 +141,8 @@ bin/./src/main/DisplayObject.cpp.o: src/main/DisplayObject.cpp \
 src/main/DisplayObject.h:
 
 src/main/LTexture.h:
+=======
+bin/./src/engine/Camera.cpp.o: src/engine/Camera.cpp src/engine/Camera.h
+
+src/engine/Camera.h:
+>>>>>>> 044140141e47a9b39aa5af7fc4b27db617a787ce:bin/src/engine/Camera.cpp.d

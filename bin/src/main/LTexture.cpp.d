@@ -1,3 +1,4 @@
+<<<<<<< HEAD:bin/src/main/LTexture.cpp.d
 bin/./src/main/LTexture.cpp.o: src/main/LTexture.cpp \
   /usr/local/include/SDL2/SDL.h /usr/local/include/SDL2/SDL_main.h \
   /usr/local/include/SDL2/SDL_stdinc.h \
@@ -135,5 +136,9 @@ bin/./src/main/LTexture.cpp.o: src/main/LTexture.cpp \
 /usr/local/include/SDL2/SDL_version.h:
 
 /usr/local/include/SDL2/SDL_image.h:
+=======
+bin/./src/engine/AffineTransform.cpp.o: src/engine/AffineTransform.cpp \
+ src/engine/AffineTransform.h
+>>>>>>> 044140141e47a9b39aa5af7fc4b27db617a787ce:bin/src/engine/AffineTransform.cpp.d
 
 src/main/LTexture.h:
