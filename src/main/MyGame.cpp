@@ -1,7 +1,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include "Game.h"
 #include "MyGame.h"
+#include "Scene.h"
+#include "LTexture.h"
 
 
 using namespace std;
@@ -65,12 +68,14 @@ bool MyGame::loadMedia(){
 	bool success = true;
 
 	//Load PNG texture
-	gTexture = loadTexture( "resources/solarSystem/Moon.png" );
-	if( gTexture == NULL )
+	gDotTexture = loadTexture( "resources/solarSystem/Moon.png" );
+	if( gDotTexture == NULL )
 	{
 		printf( "Failed to load texture image!\n" );
 		success = false;
 	}
+	// Scene* scene1 = new Scene(); 
+	// scene1->loadScene("resources/scenes/scene1.json");
 
 	return success;
 }
@@ -78,8 +83,8 @@ bool MyGame::loadMedia(){
 //Frees media and shuts down SDL
 void MyGame::close(){
 	//Free loaded image
-	SDL_DestroyTexture( gTexture );
-	gTexture = NULL;
+	SDL_DestroyTexture( gDotTexture );
+	gDotTexture = NULL;
 
 	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );

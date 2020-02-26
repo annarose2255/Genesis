@@ -1,0 +1,12 @@
+{
+    "moon1_1": {
+        "name": "moon1_1",
+        "position.x": 50, 
+        "position.y": 0, 
+        "width": 15,
+        "height": 15, 
+        "pivot.x": 0, 
+        "pivot.y": 0,
+        "filepath": "./resources/solarSystem/Moon.png"
+    }
+}
