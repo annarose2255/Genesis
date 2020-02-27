@@ -7,7 +7,7 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "AnimatedSprite.h"
-
+#include "Scene.h"
 
 using namespace std;
 
@@ -21,7 +21,9 @@ public:
 	virtual void draw(AffineTransform &at);
 
 private:
-	
+    
+    Scene* scene1;
+    	
 	AnimatedSprite* sun;
 	Sprite* planet1;
 	Sprite* planet2;
