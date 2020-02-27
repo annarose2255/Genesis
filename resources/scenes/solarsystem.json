@@ -1,4 +1,5 @@
 {
+    "sceneName": {"id":"solar"},
     "sun": {
         "type": "AnimatedSprite",
         "id": "sun",

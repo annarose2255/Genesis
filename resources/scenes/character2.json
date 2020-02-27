@@ -18,7 +18,7 @@
         "animations": {
             "0": {
                 "filepath": "./resources/character/",
-                "name": "Jump",
+                "name": "Dead",
                 "frames": 30,
                 "rate": 2,
                 "loop": true

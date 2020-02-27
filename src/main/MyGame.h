@@ -26,7 +26,7 @@ private:
     Scene* currentScene;    
     Scene* scene1;
     Scene* scene2;    	
-
+    Scene* scene3;
 };
 
 #endif

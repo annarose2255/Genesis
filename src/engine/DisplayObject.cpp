@@ -63,9 +63,8 @@ void DisplayObject::update(set<SDL_Scancode> pressedKeys){
 
 void DisplayObject::draw(AffineTransform &at){
 	applyTransformations(at);
-	
 	if(curTexture != NULL && visible) {
-		SDL_Point origin = at.transformPoint(0, 0);
+        SDL_Point origin = at.transformPoint(0, 0);
 		SDL_Point upperRight = at.transformPoint(width, 0);
 		SDL_Point lowerRight = at.transformPoint(width, height);
 		SDL_Point corner = {0, 0};
