@@ -1,5 +1,5 @@
-TARGET_EXEC ?= questDemo
-DATE=`date +"%m-%d-%H-%M"`
+TARGET_EXEC ?= myGame
+DATE=`date +"%m-%d-%H:%M"`
 
 BUILD_DIR ?= ./bin
 SRC_DIRS ?= ./src
@@ -11,7 +11,7 @@ DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-CPPFLAGS ?= $(INC_FLAGS) -MMD -MP -std=c++11 -g
+CPPFLAGS ?= $(INC_FLAGS) -MMD -MP -std=c++1z -g
 
 #LINKER_FLAGS specifies the libraries we're linking against
 LDFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf

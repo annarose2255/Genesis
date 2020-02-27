@@ -1,0 +1,27 @@
+{
+    "character": {
+        "type": "AnimatedSprite",
+        "id": "character",
+        "visible": true,
+        "position.x":300,
+        "position.y":300,
+        "width": 100,
+		"height": 100, 
+        "pivot.x": 50, 
+        "pivot.y": 50,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "alpha": 255,
+        "facingRight": true,
+        "animations": {
+            "0": {
+                "filepath": "./resources/character/",
+                "name": "Jump",
+                "frames": 30,
+                "rate": 2,
+                "loop": true
+            }
+        }
+    }
+}

@@ -9,15 +9,16 @@ using namespace std;
 
 int main(int argc, char ** argv)
 {
-	// MyGame* myGame = new MyGame();
-	// myGame->start();
+	MyGame* myGame = new MyGame();
+    myGame->start();
 
-	// delete myGame;
-	// return 0;
-
+	delete myGame;
+	return 0;
+/*
 	QuestDemo* questDemo = new QuestDemo();
 	questDemo->start();
 
 	delete questDemo;
+*/
 	return 0;
 }

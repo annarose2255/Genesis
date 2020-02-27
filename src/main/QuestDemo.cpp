@@ -165,3 +165,4 @@ bool QuestDemo::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
     cnRect = &cnTemp;
     return SDL_PointInRect(charPos, cnRect);
 }
+
