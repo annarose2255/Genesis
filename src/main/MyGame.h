@@ -9,6 +9,7 @@
 #include "Sound.h"
 #include "AnimatedSprite.h"
 #include "Scene.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -29,6 +30,7 @@ private:
     Scene* scene1;
     Scene* scene2;    	
 
+    Camera* camera;
 };
 
 #endif

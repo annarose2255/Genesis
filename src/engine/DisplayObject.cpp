@@ -84,19 +84,11 @@ void DisplayObject::draw(AffineTransform &at){
 			flip = SDL_FLIP_HORIZONTAL;
 		}
 
-		camera.x = position.x + width/2 - 400;
-		camera.y = position.y + height/2 - 350;
-
-		if(camera.x <0){
-			camera.x =0;
-		}
-		if(camera.y < 0 ){
-			camera.y = 0;
-		}
-
+		//Camera as child of my game and parent of every sprite that I run
+		//instead of moving camera by --> can move by pivot points
 		
 		SDL_SetTextureAlphaMod(curTexture, alpha);
-		SDL_RenderCopyEx(Game::renderer, curTexture, &(camera), &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
+		SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
 	}
 
 	reverseTransformations(at);

@@ -4,14 +4,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include "DisplayObjectContainer.h"
 
-class Camera{ 
+class Camera: public DisplayObjectContainer{ 
 
 public:
 	Camera();
 	~Camera();
-
-	SDL_Rect camera;
 
 	int x = 0;
 	int y = 0;
@@ -22,6 +21,9 @@ public:
 	//The dimensions of the level
 	const int LEVEL_WIDTH = 1280;
 	const int LEVEL_HEIGHT = 960;
+
+	virtual void update(set<SDL_Scancode> pressedKeys);
+	virtual void draw(AffineTransform &at);
 
 private:
 

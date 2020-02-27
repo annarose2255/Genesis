@@ -5,9 +5,18 @@
 
 //http://lazyfoo.net/SDL_tutorials/lesson21/index.php
 Camera::Camera(){
-    camera = { x, y, viewportWidth, viewportHeight };
+    
 
 }
+
 Camera::~Camera(){
+    
+}
+
+void Camera::update(set<SDL_Scancode> pressedKeys){
+
+}
+
+void Camera::draw(AffineTransform &at){
     
 }

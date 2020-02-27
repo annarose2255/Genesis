@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Scene.h"
 #include "MyGame.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -19,7 +20,10 @@ MyGame::MyGame() : Game(800, 700) {
     change = true;
 
     currentScene = scene1;
-    instance->addChild(currentScene);
+	camera = new Camera();
+
+	camera->addChild(currentScene);
+    instance->addChild(camera);
 
     //Sound 
 	mainMusic = new Sound();
@@ -34,17 +38,17 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
-        instance->removeImmediateChild(currentScene);
+        camera->removeImmediateChild(currentScene);
         cout << instance->children.size() << endl;
         currentScene = scene2;
-        instance->addChild(currentScene);
+        camera->addChild(currentScene);
         change = !change;
     }
     else if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && !change) {
         cout << "123" << endl;
-        instance->removeImmediateChild(currentScene);
+        camera->removeImmediateChild(currentScene);
         currentScene = scene1;
-        instance->addChild(currentScene);
+        camera->addChild(currentScene);
         change = !change;
     }
 
@@ -62,7 +66,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		mainMusic->pauseMusic();
 		
 	}
-    
+
     if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		currentScene->position.x += 2; 
 
@@ -78,6 +82,17 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
 		currentScene->position.y -= 2;
 	}
+
+    currentScene->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
+	currentScene->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
+
+    // cout<<"camera x: "<< currentScene->camera.x <<endl;
+	if( currentScene->camera.x <0){
+		currentScene->camera.x =0;
+	}
+    if( currentScene->camera.y < 0 ){
+		currentScene->camera.y = 0;
+    }
 
 	Game::update(pressedKeys);
 }
