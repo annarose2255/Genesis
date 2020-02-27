@@ -10,8 +10,6 @@ void Scene::loadScene(string sceneFilePath) {
     json j;
     ifstream ifs(sceneFilePath);
     ifs >> j;
-
-    this->id = j["sceneName"]["id"];
     
     for(auto& [key, value] : j.items()) {
         json data = value;
