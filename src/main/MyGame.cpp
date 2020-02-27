@@ -29,15 +29,12 @@ MyGame::~MyGame(){
 void MyGame::update(set<SDL_Scancode> pressedKeys){
     
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
-        cout << "abc" << endl;
         instance->removeImmediateChild(currentScene);
-        cout << instance->children.size() << endl;
         currentScene = scene2;
         instance->addChild(currentScene);
         change = !change;
     }
     else if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && !change) {
-        cout << "123" << endl;
         instance->removeImmediateChild(currentScene);
         currentScene = scene1;
         instance->addChild(currentScene);
