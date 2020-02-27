@@ -42,8 +42,14 @@ bin/./src/main/main.cpp.o: src/main/main.cpp \
   /usr/local/include/SDL2/SDL_system.h \
   /usr/local/include/SDL2/SDL_timer.h \
   /usr/local/include/SDL2/SDL_version.h \
-  /usr/local/include/SDL2/SDL_image.h src/main/DisplayObject.h \
-  src/main/LTexture.h src/main/MyGame.h
+  /usr/local/include/SDL2/SDL_image.h src/engine/DisplayObject.h \
+  src/engine/AffineTransform.h src/engine/Camera.h \
+  /usr/local/include/SDL2/SDL_ttf.h src/main/MyGame.h src/engine/Game.h \
+  src/engine/DisplayObjectContainer.h src/engine/Sprite.h \
+  src/engine/Sound.h /usr/local/include/SDL2/SDL_mixer.h \
+  src/engine/AnimatedSprite.h src/engine/Scene.h src/engine/json.hpp \
+  src/main/QuestDemo.h src/main/CoinListener.h src/engine/events/Event.h \
+  src/engine/events/EventDispatcher.h src/engine/events/EventListener.h
 
 /usr/local/include/SDL2/SDL.h:
 
@@ -137,8 +143,38 @@ bin/./src/main/main.cpp.o: src/main/main.cpp \
 
 /usr/local/include/SDL2/SDL_image.h:
 
-src/main/DisplayObject.h:
+src/engine/DisplayObject.h:
 
-src/main/LTexture.h:
+src/engine/AffineTransform.h:
+
+src/engine/Camera.h:
+
+/usr/local/include/SDL2/SDL_ttf.h:
 
 src/main/MyGame.h:
+
+src/engine/Game.h:
+
+src/engine/DisplayObjectContainer.h:
+
+src/engine/Sprite.h:
+
+src/engine/Sound.h:
+
+/usr/local/include/SDL2/SDL_mixer.h:
+
+src/engine/AnimatedSprite.h:
+
+src/engine/Scene.h:
+
+src/engine/json.hpp:
+
+src/main/QuestDemo.h:
+
+src/main/CoinListener.h:
+
+src/engine/events/Event.h:
+
+src/engine/events/EventDispatcher.h:
+
+src/engine/events/EventListener.h:

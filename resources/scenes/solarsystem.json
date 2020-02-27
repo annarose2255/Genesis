@@ -1,0 +1,64 @@
+{
+    "sun": {
+        "type": "AnimatedSprite",
+        "id": "sun",
+        "visible": true,
+        "position.x":300,
+        "position.y":300,
+        "width": 100,
+		"height": 100, 
+        "pivot.x": 50, 
+        "pivot.y": 50,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "alpha": 255,
+        "facingRight": true,
+        "animations": {
+            "0": {
+                "filepath": "./resources/solarSystem/",
+                "name": "Sun",
+                "frames": 4,
+                "rate": 2,
+                "loop": true
+            }
+        },
+        "children": {
+            "planet1": {
+                "type": "DisplayObject",
+                "id": "planet1",
+                "visible": true,
+                "position.x": 200, 
+                "position.y": 0, 
+                "width": 30,
+                "height": 30, 
+                "pivot.x": 15, 
+                "pivot.y": 15,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "rotation": 0.0,
+                "alpha": 255,
+                "facingRight": true,
+                "filepath": "./resources/solarSystem/Planet.png"
+            }, 
+            "planet2": {
+                "type": "DisplayObject",
+                "id": "planet2",
+                "visible": true,
+                "position.x": 300, 
+                "position.y": 0, 
+                "width": 30,
+                "height": 30, 
+                "pivot.x": 15, 
+                "pivot.y": 15,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "rotation": 0.0,
+                "alpha": 255,
+                "facingRight": true,
+                "filepath": "./resources/solarSystem/Planet.png"
+            } 
+        } 
+    }
+}
+
