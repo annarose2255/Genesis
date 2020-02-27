@@ -56,6 +56,7 @@ void DevTool::load(string filepath)
     Scene *thisScene = new Scene();
     thisScene->loadScene(filepath);
     sceneWindow->addChild(thisScene);
+    // sceneWindow = thisScene;
 }
 
 void DevTool::save(string filepath)
@@ -64,6 +65,15 @@ void DevTool::save(string filepath)
 }
 
 void DevTool::update(set<SDL_Scancode> pressedKeys){
+    SDL_Event mouseEvent;
+    SDL_PollEvent(&event);
+    switch (event.type)
+    {
+        case SDL_MOUSEBUTTONDOWN:
+            
+        case SDL_MOUSEBUTTONUP:
+    }
+
     if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end())
     {
         tileMenu->position.x -= 5;
