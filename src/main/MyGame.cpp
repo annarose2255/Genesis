@@ -13,7 +13,11 @@ MyGame::MyGame() : Game(800, 700) {
 	scene1 = new Scene(); 
 	scene1->loadScene("./resources/scenes/solarsystem.json");
     instance->addChild(scene1);
+    scene1->visible = false;
 
+    scene2 = new Scene();
+    scene2->loadScene("./resources/scenes/character.json");
+    scene2->visible = false;
 	//scene2 = new Scene(); 
 	//scene2->loadScene("././resources/character.json");
 	
@@ -28,8 +32,13 @@ MyGame::~MyGame(){
 
 void MyGame::update(set<SDL_Scancode> pressedKeys){
     
-	Game::update(pressedKeys);
+    if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
+        scene1->visible = false;
+        scene2->visible = true;
+        cout << "aaaaaa" << endl;
+    }
 
+	Game::update(pressedKeys);
 }
 
 void MyGame::draw(AffineTransform &at){

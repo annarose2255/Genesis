@@ -3,8 +3,8 @@
         "type": "AnimatedSprite",
         "id": "sun",
         "visible": true,
-        "position.x":100,
-        "position.y":100,
+        "position.x":300,
+        "position.y":300,
         "width": 100,
 		"height": 100, 
         "pivot.x": 50, 
@@ -15,8 +15,8 @@
         "alpha": 255,
         "facingRight": true,
         "animations": {
-            "1": {
-                "filepath": "./resources/solarSystem/Sun_1.png",
+            "0": {
+                "filepath": "./resources/solarSystem/",
                 "name": "Sun",
                 "frames": 4,
                 "rate": 2,

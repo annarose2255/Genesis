@@ -23,7 +23,7 @@ public:
 private:
     
     Scene* scene1;
-    	
+    Scene* scene2;    	
 	AnimatedSprite* sun;
 	Sprite* planet1;
 	Sprite* planet2;

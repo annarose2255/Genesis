@@ -147,12 +147,14 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     newAS->rotation = data["rotation"];
     newAS->alpha = data["alpha"];
     newAS->facingRight = data["facingRight"];
-            
+    
+    string anim = data["animations"]["0"]["name"];
     // Animations
     for(auto& [key, value] : data["animations"].items()) {
         newAS->addAnimation(value["filepath"], value["name"], value["frames"], value["rate"], value["loop"]);
     }
-    
+    newAS->play(anim);
+ 
     // Children
     for(auto& [key, value] : data["children"].items()) {
         json childData = value;
