@@ -1,5 +1,5 @@
 TARGET_EXEC ?= questDemo
-DATE=`date +"%m-%d-%H:%M"`
+DATE=`date +"%m-%d-%H-%M"`
 
 BUILD_DIR ?= ./bin
 SRC_DIRS ?= ./src
