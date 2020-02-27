@@ -12,18 +12,14 @@ MyGame::MyGame() : Game(800, 700) {
 
 	scene1 = new Scene(); 
 	scene1->loadScene("./resources/scenes/solarsystem.json");
-    instance->addChild(scene1);
-    scene1->visible = false;
 
     scene2 = new Scene();
     scene2->loadScene("./resources/scenes/character.json");
-    scene2->visible = false;
-	//scene2 = new Scene(); 
-	//scene2->loadScene("././resources/character.json");
 	
-	//currentScene = scene2; 
-	//instance -> addChild(currentScene);
-	
+    change = true;
+
+    currentScene = scene1;
+    instance->addChild(currentScene);
 }
 
 MyGame::~MyGame(){
@@ -32,12 +28,21 @@ MyGame::~MyGame(){
 
 void MyGame::update(set<SDL_Scancode> pressedKeys){
     
-    if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
-        scene1->visible = false;
-        scene2->visible = true;
-        cout << "aaaaaa" << endl;
+    if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
+        cout << "abc" << endl;
+        instance->removeImmediateChild(currentScene);
+        cout << instance->children.size() << endl;
+        currentScene = scene2;
+        instance->addChild(currentScene);
+        change = !change;
     }
-
+    if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && !change) {
+        cout << "123" << endl;
+        instance->removeImmediateChild(currentScene);
+        currentScene = scene1;
+        instance->addChild(currentScene);
+        change = !change;
+    }
 	Game::update(pressedKeys);
 }
 

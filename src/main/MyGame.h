@@ -22,18 +22,11 @@ public:
 
 private:
     
+    bool change;
+    Scene* currentScene;    
     Scene* scene1;
     Scene* scene2;    	
-	AnimatedSprite* sun;
-	Sprite* planet1;
-	Sprite* planet2;
-	Sprite* moon1_1;
 
-	DisplayObjectContainer* p1container;
-	DisplayObjectContainer* p2container;
-	DisplayObjectContainer* allSprites;
-
-	// DisplayObject* character;
 };
 
 #endif
