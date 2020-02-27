@@ -4,16 +4,22 @@
 #include <iostream>
 #include "MyGame.h"
 #include "QuestDemo.h"
+#include "DevTool.h"
 
 using namespace std;
 
 int main(int argc, char ** argv)
 {
-	MyGame* myGame = new MyGame();
-    myGame->start();
+	DevTool* devTool = new DevTool();
+    devTool->start();
 
-	delete myGame;
+	delete devTool;
 	return 0;
+	// MyGame* myGame = new MyGame();
+    // myGame->start();
+
+	// delete myGame;
+	// return 0;
 /*
 	QuestDemo* questDemo = new QuestDemo();
 	questDemo->start();

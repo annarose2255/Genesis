@@ -8,7 +8,7 @@
 #include "Sprite.h"
 #include "AnimatedSprite.h"
 #include "Scene.h"
-
+#define SPRITESIZE 100
 using namespace std;
 
 class DevTool : public Game{
@@ -20,6 +20,7 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
+    void IterateDirectory(string filepath);
     void load(string filepath);
     void save(string filepath);
     void tileSnap();
@@ -30,12 +31,9 @@ public:
 private:
     
     // Camera* mainCamera;
-    bool change;
-    Scene* currentScene;    
-    Scene* scene1;
-    Scene* scene2;    	
     DisplayObject* selected; // For Alter Scene
     DisplayObject* copied;
+    DisplayObjectContainer* sceneWindow;
     DisplayObjectContainer* tileMenu;
 
 };
