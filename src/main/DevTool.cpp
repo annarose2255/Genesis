@@ -70,12 +70,13 @@ void DevTool::save(string filepath)
 
 void DevTool::update(set<SDL_Scancode> pressedKeys){
     SDL_Event mouseEvent;
-    SDL_PollEvent(&event);
-    switch (event.type)
+    SDL_PollEvent(&mouseEvent);
+    switch (mouseEvent.type)
     {
         case SDL_MOUSEBUTTONDOWN:
-            
+            break;
         case SDL_MOUSEBUTTONUP:
+            break;
     }
 
     if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end())

@@ -35,7 +35,7 @@ private:
     DisplayObject* copied;
     DisplayObjectContainer* sceneWindow;
     DisplayObjectContainer* tileMenu;
-    SDL_Position mouseLoc = {-1, -1}
+    SDL_Point mouseLoc = {-1, -1};
 
 };
 
