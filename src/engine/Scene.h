@@ -20,17 +20,20 @@ public:
 
 	/* Load scene from a file */
 	void loadScene(string sceneFilePath);
-
-    DisplayObject* makeDisplayObject(json data);
-    DisplayObjectContainer* makeDisplayObjectContainer(json data);
-    Sprite* makeSprite(json data);
-    AnimatedSprite* makeAnimatedSprite(json data);
+    
+    json toJson();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
 
 private:
+
+    json parse(auto* obj); //Display Objects
+    DisplayObject* makeDisplayObject(json data);
+    DisplayObjectContainer* makeDisplayObjectContainer(json data);
+    Sprite* makeSprite(json data);
+    AnimatedSprite* makeAnimatedSprite(json data);
 
 };
 

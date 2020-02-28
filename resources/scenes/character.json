@@ -1,4 +1,5 @@
 {
+    "id": { "name": "character" },
     "character": {
         "type": "AnimatedSprite",
         "id": "character",
