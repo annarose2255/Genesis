@@ -73,10 +73,43 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
     SDL_PollEvent(&mouseEvent);
     switch (mouseEvent.type)
     {
-        case SDL_MOUSEBUTTONDOWN:
+        case SDL_FINGERDOWN:
+            cout << "mousedown event" << endl;
             if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
             {
-                initMouseLoc = {mouseEvent.x, mouseEvent.y};
+                initMouseLoc = {(int)mouseEvent.tfinger.x, (int)mouseEvent.tfinger.y};
+                if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
+                {
+                    cout << "selecting from tile menu" << endl;
+                    int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
+                    if (ind < tileMenu->children.size())
+                    {
+                        selected = tileMenu->children[ind];
+                    }
+                    DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+                    temp->alpha = 70;
+                    ((DisplayObjectContainer *)selected)->addChild(temp);
+                }
+            }
+            break;
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            cout << "mousedown event" << endl;
+            if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
+            {
+                initMouseLoc = {mouseEvent.button.x, mouseEvent.button.y};
+                if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
+                {
+                    cout << "selecting from tile menu" << endl;
+                    int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
+                    if (ind < tileMenu->children.size())
+                    {
+                        selected = tileMenu->children[ind];
+                    }
+                    DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+                    temp->alpha = 70;
+                    ((DisplayObjectContainer *)selected)->addChild(temp);
+                }
             }
             break;
         case SDL_MOUSEBUTTONUP:
