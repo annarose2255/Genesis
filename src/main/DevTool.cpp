@@ -14,6 +14,7 @@ using namespace std;
 namespace fs = std::experimental::filesystem;
 
 DevTool::DevTool() : Game(WINDOW_X, WINDOW_Y) {
+    SDL_Init(SDL_INIT_EVENTS);
 	instance = this;
     tileMenu = new DisplayObjectContainer();
     sceneWindow = new DisplayObjectContainer();
@@ -77,51 +78,52 @@ void DevTool::save(string filepath)
 }
 
 void DevTool::update(set<SDL_Scancode> pressedKeys){
-    SDL_Event mouseEvent;
-    SDL_PollEvent(&mouseEvent);
-    switch (mouseEvent.type)
+    while(SDL_PollEvent(&mouseEvent))
     {
-        case SDL_FINGERDOWN:
-            cout << "mousedown event" << endl;
-            if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
-            {
-                initMouseLoc = {(int)mouseEvent.tfinger.x, (int)mouseEvent.tfinger.y};
-                if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
+        cout << mouseEvent.type << ",  " << SDL_FINGERDOWN << ", " << SDL_MOUSEBUTTONDOWN << endl;
+        switch (mouseEvent.type)
+        {
+            case SDL_FINGERDOWN:
+                cout << "mousedown event" << endl;
+                if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
                 {
-                    cout << "selecting from tile menu" << endl;
-                    int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
-                    if (ind < tileMenu->children.size())
+                    initMouseLoc = {(int)mouseEvent.tfinger.x, (int)mouseEvent.tfinger.y};
+                    if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
                     {
-                        selected = tileMenu->children[ind];
+                        cout << "selecting from tile menu" << endl;
+                        int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
+                        if (ind < tileMenu->children.size())
+                        {
+                            selected = tileMenu->children[ind];
+                        }
+                        DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+                        temp->alpha = 70;
+                        ((DisplayObjectContainer *)selected)->addChild(temp);
                     }
-                    DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
-                    temp->alpha = 70;
-                    ((DisplayObjectContainer *)selected)->addChild(temp);
                 }
-            }
-            break;
-            break;
-        case SDL_MOUSEBUTTONDOWN:
-            cout << "mousedown event" << endl;
-            if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
-            {
-                initMouseLoc = {mouseEvent.button.x, mouseEvent.button.y};
-                if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                cout << "mousedown event" << endl;
+                if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
                 {
-                    cout << "selecting from tile menu" << endl;
-                    int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
-                    if (ind < tileMenu->children.size())
+                    initMouseLoc = {mouseEvent.button.x, mouseEvent.button.y};
+                    if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
                     {
-                        selected = tileMenu->children[ind];
+                        cout << "selecting from tile menu" << endl;
+                        int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
+                        if (ind < tileMenu->children.size())
+                        {
+                            selected = tileMenu->children[ind];
+                        }
+                        DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+                        temp->alpha = 70;
+                        ((DisplayObjectContainer *)selected)->addChild(temp);
                     }
-                    DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
-                    temp->alpha = 70;
-                    ((DisplayObjectContainer *)selected)->addChild(temp);
                 }
-            }
-            break;
-        case SDL_MOUSEBUTTONUP:
-            break;
+                break;
+            case SDL_MOUSEBUTTONUP:
+                break;
+        }
     }
 
     if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end())

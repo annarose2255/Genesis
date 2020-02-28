@@ -31,6 +31,7 @@ public:
 private:
     
     // Camera* mainCamera;
+    SDL_Event mouseEvent;
     Scene* currentScene;
     DisplayObject* selected; // For Alter Scene
     DisplayObject* copied;
