@@ -74,6 +74,10 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
     switch (mouseEvent.type)
     {
         case SDL_MOUSEBUTTONDOWN:
+            if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
+            {
+                initMouseLoc = {mouseEvent.x, mouseEvent.y};
+            }
             break;
         case SDL_MOUSEBUTTONUP:
             break;
