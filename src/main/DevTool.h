@@ -26,7 +26,7 @@ public:
     void tileSnap();
     void copy();
     void paste(); 
-
+    void drawGrid();
 
 private:
     

@@ -6,10 +6,14 @@
 #include "Scene.h"
 #include "DevTool.h"
 
+const int WINDOW_X = 800;
+const int WINDOW_Y = 700;
+const int TILE_SIZE = 40;
+
 using namespace std;
 namespace fs = std::experimental::filesystem;
 
-DevTool::DevTool() : Game(800, 700) {
+DevTool::DevTool() : Game(WINDOW_X, WINDOW_Y) {
 	instance = this;
     tileMenu = new DisplayObjectContainer();
     sceneWindow = new DisplayObjectContainer();
@@ -96,6 +100,20 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
 }
 
 void DevTool::draw(AffineTransform &at){
-	Game::draw(at);
+	// Game::draw(at);
+    SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
+    SDL_RenderClear(Game::renderer);
+    DevTool::drawGrid();
+	DisplayObjectContainer::draw(at);
+	SDL_RenderPresent(Game::renderer);
 }
 
+void DevTool::drawGrid(){
+    SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    for (int i = 0; i < WINDOW_Y / TILE_SIZE; i++){
+        SDL_RenderDrawLine(Game::renderer, 0, i * TILE_SIZE, WINDOW_X, i * TILE_SIZE);
+    }
+    for (int i = 0; i < WINDOW_X / TILE_SIZE; i++){
+        SDL_RenderDrawLine(Game::renderer, i * TILE_SIZE, 0, i * TILE_SIZE, WINDOW_Y);
+    }
+}
