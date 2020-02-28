@@ -10,6 +10,8 @@ void Scene::loadScene(string sceneFilePath) {
     json j;
     ifstream ifs(sceneFilePath);
     ifs >> j;
+
+    this->id = j["id"]["name"];
     
     for(auto& [key, value] : j.items()) {
         json data = value;
@@ -30,6 +32,85 @@ void Scene::loadScene(string sceneFilePath) {
             this->addChild(newAS);
         }
     }
+}
+
+json Scene::toJson() {
+    json j;
+    json childs;
+
+    for(auto* entity : this->children) {
+        json temp = parse(entity);
+        childs.push_back(json::object_t::value_type(entity->id, temp));
+    }
+
+    // Setting name of scene
+    j = {
+        {"id", {"name", this->id} }, 
+    };
+    
+    j += childs;
+    return j;
+}
+
+/*
+This turns a DisplayObj, Sprite, etc. pointer into a json
+*/
+json Scene::parse(auto* obj) {
+    json j;
+    j = {
+        {"type", obj->type},
+        {"id", obj->id},
+        {"visible", obj->visible},
+        {"position.x", obj->position.x},
+        {"position.y", obj->position.y},
+        {"width", obj->width},
+        {"height", obj->height},
+        {"pivot.x", obj->pivot.x},
+        {"pivot.y", obj->pivot.y},
+        {"scaleX", obj->scaleX},
+        {"scaleY", obj->scaleY},
+        {"rotation", obj->rotation},
+        {"alpha", obj->alpha},
+        {"facingRight", obj->facingRight}
+    };
+
+    // Having Trouble Converting...
+/*
+    // Animations
+    if(obj->type == "AnimatedSprite") {
+        json anim;
+        for(int i = 0; i < obj->animationNames.size; i++) {
+            json tempJson;
+            Animation* tempAni = obj->getAnimation(obj->animationNames[i]);
+            
+            tempJson = {
+                {"filepath", tempAni->filepath},
+                {"name", tempAni->animName},
+                {"frames", tempAni->numFrames},
+                {"rate", tempAni->frameRate},
+                {"loop", tempAni->loop}
+            };
+            
+            anim += json::object_t::value_type(to_string(i), tempJson);
+        }
+        j += json::object_t::value_type("animations", anim);
+    }
+    else {
+        j += json::object_t::value_type("filepath", obj->imgPath); 
+    }
+
+    // Children
+    if(obj->type != "DisplayObject"){
+        json childs;
+        for(auto* child : obj->children) {
+            json temp = parse(child);
+            childs += json::object_t::value_type(temp["id"], temp);
+        }
+        j += json::object_t::value_type("children", childs);
+    }
+*/
+
+    return j;
 }
 
 DisplayObject* Scene::makeDisplayObject(json data) {

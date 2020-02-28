@@ -1,4 +1,5 @@
 {
+    "id": {"name": "solarsystem"},
     "sun": {
         "type": "AnimatedSprite",
         "id": "sun",

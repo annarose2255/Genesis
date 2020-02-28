@@ -32,6 +32,7 @@ void AnimatedSprite::addAnimation(string basepath, string animName, int numFrame
     anim->frameRate = frameRate;
     anim->loop = loop;
     anim->curFrame = 0;
+    anim->filepath = basepath;
     anim->frames = new Frame*[numFrames]; // new frame pointer array of size numFrames;
     for (int i = 0; i < numFrames; i++ ) {
         Frame* f = new Frame();
@@ -40,6 +41,7 @@ void AnimatedSprite::addAnimation(string basepath, string animName, int numFrame
         f->texture = SDL_CreateTextureFromSurface(Game::renderer, f->image);
         anim->frames[i] = f;
     }
+    animationNames.push_back(animName);
     animations.push_back(anim);
 }
 

@@ -31,6 +31,7 @@ public:
 private:
     
     // Camera* mainCamera;
+    Scene* currentScene;
     DisplayObject* selected; // For Alter Scene
     DisplayObject* copied;
     DisplayObjectContainer* sceneWindow;

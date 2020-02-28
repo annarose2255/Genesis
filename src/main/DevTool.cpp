@@ -60,12 +60,20 @@ void DevTool::load(string filepath)
     Scene *thisScene = new Scene();
     thisScene->loadScene(filepath);
     sceneWindow->addChild(thisScene);
+    currentScene = thisScene;
     // sceneWindow = thisScene;
 }
 
 void DevTool::save(string filepath)
 {
-    return;
+    ofstream saveFile;
+    saveFile.open(filepath);
+    
+    json saveData = currentScene->toJson();
+    string data = saveData.dump(4);
+    
+    saveFile << data;
+    saveFile.close();
 }
 
 void DevTool::update(set<SDL_Scancode> pressedKeys){

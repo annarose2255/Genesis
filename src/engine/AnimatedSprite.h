@@ -17,7 +17,8 @@ struct Frame {
 struct Animation {
 	Frame** frames;
 	string animName;
-	int numFrames;
+	string filepath;
+    int numFrames;
 	int frameRate;
 	bool loop;
 	int curFrame;
@@ -42,6 +43,8 @@ public:
 	virtual void draw(AffineTransform &at);
 
 	bool playing = false;
+
+    vector<string> animationNames;    
 
 private:
 	Animation* current;
