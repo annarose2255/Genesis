@@ -11,6 +11,7 @@ using namespace std;
 
 SDL_Renderer* Game::renderer;
 Game* Game::instance;
+SDL_Rect Game::camera = {0,0,800,800};
 unsigned int Game::frameCounter = 0;
 
 Game::Game(int windowWidth, int windowHeight){
@@ -63,7 +64,7 @@ void Game::start(){
 			start = end;
 			this->update(pressedKeys);
 			AffineTransform at;
-			this->draw(at);
+			this->draw(at, camera);
 		}
 
 		SDL_PollEvent(&event);
@@ -88,8 +89,9 @@ void Game::update(set<SDL_Scancode> pressedKeys){
 	DisplayObjectContainer::update(pressedKeys);
 }
 
-void Game::draw(AffineTransform &at){
+void Game::draw(AffineTransform &at, SDL_Rect camera){
 	SDL_RenderClear(Game::renderer);
-	DisplayObjectContainer::draw(at);
+	DisplayObjectContainer::draw(at, camera);
+	//render camera here 
 	SDL_RenderPresent(Game::renderer);
 }

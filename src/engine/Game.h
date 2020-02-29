@@ -21,6 +21,7 @@ public:
 	int windowWidth, windowHeight;
 
 	SDL_Window * window;
+	static SDL_Rect camera;
 	static SDL_Renderer* renderer;
 
 	//Global frame counter
@@ -31,7 +32,7 @@ public:
 	void start();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at);
+	virtual void draw(AffineTransform &at, SDL_Rect camera);
 
 private:
 

@@ -182,7 +182,7 @@ void Scene::update(set<SDL_Scancode> pressedKeys) {
     DisplayObjectContainer::update(pressedKeys);
 }
 
-void Scene::draw(AffineTransform &at) {
-    DisplayObjectContainer::draw(at);
+void Scene::draw(AffineTransform &at, SDL_Rect camera) {
+    DisplayObjectContainer::draw(at, camera);
 }
 

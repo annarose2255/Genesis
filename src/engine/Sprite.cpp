@@ -18,6 +18,6 @@ void Sprite::update(set<SDL_Scancode> pressedKeys) {
     DisplayObjectContainer::update(pressedKeys);
 }
 
-void Sprite::draw(AffineTransform &at) {
-    DisplayObjectContainer::draw(at);
+void Sprite::draw(AffineTransform &at, SDL_Rect camera) {
+    DisplayObjectContainer::draw(at, camera);
 }

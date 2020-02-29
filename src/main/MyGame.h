@@ -20,17 +20,18 @@ public:
 	virtual ~MyGame();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at);
+	virtual void draw(AffineTransform &, SDL_Rect camera);
+    Scene* currentScene;
+    static SDL_Rect camera;
 
 private:
     Sound* mainMusic;
     
-    bool change;
-    Scene* currentScene;    
+    bool change;    
     Scene* scene1;
     Scene* scene2;    	
 
-    Camera* camera;
+    Camera* cam;
 };
 
 #endif

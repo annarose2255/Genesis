@@ -8,6 +8,7 @@
 
 using namespace std;
 
+SDL_Rect MyGame::camera = {0,0,100,100};
 MyGame::MyGame() : Game(800, 700) {
 	instance = this;
 
@@ -20,10 +21,10 @@ MyGame::MyGame() : Game(800, 700) {
     change = true;
 
     currentScene = scene1;
-	camera = new Camera();
+	cam = new Camera();
 
-	camera->addChild(currentScene);
-    instance->addChild(camera);
+	cam->addChild(currentScene);
+    instance->addChild(cam);
 
     //Sound 
 	mainMusic = new Sound();
@@ -38,17 +39,17 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
-        camera->removeImmediateChild(currentScene);
+        cam->removeImmediateChild(currentScene);
         cout << instance->children.size() << endl;
         currentScene = scene2;
-        camera->addChild(currentScene);
+        cam->addChild(currentScene);
         change = !change;
     }
     else if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && !change) {
         cout << "123" << endl;
-        camera->removeImmediateChild(currentScene);
+        cam->removeImmediateChild(currentScene);
         currentScene = scene1;
-        camera->addChild(currentScene);
+        cam->addChild(currentScene);
         change = !change;
     }
 
@@ -68,36 +69,41 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	}
 
     if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-		currentScene->position.x += 2; 
+		currentScene->position.x -=2; 
 
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-		currentScene->position.x -= 2;
-		
+		currentScene->position.x +=2; 
 	}
 	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-		currentScene->position.y += 2;
+		currentScene->position.y -=2; 
 	
 	}
 	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-		currentScene->position.y -= 2;
+		currentScene->position.y +=2; 
 	}
 
-    currentScene->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
-	currentScene->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
 
-    // cout<<"camera x: "<< currentScene->camera.x <<endl;
-	if( currentScene->camera.x <0){
-		currentScene->camera.x =0;
+    camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
+	camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
+    cout<<"camera x: "<< camera.x <<endl;
+	if( camera.x < 0){
+		camera.x = 0;
 	}
-    if( currentScene->camera.y < 0 ){
-		currentScene->camera.y = 0;
+    if( camera.y < 0 ){
+		camera.y = 0;
     }
-
+	if (camera.x > camera.w){
+		camera.x = camera.w;
+	}
+	if (camera.y > camera.h) {
+		camera.y = camera.h;
+	}
 	Game::update(pressedKeys);
 }
 
-void MyGame::draw(AffineTransform &at){
-	Game::draw(at);
+void MyGame::draw(AffineTransform &at, SDL_Rect camera){
+	camera = this->camera;
+	Game::draw(at, camera);
 }
 

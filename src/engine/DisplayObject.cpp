@@ -13,13 +13,15 @@ DisplayObject::DisplayObject(){
 	image = NULL;
 	texture = NULL;
 	curTexture = NULL;
-	cam = new Camera();
+	pos2.x = position.x; 
+	pos2.y = position.y;
+	// cam = new Camera();
 }
 
 DisplayObject::DisplayObject(string id, string filepath){
 	this->id = id;
 	this->imgPath = filepath;
-
+	
 	loadTexture(filepath);
 }
 
@@ -59,10 +61,15 @@ void DisplayObject::setTexture(SDL_Texture* t){
 }
 
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
-	
-}
 
-void DisplayObject::draw(AffineTransform &at){
+}
+// SDL_Rect DisplayObject::updateRect(SDL_Rect camera) {
+// 	dstrect.x = pos2.x - camera.x;
+// 	dstrect.y = pos2.y - camera.y;
+// 	cout << "Display cam x" << camera.x << endl;
+// 	return dstrect;
+// }
+void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 	applyTransformations(at);
 	
 	if(curTexture != NULL && visible) {
@@ -73,8 +80,18 @@ void DisplayObject::draw(AffineTransform &at){
 
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
-
-		SDL_Rect dstrect = { origin.x, origin.y, w, h };
+		pos2.x = origin.x; 
+		pos2.y = origin.y;
+		if (&camera != NULL) {
+			dstrect.x = pos2.x - camera.x; 
+			dstrect.y = pos2.y - camera.y; 
+			dstrect.w = w; 
+			dstrect.h = h; 
+		}
+		else {
+			dstrect = { origin.x, origin.y, w, h };
+			cout << "else" << endl;
+		}
 
 		SDL_RendererFlip flip;
 		if (facingRight) {
@@ -88,7 +105,7 @@ void DisplayObject::draw(AffineTransform &at){
 		//instead of moving camera by --> can move by pivot points
 		
 		SDL_SetTextureAlphaMod(curTexture, alpha);
-		SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
+		SDL_RenderCopyEx(Game::renderer, curTexture, &Game::camera, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
 	}
 
 	reverseTransformations(at);

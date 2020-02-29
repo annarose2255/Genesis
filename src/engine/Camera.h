@@ -5,11 +5,13 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "DisplayObjectContainer.h"
+#include "DisplayObject.h"
 
 class Camera: public DisplayObjectContainer{ 
 
 public:
 	Camera();
+	Camera(string filepath);
 	~Camera();
 
 	int x = 0;
@@ -22,11 +24,12 @@ public:
 	const int LEVEL_WIDTH = 1280;
 	const int LEVEL_HEIGHT = 960;
 
+
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at);
+	virtual void draw(AffineTransform &at, SDL_Rect camera);
 
 private:
-
+	DisplayObject* bg;
 	
 };
 
