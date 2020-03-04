@@ -14,7 +14,9 @@ using namespace std;
 namespace fs = std::experimental::filesystem;
 
 DevTool::DevTool() : Game(WINDOW_X, WINDOW_Y) {
-    SDL_Init(SDL_INIT_EVENTS);
+    if (SDL_Init(SDL_INIT_EVENTS) != 0){
+        cout << "Unable to initialize Events" << endl;
+    }
 	instance = this;
     tileMenu = new DisplayObjectContainer();
     sceneWindow = new DisplayObjectContainer();
@@ -78,6 +80,7 @@ void DevTool::save(string filepath)
 }
 
 void DevTool::update(set<SDL_Scancode> pressedKeys){
+    // cout << SDL_PollEvent(&mouseEvent) << endl;
     while(SDL_PollEvent(&mouseEvent))
     {
         cout << mouseEvent.type << ",  " << SDL_FINGERDOWN << ", " << SDL_MOUSEBUTTONDOWN << endl;
