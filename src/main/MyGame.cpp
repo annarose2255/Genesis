@@ -79,21 +79,40 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		currentScene->layerList.at(1)->position.x -= currentScene->layerList.at(1)->scroll;
 		currentScene->position.x+=3;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-		currentScene->asList.at(0)->position.y +=2; 
-		currentScene->position.y-=2;
+	if (currentScene->position.y-2 > 106) {
+		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+			currentScene->asList.at(0)->position.y +=2; 
+			currentScene->position.y-=2;
+		}
+	} 
 	
+	if ((currentScene->position.y <= cam->camera.h) ){
+		if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+			currentScene->asList.at(0)->position.y -=2; 
+			currentScene->position.y+=2;
+		}
 	}
-	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
 		currentScene->asList.at(0)->position.y -=2; 
-		currentScene->position.y+=2;
 	}
+	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
+		currentScene->asList.at(0)->position.y +=2; 
+	}
+	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
+		currentScene->asList.at(0)->position.x -=2; 
+	}
+	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
+		currentScene->asList.at(0)->position.x +=2; 
+	}
+
 
 
     cam->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
 	cam->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
-	// cout << "Cam x " << cam->camera.x << endl; 
-	// cout << "Cam y " << cam->camera.y << endl;
+	cout << "Cam x " << cam->camera.x << endl; 
+	cout << "Cam y " << cam->camera.y << endl;
+	cout << "Scene x " << currentScene->position.x << endl; 
+	cout << "Scene y " << currentScene->position.y << endl; 
 	if( cam->camera.x < 0){
 		cam->camera.x = 0;
 	}
