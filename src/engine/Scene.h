@@ -23,6 +23,7 @@ public:
 
     DisplayObject* makeDisplayObject(json data);
     DisplayObjectContainer* makeDisplayObjectContainer(json data);
+	DisplayObjectContainer* makeLayer(json data);
     Sprite* makeSprite(json data);
     AnimatedSprite* makeAnimatedSprite(json data);
 
@@ -30,6 +31,8 @@ public:
 	virtual void draw(AffineTransform &at, SDL_Rect camera);
 
 	AnimatedSprite* root;
+	vector<DisplayObject*> layerList; 
+	vector<AnimatedSprite*> asList;
 
 private:
 

@@ -16,6 +16,7 @@ void Scene::loadScene(string sceneFilePath) {
          //quick fix: find j["character"], set it to root & call in myGame
         if(data["type"] == "DisplayObject") { // This is probably not needed?
             DisplayObject* newDO = makeDisplayObjectContainer(data);
+             cout << "hi end" << endl;
             this->addChild(newDO);
         }
         if(data["type"] == "DisplayObjectContainer") {
@@ -26,10 +27,16 @@ void Scene::loadScene(string sceneFilePath) {
             Sprite* newS = makeSprite(data);
             this->addChild(newS);
         }
+         if(data["type"] == "Layer") { // This is probably not needed?
+            DisplayObject* newDO = makeLayer(data);
+            this->addChild(newDO);
+            layerList.push_back(newDO);
+        }
+        //just distinguish root from rest of animated sprites 
         if(data["type"] == "AnimatedSprite") {
             AnimatedSprite* newAS = makeAnimatedSprite(data); 
-            root = newAS;
-            this->addChild(root);
+            this->addChild(newAS);
+            asList.push_back(newAS);
         }
     }
 }
@@ -91,6 +98,42 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
         if(childData["type"] == "AnimatedSprite") {
             AnimatedSprite* newAS = makeAnimatedSprite(childData);
             newDOC->addChild(newAS);
+            asList.push_back(newAS);
+        }
+    }
+    return newDOC;
+}
+
+DisplayObjectContainer* Scene::makeLayer(json data) {
+    cout << "in layer" << endl;
+    DisplayObjectContainer* newDOC = new DisplayObjectContainer();
+    newDOC->id = data["id"];
+    newDOC->scroll = data["scroll"];
+    cout << "success init" << endl;
+    if(data["filepath"] != "") {
+        newDOC->imgPath = data["filepath"];
+        newDOC->loadTexture(data["filepath"]);
+    }
+
+    // Children
+    for(auto& [key, value] : data["children"].items()) {
+        json childData = value;
+        if(childData["type"] == "DisplayObject") {
+            DisplayObject* newDO = makeDisplayObject(childData);
+            newDOC->addChild(newDO);
+        }
+        if(childData["type"] == "DisplayObjectContainer") {
+            DisplayObjectContainer* newDOC2 = makeDisplayObjectContainer(childData);
+            newDOC->addChild(newDOC2);
+        }
+        if(childData["type"] == "Sprite") {
+            Sprite* newS = makeSprite(childData);
+            newDOC->addChild(newS);
+        }
+        if(childData["type"] == "AnimatedSprite") {
+            AnimatedSprite* newAS = makeAnimatedSprite(childData);
+            newDOC->addChild(newAS);
+            asList.push_back(newAS);
         }
     }
     return newDOC;

@@ -25,7 +25,7 @@ public:
 
     int viewportWidth = 800;
 	int viewportHeight = 700;
-
+    
     const int levelWidth = 1280;
 	const int levelHeight = 960;
 
@@ -35,7 +35,6 @@ private:
     bool change;    
     Scene* scene1;
     Scene* scene2;    	
-
     Camera* cam;
 };
 

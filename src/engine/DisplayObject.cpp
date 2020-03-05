@@ -63,7 +63,49 @@ void DisplayObject::setTexture(SDL_Texture* t){
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
 
 }
+bool DisplayObject::checkCollision(SDL_Rect a, SDL_Rect b){
+	//The sides of the rectangles
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
 
+    //Calculate the sides of rect A
+    leftA = a.x;
+    rightA = a.x + a.w;
+    topA = a.y;
+    bottomA = a.y + a.h;
+
+    //Calculate the sides of rect B
+    leftB = b.x;
+    rightB = b.x + b.w;
+    topB = b.y;
+    bottomB = b.y + b.h;
+
+    //If any of the sides from A are outside of B
+    if( bottomA <= topB )
+    {
+        return false;
+    }
+
+    if( topA >= bottomB )
+    {
+        return false;
+    }
+
+    if( rightA <= leftB )
+    {
+        return false;
+    }
+
+    if( leftA >= rightB )
+    {
+        return false;
+    }
+
+    //If none of the sides from A are outside B
+    return true;
+}
 void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 	applyTransformations(at);
 	if(curTexture != NULL && visible) {
@@ -76,18 +118,25 @@ void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 		int h = (int)distance(upperRight, lowerRight);
 		pos2.x = origin.x; 
 		pos2.y = origin.y;
+	
 		if (&doCam != NULL) {
 			dstrect.x = pos2.x - camera.x; 
 			dstrect.y = pos2.y - camera.y; 
 			dstrect.w = w; 
 			dstrect.h = h;
-			// cout << "doCam exists! " << camera.x << endl;
 		}
-		else {
-			dstrect = { origin.x, origin.y, w, h };
-			cout << "else" << endl;
-		}
-
+		// //check against screen_width so think about passing variable
+		// if ( pos2.x + w > 800 || checkCollision(dstrect, collider)) {
+		// 	pos2.x-=2; 
+		// 	dstrect.x = pos2.x;
+		// 	cout << "collision?" << endl;
+		// }
+		// if (pos2.y + h > 700 || checkCollision(dstrect, collider)) {
+		// 	pos2.y-=2; 
+		// 	dstrect.y = pos2.y;
+		// 	cout << "collision?" << endl;
+		// }
+		
 		SDL_RendererFlip flip;
 		if (facingRight) {
 			flip = SDL_FLIP_NONE;

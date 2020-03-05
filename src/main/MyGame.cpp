@@ -27,7 +27,6 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
     //Sound 
 	mainMusic = new Sound();
-
 }
 
 MyGame::~MyGame(){
@@ -66,25 +65,28 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		mainMusic->pauseMusic();
 		
 	}
-
     if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-		currentScene->root->position.x +=2;
-		cam->position.x-=2;
+		currentScene->asList.at(0)->position.x += 3;
+		// currentScene->layerList.at(1)->position.x -= currentScene->layerList.at(1)->scroll;
+		currentScene->layerList.at(0)->position.x += currentScene->layerList.at(0)->scroll;
+		cout << currentScene->layerList.at(0)->position.x << endl;
+		currentScene->position.x-=3;
 		//for camera demo, only move the girl  
 
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-		currentScene->root->position.x -=2; 
-		cam->position.x+=2;
+		currentScene->asList.at(0)->position.x -=3; 
+		currentScene->layerList.at(0)->position.x -= currentScene->layerList.at(0)->scroll;
+		currentScene->position.x+=3;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-		currentScene->root->position.y +=2; 
-		cam->position.y-=2;
+		currentScene->asList.at(0)->position.y +=2; 
+		currentScene->position.y-=2;
 	
 	}
 	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-		currentScene->root->position.y -=2; 
-		cam->position.y+=2;
+		currentScene->asList.at(0)->position.y -=2; 
+		currentScene->position.y+=2;
 	}
 
 
@@ -109,7 +111,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 void MyGame::draw(AffineTransform &at, SDL_Rect camera){
 	// camera = cam->camera;
 	//Order -> Game -> Affine -> DisplayObject -> myGame
-	Game::draw(at, cam->camera);
+	Game::draw(at, cam->camera); 
 	SDL_RenderSetViewport(Game::renderer, &cam->camera );
 }
 

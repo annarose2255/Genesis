@@ -31,6 +31,9 @@ public:
 	virtual void draw(AffineTransform &at, SDL_Rect camera);
 
 	SDL_Rect doCam; //camera for display object
+	SDL_Rect collider;
+	int scroll; //scroll speed 
+	bool checkCollision(SDL_Rect a, SDL_Rect b);
 
 	void loadTexture(string filepath);
 	void loadRGBTexture(int red, int green, int blue);
