@@ -11,12 +11,11 @@ using namespace std;
 
 SDL_Renderer* Game::renderer;
 Game* Game::instance;
-SDL_Rect Game::camera = {0,0,800,800};
 unsigned int Game::frameCounter = 0;
 
 Game::Game(int windowWidth, int windowHeight){
 	Game::instance = this;
-	
+	Game::cam = new Camera();
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
 
@@ -64,6 +63,7 @@ void Game::start(){
 			start = end;
 			this->update(pressedKeys);
 			AffineTransform at;
+			SDL_Rect camera; 
 			this->draw(at, camera);
 		}
 

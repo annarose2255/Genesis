@@ -30,7 +30,7 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at, SDL_Rect camera);
 
-	// SDL_Rect updateRect(SDL_Rect camera);
+	SDL_Rect doCam; //camera for display object
 
 	void loadTexture(string filepath);
 	void loadRGBTexture(int red, int green, int blue);

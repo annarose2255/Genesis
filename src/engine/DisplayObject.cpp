@@ -63,15 +63,9 @@ void DisplayObject::setTexture(SDL_Texture* t){
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
 
 }
-// SDL_Rect DisplayObject::updateRect(SDL_Rect camera) {
-// 	dstrect.x = pos2.x - camera.x;
-// 	dstrect.y = pos2.y - camera.y;
-// 	cout << "Display cam x" << camera.x << endl;
-// 	return dstrect;
-// }
+
 void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 	applyTransformations(at);
-	
 	if(curTexture != NULL && visible) {
 		SDL_Point origin = at.transformPoint(0, 0);
 		SDL_Point upperRight = at.transformPoint(width, 0);
@@ -82,11 +76,12 @@ void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 		int h = (int)distance(upperRight, lowerRight);
 		pos2.x = origin.x; 
 		pos2.y = origin.y;
-		if (&camera != NULL) {
+		if (&doCam != NULL) {
 			dstrect.x = pos2.x - camera.x; 
 			dstrect.y = pos2.y - camera.y; 
 			dstrect.w = w; 
-			dstrect.h = h; 
+			dstrect.h = h;
+			// cout << "doCam exists! " << camera.x << endl;
 		}
 		else {
 			dstrect = { origin.x, origin.y, w, h };
@@ -105,7 +100,7 @@ void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 		//instead of moving camera by --> can move by pivot points
 		
 		SDL_SetTextureAlphaMod(curTexture, alpha);
-		SDL_RenderCopyEx(Game::renderer, curTexture, &Game::camera, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
+		SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
 	}
 
 	reverseTransformations(at);

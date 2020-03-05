@@ -21,9 +21,10 @@ public:
 	//Limits -> viewportWidth and Height is reached, stop scrolling
 
 	//The dimensions of the level
-	const int LEVEL_WIDTH = 1280;
-	const int LEVEL_HEIGHT = 960;
-
+	const int levelWidth = 1280;
+	const int levelHeight = 960;
+	
+	static SDL_Rect camera;
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at, SDL_Rect camera);

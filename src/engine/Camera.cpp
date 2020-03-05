@@ -5,6 +5,7 @@
 #include "DisplayObject.h"
 
 //http://lazyfoo.net/SDL_tutorials/lesson21/index.php
+SDL_Rect Camera::camera = {0,0,800, 700}; //what you actual see
 Camera::Camera(){
     
 

@@ -8,9 +8,9 @@
 
 using namespace std;
 
-SDL_Rect MyGame::camera = {0,0,100,100};
-MyGame::MyGame() : Game(800, 700) {
+MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
+	cam = new Camera();
 
 	scene1 = new Scene(); 
 	scene1->loadScene("./resources/scenes/solarsystem.json");
@@ -21,7 +21,6 @@ MyGame::MyGame() : Game(800, 700) {
     change = true;
 
     currentScene = scene1;
-	cam = new Camera();
 
 	cam->addChild(currentScene);
     instance->addChild(cam);
@@ -69,41 +68,48 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	}
 
     if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-		currentScene->position.x -=2; 
+		currentScene->root->position.x +=2;
+		cam->position.x-=2;
+		//for camera demo, only move the girl  
 
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-		currentScene->position.x +=2; 
+		currentScene->root->position.x -=2; 
+		cam->position.x+=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-		currentScene->position.y -=2; 
+		currentScene->root->position.y +=2; 
+		cam->position.y-=2;
 	
 	}
 	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-		currentScene->position.y +=2; 
+		currentScene->root->position.y -=2; 
+		cam->position.y+=2;
 	}
 
 
-    camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
-	camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
-    cout<<"camera x: "<< camera.x <<endl;
-	if( camera.x < 0){
-		camera.x = 0;
+    cam->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
+	cam->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
+	if( cam->camera.x < 0){
+		cam->camera.x = 0;
 	}
-    if( camera.y < 0 ){
-		camera.y = 0;
+    if( cam->camera.y < 0 ){
+		cam->camera.y = 0;
     }
-	if (camera.x > camera.w){
-		camera.x = camera.w;
+	if (cam->camera.x > cam->camera.w){
+		cam->camera.x = cam->camera.w;
 	}
-	if (camera.y > camera.h) {
-		camera.y = camera.h;
+	if (cam->camera.y > cam->camera.h) {
+		cam->camera.y = cam->camera.h;
 	}
 	Game::update(pressedKeys);
+	// currentScene->doCam = cam->camera;
 }
 
 void MyGame::draw(AffineTransform &at, SDL_Rect camera){
-	camera = this->camera;
-	Game::draw(at, camera);
+	// camera = cam->camera;
+	//Order -> Game -> Affine -> DisplayObject -> myGame
+	Game::draw(at, cam->camera);
+	SDL_RenderSetViewport(Game::renderer, &cam->camera );
 }
 

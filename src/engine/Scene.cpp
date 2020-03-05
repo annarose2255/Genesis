@@ -10,9 +10,10 @@ void Scene::loadScene(string sceneFilePath) {
     json j;
     ifstream ifs(sceneFilePath);
     ifs >> j;
-    
+    int i = 0;
     for(auto& [key, value] : j.items()) {
         json data = value;
+         //quick fix: find j["character"], set it to root & call in myGame
         if(data["type"] == "DisplayObject") { // This is probably not needed?
             DisplayObject* newDO = makeDisplayObjectContainer(data);
             this->addChild(newDO);
@@ -26,8 +27,9 @@ void Scene::loadScene(string sceneFilePath) {
             this->addChild(newS);
         }
         if(data["type"] == "AnimatedSprite") {
-            AnimatedSprite* newAS = makeAnimatedSprite(data);   
-            this->addChild(newAS);
+            AnimatedSprite* newAS = makeAnimatedSprite(data); 
+            root = newAS;
+            this->addChild(root);
         }
     }
 }

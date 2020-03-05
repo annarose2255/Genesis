@@ -22,7 +22,12 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &, SDL_Rect camera);
     Scene* currentScene;
-    static SDL_Rect camera;
+
+    int viewportWidth = 800;
+	int viewportHeight = 700;
+
+    const int levelWidth = 1280;
+	const int levelHeight = 960;
 
 private:
     Sound* mainMusic;
