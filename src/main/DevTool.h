@@ -19,6 +19,7 @@ public:
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
+    virtual void start();
 
     void IterateDirectory(string filepath);
     void load(string filepath);
@@ -31,9 +32,8 @@ public:
 private:
     
     // Camera* mainCamera;
-    SDL_Event mouseEvent;
     Scene* currentScene;
-    DisplayObject* selected; // For Alter Scene
+    DisplayObjectContainer* selected; // For Alter Scene
     DisplayObject* copied;
     DisplayObjectContainer* sceneWindow;
     DisplayObjectContainer* tileMenu;
