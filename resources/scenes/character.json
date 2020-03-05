@@ -1,7 +1,7 @@
 {
-    "layer2":{
+    "layer1":{
         "type": "Layer", 
-        "id": "layer2",
+        "id": "layer1",
         "scroll": 0.5,
         "filepath": "",
         "children": {
@@ -24,9 +24,9 @@
             }
         }
     },
-    "layer1": {
+    "layer2": {
         "type": "Layer",
-        "id": "layer1", 
+        "id": "layer2", 
         "scroll": 1,
         "filepath":"",
         "children": {
@@ -216,7 +216,15 @@
                 "alpha": 255,
                 "facingRight": true,
                 "filepath": "./resources/ground/planetHalf_right.png"
-            },
+            }
+        }
+    }, 
+    "layer3": {
+        "type": "Layer",
+        "id": "layer3", 
+        "scroll": 1,
+        "filepath":"",
+        "children": {
             "character": {
                 "type": "AnimatedSprite",
                 "id": "character",

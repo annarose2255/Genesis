@@ -29,6 +29,7 @@ void Scene::loadScene(string sceneFilePath) {
         }
          if(data["type"] == "Layer") { // This is probably not needed?
             DisplayObject* newDO = makeLayer(data);
+            cout << key << endl;
             this->addChild(newDO);
             layerList.push_back(newDO);
         }

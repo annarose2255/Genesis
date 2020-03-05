@@ -108,6 +108,7 @@ bool DisplayObject::checkCollision(SDL_Rect a, SDL_Rect b){
 }
 void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 	applyTransformations(at);
+	// cout << "Drawing " << id << endl;
 	if(curTexture != NULL && visible) {
 		SDL_Point origin = at.transformPoint(0, 0);
 		SDL_Point upperRight = at.transformPoint(width, 0);

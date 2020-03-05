@@ -68,7 +68,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
     if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		currentScene->asList.at(0)->position.x += 3;
 		// currentScene->layerList.at(1)->position.x -= currentScene->layerList.at(1)->scroll;
-		currentScene->layerList.at(0)->position.x += currentScene->layerList.at(0)->scroll;
+		currentScene->layerList.at(1)->position.x += currentScene->layerList.at(1)->scroll;
 		cout << currentScene->layerList.at(0)->position.x << endl;
 		currentScene->position.x-=3;
 		//for camera demo, only move the girl  
@@ -76,7 +76,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		currentScene->asList.at(0)->position.x -=3; 
-		currentScene->layerList.at(0)->position.x -= currentScene->layerList.at(0)->scroll;
+		currentScene->layerList.at(1)->position.x -= currentScene->layerList.at(1)->scroll;
 		currentScene->position.x+=3;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
@@ -92,6 +92,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 
     cam->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
 	cam->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
+	// cout << "Cam x " << cam->camera.x << endl; 
+	// cout << "Cam y " << cam->camera.y << endl;
 	if( cam->camera.x < 0){
 		cam->camera.x = 0;
 	}
