@@ -13,6 +13,10 @@ AnimatedSprite::AnimatedSprite(string id) : Sprite(id, 0, 0, 0) {
     this->type = "AnimatedSprite";
 }
 
+AnimatedSprite::AnimatedSprite(string spriteSheetPath, string xmlPath) : Sprite() {
+    this->type = "AnimatedSprite";
+}
+
 AnimatedSprite::~AnimatedSprite() {
     for (Animation* an : animations) {
         for (int i = 0; i < an->numFrames; i++) {// this needs to be an iterator loop

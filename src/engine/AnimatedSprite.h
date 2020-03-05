@@ -30,6 +30,7 @@ public:
 	
 	AnimatedSprite();
 	AnimatedSprite(string id);
+	AnimatedSprite(string spriteSheetPath, string xmlPath);
 	~AnimatedSprite();
 
 	void addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop);
