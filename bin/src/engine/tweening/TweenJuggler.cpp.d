@@ -1,0 +1,20 @@
+bin/./src/engine/tweening/TweenJuggler.cpp.o: \
+ src/engine/tweening/TweenJuggler.cpp src/engine/tweening/TweenJuggler.h \
+ src/engine/DisplayObjectContainer.h src/engine/DisplayObject.h \
+ src/engine/AffineTransform.h src/engine/tweening/Tween.h \
+ src/engine/tweening/TweenableParams.h \
+ src/engine/tweening/TweenTransitions.h
+
+src/engine/tweening/TweenJuggler.h:
+
+src/engine/DisplayObjectContainer.h:
+
+src/engine/DisplayObject.h:
+
+src/engine/AffineTransform.h:
+
+src/engine/tweening/Tween.h:
+
+src/engine/tweening/TweenableParams.h:
+
+src/engine/tweening/TweenTransitions.h:
