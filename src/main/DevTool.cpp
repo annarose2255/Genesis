@@ -8,7 +8,8 @@
 
 const int WINDOW_X = 800;
 const int WINDOW_Y = 700;
-const int TILE_SIZE = 40;
+// const int TILE_SIZE = 40;
+#define TILE_SIZE SPRITESIZE
 
 using namespace std;
 namespace fs = std::experimental::filesystem;
@@ -42,7 +43,7 @@ void DevTool::IterateDirectory(string filepath)
             {
                 continue;
             }
-            tileMenu->addChild(new DisplayObject(path, path));
+            tileMenu->addChild(new DisplayObjectContainer(path, path));
             tileMenu->children.back()->position = {(int)(tileMenu->children.size()-1)*SPRITESIZE};
         }
         else if (fs::is_directory(s))
@@ -79,55 +80,169 @@ void DevTool::save(string filepath)
     saveFile.close();
 }
 
-void DevTool::update(set<SDL_Scancode> pressedKeys){
-    // cout << SDL_PollEvent(&mouseEvent) << endl;
-    while(SDL_PollEvent(&mouseEvent))
-    {
-        cout << mouseEvent.type << ",  " << SDL_FINGERDOWN << ", " << SDL_MOUSEBUTTONDOWN << endl;
-        switch (mouseEvent.type)
-        {
-            case SDL_FINGERDOWN:
-                cout << "mousedown event" << endl;
-                if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
-                {
-                    initMouseLoc = {(int)mouseEvent.tfinger.x, (int)mouseEvent.tfinger.y};
-                    if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
-                    {
-                        cout << "selecting from tile menu" << endl;
-                        int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
-                        if (ind < tileMenu->children.size())
-                        {
-                            selected = tileMenu->children[ind];
-                        }
-                        DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
-                        temp->alpha = 70;
-                        ((DisplayObjectContainer *)selected)->addChild(temp);
-                    }
-                }
-                break;
+void DevTool::start(){
+
+	int ms_per_frame = (1.0/(double)this->frames_per_sec)*1000;
+	std::clock_t start = std::clock();
+
+	bool quit = false;
+	SDL_Event event;
+
+	while(!quit){
+		std::clock_t end = std::clock();
+		double duration = (( end - start ) / (double) CLOCKS_PER_SEC)*1000;
+		if(duration > ms_per_frame){
+			start = end;
+			this->update(pressedKeys);
+			AffineTransform at;
+			this->draw(at);
+		}
+
+		SDL_PollEvent(&event);
+		switch (event.type)
+		{
+			case SDL_QUIT:
+				quit = true;
+				break;
+			case SDL_KEYDOWN:
+				pressedKeys.insert(event.key.keysym.scancode);
+				break;
+			case SDL_KEYUP:
+				pressedKeys.erase(event.key.keysym.scancode);
+				break;
+            // case SDL_FINGERDOWN:
+            //     cout << "finger event" << endl;
+            //     if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
+            //     {
+            //         initMouseLoc = {(int)mouseEvent.tfinger.x, (int)mouseEvent.tfinger.y};
+            //         if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
+            //         {
+            //             cout << "selecting from tile menu" << endl;
+            //             int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
+            //             if (ind < tileMenu->children.size())
+            //             {
+            //                 selected = tileMenu->children[ind];
+            //             }
+            //             DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+            //             temp->alpha = 70;
+            //             ((DisplayObjectContainer *)selected)->addChild(temp);
+            //         }
+            //     }
+            //     break;
             case SDL_MOUSEBUTTONDOWN:
-                cout << "mousedown event" << endl;
+                // cout << "mousedown event" << endl;
                 if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
                 {
-                    initMouseLoc = {mouseEvent.button.x, mouseEvent.button.y};
+                    cout << "first click" << endl;
+                    initMouseLoc = {event.button.x, event.button.y};
+                    cout << "mouse loc: " << initMouseLoc.x << "' " << initMouseLoc.y << endl;
+                    if (selected)
+                    {
+                        selected->removeImmediateChild("selected");
+                    }
                     if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
                     {
                         cout << "selecting from tile menu" << endl;
                         int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
                         if (ind < tileMenu->children.size())
                         {
-                            selected = tileMenu->children[ind];
+                            cout << "found selection: " << ind << endl;
+                            selected = (DisplayObjectContainer *)tileMenu->children[ind];
                         }
+                        cout << "finished selection" << endl;
                         DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
                         temp->alpha = 70;
-                        ((DisplayObjectContainer *)selected)->addChild(temp);
+                        cout << "plz work" << endl;
+                        selected->addChild(temp);
+                        cout << " made selection box" << endl;
+                    }
+                    else
+                    {
+                        selected = NULL;
                     }
                 }
+                else
+                {
+
+                    selected->position.x += event.button.x - initMouseLoc.x;
+                    selected->position.y += event.button.y - initMouseLoc.y;
+                    initMouseLoc = {event.button.x, event.button.y};
+                    cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
+                }
                 break;
+            // case SDL_MOUSEMOTION:
+            //     if (selected && initMouseLoc.x != -1 && initMouseLoc.y != -1)
+            //     {
+            //         selected->position.x += event.motion.x - initMouseLoc.x;
+            //         selected->position.y += event.motion.y - initMouseLoc.y;
+            //         initMouseLoc = {event.motion.x, event.motion.y};
+            //         cout << "changing position to: " << event.motion.x << ", " << event.motion.y << endl;
+            //     }
             case SDL_MOUSEBUTTONUP:
+                // cout << "mouse up" << endl;
+                if (selected && initMouseLoc.x != -1 && initMouseLoc.y != -1)
+                {
+                    selected->position.x += event.button.x - initMouseLoc.x;
+                    selected->position.y += event.button.y - initMouseLoc.y;
+                    initMouseLoc = {event.button.x, event.button.y};
+                    cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
+                }
+                initMouseLoc = {-1, -1};
                 break;
-        }
-    }
+		}
+	
+	}
+}
+
+
+void DevTool::update(set<SDL_Scancode> pressedKeys){
+    // while(SDL_PollEvent(&mouseEvent))
+    // {
+    //     cout << mouseEvent.type << ",  " << SDL_FINGERDOWN << ", " << SDL_MOUSEBUTTONDOWN + '\n';
+    //     switch (mouseEvent.type)
+    //     {
+    //         case SDL_FINGERDOWN:
+    //             cout << "mousedown event" << endl;
+    //             if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
+    //             {
+    //                 initMouseLoc = {(int)mouseEvent.tfinger.x, (int)mouseEvent.tfinger.y};
+    //                 if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
+    //                 {
+    //                     cout << "selecting from tile menu" << endl;
+    //                     int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
+    //                     if (ind < tileMenu->children.size())
+    //                     {
+    //                         selected = tileMenu->children[ind];
+    //                     }
+    //                     DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+    //                     temp->alpha = 70;
+    //                     ((DisplayObjectContainer *)selected)->addChild(temp);
+    //                 }
+    //             }
+    //             break;
+    //         case SDL_MOUSEBUTTONDOWN:
+    //             cout << "mousedown event" << endl;
+    //             if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
+    //             {
+    //                 initMouseLoc = {mouseEvent.button.x, mouseEvent.button.y};
+    //                 if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
+    //                 {
+    //                     cout << "selecting from tile menu" << endl;
+    //                     int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
+    //                     if (ind < tileMenu->children.size())
+    //                     {
+    //                         selected = tileMenu->children[ind];
+    //                     }
+    //                     DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+    //                     temp->alpha = 70;
+    //                     ((DisplayObjectContainer *)selected)->addChild(temp);
+    //                 }
+    //             }
+    //             break;
+    //         case SDL_MOUSEBUTTONUP:
+    //             break;
+    //     }
+    // }
 
     if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end())
     {
