@@ -12,6 +12,22 @@ using namespace std;
 
 class Game : public DisplayObjectContainer {
 
+struct ControllerInput {
+	bool connected = false;
+	bool a = false;
+	bool b = false;
+	bool x = false;
+	bool y = false;
+	bool leftDpad = false;
+	bool rightDpad = false;
+	bool upDpad = false;
+	bool downDpad = false;
+	int leftStickX = 0;
+	int rightStickX = 0;
+	int leftStickY = 0;
+	int rightStickY = 0;
+};
+
 public:
 
 	/* Singleton pattern */
@@ -33,6 +49,8 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 	set<SDL_Scancode> pressedKeys;
+	ControllerInput controllerInput;
+	SDL_GameController* controller;
 
 private:
 
