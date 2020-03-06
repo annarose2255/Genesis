@@ -93,7 +93,7 @@ void DevTool::start(){
 		double duration = (( end - start ) / (double) CLOCKS_PER_SEC)*1000;
 		if(duration > ms_per_frame){
 			start = end;
-			this->update(pressedKeys);
+			this->update(pressedKeys, controllerInput);
 			AffineTransform at;
 			this->draw(at);
 		}
@@ -195,7 +195,7 @@ void DevTool::start(){
 }
 
 
-void DevTool::update(set<SDL_Scancode> pressedKeys){
+void DevTool::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
     // while(SDL_PollEvent(&mouseEvent))
     // {
     //     cout << mouseEvent.type << ",  " << SDL_FINGERDOWN << ", " << SDL_MOUSEBUTTONDOWN + '\n';
@@ -272,7 +272,7 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
     //     instance->addChild(currentScene);
     //     change = !change;
     // }
-	Game::update(pressedKeys);
+	Game::update(pressedKeys, controllerInput);
 }
 
 void DevTool::draw(AffineTransform &at){

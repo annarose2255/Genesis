@@ -86,7 +86,7 @@ void Game::start(){
 		double duration = (( end - start ) / (double) CLOCKS_PER_SEC)*1000;
 		if(duration > ms_per_frame){
 			start = end;
-			this->update(pressedKeys);
+			this->update(pressedKeys, controllerInput);
 			AffineTransform at;
 			this->draw(at);
 		}
@@ -106,7 +106,7 @@ void Game::start(){
 		// }
 
 		SDL_PollEvent(&event);
-		cout << event.type << endl;
+		// cout << event.type << endl;
 		switch (event.type)
 		{
 			case SDL_QUIT:
@@ -164,9 +164,9 @@ void Game::start(){
 	}
 }
 
-void Game::update(set<SDL_Scancode> pressedKeys){
+void Game::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
 	frameCounter++;
-	DisplayObjectContainer::update(pressedKeys);
+	DisplayObjectContainer::update(pressedKeys, controllerInput);
 }
 
 void Game::draw(AffineTransform &at){

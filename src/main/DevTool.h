@@ -17,7 +17,7 @@ public:
 	DevTool();
 	virtual ~DevTool();
 
-	virtual void update(set<SDL_Scancode> pressedKeys);
+	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
 	virtual void draw(AffineTransform &at);
     virtual void start();
 

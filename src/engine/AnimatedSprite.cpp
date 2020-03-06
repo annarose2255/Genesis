@@ -184,8 +184,8 @@ void AnimatedSprite::stop() {
     this->playing = false;
 }
 
-void AnimatedSprite::update(set<SDL_Scancode> pressedKeys) {
-    Sprite::update(pressedKeys);
+void AnimatedSprite::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput) {
+    Sprite::update(pressedKeys, controllerInput);
     if (playing) {
         frameCount++;
         if (isSheet) {

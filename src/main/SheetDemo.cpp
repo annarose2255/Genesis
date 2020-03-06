@@ -51,7 +51,7 @@ SheetDemo::~SheetDemo(){
 }
 
 
-void SheetDemo::update(set<SDL_Scancode> pressedKeys){
+void SheetDemo::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
     // character->play("Idle");
     if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		character->position.x += 3;
@@ -148,7 +148,7 @@ void SheetDemo::update(set<SDL_Scancode> pressedKeys){
 	// if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end()) {
 	// 	sun->stop();
 	// }
-	Game::update(pressedKeys);
+	Game::update(pressedKeys, controllerInput);
 }
 
 void SheetDemo::draw(AffineTransform &at){

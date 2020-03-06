@@ -52,7 +52,7 @@ QuestDemo::~QuestDemo(){
 }
 
 
-void QuestDemo::update(set<SDL_Scancode> pressedKeys){
+void QuestDemo::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
     // character->play("Idle");
     if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		character->position.x += 3;
@@ -149,7 +149,7 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
 	// if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end()) {
 	// 	sun->stop();
 	// }
-	Game::update(pressedKeys);
+	Game::update(pressedKeys, controllerInput);
 }
 
 void QuestDemo::draw(AffineTransform &at){

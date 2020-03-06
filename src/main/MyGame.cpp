@@ -26,7 +26,7 @@ MyGame::~MyGame(){
 }
 
 
-void MyGame::update(set<SDL_Scancode> pressedKeys){
+void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
     
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         instance->removeImmediateChild(currentScene);
@@ -40,7 +40,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
         instance->addChild(currentScene);
         change = !change;
     }
-	Game::update(pressedKeys);
+	Game::update(pressedKeys, controllerInput);
 }
 
 void MyGame::draw(AffineTransform &at){

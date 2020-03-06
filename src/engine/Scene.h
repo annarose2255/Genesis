@@ -23,7 +23,7 @@ public:
     
     json toJson();
 
-	virtual void update(set<SDL_Scancode> pressedKeys);
+	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput ControllerInput);
 	virtual void draw(AffineTransform &at);
 
 

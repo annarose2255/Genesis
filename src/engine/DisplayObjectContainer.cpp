@@ -1,4 +1,5 @@
 #include "DisplayObjectContainer.h"
+#include "DisplayObject.h"
 #include "AffineTransform.h"
 #include <vector>
 #include <string>
@@ -85,10 +86,10 @@ DisplayObject* DisplayObjectContainer::getChild(string id) {
     return NULL;
 }
 
-void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys) {
-    DisplayObject::update(pressedKeys);
+void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput) {
+    DisplayObject::update(pressedKeys, controllerInput);
     for (int i = 0; i < children.size(); i++) {
-        children[i]->update(pressedKeys);
+        children[i]->update(pressedKeys, controllerInput);
     }
 }
 
