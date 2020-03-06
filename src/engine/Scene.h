@@ -31,7 +31,8 @@ public:
 	virtual void draw(AffineTransform &at, SDL_Rect camera);
 
 	AnimatedSprite* root;
-	vector<DisplayObject*> layerList; 
+	vector<DisplayObjectContainer*> layerList; 
+	vector<DisplayObject*> objects; //in the scene
 	vector<AnimatedSprite*> asList;
 
 private:

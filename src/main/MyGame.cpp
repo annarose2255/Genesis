@@ -5,6 +5,11 @@
 #include "Scene.h"
 #include "MyGame.h"
 #include "Camera.h"
+#include "QuestDemo.h"
+#include "QuestManager.h"
+#include "Tween.h"
+#include "TweenableParams.h"
+#include "TweenEvent.h"
 
 using namespace std;
 
@@ -17,16 +22,33 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
     scene2 = new Scene();
     scene2->loadScene("./resources/scenes/character.json");
-	
+	//questComplete = new DisplayObjectContainer("quest complete", "./resources/quest/questComplete.png"); //not visible yet
     change = true;
+    currentScene = scene2;
 
-    currentScene = scene1;
-
+	//Camera
 	cam->addChild(currentScene);
     instance->addChild(cam);
 
     //Sound 
 	mainMusic = new Sound();
+
+	//QuestDemo
+	eDispatcher = new EventDispatcher();
+	cout << "up to dispatcher" << endl;
+	coinlis = new CoinListener(scene2->asList.at(0), scene2->objects.at(0));
+	cout << "we good" << endl;
+	myQuestManager = new QuestManager(scene2->objects.at(1));
+	eDispatcher->addEventListener(coinlis, PICKUP);
+	eDispatcher->addEventListener(myQuestManager, COLLECTED);
+
+	//Tween
+	Tween* charTween = new Tween(scene2->asList.at(0));
+	charTween->animate("scaleX", 2, 1, 3); //have not implemented yet :')
+	// TweenEvent te = new TweenEvent("enterChara", charTween); //handle events 
+	// TweenJuggler tj = new TweenJuggler();
+	// tj.add(charTween);
+
 }
 
 MyGame::~MyGame(){
@@ -69,15 +91,14 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		currentScene->asList.at(0)->position.x += 3;
 		// currentScene->layerList.at(1)->position.x -= currentScene->layerList.at(1)->scroll;
 		currentScene->layerList.at(1)->position.x += currentScene->layerList.at(1)->scroll;
-		cout << currentScene->layerList.at(0)->position.x << endl;
-		currentScene->position.x-=3;
+		currentScene->position.x-=2;
 		//for camera demo, only move the girl  
 
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		currentScene->asList.at(0)->position.x -=3; 
 		currentScene->layerList.at(1)->position.x -= currentScene->layerList.at(1)->scroll;
-		currentScene->position.x+=3;
+		currentScene->position.x+=2;
 	}
 	if (currentScene->position.y-2 > 106) {
 		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
@@ -92,6 +113,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 			currentScene->position.y+=2;
 		}
 	}
+	//character moves separately from scene
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
 		currentScene->asList.at(0)->position.y -=2; 
 	}
@@ -125,6 +147,20 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	if (cam->camera.y > cam->camera.h) {
 		cam->camera.y = cam->camera.h;
 	}
+	if (currentScene->objects.size() > 0) {
+		cout << "objects exist" << endl;
+		if (currentScene->objects.at(0)->visible && isCharInCoin(currentScene->asList.at(0), currentScene->objects.at(0))) {
+			eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
+			currentScene->layerList.at(1)->removeImmediateChild(currentScene->objects.at(0));
+			// currentScene->addChild(questComplete);
+    	}
+		if (!currentScene->objects.at(0)->visible && isOngoing)
+		{
+			cout << "collected event" << endl;
+			isOngoing = false;
+			eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
+		}
+	}
 	Game::update(pressedKeys);
 	// currentScene->doCam = cam->camera;
 }
@@ -135,4 +171,15 @@ void MyGame::draw(AffineTransform &at, SDL_Rect camera){
 	Game::draw(at, cam->camera); 
 	SDL_RenderSetViewport(Game::renderer, &cam->camera );
 }
+
+bool MyGame::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
+    SDL_Point* charPos, charTemp;
+    SDL_Rect* cnRect, cnTemp;
+    charTemp = {chara->position.x + chara->pivot.x, chara->position.y + chara->pivot.y};
+    charPos = &charTemp;
+    cnTemp = {cn->position.x, cn->position.y, cn->width, cn->height};
+    cnRect = &cnTemp;
+    return SDL_PointInRect(charPos, cnRect);
+}
+
 

@@ -9,5 +9,5 @@ void TweenJuggler::add(Tween tween){
 
 }
 void TweenJuggler::nextFrame(){
-    
+    currentFrame++;
 }

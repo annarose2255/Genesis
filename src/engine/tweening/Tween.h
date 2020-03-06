@@ -7,21 +7,22 @@
 #include "DisplayObjectContainer.h"
 #include "TweenableParams.h"
 #include "TweenTransitions.h"
+#include "AnimatedSprite.h"
 
 
 class Tween{ 
 
 public:
-	Tween(DisplayObjectContainer object);
-    Tween(DisplayObjectContainer object, TweenTransitions transition);
+	Tween(AnimatedSprite* object);
+    Tween(AnimatedSprite* object, TweenTransitions transition);
     
-    void animate(TweenableParams fieldtoAnimate, double startVal, double endVal, double time);
+    void animate(string fieldtoAnimate, double startVal, double endVal, double time);
 
     void update();
     void isComplete(); 
     void setValue(TweenableParams param, double value);
 private:
-
+    AnimatedSprite* object;
 	
 };
 

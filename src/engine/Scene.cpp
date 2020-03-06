@@ -16,7 +16,6 @@ void Scene::loadScene(string sceneFilePath) {
          //quick fix: find j["character"], set it to root & call in myGame
         if(data["type"] == "DisplayObject") { // This is probably not needed?
             DisplayObject* newDO = makeDisplayObjectContainer(data);
-             cout << "hi end" << endl;
             this->addChild(newDO);
         }
         if(data["type"] == "DisplayObjectContainer") {
@@ -28,8 +27,7 @@ void Scene::loadScene(string sceneFilePath) {
             this->addChild(newS);
         }
          if(data["type"] == "Layer") { // This is probably not needed?
-            DisplayObject* newDO = makeLayer(data);
-            cout << key << endl;
+            DisplayObjectContainer* newDO = makeLayer(data);
             this->addChild(newDO);
             layerList.push_back(newDO);
         }
@@ -110,7 +108,6 @@ DisplayObjectContainer* Scene::makeLayer(json data) {
     DisplayObjectContainer* newDOC = new DisplayObjectContainer();
     newDOC->id = data["id"];
     newDOC->scroll = data["scroll"];
-    cout << "success init" << endl;
     if(data["filepath"] != "") {
         newDOC->imgPath = data["filepath"];
         newDOC->loadTexture(data["filepath"]);
@@ -122,6 +119,9 @@ DisplayObjectContainer* Scene::makeLayer(json data) {
         if(childData["type"] == "DisplayObject") {
             DisplayObject* newDO = makeDisplayObject(childData);
             newDOC->addChild(newDO);
+            if (childData["id"] == "coin" || childData["id"] == "questComplete") {
+                objects.push_back(newDO);
+            }
         }
         if(childData["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC2 = makeDisplayObjectContainer(childData);
@@ -132,7 +132,7 @@ DisplayObjectContainer* Scene::makeLayer(json data) {
             newDOC->addChild(newS);
         }
         if(childData["type"] == "AnimatedSprite") {
-            AnimatedSprite* newAS = makeAnimatedSprite(childData);
+            AnimatedSprite* newAS = makeAnimatedSprite(childData); //possibly use root var
             newDOC->addChild(newAS);
             asList.push_back(newAS);
         }

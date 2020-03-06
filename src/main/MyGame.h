@@ -10,6 +10,7 @@
 #include "AnimatedSprite.h"
 #include "Scene.h"
 #include "Camera.h"
+#include "CoinListener.h"
 
 using namespace std;
 
@@ -36,6 +37,15 @@ private:
     Scene* scene1;
     Scene* scene2;    	
     Camera* cam;
+
+    EventListener* coinlis;
+	EventListener* myQuestManager;
+	EventDispatcher* eDispatcher;
+    DisplayObjectContainer *questComplete;
+    bool isOngoing = true;
+
+    bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
+
 };
 
 #endif

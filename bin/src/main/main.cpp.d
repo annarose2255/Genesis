@@ -4,9 +4,10 @@ bin/./src/main/main.cpp.o: src/main/main.cpp src/engine/DisplayObject.h \
  src/engine/Camera.h src/engine/Sprite.h src/engine/Sound.h \
  src/engine/AnimatedSprite.h src/engine/Sprite.h src/engine/Scene.h \
  src/engine/AnimatedSprite.h src/engine/json.hpp src/engine/Camera.h \
- src/main/QuestDemo.h src/main/CoinListener.h src/engine/events/Event.h \
+ src/main/CoinListener.h src/engine/events/Event.h \
  src/engine/events/EventDispatcher.h src/engine/events/Event.h \
- src/engine/events/EventListener.h src/engine/events/EventListener.h
+ src/engine/events/EventListener.h src/engine/events/EventListener.h \
+ src/main/QuestDemo.h
 
 src/engine/DisplayObject.h:
 
@@ -38,8 +39,6 @@ src/engine/json.hpp:
 
 src/engine/Camera.h:
 
-src/main/QuestDemo.h:
-
 src/main/CoinListener.h:
 
 src/engine/events/Event.h:
@@ -51,3 +50,5 @@ src/engine/events/Event.h:
 src/engine/events/EventListener.h:
 
 src/engine/events/EventListener.h:
+
+src/main/QuestDemo.h:

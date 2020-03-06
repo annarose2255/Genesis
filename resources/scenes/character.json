@@ -216,6 +216,23 @@
                 "alpha": 255,
                 "facingRight": true,
                 "filepath": "./resources/ground/planetHalf_right.png"
+            }, 
+            "questComplete": {
+                "type": "DisplayObject",
+                "id": "questComplete",
+                "visible": false,
+                "position.x": 900, 
+                "position.y": 350, 
+                "width": 100,
+                "height": 100, 
+                "pivot.x": 15, 
+                "pivot.y": 15,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "rotation": 0.0,
+                "alpha": 255,
+                "facingRight": true,
+                "filepath": "./resources/quest/questComplete.png"
             }
         }
     }, 

@@ -15,7 +15,7 @@ public:
     void nextFrame();
     
 private:
-
+    int currentFrame;
 	
 };
 
