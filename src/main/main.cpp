@@ -5,11 +5,27 @@
 #include "MyGame.h"
 #include "QuestDemo.h"
 #include "DevTool.h"
+#include "AnimatedSprite.h"
+#include "rapidxml_utils.hpp"
 
 using namespace std;
+using namespace rapidxml;
 
 int main(int argc, char ** argv)
 {
+    
+/*
+    // Testing rapid xml
+    file<> xmlFile("./resources/quest/Gold.xml");
+    xml_document<> doc;
+    doc.parse<0>(xmlFile.data());
+    cout << doc.first_node()->name() << endl;
+    xml_node<> *node = doc.first_node("TextureAtlas");
+    cout << node->first_node()->first_attribute()->next_attribute("w")->value() << endl;
+*/
+
+    AnimatedSprite* anim = new AnimatedSprite("Gold", "./resources/quest/Gold.png", "./resources/quest/Gold.xml");
+    
 	DevTool* devTool = new DevTool();
     devTool->start();
 

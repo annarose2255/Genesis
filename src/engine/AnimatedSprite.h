@@ -6,8 +6,10 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <rapidxml.hpp>
 
 using namespace std;
+using namespace rapidxml;
 
 struct Frame {
 	SDL_Surface* image;
@@ -24,17 +26,28 @@ struct Animation {
 	int curFrame;
 };
 
+struct SSAnimation {
+    vector<SDL_Rect> frames;
+    string animName;
+    string filepath;
+    int numFrames;
+    int frameRate;
+    bool loop;
+    int curFrame;
+};
+
 class AnimatedSprite : public Sprite{
 
 public:
 	
 	AnimatedSprite();
 	AnimatedSprite(string id);
-	AnimatedSprite(string spriteSheetPath, string xmlPath);
+	AnimatedSprite(string id, string spriteSheetPath, string xmlPath);
 	~AnimatedSprite();
 
 	void addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop);
 	Animation* getAnimation(string animName);
+    SSAnimation* getSSAnimation(string animName);
 
 	void play(string animName);
 	void replay();
@@ -48,10 +61,13 @@ public:
     vector<string> animationNames;    
 
 private:
-	Animation* current;
+	string process(string file);
+    
+    Animation* current;
+    SSAnimation* sscurrent;
 	vector<Animation*> animations;
+    vector<SSAnimation*> ssanimations;
 	int frameCount;
-	
 };
 
 #endif
