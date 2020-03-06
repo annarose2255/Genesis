@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:0306715a85ca4acdea7a717622aa6a41:0fa74ffbbc08ff29cb08e74de1664a3b:31fca6b2cc775958f1ac27b9600486fc$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="Gold.png" width="1860" height="1130">
+    <sprite n="Gold_1.png" x="0" y="0" w="559" h="564"/>
+    <sprite n="Gold_2.png" x="559" y="0" w="504" h="564"/>
+    <sprite n="Gold_3.png" x="1063" y="0" w="428" h="565"/>
+    <sprite n="Gold_4.png" x="1491" y="0" w="262" h="564"/>
+    <sprite n="Gold_5.png" x="0" y="565" w="108" h="564"/>
+    <sprite n="Gold_6.png" x="108" y="565" w="262" h="564"/>
+    <sprite n="Gold_7.png" x="370" y="565" w="428" h="565"/>
+    <sprite n="Gold_8.png" x="798" y="565" w="503" h="564"/>
+    <sprite n="Gold_9.png" x="1301" y="565" w="559" h="564"/>
+</TextureAtlas>
