@@ -3,8 +3,8 @@
 #include <DisplayObject.h>
 #include <iostream>
 #include "MyGame.h"
-#include "QuestDemo.h"
 #include "DevTool.h"
+#include "SheetDemo.h"
 #include "AnimatedSprite.h"
 #include "rapidxml_utils.hpp"
 
@@ -13,7 +13,12 @@ using namespace rapidxml;
 
 int main(int argc, char ** argv)
 {
-    
+  
+    SheetDemo* sheetDemo = new SheetDemo();
+    sheetDemo->start();
+    delete sheetDemo;
+    return 0;
+  
 /*
     // Testing rapid xml
     file<> xmlFile("./resources/quest/Gold.xml");
@@ -24,6 +29,7 @@ int main(int argc, char ** argv)
     cout << node->first_node()->first_attribute()->next_attribute("w")->value() << endl;
 */
 
+/*
     AnimatedSprite* anim = new AnimatedSprite("Gold", "./resources/quest/Gold.png", "./resources/quest/Gold.xml");
     
 	DevTool* devTool = new DevTool();
@@ -31,6 +37,8 @@ int main(int argc, char ** argv)
 
 	delete devTool;
 	return 0;
+*/
+
 	// MyGame* myGame = new MyGame();
     // myGame->start();
 

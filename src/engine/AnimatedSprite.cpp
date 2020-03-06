@@ -48,7 +48,6 @@ AnimatedSprite::AnimatedSprite(string id, string spriteSheetPath, string xmlPath
             int y = stoi(child->first_attribute()->next_attribute("y")->value());
             int w = stoi(child->first_attribute()->next_attribute("w")->value());
             int h = stoi(child->first_attribute()->next_attribute("h")->value());
-            cout << x << y << w << h << endl;
             SDL_Rect frame = {x, y, w, h};
             temp->frames.push_back(frame);
             frameCount++;
@@ -78,16 +77,14 @@ AnimatedSprite::AnimatedSprite(string id, string spriteSheetPath, string xmlPath
             temp->frames.push_back(frame);
         }
         child = child->next_sibling();
-        cout << temp->frames.size() << endl;
         if(child) {
             prevAnim = process(child->first_attribute()->value());
         }
         else {
             // Add last animation
-            cout << "yeehaw" << endl;
             temp->animName = prevAnim;
             temp->filepath = spriteSheetPath;
-            temp->numFrames = frameCount + 1;
+            temp->numFrames = frameCount;
             temp->frameRate = 2;
             temp->loop = true;
             temp->curFrame = 0;
@@ -95,8 +92,6 @@ AnimatedSprite::AnimatedSprite(string id, string spriteSheetPath, string xmlPath
             animationNames.push_back(prevAnim);
         }
     }
-    cout << "yay" << ssanimations.size() << endl;
-
 }
 
 AnimatedSprite::~AnimatedSprite() {
@@ -198,12 +193,12 @@ void AnimatedSprite::update(set<SDL_Scancode> pressedKeys) {
                 sscurrent->curFrame++;
                 if (sscurrent->curFrame == sscurrent->numFrames) {
                     sscurrent->curFrame = 0;
-                    if (!current->loop) stop();
+                    if (!sscurrent->loop) stop();
                 }
                 srcrect = sscurrent->frames[sscurrent->curFrame];
             }
         }
-        else {
+        else if (!isSheet) {
             if (frameCount % current->frameRate == 0) {
                 // increment local frame counter
                 current->curFrame++;
