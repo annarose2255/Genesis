@@ -89,15 +89,18 @@ void DevTool::start(){
 	SDL_Event event;
 
 	while(!quit){
+        // cout << "next loop" << endl;
 		std::clock_t end = std::clock();
 		double duration = (( end - start ) / (double) CLOCKS_PER_SEC)*1000;
 		if(duration > ms_per_frame){
 			start = end;
+            // cout << "before update" << endl;
 			this->update(pressedKeys);
 			AffineTransform at;
+            // cout << "before draw" << endl;
 			this->draw(at);
 		}
-
+        cout << "poll events" << endl;
 		SDL_PollEvent(&event);
 		switch (event.type)
 		{
@@ -130,7 +133,8 @@ void DevTool::start(){
             //     }
             //     break;
             case SDL_MOUSEBUTTONDOWN:
-                // cout << "mousedown event" << endl;
+                cout << initMouseLoc.x << endl;
+                cout << "mousedown event" << endl;
                 if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
                 {
                     cout << "first click" << endl;
@@ -138,7 +142,9 @@ void DevTool::start(){
                     cout << "mouse loc: " << initMouseLoc.x << "' " << initMouseLoc.y << endl;
                     if (selected)
                     {
+                        cout << "resetting selection" << endl;
                         selected->removeImmediateChild("selected");
+                        selected = NULL;
                     }
                     if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
                     {
@@ -157,18 +163,23 @@ void DevTool::start(){
                         cout << " made selection box" << endl;
                     }
                     else
-                    {
+                    {  
+                        cout << "in scene window" << endl;
                         selected = NULL;
+                        cout << "not here" << endl;
                     }
                 }
                 else
                 {
-
-                    selected->position.x += event.button.x - initMouseLoc.x;
-                    selected->position.y += event.button.y - initMouseLoc.y;
-                    initMouseLoc = {event.button.x, event.button.y};
+                    if (selected)
+                    {
+                        selected->position.x += event.button.x - initMouseLoc.x;
+                        selected->position.y += event.button.y - initMouseLoc.y;
+                        initMouseLoc = {event.button.x, event.button.y};
+                    }
                     cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
                 }
+                cout << "broke out of switch" << endl;
                 break;
             // case SDL_MOUSEMOTION:
             //     if (selected && initMouseLoc.x != -1 && initMouseLoc.y != -1)
@@ -179,12 +190,12 @@ void DevTool::start(){
             //         cout << "changing position to: " << event.motion.x << ", " << event.motion.y << endl;
             //     }
             case SDL_MOUSEBUTTONUP:
-                // cout << "mouse up" << endl;
+                cout << "mouse up" << endl;
                 if (selected && initMouseLoc.x != -1 && initMouseLoc.y != -1)
                 {
                     selected->position.x += event.button.x - initMouseLoc.x;
                     selected->position.y += event.button.y - initMouseLoc.y;
-                    initMouseLoc = {event.button.x, event.button.y};
+                    // initMouseLoc = {event.button.x, event.button.y};
                     cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
                 }
                 initMouseLoc = {-1, -1};
@@ -275,7 +286,7 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
 	Game::update(pressedKeys);
 }
 
-void DevTool::draw(AffineTransform &at){
+void DevTool::draw(AffineTransform &at){ //have to remove selection box before saving then add it back in after
 	// Game::draw(at);
     SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Game::renderer);

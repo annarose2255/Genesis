@@ -14,10 +14,10 @@ using namespace rapidxml;
 int main(int argc, char ** argv)
 {
   
-    SheetDemo* sheetDemo = new SheetDemo();
-    sheetDemo->start();
-    delete sheetDemo;
-    return 0;
+    // SheetDemo* sheetDemo = new SheetDemo();
+    // sheetDemo->start();
+    // delete sheetDemo;
+    // return 0;
   
 /*
     // Testing rapid xml
@@ -31,13 +31,13 @@ int main(int argc, char ** argv)
 
 /*
     AnimatedSprite* anim = new AnimatedSprite("Gold", "./resources/quest/Gold.png", "./resources/quest/Gold.xml");
-    
+*/
 	DevTool* devTool = new DevTool();
     devTool->start();
 
 	delete devTool;
 	return 0;
-*/
+
 
 	// MyGame* myGame = new MyGame();
     // myGame->start();
