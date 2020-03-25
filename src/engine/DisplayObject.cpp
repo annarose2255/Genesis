@@ -63,6 +63,9 @@ void DisplayObject::setTexture(SDL_Texture* t){
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
 
 }
+void DisplayObject::setScrollSpeed(double speed) {
+	scrollSpeed = speed;
+}
 bool DisplayObject::checkCollision(SDL_Rect a, SDL_Rect b){
 	//The sides of the rectangles
     int leftA, leftB;
@@ -121,8 +124,9 @@ void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 		pos2.y = origin.y;
 	
 		if (&doCam != NULL) {
-			dstrect.x = pos2.x - camera.x; 
-			dstrect.y = pos2.y - camera.y; 
+			cout << "DO Speed " << scrollSpeed << endl;
+			dstrect.x = (pos2.x - camera.x) * scrollSpeed; 
+			dstrect.y = (pos2.y - camera.y) * scrollSpeed; 
 			dstrect.w = w; 
 			dstrect.h = h;
 		}

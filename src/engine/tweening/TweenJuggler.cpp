@@ -6,7 +6,7 @@ TweenJuggler::TweenJuggler(){
 
 }
 void TweenJuggler::add(Tween tween){
-
+    //adds to the Queue
 }
 void TweenJuggler::nextFrame(){
     currentFrame++;

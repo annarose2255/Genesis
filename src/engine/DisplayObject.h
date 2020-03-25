@@ -32,7 +32,6 @@ public:
 
 	SDL_Rect doCam; //camera for display object
 	SDL_Rect collider;
-	int scroll; //scroll speed 
 	bool checkCollision(SDL_Rect a, SDL_Rect b);
 
 	void loadTexture(string filepath);
@@ -45,9 +44,11 @@ public:
 	int getWidth();
 	int getHeight();
 
+	void setScrollSpeed(double speed);
 	bool visible = true;
 	SDL_Point position = {0, 0};
 	SDL_Point pos2;
+	double scrollSpeed;
 	int width = 100;
 	int height = 100;
 	SDL_Point pivot = {0, 0};

@@ -82,7 +82,11 @@ DisplayObject* DisplayObjectContainer::getChild(string id) {
     }
     return NULL;
 }
-
+void DisplayObjectContainer::setScrollSpeed(double speed) {
+    cout << "DOC speed " << speed << endl;
+    scrollSpeed = speed;
+    DisplayObject::setScrollSpeed(speed);
+}
 void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys) {
     DisplayObject::update(pressedKeys);
     for (int i = 0; i < children.size(); i++) {
@@ -96,6 +100,7 @@ void DisplayObjectContainer::draw(AffineTransform &at, SDL_Rect camera) {
     // undo the parent's pivot
     at.translate(pivot.x, pivot.y);
     for (int i = 0; i < children.size(); i++) {
+        children[i]->setScrollSpeed(scrollSpeed);
         children[i]->draw(at, camera);
     }
     // redo the parent's pivot

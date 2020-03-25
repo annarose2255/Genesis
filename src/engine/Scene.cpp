@@ -14,11 +14,7 @@ void Scene::loadScene(string sceneFilePath) {
     for(auto& [key, value] : j.items()) {
         json data = value;
          //quick fix: find j["character"], set it to root & call in myGame
-        if(data["type"] == "DisplayObject") { // This is probably not needed?
-            DisplayObject* newDO = makeDisplayObjectContainer(data);
-            this->addChild(newDO);
-        }
-        if(data["type"] == "DisplayObjectContainer") {
+        if(data["type"] == "DisplayObject") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(data);
             this->addChild(newDOC);
         }
@@ -27,9 +23,11 @@ void Scene::loadScene(string sceneFilePath) {
             this->addChild(newS);
         }
          if(data["type"] == "Layer") { // This is probably not needed?
-            DisplayObjectContainer* newDO = makeLayer(data);
-            this->addChild(newDO);
-            layerList.push_back(newDO);
+            // DisplayObjectContainer* newDO = makeLayer(data);
+            // this->addChild(newDO);
+            // layerList.push_back(newDO);
+            Layer* newLayer = makeLayer(data);
+            this->addChild(newLayer);
         }
         //just distinguish root from rest of animated sprites 
         if(data["type"] == "AnimatedSprite") {
@@ -103,14 +101,13 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
     return newDOC;
 }
 
-DisplayObjectContainer* Scene::makeLayer(json data) {
-    cout << "in layer" << endl;
-    DisplayObjectContainer* newDOC = new DisplayObjectContainer();
-    newDOC->id = data["id"];
-    newDOC->scroll = data["scroll"];
+Layer* Scene::makeLayer(json data) {
+    Layer* newLayer = new Layer();
+    newLayer->id = data["id"];
+    newLayer->scrollSpeed = data["scroll"];
     if(data["filepath"] != "") {
-        newDOC->imgPath = data["filepath"];
-        newDOC->loadTexture(data["filepath"]);
+        newLayer->imgPath = data["filepath"];
+        newLayer->loadTexture(data["filepath"]);
     }
 
     // Children
@@ -118,26 +115,26 @@ DisplayObjectContainer* Scene::makeLayer(json data) {
         json childData = value;
         if(childData["type"] == "DisplayObject") {
             DisplayObject* newDO = makeDisplayObject(childData);
-            newDOC->addChild(newDO);
+            newLayer->addChild(newDO);
             if (childData["id"] == "coin" || childData["id"] == "questComplete") {
                 objects.push_back(newDO);
             }
         }
         if(childData["type"] == "DisplayObjectContainer") {
-            DisplayObjectContainer* newDOC2 = makeDisplayObjectContainer(childData);
-            newDOC->addChild(newDOC2);
+            DisplayObjectContainer* newDOC = makeDisplayObjectContainer(childData);
+            newLayer->addChild(newDOC);
         }
         if(childData["type"] == "Sprite") {
             Sprite* newS = makeSprite(childData);
-            newDOC->addChild(newS);
+            newLayer->addChild(newS);
         }
         if(childData["type"] == "AnimatedSprite") {
             AnimatedSprite* newAS = makeAnimatedSprite(childData); //possibly use root var
-            newDOC->addChild(newAS);
+            newLayer->addChild(newAS);
             asList.push_back(newAS);
         }
     }
-    return newDOC;
+    return newLayer;
 }
 
 Sprite* Scene::makeSprite(json data) {

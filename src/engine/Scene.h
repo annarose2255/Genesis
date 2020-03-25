@@ -4,6 +4,7 @@
 #include "DisplayObject.h"
 #include "DisplayObjectContainer.h"
 #include "Sprite.h"
+#include "Layer.h"
 #include "AnimatedSprite.h"
 #include <json.hpp>
 #include <string>
@@ -23,7 +24,7 @@ public:
 
     DisplayObject* makeDisplayObject(json data);
     DisplayObjectContainer* makeDisplayObjectContainer(json data);
-	DisplayObjectContainer* makeLayer(json data);
+	Layer* makeLayer(json data);
     Sprite* makeSprite(json data);
     AnimatedSprite* makeAnimatedSprite(json data);
 

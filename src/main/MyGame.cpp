@@ -17,8 +17,8 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
 	cam = new Camera();
 
-	scene1 = new Scene(); 
-	scene1->loadScene("./resources/scenes/solarsystem.json");
+	// scene1 = new Scene(); 
+	// scene1->loadScene("./resources/scenes/solarsystem.json");
 
     scene2 = new Scene();
     scene2->loadScene("./resources/scenes/character.json");
@@ -44,7 +44,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
 	//Tween
 	Tween* charTween = new Tween(scene2->asList.at(0));
-	charTween->animate("scaleX", 2, 1, 3); //have not implemented yet :')
+	charTween->animate("alpha", 2, 1, 3); //have not implemented yet :')
 	// TweenEvent te = new TweenEvent("enterChara", charTween); //handle events 
 	// TweenJuggler tj = new TweenJuggler();
 	// tj.add(charTween);
@@ -87,20 +87,17 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		mainMusic->pauseMusic();
 		
 	}
+	//changing position of camera
     if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-		currentScene->asList.at(0)->position.x += 3;
-		// currentScene->layerList.at(1)->position.x -= currentScene->layerList.at(1)->scroll;
-		currentScene->layerList.at(1)->position.x += currentScene->layerList.at(1)->scroll;
+		currentScene->asList.at(0)->position.x += 3; //change this to reference layer instead
 		currentScene->position.x-=2;
-		//for camera demo, only move the girl  
 
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		currentScene->asList.at(0)->position.x -=3; 
-		currentScene->layerList.at(1)->position.x -= currentScene->layerList.at(1)->scroll;
 		currentScene->position.x+=2;
 	}
-	if (currentScene->position.y-2 > 106) {
+	if (currentScene->position.y-2 > 106) { //change to check a specific layer
 		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
 			currentScene->asList.at(0)->position.y +=2; 
 			currentScene->position.y-=2;
@@ -151,7 +148,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		cout << "objects exist" << endl;
 		if (currentScene->objects.at(0)->visible && isCharInCoin(currentScene->asList.at(0), currentScene->objects.at(0))) {
 			eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
-			currentScene->layerList.at(1)->removeImmediateChild(currentScene->objects.at(0));
 			// currentScene->addChild(questComplete);
     	}
 		if (!currentScene->objects.at(0)->visible && isOngoing)
@@ -166,8 +162,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 }
 
 void MyGame::draw(AffineTransform &at, SDL_Rect camera){
-	// camera = cam->camera;
-	//Order -> Game -> Affine -> DisplayObject -> myGame
 	Game::draw(at, cam->camera); 
 	SDL_RenderSetViewport(Game::renderer, &cam->camera );
 }
