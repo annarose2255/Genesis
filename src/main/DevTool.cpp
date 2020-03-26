@@ -195,6 +195,11 @@ void DevTool::start(){
                 {
                     selected->position.x += event.button.x - initMouseLoc.x;
                     selected->position.y += event.button.y - initMouseLoc.y;
+                    int posX, posY;
+                    posX = selected->position.x;
+                    posY = selected->position.y;
+                    selected->position.x = posX - (posX % TILE_SIZE);
+                    selected->position.y = posY - (posY % TILE_SIZE);
                     // initMouseLoc = {event.button.x, event.button.y};
                     cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
                 }
@@ -207,75 +212,34 @@ void DevTool::start(){
 
 
 void DevTool::update(set<SDL_Scancode> pressedKeys){
-    // while(SDL_PollEvent(&mouseEvent))
-    // {
-    //     cout << mouseEvent.type << ",  " << SDL_FINGERDOWN << ", " << SDL_MOUSEBUTTONDOWN + '\n';
-    //     switch (mouseEvent.type)
-    //     {
-    //         case SDL_FINGERDOWN:
-    //             cout << "mousedown event" << endl;
-    //             if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
-    //             {
-    //                 initMouseLoc = {(int)mouseEvent.tfinger.x, (int)mouseEvent.tfinger.y};
-    //                 if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
-    //                 {
-    //                     cout << "selecting from tile menu" << endl;
-    //                     int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
-    //                     if (ind < tileMenu->children.size())
-    //                     {
-    //                         selected = tileMenu->children[ind];
-    //                     }
-    //                     DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
-    //                     temp->alpha = 70;
-    //                     ((DisplayObjectContainer *)selected)->addChild(temp);
-    //                 }
-    //             }
-    //             break;
-    //         case SDL_MOUSEBUTTONDOWN:
-    //             cout << "mousedown event" << endl;
-    //             if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
-    //             {
-    //                 initMouseLoc = {mouseEvent.button.x, mouseEvent.button.y};
-    //                 if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
-    //                 {
-    //                     cout << "selecting from tile menu" << endl;
-    //                     int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
-    //                     if (ind < tileMenu->children.size())
-    //                     {
-    //                         selected = tileMenu->children[ind];
-    //                     }
-    //                     DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
-    //                     temp->alpha = 70;
-    //                     ((DisplayObjectContainer *)selected)->addChild(temp);
-    //                 }
-    //             }
-    //             break;
-    //         case SDL_MOUSEBUTTONUP:
-    //             break;
-    //     }
-    // }
 
-    if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end())
-    {
-        tileMenu->position.x -= 5;
-    }
-    if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end())
-    {
-        tileMenu->position.x += 5;
-    }
-    if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end())
-    {
-        cout << "Please enter the relative filepath to where you want to save the JSON:\n";
-        string filepath;
-        cin >> filepath;
-        save(filepath);
-    }
-    if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end())
-    {
-        cout << "Please enter the relative filepath to the JSON file you want to import:\n";
-        string filepath;
-        cin >> filepath;
-        load(filepath);
+    // Read keyboard inputs
+
+    for (SDL_Scancode keys: pressedKeys) {
+        switch(keys) {
+            case SDL_SCANCODE_Q:
+                tileMenu->position.x -= 5;
+                break;
+            case SDL_SCANCODE_W:
+                tileMenu->position.x += 5;
+                break;
+            case SDL_SCANCODE_S:
+                {
+                    cout << "Please enter the relative filepath to where you want to save the JSON:\n";
+                    string savepath;
+                    cin >> savepath;
+                    save(savepath);
+                    break; 
+                }
+            case SDL_SCANCODE_L:
+                {
+                    cout << "Please enter the relative filepath to the JSON file you want to import:\n";
+                    string loadpath;
+                    cin >> loadpath;
+                    load(loadpath);
+                    break; 
+                }
+        }
     }
     // if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
     //     instance->removeImmediateChild(currentScene);
