@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Scene.h"
 #include "MyGame.h"
+<<<<<<< HEAD
 #include "Camera.h"
 #include "QuestDemo.h"
 #include "QuestManager.h"
@@ -16,12 +17,20 @@ using namespace std;
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
 	cam = new Camera();
+=======
+
+using namespace std;
+
+MyGame::MyGame() : Game(800, 700) {
+	instance = this;
+>>>>>>> 28124d242415859506e8cf02a75402fa03d3229c
 
 	scene1 = new Scene(); 
 	scene1->loadScene("./resources/scenes/solarsystem.json");
 
     scene2 = new Scene();
     scene2->loadScene("./resources/scenes/character.json");
+<<<<<<< HEAD
 	//questComplete = new DisplayObjectContainer("quest complete", "./resources/quest/questComplete.png"); //not visible yet
     change = true;
     currentScene = scene2;
@@ -54,6 +63,13 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	// TweenJuggler tj = new TweenJuggler();
 	// tj.add(charTween);
 
+=======
+	
+    change = true;
+
+    currentScene = scene1;
+    instance->addChild(currentScene);
+>>>>>>> 28124d242415859506e8cf02a75402fa03d3229c
 }
 
 MyGame::~MyGame(){
@@ -61,6 +77,7 @@ MyGame::~MyGame(){
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys){
+<<<<<<< HEAD
 
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
@@ -183,3 +200,25 @@ bool MyGame::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
 }
 
 
+=======
+    
+    if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
+        instance->removeImmediateChild(currentScene);
+        currentScene = scene2;
+        instance->addChild(currentScene);
+        change = !change;
+    }
+    else if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && !change) {
+        instance->removeImmediateChild(currentScene);
+        currentScene = scene1;
+        instance->addChild(currentScene);
+        change = !change;
+    }
+	Game::update(pressedKeys);
+}
+
+void MyGame::draw(AffineTransform &at){
+	Game::draw(at);
+}
+
+>>>>>>> 28124d242415859506e8cf02a75402fa03d3229c

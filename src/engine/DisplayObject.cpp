@@ -21,7 +21,6 @@ DisplayObject::DisplayObject(){
 DisplayObject::DisplayObject(string id, string filepath){
 	this->id = id;
 	this->imgPath = filepath;
-	
 	loadTexture(filepath);
 }
 
@@ -112,6 +111,7 @@ bool DisplayObject::checkCollision(SDL_Rect a, SDL_Rect b){
 void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 	applyTransformations(at);
 	// cout << "Drawing " << id << endl;
+
 	if(curTexture != NULL && visible) {
 		SDL_Point origin = at.transformPoint(0, 0);
 		SDL_Point upperRight = at.transformPoint(width, 0);
@@ -120,6 +120,7 @@ void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
+
 		pos2.x = origin.x; 
 		pos2.y = origin.y;
 	

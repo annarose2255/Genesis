@@ -89,6 +89,7 @@ void Game::update(set<SDL_Scancode> pressedKeys){
 	DisplayObjectContainer::update(pressedKeys);
 }
 
+
 void Game::draw(AffineTransform &at, SDL_Rect camera){
 	SDL_RenderClear(Game::renderer);
 	DisplayObjectContainer::draw(at, camera);

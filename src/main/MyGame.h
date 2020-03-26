@@ -6,11 +6,16 @@
 #include <iostream>
 #include "Game.h"
 #include "Sprite.h"
+<<<<<<< HEAD
 #include "Sound.h"
 #include "AnimatedSprite.h"
 #include "Scene.h"
 #include "Camera.h"
 #include "CoinListener.h"
+=======
+#include "AnimatedSprite.h"
+#include "Scene.h"
+>>>>>>> 28124d242415859506e8cf02a75402fa03d3229c
 
 using namespace std;
 
@@ -21,6 +26,7 @@ public:
 	virtual ~MyGame();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
+<<<<<<< HEAD
 	virtual void draw(AffineTransform &, SDL_Rect camera);
     Scene* currentScene;
 
@@ -45,6 +51,16 @@ private:
     bool isOngoing = true;
 
     bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
+=======
+	virtual void draw(AffineTransform &at);
+
+private:
+    
+    bool change;
+    Scene* currentScene;    
+    Scene* scene1;
+    Scene* scene2;    	
+>>>>>>> 28124d242415859506e8cf02a75402fa03d3229c
 
 };
 

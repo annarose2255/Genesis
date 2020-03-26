@@ -10,11 +10,22 @@ void Scene::loadScene(string sceneFilePath) {
     json j;
     ifstream ifs(sceneFilePath);
     ifs >> j;
+<<<<<<< HEAD
     int i = 0;
     for(auto& [key, value] : j.items()) {
         json data = value;
          //quick fix: find j["character"], set it to root & call in myGame
         if(data["type"] == "DisplayObject") {
+=======
+    
+    for(auto& [key, value] : j.items()) {
+        json data = value;
+        if(data["type"] == "DisplayObject") { // This is probably not needed?
+            DisplayObject* newDO = makeDisplayObjectContainer(data);
+            this->addChild(newDO);
+        }
+        if(data["type"] == "DisplayObjectContainer") {
+>>>>>>> 28124d242415859506e8cf02a75402fa03d3229c
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(data);
             this->addChild(newDOC);
         }
@@ -22,6 +33,7 @@ void Scene::loadScene(string sceneFilePath) {
             Sprite* newS = makeSprite(data);
             this->addChild(newS);
         }
+<<<<<<< HEAD
          if(data["type"] == "Layer") { // This is probably not needed?
             // DisplayObjectContainer* newDO = makeLayer(data);
             // this->addChild(newDO);
@@ -34,6 +46,11 @@ void Scene::loadScene(string sceneFilePath) {
             AnimatedSprite* newAS = makeAnimatedSprite(data); 
             this->addChild(newAS);
             asList.push_back(newAS);
+=======
+        if(data["type"] == "AnimatedSprite") {
+            AnimatedSprite* newAS = makeAnimatedSprite(data);   
+            this->addChild(newAS);
+>>>>>>> 28124d242415859506e8cf02a75402fa03d3229c
         }
     }
 }
@@ -95,12 +112,16 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
         if(childData["type"] == "AnimatedSprite") {
             AnimatedSprite* newAS = makeAnimatedSprite(childData);
             newDOC->addChild(newAS);
+<<<<<<< HEAD
             asList.push_back(newAS);
+=======
+>>>>>>> 28124d242415859506e8cf02a75402fa03d3229c
         }
     }
     return newDOC;
 }
 
+<<<<<<< HEAD
 Layer* Scene::makeLayer(json data) {
     Layer* newLayer = new Layer();
     newLayer->id = data["id"];
@@ -137,6 +158,8 @@ Layer* Scene::makeLayer(json data) {
     return newLayer;
 }
 
+=======
+>>>>>>> 28124d242415859506e8cf02a75402fa03d3229c
 Sprite* Scene::makeSprite(json data) {
     Sprite* newS = new Sprite(data["id"], data["filepath"]);
     newS->visible = data["visible"];
@@ -225,7 +248,12 @@ void Scene::update(set<SDL_Scancode> pressedKeys) {
     DisplayObjectContainer::update(pressedKeys);
 }
 
+<<<<<<< HEAD
 void Scene::draw(AffineTransform &at, SDL_Rect camera) {
     DisplayObjectContainer::draw(at, camera);
+=======
+void Scene::draw(AffineTransform &at) {
+    DisplayObjectContainer::draw(at);
+>>>>>>> 28124d242415859506e8cf02a75402fa03d3229c
 }
 
