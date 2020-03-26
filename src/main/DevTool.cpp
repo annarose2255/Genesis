@@ -199,12 +199,43 @@ void DevTool::start(){
                     selected->position.x += event.button.x - initMouseLoc.x;
                     selected->position.y += event.button.y - initMouseLoc.y;
 
+                    //tile menu
+                    if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
+                    {
+                        if (selected->position.y <(this->windowHeight - 3*SPRITESIZE/2))
+                        {
+                            sceneWindow->addChild(selected);
+                            int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
+                            cout << "creating copy" << endl;
+                            sceneWindow->children[ind] = new DisplayObjectContainer(selected->id, selected->imgPath);
+                            sceneWindow->children[ind]->position.x = ind*SPRITESIZE;
+
+                            //converting to sceneWindow coordinates
+                            selected->position.x += tileMenu->position.x;
+                            selected->position.y += tileMenu->position.y;
+                        }
+                        else
+                        {
+                            //revert change to stay same
+                            selected->position.x -= event.button.x - initMouseLoc.x;
+                            selected->position.y -= event.button.y - initMouseLoc.y;
+                        }
+                    }
+
                     // Snap to tile
                     int posX, posY;
                     posX = selected->position.x;
                     posY = selected->position.y;
                     selected->position.x = posX - (posX % TILE_SIZE);
                     selected->position.y = posY - (posY % TILE_SIZE);
+                    if (posX % TILE_SIZE > TILE_SIZE/2)
+                    {
+                        selected->position.x += TILE_SIZE;
+                    }
+                    if (posY % TILE_SIZE > TILE_SIZE/2)
+                    {
+                        selected->position.y += TILE_SIZE;
+                    }
                     // initMouseLoc = {event.button.x, event.button.y};
                     // cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
                 }
