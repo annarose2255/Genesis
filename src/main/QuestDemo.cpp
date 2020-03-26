@@ -152,8 +152,8 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
 	Game::update(pressedKeys);
 }
 
-void QuestDemo::draw(AffineTransform &at){
-	Game::draw(at);
+void QuestDemo::draw(AffineTransform &at, SDL_Rect camera){
+	Game::draw(at, camera);
 }
 
 bool QuestDemo::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {

@@ -18,7 +18,7 @@ public:
 	virtual ~DevTool();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at);
+	virtual void draw(AffineTransform &at, SDL_Rect camera);
     virtual void start();
 
     void IterateDirectory(string filepath);

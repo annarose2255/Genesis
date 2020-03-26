@@ -219,8 +219,8 @@ void AnimatedSprite::update(set<SDL_Scancode> pressedKeys) {
     
 }
 
-void AnimatedSprite::draw(AffineTransform &at) {
-    Sprite::draw(at);
+void AnimatedSprite::draw(AffineTransform &at, SDL_Rect camera) {
+    Sprite::draw(at, camera);
 }
 
 string AnimatedSprite::process(string file) {

@@ -151,8 +151,8 @@ void SheetDemo::update(set<SDL_Scancode> pressedKeys){
 	Game::update(pressedKeys);
 }
 
-void SheetDemo::draw(AffineTransform &at){
-	Game::draw(at);
+void SheetDemo::draw(AffineTransform &at, SDL_Rect camera){
+	Game::draw(at, camera);
 }
 
 bool SheetDemo::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {

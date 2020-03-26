@@ -103,7 +103,7 @@ void DevTool::start(){
 			this->update(pressedKeys);
 			AffineTransform at;
             // cout << "before draw" << endl;
-			this->draw(at);
+			this->draw(at, cam->camera);
 		}
 		SDL_PollEvent(&event);
 		switch (event.type)
@@ -501,12 +501,12 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
 	Game::update(pressedKeys);
 }
 
-void DevTool::draw(AffineTransform &at){ //have to remove selection box before saving then add it back in after
+void DevTool::draw(AffineTransform &at, SDL_Rect camera){ //have to remove selection box before saving then add it back in after
 	// Game::draw(at);
     SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Game::renderer);
     DevTool::drawGrid();
-	DisplayObjectContainer::draw(at);
+	DisplayObjectContainer::draw(at, camera);
 	SDL_RenderPresent(Game::renderer);
 }
 

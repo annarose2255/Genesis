@@ -15,7 +15,7 @@ unsigned int Game::frameCounter = 0;
 
 Game::Game(int windowWidth, int windowHeight){
 	Game::instance = this;
-	
+	Game::cam = new Camera();
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
 
@@ -63,7 +63,8 @@ void Game::start(){
 			start = end;
 			this->update(pressedKeys);
 			AffineTransform at;
-			this->draw(at);
+			SDL_Rect camera; 
+			this->draw(at, camera);
 		}
 
 		SDL_PollEvent(&event);
@@ -88,8 +89,10 @@ void Game::update(set<SDL_Scancode> pressedKeys){
 	DisplayObjectContainer::update(pressedKeys);
 }
 
-void Game::draw(AffineTransform &at){
+
+void Game::draw(AffineTransform &at, SDL_Rect camera){
 	SDL_RenderClear(Game::renderer);
-	DisplayObjectContainer::draw(at);
+	DisplayObjectContainer::draw(at, camera);
+	//render camera here 
 	SDL_RenderPresent(Game::renderer);
 }

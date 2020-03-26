@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "DisplayObjectContainer.h"
+#include "Camera.h"
 #include <vector>
 #include <set>
 
@@ -19,7 +20,7 @@ public:
 
 	int frames_per_sec = 60;
 	int windowWidth, windowHeight;
-
+	Camera * cam; 
 	SDL_Window * window;
 	static SDL_Renderer* renderer;
 
@@ -31,8 +32,8 @@ public:
 	virtual void start();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at);
 	set<SDL_Scancode> pressedKeys;
+	virtual void draw(AffineTransform &at, SDL_Rect camera);
 
 private:
 
