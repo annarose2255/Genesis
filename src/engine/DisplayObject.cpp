@@ -13,12 +13,14 @@ DisplayObject::DisplayObject(){
 	image = NULL;
 	texture = NULL;
 	curTexture = NULL;
+	pos2.x = position.x; 
+	pos2.y = position.y;
+	// cam = new Camera();
 }
 
 DisplayObject::DisplayObject(string id, string filepath){
 	this->id = id;
 	this->imgPath = filepath;
-
 	loadTexture(filepath);
 }
 
@@ -58,12 +60,58 @@ void DisplayObject::setTexture(SDL_Texture* t){
 }
 
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
-	
-}
 
-void DisplayObject::draw(AffineTransform &at){
+}
+void DisplayObject::setScrollSpeed(double speed) {
+	scrollSpeed = speed;
+}
+bool DisplayObject::checkCollision(SDL_Rect a, SDL_Rect b){
+	//The sides of the rectangles
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+
+    //Calculate the sides of rect A
+    leftA = a.x;
+    rightA = a.x + a.w;
+    topA = a.y;
+    bottomA = a.y + a.h;
+
+    //Calculate the sides of rect B
+    leftB = b.x;
+    rightB = b.x + b.w;
+    topB = b.y;
+    bottomB = b.y + b.h;
+
+    //If any of the sides from A are outside of B
+    if( bottomA <= topB )
+    {
+        return false;
+    }
+
+    if( topA >= bottomB )
+    {
+        return false;
+    }
+
+    if( rightA <= leftB )
+    {
+        return false;
+    }
+
+    if( leftA >= rightB )
+    {
+        return false;
+    }
+
+    //If none of the sides from A are outside B
+    return true;
+}
+void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 	applyTransformations(at);
-	
+	// cout << "Drawing " << id << endl;
+
 	if(curTexture != NULL && visible) {
 		SDL_Point origin = at.transformPoint(0, 0);
 		SDL_Point upperRight = at.transformPoint(width, 0);
@@ -73,8 +121,28 @@ void DisplayObject::draw(AffineTransform &at){
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
 
-		SDL_Rect dstrect = { origin.x, origin.y, w, h };
-
+		pos2.x = origin.x; 
+		pos2.y = origin.y;
+	
+		if (&doCam != NULL) {
+			cout << "DO Speed " << scrollSpeed << endl;
+			dstrect.x = (int) (pos2.x - camera.x) * scrollSpeed; 
+			dstrect.y = (int) (pos2.y - camera.y) * scrollSpeed; 
+			dstrect.w = w; 
+			dstrect.h = h;
+		}
+		// //check against screen_width so think about passing variable
+		// if ( pos2.x + w > 800 || checkCollision(dstrect, collider)) {
+		// 	pos2.x-=2; 
+		// 	dstrect.x = pos2.x;
+		// 	cout << "collision?" << endl;
+		// }
+		// if (pos2.y + h > 700 || checkCollision(dstrect, collider)) {
+		// 	pos2.y-=2; 
+		// 	dstrect.y = pos2.y;
+		// 	cout << "collision?" << endl;
+		// }
+		
 		SDL_RendererFlip flip;
 		if (facingRight) {
 			flip = SDL_FLIP_NONE;
@@ -82,6 +150,9 @@ void DisplayObject::draw(AffineTransform &at){
 		else {
 			flip = SDL_FLIP_HORIZONTAL;
 		}
+
+		//Camera as child of my game and parent of every sprite that I run
+		//instead of moving camera by --> can move by pivot points
 		
 		SDL_SetTextureAlphaMod(curTexture, alpha);
 		SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	

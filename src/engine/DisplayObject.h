@@ -28,7 +28,11 @@ public:
 	virtual ~DisplayObject();
 	
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at);
+	virtual void draw(AffineTransform &at, SDL_Rect camera);
+
+	SDL_Rect doCam; //camera for display object
+	SDL_Rect collider;
+	bool checkCollision(SDL_Rect a, SDL_Rect b);
 
 	void loadTexture(string filepath);
 	void loadRGBTexture(int red, int green, int blue);
@@ -40,8 +44,11 @@ public:
 	int getWidth();
 	int getHeight();
 
+	void setScrollSpeed(double speed);
 	bool visible = true;
 	SDL_Point position = {0, 0};
+	SDL_Point pos2;
+	double scrollSpeed;
 	int width = 100;
 	int height = 100;
 	SDL_Point pivot = {0, 0};
@@ -50,7 +57,10 @@ public:
 	double rotation = 0.0; // in radians
 	int alpha = 255;
 	bool facingRight = true;
-
+	SDL_Rect dstrect;
+	// Camera * cam;
+	// SDL_Rect camera = { 0, 0, 800, 700 };
+	SDL_Texture* curTexture;
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);
 	double calculateRotation(SDL_Point &origin, SDL_Point &p);
@@ -59,7 +69,7 @@ private:
 	SDL_Surface* image = NULL;
 
 	/* Texture currently being drawn. Equal to texture for normal DO */
-	SDL_Texture* curTexture;
+
 };
 
 #endif

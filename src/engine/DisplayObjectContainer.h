@@ -30,7 +30,9 @@ public:
 	virtual DisplayObject* getChild(string id);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at);
+	virtual void draw(AffineTransform &at, SDL_Rect camera);
+	virtual void setScrollSpeed(double speed);
+	double scrollSpeed;
 
 	vector<DisplayObject*> children;
 private:

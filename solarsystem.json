@@ -1,0 +1,60 @@
+{
+    "sun": {
+        "create": "AnimatedSprite",
+		"position.x": 0, 
+		"position.y": 0, 
+		"width": 100,
+		"height": 100, 
+        "pivot.x": 50, 
+        "pivot.y": 50,
+		"scaleX": 1, 
+		"scaleY": 1, 
+		"filepath": "/Documents/sun1.png",
+        "basepath": "./resources/solarSystem/",
+        "animName": "Sun", 
+	  	"numFrames": 4, 
+        "frameRate": 2,
+		"loop": true
+    },
+    "p1container": {
+        "create": "DisplayObjectContainer"
+    },
+	"planet1": {
+        "create": "Sprite",
+		"position.x": 200, 
+		"position.y": 0, 
+		"width": 30,
+		"height": 30, 
+        "pivot.x": 15, 
+        "pivot.y": 15,
+		"filepath": "./resources/solarSystem/Planet.png"
+    },
+    "moon1_1": {
+        "create": "Sprite",
+		"position.x": 50, 
+		"position.y": 0, 
+		"width": 15,
+		"height": 15, 
+		"filepath": "./resources/solarSystem/Moon.png"
+	},
+    "p2container": {
+        "create": "DisplayObjectContainer"
+    },
+    "planet2": {
+        "create": "Sprite",
+		"position.x": 300, 
+		"position.y": 0, 
+		"width": 30,
+		"height": 30, 
+        "pivot.x": 15, 
+        "pivot.y": 15,
+		"filepath": "./resources/solarSystem/Planet.png"
+	},
+	"hierarchy": {
+	  	"allSprites": "sun",
+        "sun": ["p1container", "p2container"],
+        "p1container": "planet1",
+        "p2container": "planet2",
+	  	"planet1": "moon1_1"
+	}
+}
