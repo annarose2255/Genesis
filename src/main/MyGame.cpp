@@ -17,8 +17,8 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
 	cam = new Camera();
 
-	// scene1 = new Scene(); 
-	// scene1->loadScene("./resources/scenes/solarsystem.json");
+	scene1 = new Scene(); 
+	scene1->loadScene("./resources/scenes/solarsystem.json");
 
     scene2 = new Scene();
     scene2->loadScene("./resources/scenes/character.json");
@@ -44,7 +44,12 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
 	//Tween
 	Tween* charTween = new Tween(scene2->asList.at(0));
-	charTween->animate("alpha", 2, 1, 3); //have not implemented yet :')
+	TweenableParams px;
+	TweenableParams py; 
+	px.name = "position.x";
+	py.name = "position.y";
+	charTween->animate(px, 0, 300, 30); //have not implemented yet :')
+	charTween->animate(py, 700, 300, 30);
 	// TweenEvent te = new TweenEvent("enterChara", charTween); //handle events 
 	// TweenJuggler tj = new TweenJuggler();
 	// tj.add(charTween);
@@ -118,12 +123,13 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		currentScene->asList.at(0)->position.y +=2; 
 	}
 	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
-		currentScene->asList.at(0)->position.x -=2; 
+		currentScene->asList.at(0)->facingRight = false;
+		currentScene->asList.at(0)->position.x -=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
+		currentScene->asList.at(0)->facingRight = true;
 		currentScene->asList.at(0)->position.x +=2; 
 	}
-
 
 
     cam->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;

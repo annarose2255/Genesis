@@ -1,72 +1,28 @@
 {
-    "background":{
+    "layer1":{
         "type": "Layer", 
         "id": "layer1",
         "scroll": 0.5,
         "filepath": "",
         "children": {
-            "sun": {
-                "type": "AnimatedSprite",
-                "id": "sun",
+            "mountain": {
+                "type": "DisplayObject", 
+                "id": "mountain",
                 "visible": true,
-                "position.x":300,
-                "position.y":300,
-                "width": 100,
-                "height": 100, 
-                "pivot.x": 50, 
-                "pivot.y": 50,
+                "position.x": 300, 
+                "position.y": 806, 
+                "width": 950,
+                "height": 256, 
+                "pivot.x": 15, 
+                "pivot.y": 15,
                 "scaleX": 1.0,
                 "scaleY": 1.0,
-                "rotation": 0,
+                "rotation": 0.0,
                 "alpha": 255,
                 "facingRight": true,
-                "animations": {
-                    "0": {
-                        "filepath": "./resources/solarSystem/",
-                        "name": "Sun",
-                        "frames": 4,
-                        "rate": 2,
-                        "loop": true
-                    }
-                },
-                "children": {
-                    "planet1": {
-                        "type": "DisplayObject",
-                        "id": "planet1",
-                        "visible": true,
-                        "position.x": 500, 
-                        "position.y": 0, 
-                        "width": 30,
-                        "height": 30, 
-                        "pivot.x": 15, 
-                        "pivot.y": 15,
-                        "scaleX": 1.0,
-                        "scaleY": 1.0,
-                        "rotation": 0.0,
-                        "alpha": 255,
-                        "facingRight": true,
-                        "filepath": "./resources/solarSystem/Planet.png"
-                    }, 
-                    "planet2": {
-                        "type": "DisplayObject",
-                        "id": "planet2",
-                        "visible": true,
-                        "position.x": 700, 
-                        "position.y": 0, 
-                        "width": 30,
-                        "height": 30, 
-                        "pivot.x": 15, 
-                        "pivot.y": 15,
-                        "scaleX": 1.0,
-                        "scaleY": 1.0,
-                        "rotation": 0.0,
-                        "alpha": 255,
-                        "facingRight": true,
-                        "filepath": "./resources/solarSystem/Planet.png"
-                    } 
-                } 
+                "filepath": "./resources/Mountains/Layer 3 anim1.png"
             }
         }
     }
+    
 }
-

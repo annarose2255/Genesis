@@ -14,16 +14,18 @@ class Tween{
 
 public:
 	Tween(AnimatedSprite* object);
-    Tween(AnimatedSprite* object, TweenTransitions transition);
     
-    void animate(string fieldtoAnimate, double startVal, double endVal, double time);
+    void animate(TweenableParams fieldtoAnimate, double startVal, double endVal, double time);
 
     void update();
-    void isComplete(); 
+    bool isComplete(); 
     void setValue(TweenableParams param, double value);
 private:
     AnimatedSprite* object;
-	
+	double curTime;
+    double endTime;
+    TweenableParams param; 
+    double value;
 };
 
 #endif

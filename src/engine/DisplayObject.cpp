@@ -125,8 +125,8 @@ void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 	
 		if (&doCam != NULL) {
 			cout << "DO Speed " << scrollSpeed << endl;
-			dstrect.x = (pos2.x - camera.x) * scrollSpeed; 
-			dstrect.y = (pos2.y - camera.y) * scrollSpeed; 
+			dstrect.x = (int) (pos2.x - camera.x) * scrollSpeed; 
+			dstrect.y = (int) (pos2.y - camera.y) * scrollSpeed; 
 			dstrect.w = w; 
 			dstrect.h = h;
 		}

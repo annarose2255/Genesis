@@ -15,8 +15,8 @@ public:
     void nextFrame();
     
 private:
-    int currentFrame;
-	
+    int currentFrame=0;
+	vector<Tween*> queue; 
 };
 
 #endif
