@@ -26,6 +26,9 @@ DevTool::DevTool() : Game(WINDOW_X, WINDOW_Y) {
     instance->addChild(sceneWindow);
     cout << "initted" << endl;
     IterateDirectory("resources");
+
+    cam = new Camera();
+    cam->addChild(currentScene);
 }
 
 void DevTool::IterateDirectory(string filepath)
@@ -195,6 +198,8 @@ void DevTool::start(){
                 {
                     selected->position.x += event.button.x - initMouseLoc.x;
                     selected->position.y += event.button.y - initMouseLoc.y;
+
+                    // Snap to tile
                     int posX, posY;
                     posX = selected->position.x;
                     posY = selected->position.y;
@@ -222,6 +227,18 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
                 break;
             case SDL_SCANCODE_W:
                 tileMenu->position.x += 5;
+                break;
+            case SDL_SCANCODE_UP:
+                cam->position.y += 5;
+                break;
+            case SDL_SCANCODE_DOWN:
+                cam->position.y -= 5;
+                break;
+            case SDL_SCANCODE_LEFT:
+                cam->position.x += 5;
+                break;
+            case SDL_SCANCODE_RIGHT:
+                cam->position.x -= 5;
                 break;
             case SDL_SCANCODE_S:
                 {

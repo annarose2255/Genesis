@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "AnimatedSprite.h"
 #include "Scene.h"
+#include "Camera.h"
 #define SPRITESIZE 100
 using namespace std;
 
@@ -31,7 +32,7 @@ public:
 
 private:
     
-    // Camera* mainCamera;
+    Camera* cam;
     Scene* currentScene;
     DisplayObjectContainer* selected; // For Alter Scene
     DisplayObject* copied;
