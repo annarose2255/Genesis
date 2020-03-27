@@ -14,7 +14,7 @@ public:
 	Sprite(string id, int red, int green, int blue);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at, SDL_Rect camera);
+	virtual void draw(AffineTransform &at);
 
 private:
 	

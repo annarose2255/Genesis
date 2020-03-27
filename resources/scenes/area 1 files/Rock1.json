@@ -1,0 +1,14 @@
+{ "columns":1,
+ "image":"..\/..\/Downloads\/craftpix-774512-free-jump-game-items\/PNG\/Props\/Prop_5.png",
+ "imageheight":169,
+ "imagewidth":265,
+ "margin":0,
+ "name":"Rock1",
+ "spacing":0,
+ "tilecount":1,
+ "tiledversion":"1.3.2",
+ "tileheight":169,
+ "tilewidth":256,
+ "type":"tileset",
+ "version":1.2
+}

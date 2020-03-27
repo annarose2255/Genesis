@@ -27,7 +27,7 @@ public:
 	static SDL_Rect camera;
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at, SDL_Rect camera);
+	virtual void draw(AffineTransform &at);
 
 private:
 	DisplayObject* bg;

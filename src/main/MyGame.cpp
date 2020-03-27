@@ -15,7 +15,7 @@ using namespace std;
 
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
-	cam = new Camera();
+	// cam = new Camera();
 
 	scene1 = new Scene(); 
 	scene1->loadScene("./resources/scenes/solarsystem.json");
@@ -27,8 +27,11 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     currentScene = scene2;
 
 	//Camera
-	cam->addChild(currentScene);
-    instance->addChild(cam);
+	// cam->addChild(currentScene);
+    // instance->addChild(cam);
+
+	Game::camera->addChild(currentScene);
+	instance->addChild(Game::camera);
 
     //Sound 
 	mainMusic = new Sound();
@@ -94,61 +97,59 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	}
 	//changing position of camera
     if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-		currentScene->asList.at(0)->position.x += 3; //change this to reference layer instead
-		currentScene->position.x-=2;
+		Game::camera->position.x-=2;
 
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-		currentScene->asList.at(0)->position.x -=3; 
-		currentScene->position.x+=2;
+		Game::camera->position.x+=2;
 	}
 	if (currentScene->position.y-2 > 106) { //change to check a specific layer
 		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-			currentScene->asList.at(0)->position.y +=2; 
-			currentScene->position.y-=2;
+			Game::camera->position.y-=2;
 		}
 	} 
 	
-	if ((currentScene->position.y <= cam->camera.h) ){
+	if ((currentScene->position.y <= Game::camera->camera.h) ){
 		if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-			currentScene->asList.at(0)->position.y -=2; 
-			currentScene->position.y+=2;
+			Game::camera->position.y+=2;
 		}
 	}
 	//character moves separately from scene
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
-		currentScene->asList.at(0)->position.y -=2; 
+		currentScene->asList.at(0)->position.y -=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
-		currentScene->asList.at(0)->position.y +=2; 
+		currentScene->asList.at(0)->position.y +=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 		currentScene->asList.at(0)->facingRight = false;
 		currentScene->asList.at(0)->position.x -=2;
+		Game::camera->position.x+=2; //comment out to just move sprite
 	}
 	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
 		currentScene->asList.at(0)->facingRight = true;
 		currentScene->asList.at(0)->position.x +=2; 
+		Game::camera->position.x-=2; //comment out to just move sprite
 	}
 
 
-    cam->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
-	cam->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
-	cout << "Cam x " << cam->camera.x << endl; 
-	cout << "Cam y " << cam->camera.y << endl;
+    Game::camera->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
+	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
+	cout << "Cam x " << Game::camera->camera.x << endl; 
+	cout << "Cam y " << Game::camera->camera.y << endl;
 	cout << "Scene x " << currentScene->position.x << endl; 
 	cout << "Scene y " << currentScene->position.y << endl; 
-	if( cam->camera.x < 0){
-		cam->camera.x = 0;
+	if( Game::camera->camera.x < 0){
+		Game::camera->camera.x = 0;
 	}
-    if( cam->camera.y < 0 ){
-		cam->camera.y = 0;
+    if( Game::camera->camera.y < 0 ){
+		Game::camera->camera.y = 0;
     }
-	if (cam->camera.x > cam->camera.w){
-		cam->camera.x = cam->camera.w;
+	if (Game::camera->camera.x > Game::camera->camera.w){
+		Game::camera->camera.x = Game::camera->camera.w;
 	}
-	if (cam->camera.y > cam->camera.h) {
-		cam->camera.y = cam->camera.h;
+	if (Game::camera->camera.y > Game::camera->camera.h) {
+		Game::camera->camera.y = Game::camera->camera.h;
 	}
 	if (currentScene->objects.size() > 0) {
 		cout << "objects exist" << endl;
@@ -167,9 +168,9 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	// currentScene->doCam = cam->camera;
 }
 
-void MyGame::draw(AffineTransform &at, SDL_Rect camera){
-	Game::draw(at, cam->camera); 
-	SDL_RenderSetViewport(Game::renderer, &cam->camera );
+void MyGame::draw(AffineTransform &at){
+	Game::draw(at); 
+	SDL_RenderSetViewport(Game::renderer, &Game::camera->camera);
 }
 
 bool MyGame::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {

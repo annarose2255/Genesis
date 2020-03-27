@@ -23,7 +23,7 @@ void Camera::update(set<SDL_Scancode> pressedKeys){
     DisplayObjectContainer::update(pressedKeys);
 }
 
-void Camera::draw(AffineTransform &at, SDL_Rect camera){
-    DisplayObjectContainer::draw(at, camera);
+void Camera::draw(AffineTransform &at){
+    DisplayObjectContainer::draw(at);
 
 }

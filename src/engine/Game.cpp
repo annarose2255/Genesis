@@ -12,10 +12,10 @@ using namespace std;
 SDL_Renderer* Game::renderer;
 Game* Game::instance;
 unsigned int Game::frameCounter = 0;
+Camera* Game::camera = new Camera();
 
 Game::Game(int windowWidth, int windowHeight){
 	Game::instance = this;
-	Game::cam = new Camera();
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
 
@@ -63,8 +63,8 @@ void Game::start(){
 			start = end;
 			this->update(pressedKeys);
 			AffineTransform at;
-			SDL_Rect camera; 
-			this->draw(at, camera);
+			// SDL_Rect camera; 
+			this->draw(at);
 		}
 
 		SDL_PollEvent(&event);
@@ -90,9 +90,9 @@ void Game::update(set<SDL_Scancode> pressedKeys){
 }
 
 
-void Game::draw(AffineTransform &at, SDL_Rect camera){
+void Game::draw(AffineTransform &at){
 	SDL_RenderClear(Game::renderer);
-	DisplayObjectContainer::draw(at, camera);
+	DisplayObjectContainer::draw(at);
 	//render camera here 
 	SDL_RenderPresent(Game::renderer);
 }
