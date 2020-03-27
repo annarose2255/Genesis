@@ -12,7 +12,12 @@ using namespace std;
 
 class DisplayObject{
 
-
+struct HitboxPoints {
+	SDL_Point topLeft;
+	SDL_Point topRight;
+	SDL_Point bottomLeft;
+	SDL_Point bottomRight;
+};
 
 public:
 
@@ -32,7 +37,7 @@ public:
 		int rightStickY = 0;
 	};
 
-	struct HitBox {
+	struct Hitbox {
 		// top left point
 		SDL_Point origin = {0, 0};
 		int width = 100;
@@ -67,6 +72,8 @@ public:
 
 	int getWidth();
 	int getHeight();
+	HitboxPoints getHitbox();
+	void drawHitbox();
 
 	bool visible = true;
 	SDL_Point position = {0, 0};
@@ -80,7 +87,7 @@ public:
 	bool facingRight = true;
     bool isSheet = false;
     SDL_Rect srcrect;
-	HitBox hitbox;
+	Hitbox hitbox;
 	
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);

@@ -18,7 +18,6 @@ DisplayObject::DisplayObject(){
 DisplayObject::DisplayObject(string id, string filepath){
 	this->id = id;
 	this->imgPath = filepath;
-
 	loadTexture(filepath);
 }
 
@@ -41,12 +40,16 @@ DisplayObject::~DisplayObject(){
 
 void DisplayObject::loadTexture(string filepath){
 	image = IMG_Load(filepath.c_str());
+	hitbox.width = image->w;
+	hitbox.height = image->h;
 	texture = SDL_CreateTextureFromSurface(Game::renderer, image);
 	setTexture(texture);
 }
 
 void DisplayObject::loadRGBTexture(int red, int green, int blue){
 	image = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0x000000ff);
+	hitbox.width = image->w;
+	hitbox.height = image->h;
 	SDL_FillRect(image, NULL, SDL_MapRGB(image->format, red, green, blue));
 	texture = SDL_CreateTextureFromSurface(Game::renderer, image);
 	SDL_SetTextureBlendMode( texture, SDL_BLENDMODE_BLEND );
@@ -89,9 +92,12 @@ void DisplayObject::draw(AffineTransform &at){
         } else {
             SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
         }
+		cout << "drawing hitbox" << endl;
+		drawHitbox();
 	}
 
 	reverseTransformations(at);
+	
 }
 
 void DisplayObject::applyTransformations(AffineTransform &at) {
@@ -127,11 +133,35 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 }
 
 AffineTransform DisplayObject::globalTransform() {
-	AffineTransform at;
-	if (this->parent != NULL){
-		at = this->parent->globalTransform();
-		// undo pivot transformations
-	}
-	this->applyTransformations(at);
-	return at;
+	cout << "GT" << endl;
+	AffineTransform gt;
+	// if (this->parent != NULL){
+	// 	cout << "have parent" << endl;
+	// 	gt = this->parent->globalTransform();
+	// 	// undo pivot transformations
+	// }
+	this->applyTransformations(gt);
+	// cout << "returning" << endl;
+	return gt;
+}
+
+DisplayObject::HitboxPoints DisplayObject::getHitbox() {
+	cout << "getting hitbox" << endl;
+	AffineTransform gt = this->globalTransform();
+	HitboxPoints pts;
+	pts.topLeft = gt.transformPoint(this->hitbox.origin.x, this->hitbox.origin.y);
+	pts.topLeft = gt.transformPoint(this->hitbox.origin.x + this->hitbox.width, this->hitbox.origin.y);
+	pts.bottomLeft = gt.transformPoint(this->hitbox.origin.x, this->hitbox.origin.y + this->hitbox.height);
+	pts.bottomRight = gt.transformPoint(this->hitbox.origin.x + this->hitbox.width, this->hitbox.origin.y + this->hitbox.height);
+	cout << pts.topLeft.x << " " << pts.topLeft.y << endl;
+	return pts;
+}
+
+void DisplayObject::drawHitbox(){
+    SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    HitboxPoints pts = this->getHitbox();
+    SDL_RenderDrawLine(Game::renderer, pts.topLeft.x, pts.topLeft.y, pts.topRight.x, pts.topRight.y);
+    SDL_RenderDrawLine(Game::renderer, pts.topRight.x, pts.topRight.y, pts.bottomRight.x, pts.bottomRight.y);
+	SDL_RenderDrawLine(Game::renderer, pts.bottomLeft.x, pts.bottomLeft.y, pts.bottomRight.x, pts.bottomRight.y);
+	SDL_RenderDrawLine(Game::renderer, pts.topLeft.x, pts.topLeft.y, pts.bottomLeft.x, pts.bottomLeft.y);
 }
