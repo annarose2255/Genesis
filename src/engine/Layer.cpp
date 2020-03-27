@@ -8,8 +8,8 @@ void Layer::update(set<SDL_Scancode> pressedKeys) {
     DisplayObjectContainer::update(pressedKeys);
 }
 
-void Layer::draw(AffineTransform &at, SDL_Rect camera) {
+void Layer::draw(AffineTransform &at) {
     //pass scrollSpeed to the DisplayObjectContainer, which passes down to DisplayObject 
-    DisplayObjectContainer::draw(at, camera);
+    DisplayObjectContainer::draw(at);
     setScrollSpeed(scrollSpeed);
 }

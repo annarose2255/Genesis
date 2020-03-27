@@ -21,7 +21,7 @@ public:
 	virtual ~MyGame();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &, SDL_Rect camera);
+	virtual void draw(AffineTransform &at);
     Scene* currentScene;
 
     int viewportWidth = 800;

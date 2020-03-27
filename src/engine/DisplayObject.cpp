@@ -108,7 +108,7 @@ bool DisplayObject::checkCollision(SDL_Rect a, SDL_Rect b){
     //If none of the sides from A are outside B
     return true;
 }
-void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
+void DisplayObject::draw(AffineTransform &at){
 	applyTransformations(at);
 	// cout << "Drawing " << id << endl;
 
@@ -124,10 +124,10 @@ void DisplayObject::draw(AffineTransform &at, SDL_Rect camera){
 		pos2.x = origin.x; 
 		pos2.y = origin.y;
 	
-		if (&doCam != NULL) {
-			cout << "DO Speed " << scrollSpeed << endl;
-			dstrect.x = (int) (pos2.x - camera.x) * scrollSpeed; 
-			dstrect.y = (int) (pos2.y - camera.y) * scrollSpeed; 
+		if (&Game::camera != NULL) {
+			cout << "Camera " << Game::camera->camera.x << endl;
+			dstrect.x = (int) (pos2.x - Game::camera->camera.x) * scrollSpeed; 
+			dstrect.y = (int) (pos2.y - Game::camera->camera.y) * scrollSpeed; 
 			dstrect.w = w; 
 			dstrect.h = h;
 		}

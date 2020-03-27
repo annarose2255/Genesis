@@ -20,7 +20,7 @@ public:
 
 	int frames_per_sec = 60;
 	int windowWidth, windowHeight;
-	Camera * cam; 
+	static Camera* camera; 
 	SDL_Window * window;
 	static SDL_Renderer* renderer;
 
@@ -32,7 +32,7 @@ public:
 	void start();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at, SDL_Rect camera);
+	virtual void draw(AffineTransform &at);
 
 private:
 

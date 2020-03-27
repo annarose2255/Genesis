@@ -29,7 +29,7 @@ public:
     AnimatedSprite* makeAnimatedSprite(json data);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at, SDL_Rect camera);
+	virtual void draw(AffineTransform &at);
 
 	AnimatedSprite* root;
 	vector<DisplayObjectContainer*> layerList; 
