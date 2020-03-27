@@ -125,3 +125,13 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 	double x = p.x - origin.x;
 	return (atan2(y, x) * 180 / PI);
 }
+
+AffineTransform DisplayObject::globalTransform() {
+	AffineTransform at;
+	if (this->parent != NULL){
+		at = this->parent->globalTransform();
+		// undo pivot transformations
+	}
+	this->applyTransformations(at);
+	return at;
+}

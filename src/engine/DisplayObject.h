@@ -32,6 +32,13 @@ public:
 		int rightStickY = 0;
 	};
 
+	struct HitBox {
+		// top left point
+		SDL_Point origin = {0, 0};
+		int width = 100;
+		int height = 100;
+	};
+
 	string id = "DEFAULT_ID";
 	string imgPath = "";
 	int red, green, blue;
@@ -56,6 +63,8 @@ public:
 	void applyTransformations(AffineTransform &at);
 	void reverseTransformations(AffineTransform &at);
 
+	AffineTransform globalTransform();
+
 	int getWidth();
 	int getHeight();
 
@@ -71,6 +80,8 @@ public:
 	bool facingRight = true;
     bool isSheet = false;
     SDL_Rect srcrect;
+	HitBox hitbox;
+	
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);
 	double calculateRotation(SDL_Point &origin, SDL_Point &p);

@@ -174,3 +174,94 @@ void Game::draw(AffineTransform &at){
 	DisplayObjectContainer::draw(at);
 	SDL_RenderPresent(Game::renderer);
 }
+
+bool Game::collision(DisplayObject* &displayObject1, DisplayObject* &displayObject2) {
+	// get points for hitbox1 in global coordinate system
+	AffineTransform gT1 = displayObject1->globalTransform();
+	SDL_Point topLeft1 = gT1.transformPoint(0, 0);
+	SDL_Point topRight1 = gT1.transformPoint(displayObject1->hitbox.width, 0);
+	SDL_Point bottomRight1 = gT1.transformPoint(displayObject1->hitbox.width, displayObject1->hitbox.height);
+	SDL_Point bottomLeft1 = gT1.transformPoint(displayObject1->hitbox.width, 0);
+
+	// lines from those points
+	Line l1 = {topLeft1, topRight1};
+	Line l2 = {topRight1, bottomRight1};
+	Line l3 = {bottomLeft1, bottomRight1};
+	Line l4 = {topLeft1, bottomLeft1};
+
+	Line displayObjectLines1[4] = {l1, l2, l3, l4};
+
+	// get points for hitbox2 in global coordinate system
+	AffineTransform gT2 = displayObject2->globalTransform();
+	SDL_Point topLeft2 = gT2.transformPoint(0, 0);
+	SDL_Point topRight2 = gT2.transformPoint(displayObject2->hitbox.width, 0);
+	SDL_Point bottomRight2 = gT2.transformPoint(displayObject2->hitbox.width, displayObject2->hitbox.height);
+	SDL_Point bottomLeft2 = gT2.transformPoint(displayObject2->hitbox.width, 0);
+
+	// lines from those points
+	Line l5 = {topLeft2, topRight2};
+	Line l6 = {topRight2, bottomRight2};
+	Line l7 = {bottomLeft2, bottomRight2};
+	Line l8 = {topLeft2, bottomLeft2};
+
+	Line displayObjectLines2[4] = {l5, l6, l7, l8};
+
+	// see if any line intersects
+	for (int i = 0; i < 4; i++){
+		for (int j = 0; j < 4; j++){
+			// if any line intersects there is a collision
+			if ( intersects(displayObjectLines1[i], displayObjectLines2[j]) ){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+
+// private helper method
+bool Game::intersects(Line l1, Line l2) {
+	// get orientations
+	SDL_Point p1 = l1.pt1;
+	SDL_Point q1 = l1.pt2;
+	SDL_Point p2 = l2.pt1;
+	SDL_Point q2 = l2.pt2;
+	int o1 = getOrientation(p1, q1, p2);
+	int o2 = getOrientation(p1, q1, q2);
+	int o3 = getOrientation(p2, q2, p1);
+	int o4 = getOrientation(p2, q2, q1);
+	// if one orientation is the same then there is no intersection
+	if ( o1 != o2  && o3 != o4 ){
+		return true;
+	// check if colinear
+	} else if (o1 == 0 && o2 == 0 && o3 == 0 && o4 == 0){
+		// check if one point is inbetween two other points using x projection
+		// sort x values of one line
+		int smallerX = p1.x;
+		int largerX = q1.x;
+		if (q1.x < smallerX){
+			smallerX = q1.x;
+			largerX = p1.x;
+		}
+		// see if either of the other line's points fall in between
+		if ( (p2.x >= smallerX && p2.x <= largerX) || (q2.x >= smallerX && q2.x <= largerX) ){
+			return true;
+		}
+	}
+	return false;
+}
+
+int Game::getOrientation(SDL_Point p1, SDL_Point q1, SDL_Point p2) {
+	float s1 = (q1.y - p1.y) / (q1.x - p1.x);
+	float s2 = (p2.y - q1.y) / (p2.x - q1.x);
+	if (s1 < s2){
+		// turns left
+		return 1;
+	} else if (s2 < s1) {
+		// turns right
+		return 2;
+	} else {
+		// collinear
+		return 0;
+	}
+}

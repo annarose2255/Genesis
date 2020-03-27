@@ -11,11 +11,16 @@
 
 using namespace std;
 
+struct Line {
+	SDL_Point pt1;
+	SDL_Point pt2;
+};
+
 class Game : public DisplayObjectContainer {
 
 
 public:
-
+	
 	/* Singleton pattern */
 	static Game* instance;
 
@@ -37,11 +42,14 @@ public:
 	set<SDL_Scancode> pressedKeys;
 	ControllerInput controllerInput;
 	SDL_GameController* controller;
+	bool collision(DisplayObject* &displayObject1, DisplayObject* &displayObject2);
 
 private:
-
+	
 	void initSDL();
 	void quitSDL();
+	int getOrientation(SDL_Point p1, SDL_Point q1, SDL_Point p2);
+	bool intersects(Line l1, Line l2);
 	
 };
 
