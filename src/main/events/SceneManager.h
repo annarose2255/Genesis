@@ -5,6 +5,8 @@
 #include "EventListener.h"
 #include "AnimatedSprite.h"
 #include "Scene.h"
+#include "FightEvent.h"
+#include "ChangeSceneEvent.h"
 #define CHANGE "RoomChangeEvent"
 #define FIGHT "EngageCombatEvent" 
 #define REVERT "RevertEvent"

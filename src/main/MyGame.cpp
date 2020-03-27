@@ -19,10 +19,12 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
 	scene1 = new Scene(); 
 	scene1->loadScene("./resources/scenes/solarsystem.json");
+	//Scene Transitions 
+	//scene1->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 2.tmx");
 
     scene2 = new Scene();
     scene2->loadScene("./resources/scenes/character.json");
-	//questComplete = new DisplayObjectContainer("quest complete", "./resources/quest/questComplete.png"); //not visible yet
+
     change = true;
     currentScene = scene2;
 

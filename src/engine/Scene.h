@@ -21,6 +21,7 @@ public:
 
 	/* Load scene from a file */
 	void loadScene(string sceneFilePath);
+	void loadTileMap(string tilePath); 
 
     DisplayObject* makeDisplayObject(json data);
     DisplayObjectContainer* makeDisplayObjectContainer(json data);

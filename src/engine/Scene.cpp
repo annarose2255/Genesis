@@ -1,11 +1,68 @@
 #include "Scene.h"
 #include <iostream>
 #include <fstream>
+#include <tmxlite/Map.hpp>
+#include <tmxlite/Layer.hpp>
 
 Scene::Scene() : DisplayObjectContainer() {
     this->type = "Scene";
 }
+//Tmx tutorial: https://codeofconnor.com/2017/08/18/how-to-load-and-render-tiled-maps-in-your-sdl2-game/
+void loadTileMap(string tilePath) { //working on parsing in tmx room files 
+    tmx::Map map;
+    map.load(tilePath);
+    auto map_dim = map.getTileCount();
+    int rows, cols, tile_width, tile_height;
+    //get dimensions of tile map
+    rows = map_dim.y;
+    cols = map_dim.x;
+    //get Tile size, width, height
+    auto tilesize = map.getTileSize();
+    tile_width = tilesize.x;
+    tile_height = tilesize.y;
+    
+    auto& map_tilesets = map.getTilesets();
+    
+    for (auto& tset : map_tilesets) {
+        //loop through tilesets, save image file paths somewhere 
+    }
+    auto& map_layers = map.getLayers(); 
+    for (auto& layer : map_layers) {
+        if (layer->getType() != tmx::Layer::Type::Tile) { //rendering only tile layers
+            continue;
+        }
+    
+        // auto* tile_layer = dynamic_cast<const tmx::TileLayer*>(layer.get());
+    
+        // Grab all of this layer's tiles.
+        // auto& layer_tiles = tile_layer->getTiles();
 
+        for (auto y = 0; y < rows; ++y) {
+            for (auto x = 0; x < cols; ++x) {
+                // auto tile_index = x + (y * cols);
+                //loop through each tile and save information
+                //Obtain GID of tile 
+                //if GID == 0, skip tile 
+
+                //check if the tile is in the tileset by comparing GID 
+                //if first tileset's GID <= GID of tileset, then save tile GID 
+                auto tset_gid = -1; //to check for tile sets 
+                if (tset_gid == -1) { //not in the tile set, then skip
+                    continue;
+                }
+
+                //save width and height of tileset 
+                //calculate area to draw on
+                //x = current_GID % (ts_width / tile_width) * tile_width
+                //y = current_GID / (ts_width / tile_height)) * tile_height;
+  
+                //calculate world position of tile; x * tile_width and y * tile_height
+                //save tile info in a vector 
+                
+            }
+        }
+    }
+}
 void Scene::loadScene(string sceneFilePath) {
     json j;
     ifstream ifs(sceneFilePath);

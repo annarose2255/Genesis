@@ -1,8 +1,8 @@
-#include "ChangeSceneEvent.h"
-
+#include "FightEvent.h"
+#include "Event.h"
 using namespace std;
 
-ChangeSceneEvent::ChangeSceneEvent(string type, EventDispatcher* source, DisplayObjectContainer* character, string scenePath) {
+FightEvent::FightEvent(string type, EventDispatcher* source, DisplayObjectContainer* character, DisplayObjectContainer* enemy, string scenePath) : Event(type, source) {
 	this->eventType = type;
 	this->source = source;
 	this->chara = character;

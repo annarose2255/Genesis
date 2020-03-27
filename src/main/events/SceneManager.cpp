@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 #include <iostream>
 
-SceneManager::SceneManager(Displaydoor *chara, Scene *s)
+SceneManager::SceneManager(DisplayObject *chara, Scene *s)
 {
     currentS = s;
     character = chara;
@@ -14,8 +14,8 @@ void SceneManager::handleEvent(Event* e)
 {
     if (e->getType() == CHANGE)
     {
-        ChangeSceneEvent* event = dynamic_cast<ChangeSceneEvent*>(e);
-        Scene* nextScene = Scene();
+        ChangeSceneEvent* event = dynamic_cast<ChangeSceneEvent*>(event);
+        Scene* nextScene = new Scene();
         nextScene->loadScene(event->newScene);
         nextScene->addChild(character);
 
@@ -30,8 +30,8 @@ void SceneManager::handleEvent(Event* e)
     }
     else if (e->getType() == FIGHT)
     {
-        FightEvent* event = dynamic_cast<FightEvent*>(e);
-        Scene* nextScene = Scene();
+        FightEvent* event = dynamic_cast<FightEvent*>(event);
+        Scene* nextScene = new Scene();
         nextScene->loadScene(event->newScene);
         nextScene->addChild(character);
         nextScene->addChild(event->enemy);

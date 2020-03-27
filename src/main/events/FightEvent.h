@@ -7,7 +7,7 @@
 
 using namespace std;
 
-class FightEvent : Event {
+class FightEvent : public Event {
 
 public:
 	FightEvent(string type, EventDispatcher* source, DisplayObjectContainer* character, DisplayObjectContainer* enemy, string scenePath);
@@ -17,7 +17,8 @@ public:
 	string newScene;
 	
 private:
-
+	string eventType = "";
+	EventDispatcher* source;
 };
 
 #endif
