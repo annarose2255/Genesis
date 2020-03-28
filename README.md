@@ -2,8 +2,7 @@
 
 Demo:
 
-This demo is similar to the QuestDemo but shows sprite support with the spinning gold coin using the new Animated Sprite constructor.
-The demo also has the inital code for the Game Controller wrapper. For now, it prints out when you press the A or B button in the terminal.
+This Demo for Collision Detection is not currently working. For some reason, the globalTransform() function doesn't work properly, but I have a lot of the code ready for Object Aligned Hitbox to work.
 
 Instructions:
 
