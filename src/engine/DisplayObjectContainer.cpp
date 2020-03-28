@@ -30,7 +30,7 @@ DisplayObjectContainer::~DisplayObjectContainer() {
 void DisplayObjectContainer::addChild(DisplayObject* child) {
     cout << "adding child" << endl;
     children.push_back(child);
-    child->parent = this; // make sure to include reverse reference also
+    child->parent = (DisplayObject *)this; // make sure to include reverse reference also
 }
 
 void DisplayObjectContainer::removeImmediateChild(DisplayObject* child) {
