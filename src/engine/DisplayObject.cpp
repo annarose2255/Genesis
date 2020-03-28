@@ -132,22 +132,24 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 	return (atan2(y, x) * 180 / PI);
 }
 
-AffineTransform DisplayObject::globalTransform() {
+AffineTransform *DisplayObject::globalTransform() {
 	cout << "GT" << endl;
-	AffineTransform gt;
-	// if (this->parent != NULL){
-	// 	cout << "have parent" << endl;
-	// 	gt = this->parent->globalTransform();
-	// 	// undo pivot transformations
-	// }
-	this->applyTransformations(gt);
-	// cout << "returning" << endl;
+	AffineTransform *gt = new AffineTransform();
+	cout << parent << endl;
+	if (parent != NULL){
+		cout << "have parent" << endl;
+		gt = this->parent->globalTransform();
+		// undo pivot transformations
+	}
+	this->applyTransformations(*gt);
+	cout << "returning: " << endl;
+	gt->printAT();
 	return gt;
 }
 
 DisplayObject::HitboxPoints DisplayObject::getHitbox() {
 	cout << "getting hitbox" << endl;
-	AffineTransform gt = this->globalTransform();
+	AffineTransform gt = *this->globalTransform();
 	HitboxPoints pts;
 	pts.topLeft = gt.transformPoint(this->hitbox.origin.x, this->hitbox.origin.y);
 	pts.topLeft = gt.transformPoint(this->hitbox.origin.x + this->hitbox.width, this->hitbox.origin.y);
@@ -159,8 +161,11 @@ DisplayObject::HitboxPoints DisplayObject::getHitbox() {
 
 void DisplayObject::drawHitbox(){
     SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+	cout << "getting points" << endl;
     HitboxPoints pts = this->getHitbox();
+	cout << "got pts" << endl;
     SDL_RenderDrawLine(Game::renderer, pts.topLeft.x, pts.topLeft.y, pts.topRight.x, pts.topRight.y);
+	cout << "rendering top line" << endl;
     SDL_RenderDrawLine(Game::renderer, pts.topRight.x, pts.topRight.y, pts.bottomRight.x, pts.bottomRight.y);
 	SDL_RenderDrawLine(Game::renderer, pts.bottomLeft.x, pts.bottomLeft.y, pts.bottomRight.x, pts.bottomRight.y);
 	SDL_RenderDrawLine(Game::renderer, pts.topLeft.x, pts.topLeft.y, pts.bottomLeft.x, pts.bottomLeft.y);

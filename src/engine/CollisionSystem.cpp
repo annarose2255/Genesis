@@ -31,7 +31,7 @@ void CollisionSystem::watchForCollisions(string type1, string type2){
 //	SDL_Point* DisplayObject::getGlobalHitbox();
 bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
     // get points for hitbox1 in global coordinate system
-	AffineTransform gT1 = obj1->globalTransform();
+	AffineTransform gT1 = *obj1->globalTransform();
 	SDL_Point topLeft1 = gT1.transformPoint(0, 0);
 	SDL_Point topRight1 = gT1.transformPoint(obj1->hitbox.width, 0);
 	SDL_Point bottomRight1 = gT1.transformPoint(obj1->hitbox.width, obj1->hitbox.height);
@@ -46,7 +46,7 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 	Line displayObjectLines1[4] = {l1, l2, l3, l4};
 
 	// get points for hitbox2 in global coordinate system
-	AffineTransform gT2 = obj2->globalTransform();
+	AffineTransform gT2 = *obj2->globalTransform();
 	SDL_Point topLeft2 = gT2.transformPoint(0, 0);
 	SDL_Point topRight2 = gT2.transformPoint(obj2->hitbox.width, 0);
 	SDL_Point bottomRight2 = gT2.transformPoint(obj2->hitbox.width, obj2->hitbox.height);

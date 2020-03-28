@@ -68,7 +68,7 @@ public:
 	void applyTransformations(AffineTransform &at);
 	void reverseTransformations(AffineTransform &at);
 
-	AffineTransform globalTransform();
+	AffineTransform *globalTransform();
 
 	int getWidth();
 	int getHeight();
