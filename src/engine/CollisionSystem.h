@@ -9,11 +9,6 @@
 
 using namespace std;
 
-struct Line {
-	SDL_Point pt1;
-	SDL_Point pt2;
-};
-
 class CollisionSystem : public EventListener{
 
 public:
@@ -47,6 +42,7 @@ private:
 
     int getOrientation(SDL_Point p1, SDL_Point q1, SDL_Point p2);
 	bool intersects(Line l1, Line l2);
+	bool checkInside(HitboxPoints pts, SDL_Point pt);
 	
 };
 

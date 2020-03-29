@@ -10,14 +10,20 @@
 
 using namespace std;
 
-class DisplayObject{
-
 struct HitboxPoints {
 	SDL_Point topLeft;
 	SDL_Point topRight;
 	SDL_Point bottomLeft;
 	SDL_Point bottomRight;
 };
+
+struct Line {
+	SDL_Point pt1;
+	SDL_Point pt2;
+};
+
+class DisplayObject{
+
 
 public:
 
@@ -72,7 +78,9 @@ public:
 
 	int getWidth();
 	int getHeight();
-	HitboxPoints getHitbox();
+	HitboxPoints getHitboxPts();
+	// Line** getHitboxLines();
+	void setHitbox(SDL_Point origin, int width, int height);
 	void drawHitbox();
 
 	bool visible = true;
@@ -88,9 +96,10 @@ public:
     bool isSheet = false;
     SDL_Rect srcrect;
 	Hitbox hitbox;
+	double distance(SDL_Point &p1, SDL_Point &p2);
 	
 private:
-	double distance(SDL_Point &p1, SDL_Point &p2);
+	
 	double calculateRotation(SDL_Point &origin, SDL_Point &p);
 	
 	SDL_Texture* texture = NULL;

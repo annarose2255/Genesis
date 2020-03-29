@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "AnimatedSprite.h"
 #include "CoinListener.h"
+#include "CollisionSystem.h"
 
 using namespace std;
 
@@ -21,26 +22,18 @@ public:
 	virtual void draw(AffineTransform &at);
 
 private:
+
+	CollisionSystem* collisionSystem;
 	
 	AnimatedSprite* coin;
 	DisplayObjectContainer *questComplete;
-	// Sprite* planet1;
-	// Sprite* planet2;
-	// Sprite* moon1_1;
-
-	// DisplayObjectContainer* p1container;
-	// DisplayObjectContainer* p2container;
 	DisplayObjectContainer* allSprites;
-	EventListener* coinlis;
-	EventListener* myQuestManager;
-	EventDispatcher* eDispatcher;
-	AnimatedSprite* character;
-	bool isWalking = false;
-	bool left = false;
-	bool isJumping = false;
-    bool isOngoing = true;
 
-    bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
+	// EventListener* coinlis;
+	// EventListener* myQuestManager;
+	// EventDispatcher* eDispatcher;
+	// AnimatedSprite* character;
+
 };
 
 #endif
