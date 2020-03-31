@@ -24,7 +24,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
     scene2 = new Scene();
     //scene2->loadScene("./resources/scenes/character.json");
-	scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 2.tmx");
+	scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx");
 
     change = true;
     currentScene = scene2;
@@ -106,11 +106,11 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		Game::camera->position.x+=5;
 	}
-	if (currentScene->position.y-2 > 106) { //change to check a specific layer
-		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-			Game::camera->position.y-=5;
-		}
-	} 
+	
+	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+		Game::camera->position.y-=5;
+	}
+
 	
 	if ((currentScene->position.y <= Game::camera->camera.h) ){
 		if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
