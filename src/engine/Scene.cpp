@@ -36,8 +36,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
         auto ts = tset.getTileSize(); 
         sdl_ts.x = ts.x; 
         sdl_ts.y = ts.y; 
-        // tilesets.insert(std::pair<int, string>(tset.getFirstGID(), tex));
-        tilesets.push_back(make_pair(tset.getFirstGID(), tex));
+        tilesets.insert(std::pair<int, string>(tset.getFirstGID(), tex));
         tsize.insert(std::pair<int, SDL_Point>(tset.getFirstGID(), sdl_ts)); //save size of each tileset
         // cout << "Tsize x " << sdl_ts.x << endl;
         // cout << "Tsize y " << sdl_ts.y << endl;
@@ -71,11 +70,10 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 //if first tileset's GID <= GID of tileset, then save tile GID 
                 auto tset_gid = -1; //to check for tile sets
                 // cout << "Size of tilesets " << tilesets.size() << endl;
-                for (std::vector<pair<int, string>>::iterator ts = tilesets.begin(); ts!= tilesets.end(); ++ts) {
-                    cout << "ts first " << ts->first << endl;
-                    cout << "ts second " << ts->second << endl;
-                    if (ts->first <= cur_gid) {
-                        tset_gid = ts->first;
+                for (auto& ts : tilesets) {
+                    cout << "ts first " << ts.first << endl;
+                    if (ts.first <= cur_gid) {
+                        tset_gid = ts.first;
                         break;
                     }
                 }
@@ -101,12 +99,16 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 //save tile info in the vector 
                 //x_pos, y_pos, tile_width=w, tile_height=h
                 //include region_x and y?? like the origin I guess..
-                DisplayObject* temp = new DisplayObject(" ", tilesets.find(tset_gid)->second);
+                DisplayObject* temp = new DisplayObject(" ", tilesets[tset_gid]);
                 // cout << tilesets[tset_gid].second << endl;
                 temp->position.x = x_pos; 
                 temp->position.y = y_pos; 
                 temp->width = tile_width; 
                 temp->height = tile_height; 
+                // temp->srcrect.x = region_x; 
+                // temp->srcrect.y = region_y; 
+                // temp->srcrect.w = tile_width; 
+                // temp->srcrect.h = tile_height; 
                 temp->visible = true;
                 temp->scaleX = 1;
                 temp->scaleY = 1;

@@ -126,23 +126,12 @@ void DisplayObject::draw(AffineTransform &at){
 	
 		if (&Game::camera != NULL) {
 			// cout << "Camera " << Game::camera->camera.x << endl;
+			// cout << "srcrect w" << srcrect.w << endl;
 			dstrect.x = (int) (pos2.x - Game::camera->camera.x) * scrollSpeed; 
 			dstrect.y = (int) (pos2.y - Game::camera->camera.y) * scrollSpeed; 
 			dstrect.w = w; 
 			dstrect.h = h;
 		}
-		
-		// //check against screen_width so think about passing variable
-		// if ( pos2.x + w > 800 || checkCollision(dstrect, collider)) {
-		// 	pos2.x-=2; 
-		// 	dstrect.x = pos2.x;
-		// 	cout << "collision?" << endl;
-		// }
-		// if (pos2.y + h > 700 || checkCollision(dstrect, collider)) {
-		// 	pos2.y-=2; 
-		// 	dstrect.y = pos2.y;
-		// 	cout << "collision?" << endl;
-		// }
 		
 		SDL_RendererFlip flip;
 		if (facingRight) {
@@ -151,9 +140,6 @@ void DisplayObject::draw(AffineTransform &at){
 		else {
 			flip = SDL_FLIP_HORIZONTAL;
 		}
-
-		//Camera as child of my game and parent of every sprite that I run
-		//instead of moving camera by --> can move by pivot points
 		
 		SDL_SetTextureAlphaMod(curTexture, alpha);
 		SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	

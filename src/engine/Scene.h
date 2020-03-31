@@ -37,7 +37,7 @@ public:
 	vector<DisplayObjectContainer*> layerList; 
 	vector<DisplayObject*> objects; //in the scene
 	vector<AnimatedSprite*> asList;
-	vector<pair<int, string>> tilesets; //store image file of tilesets
+	map<int, string> tilesets; //store image file of tilesets
 	map<int, SDL_Point> tsize; //store image file of tilesets	
 	// vector<pair<int, SDL_Point>> tsize; //store size of tilesets 
 	vector<DisplayObject*> tiles;
