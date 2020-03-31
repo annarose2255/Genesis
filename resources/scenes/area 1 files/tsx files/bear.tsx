@@ -3,5 +3,5 @@
  <editorsettings>
   <export target="../bear.json" format="json"/>
  </editorsettings>
- <image source="../../../Downloads/craftpix-675522-free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster.png" width="32" height="32"/>
+ <image source="../imgs/Pink_Monster.png" width="32" height="32"/>
 </tileset>

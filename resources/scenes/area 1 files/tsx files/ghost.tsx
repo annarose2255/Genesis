@@ -3,5 +3,5 @@
  <editorsettings>
   <export target="../ghost.json" format="json"/>
  </editorsettings>
- <image source="../../../Downloads/Ghost.png" width="300" height="201"/>
+ <image source="../imgs/Ghost.png" width="300" height="201"/>
 </tileset>

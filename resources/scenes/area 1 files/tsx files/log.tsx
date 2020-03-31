@@ -3,5 +3,5 @@
  <editorsettings>
   <export target="../log.json" format="json"/>
  </editorsettings>
- <image source="../../../Downloads/craftpix-774512-free-jump-game-items/PNG/Props/Prop_3.png" width="380" height="143"/>
+ <image source="../imgs/Prop_3.png" width="380" height="143"/>
 </tileset>

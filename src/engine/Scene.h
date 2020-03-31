@@ -12,6 +12,7 @@
 #include <fstream>
 
 using namespace std;
+
 using json = nlohmann::json;
 
 class Scene : public DisplayObjectContainer{
@@ -36,7 +37,10 @@ public:
 	vector<DisplayObjectContainer*> layerList; 
 	vector<DisplayObject*> objects; //in the scene
 	vector<AnimatedSprite*> asList;
-
+	vector<pair<int, string>> tilesets; //store image file of tilesets
+	map<int, SDL_Point> tsize; //store image file of tilesets	
+	// vector<pair<int, SDL_Point>> tsize; //store size of tilesets 
+	vector<DisplayObject*> tiles;
 private:
 
 };

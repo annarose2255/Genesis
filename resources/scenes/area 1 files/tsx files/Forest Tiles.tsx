@@ -3,5 +3,5 @@
  <editorsettings>
   <export target="../../Forest Tiles.json" format="json"/>
  </editorsettings>
- <image source="../../../Downloads/Free Pixel Art plataformer painted style/Free Pixel Art plataformer painted style/PNG/tileset.png" width="950" height="256"/>
+ <image source="../imgs/tileset.png" width="950" height="256"/>
 </tileset>

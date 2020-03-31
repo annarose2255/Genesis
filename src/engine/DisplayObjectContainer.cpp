@@ -84,7 +84,7 @@ DisplayObject* DisplayObjectContainer::getChild(string id) {
 }
 
 void DisplayObjectContainer::setScrollSpeed(double speed) {
-    cout << "DOC speed " << speed << endl;
+    // cout << "DOC speed " << speed << endl;
     scrollSpeed = speed;
     DisplayObject::setScrollSpeed(speed);
 }

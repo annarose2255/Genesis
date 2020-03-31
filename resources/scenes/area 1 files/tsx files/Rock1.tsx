@@ -3,5 +3,5 @@
  <editorsettings>
   <export target="../Rock1.json" format="json"/>
  </editorsettings>
- <image source="../../../Downloads/craftpix-774512-free-jump-game-items/PNG/Props/Prop_5.png" width="265" height="169"/>
+ <image source="../imgs/Prop_5.png" width="265" height="169"/>
 </tileset>

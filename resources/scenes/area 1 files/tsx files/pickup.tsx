@@ -3,5 +3,5 @@
  <editorsettings>
   <export target="../pickup.json" format="json"/>
  </editorsettings>
- <image source="../../../Downloads/craftpix-774512-free-jump-game-items/PNG/Bonus/Bonus_1_3.png" width="162" height="147"/>
+ <image source="../imgs/Bonus_1_3.png" width="162" height="147"/>
 </tileset>

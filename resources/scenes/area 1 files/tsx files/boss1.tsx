@@ -3,5 +3,5 @@
  <editorsettings>
   <export target="../boss1.json" format="json"/>
  </editorsettings>
- <image source="../../../Downloads/3610abde09d13c15915f23a6fda4ab310316cd28/Toady - Free Character/Toady/Sidescroller/Idle/Toady_Idle0026.png" width="90" height="90"/>
+ <image source="../imgs/Toady_Idle0026.png" width="90" height="90"/>
 </tileset>

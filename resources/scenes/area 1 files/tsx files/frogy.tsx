@@ -3,5 +3,5 @@
  <editorsettings>
   <export target="../frogy.json" format="json"/>
  </editorsettings>
- <image source="../../../Downloads/frog/frog/frog2.png" width="50" height="42"/>
+ <image source="../imgs/frog2.png" width="50" height="42"/>
 </tileset>

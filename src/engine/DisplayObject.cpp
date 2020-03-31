@@ -125,12 +125,13 @@ void DisplayObject::draw(AffineTransform &at){
 		pos2.y = origin.y;
 	
 		if (&Game::camera != NULL) {
-			cout << "Camera " << Game::camera->camera.x << endl;
+			// cout << "Camera " << Game::camera->camera.x << endl;
 			dstrect.x = (int) (pos2.x - Game::camera->camera.x) * scrollSpeed; 
 			dstrect.y = (int) (pos2.y - Game::camera->camera.y) * scrollSpeed; 
 			dstrect.w = w; 
 			dstrect.h = h;
 		}
+		
 		// //check against screen_width so think about passing variable
 		// if ( pos2.x + w > 800 || checkCollision(dstrect, collider)) {
 		// 	pos2.x-=2; 
