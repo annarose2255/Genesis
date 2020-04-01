@@ -43,7 +43,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
         // cout << "T image " << tex << endl;
         // tsize.push_back(std::make_pair(tset.getFirstGID(), sdl_ts));
     }
-    // cout << "Next one " << tilesets.at(1) << endl;
+    
     //main loop
     auto& map_layers = map.getLayers(); 
     for (auto& layer : map_layers) {
@@ -60,20 +60,21 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 auto tile_index = x + (y * cols);
                 //loop through each tile and save information
                 auto cur_gid = layer_tiles[tile_index].ID;
-                // cout << "Cur gid " << cur_gid << endl;
                 // If the GID is 0, skip
                 if (cur_gid == 0) {
                     continue;
                 }
-                // cout << "Current GID " << cur_gid << endl;
+                
                 //check if the tile is in the tileset by comparing GID 
                 //if first tileset's GID <= GID of tileset, then save tile GID 
                 auto tset_gid = -1; //to check for tile sets
                 // cout << "Size of tilesets " << tilesets.size() << endl;
-                for (auto& ts : tilesets) {
-                    cout << "ts first " << ts.first << endl;
-                    if (ts.first <= cur_gid) {
-                        tset_gid = ts.first;
+                //for( auto it = x.begin(); it != x.end(); i++)
+                for (auto ts = tilesets.rbegin(); ts != tilesets.rend(); ts++) {
+                    cout << "ts first " << ts->first << endl;
+                    cout << "cur gid " << cur_gid << endl;
+                    if (ts->first <= cur_gid) {
+                        tset_gid = ts->first;
                         break;
                     }
                 }
@@ -83,14 +84,16 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 // cout << "Tileset GID " << tset_gid << endl;
                 //normalizing the GID
                 cur_gid -= tset_gid;
-                auto ts_width = tsize[tset_gid].x;
-                auto ts_height = tsize[tset_gid].y;
+                // auto ts_width = 0;
+                // auto ts_height = 0;
+                // SDL_QueryTexture(tilesets[tset_gid],
+                //     NULL, NULL, &ts_width, &ts_height);
                 // cout << "TS w " << ts_width << endl;
                 // cout << "TS h " << ts_height << endl;
                 
                 //calculate area to draw on
-                auto region_x = (cur_gid % (ts_width / tile_width)) * tile_width;
-                auto region_y = (cur_gid / (ts_width / tile_height)) * tile_height;
+                // auto region_x = (cur_gid % (ts_width / tile_width)) * tile_width;
+                // auto region_y = (cur_gid / (ts_width / tile_height)) * tile_height;
                 // cout << "region_x " << region_x << endl;
                 // cout << "region_y " << region_y << endl;
                 //calculate world position of tile
@@ -100,13 +103,13 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 //x_pos, y_pos, tile_width=w, tile_height=h
                 //include region_x and y?? like the origin I guess..
                 DisplayObject* temp = new DisplayObject(" ", tilesets[tset_gid]);
-                // cout << tilesets[tset_gid].second << endl;
+                cout << tilesets[tset_gid] << endl;
                 temp->position.x = x_pos; 
                 temp->position.y = y_pos; 
                 temp->width = tile_width; 
                 temp->height = tile_height; 
-                // temp->srcrect.x = region_x; 
-                // temp->srcrect.y = region_y; 
+                // temp->srcrect.x = 0; 
+                // temp->srcrect.y = 0; 
                 // temp->srcrect.w = tile_width; 
                 // temp->srcrect.h = tile_height; 
                 temp->visible = true;
