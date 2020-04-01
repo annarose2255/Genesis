@@ -9,7 +9,7 @@
 #include "QuestManager.h"
 #include "Tween.h"
 #include "TweenableParams.h"
-#include "TweenEvent.h"
+#include "TweenJuggler.h"
 
 using namespace std;
 
@@ -19,11 +19,9 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
 	scene1 = new Scene(); 
 	scene1->loadScene("./resources/scenes/solarsystem.json");
-	//Scene Transitions 
-	//scene1->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 2.tmx");
 
     scene2 = new Scene();
-    //scene2->loadScene("./resources/scenes/character.json");
+    // scene2->loadScene("./resources/scenes/character.json");
 	scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx");
 
     change = true;
@@ -41,14 +39,15 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
 	//QuestDemo
 	// eDispatcher = new EventDispatcher();
-	// cout << "up to dispatcher" << endl;
+	// // cout << "up to dispatcher" << endl;
 	// coinlis = new CoinListener(scene2->asList.at(0), scene2->objects.at(0));
-	// cout << "we good" << endl;
+	// // cout << "we good" << endl;
 	// myQuestManager = new QuestManager(scene2->objects.at(1));
 	// eDispatcher->addEventListener(coinlis, PICKUP);
 	// eDispatcher->addEventListener(myQuestManager, COLLECTED);
 
-	// //Tween
+	//Tween
+	// TweenJuggler* tj = new TweenJuggler();
 	// Tween* charTween = new Tween(scene2->asList.at(0));
 	// TweenableParams px;
 	// TweenableParams py; 
@@ -56,9 +55,9 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	// py.name = "position.y";
 	// charTween->animate(px, 0, 300, 30); //have not implemented yet :')
 	// charTween->animate(py, 700, 300, 30);
-	// TweenEvent te = new TweenEvent("enterChara", charTween); //handle events 
-	// TweenJuggler tj = new TweenJuggler();
-	// tj.add(charTween);
+	// // TweenEvent te = new TweenEvent("enterChara", charTween); //handle events 
+	// //mimic coin demo
+	// tj->add(charTween);
 
 }
 
@@ -70,20 +69,45 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
-        cam->removeImmediateChild(currentScene);
+        Game::camera->removeImmediateChild(currentScene);
         cout << instance->children.size() << endl;
         currentScene = scene2;
-        cam->addChild(currentScene);
+        Game::camera->addChild(currentScene);
         change = !change;
     }
     else if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && !change) {
         cout << "123" << endl;
-        cam->removeImmediateChild(currentScene);
+       	Game::camera->removeImmediateChild(currentScene);
         currentScene = scene1;
-        cam->addChild(currentScene);
+        Game::camera->addChild(currentScene);
         change = !change;
     }
-
+	if ((pressedKeys.find(SDL_SCANCODE_Z) != pressedKeys.end())) {
+		currentScene->scaleX+=0.01; 
+		currentScene->scaleY+=0.01;
+		// currentScene->scaleY++; 
+		
+	}
+	if ((pressedKeys.find(SDL_SCANCODE_X) != pressedKeys.end())) {
+		currentScene->scaleY-=0.01;
+		currentScene->scaleX-=0.01;
+		// currentScene->scaleY--;
+	}
+	//pivot
+	if ((pressedKeys.find(SDL_SCANCODE_I) != pressedKeys.end())) {
+		currentScene->pivot.y++;
+		// currentScene->scaleY++; 	
+	}
+	if ((pressedKeys.find(SDL_SCANCODE_J) != pressedKeys.end())) {
+		currentScene->pivot.x--;
+	}
+	if ((pressedKeys.find(SDL_SCANCODE_K) != pressedKeys.end())) {
+		currentScene->pivot.y--;
+		
+	}
+	if ((pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end())) {
+		currentScene->pivot.x++;		
+	}
     //for music - press1 and the music will play
 	//user press 1 --> play music
 	if ((pressedKeys.find(SDL_SCANCODE_1) != pressedKeys.end())) {
@@ -106,9 +130,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		Game::camera->position.x+=5;
 	}
-	
-	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-		Game::camera->position.y-=5;
+	if (currentScene->position.y-2 > 106) {
+		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+			Game::camera->position.y-=5;
+		}
 	}
 
 	
@@ -155,14 +180,14 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		Game::camera->camera.y = Game::camera->camera.h;
 	}
 	// if (currentScene->objects.size() > 0) {
-	// 	cout << "objects exist" << endl;
+	// 	// cout << "objects exist" << endl;
 	// 	if (currentScene->objects.at(0)->visible && isCharInCoin(currentScene->asList.at(0), currentScene->objects.at(0))) {
 	// 		eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
 	// 		// currentScene->addChild(questComplete);
     // 	}
 	// 	if (!currentScene->objects.at(0)->visible && isOngoing)
 	// 	{
-	// 		cout << "collected event" << endl;
+	// 		// cout << "collected event" << endl;
 	// 		isOngoing = false;
 	// 		eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
 	// 	}

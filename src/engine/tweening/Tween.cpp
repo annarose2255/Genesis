@@ -2,10 +2,13 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include "Tween.h"
-#include "AnimatedSprite.h"
 
 Tween::Tween(AnimatedSprite* object) {
     this->object = object; //saves the object to be tweened
+}
+
+Tween::Tween(Scene* object) { //for scenes
+    this->scene = object; //saves the object to be tweened
 }
     
 void Tween::animate(TweenableParams fieldToAnimate, double startVal, double endVal, double time){

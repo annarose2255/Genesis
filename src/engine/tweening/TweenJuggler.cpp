@@ -5,9 +5,9 @@
 TweenJuggler::TweenJuggler(){
 
 }
-void TweenJuggler::add(Tween tween){
+void TweenJuggler::add(Tween* tween){
     //adds to the Queue
-    queue.push_back(&tween);
+    queue.push_back(tween);
 }
 void TweenJuggler::nextFrame(){
     for (int i; i < queue.size(); i++) {

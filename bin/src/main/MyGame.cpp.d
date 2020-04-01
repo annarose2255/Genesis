@@ -11,8 +11,8 @@ bin/./src/main/MyGame.cpp.o: src/main/MyGame.cpp src/engine/Sprite.h \
  src/engine/DisplayObjectContainer.h \
  src/engine/tweening/TweenableParams.h \
  src/engine/tweening/TweenTransitions.h \
- src/engine/tweening/TweenableParams.h src/engine/tweening/TweenEvent.h \
- src/engine/events/EventDispatcher.h src/engine/tweening/Tween.h
+ src/engine/tweening/TweenableParams.h src/engine/tweening/TweenJuggler.h \
+ src/engine/tweening/Tween.h
 
 src/engine/Sprite.h:
 
@@ -70,8 +70,6 @@ src/engine/tweening/TweenTransitions.h:
 
 src/engine/tweening/TweenableParams.h:
 
-src/engine/tweening/TweenEvent.h:
-
-src/engine/events/EventDispatcher.h:
+src/engine/tweening/TweenJuggler.h:
 
 src/engine/tweening/Tween.h:

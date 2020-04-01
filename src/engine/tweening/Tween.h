@@ -8,13 +8,13 @@
 #include "TweenableParams.h"
 #include "TweenTransitions.h"
 #include "AnimatedSprite.h"
-
+#include "Scene.h"
 
 class Tween{ 
 
 public:
 	Tween(AnimatedSprite* object);
-    
+    Tween(Scene* object);
     void animate(TweenableParams fieldtoAnimate, double startVal, double endVal, double time);
 
     void update();
@@ -22,6 +22,7 @@ public:
     void setValue(TweenableParams param, double value);
 private:
     AnimatedSprite* object;
+    Scene* scene;
 	double curTime;
     double endTime;
     TweenableParams param; 

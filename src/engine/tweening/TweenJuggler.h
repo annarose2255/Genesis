@@ -11,7 +11,7 @@ class TweenJuggler{
 
 public:
 	TweenJuggler();
-    void add(Tween tween);
+    void add(Tween* tween);
     void nextFrame();
     
 private:

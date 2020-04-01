@@ -123,7 +123,7 @@ void DisplayObject::draw(AffineTransform &at){
 
 		pos2.x = origin.x; 
 		pos2.y = origin.y;
-	
+
 		if (&Game::camera != NULL) {
 			// cout << "Camera " << Game::camera->camera.x << endl;
 			// cout << "srcrect w" << srcrect.w << endl;
