@@ -26,7 +26,7 @@ public:
 	
 	static SDL_Rect camera;
 
-	virtual void update(set<SDL_Scancode> pressedKeys);
+	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
 	virtual void draw(AffineTransform &at);
 
 private:

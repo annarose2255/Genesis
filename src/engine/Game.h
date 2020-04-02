@@ -5,11 +5,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "DisplayObjectContainer.h"
-<<<<<<< HEAD
 #include "Camera.h"
-=======
 #include "DisplayObject.h"
->>>>>>> collision-detection
 #include <vector>
 #include <set>
 

@@ -15,7 +15,6 @@ using namespace rapidxml;
 int main(int argc, char ** argv)
 {
   
-<<<<<<< HEAD
     // SheetDemo* sheetDemo = new SheetDemo();
     // sheetDemo->start();
     // delete sheetDemo;
@@ -30,27 +29,6 @@ int main(int argc, char ** argv)
     xml_node<> *node = doc.first_node("TextureAtlas");
     cout << node->first_node()->first_attribute()->next_attribute("w")->value() << endl;
 */
-=======
-//     SheetDemo* sheetDemo = new SheetDemo();
-//     sheetDemo->start();
-//     delete sheetDemo;
-//     return 0;
-
-    CollisionDemo* collisionDemo = new CollisionDemo();
-    collisionDemo->start();
-    delete collisionDemo;
-    return 0;
-
-// // /*
-//     // Testing rapid xml
-//     file<> xmlFile("./resources/quest/Gold.xml");
-//     xml_document<> doc;
-//     doc.parse<0>(xmlFile.data());
-//     cout << doc.first_node()->name() << endl;
-//     xml_node<> *node = doc.first_node("TextureAtlas");
-//     cout << node->first_node()->first_attribute()->next_attribute("w")->value() << endl;
-// */
->>>>>>> collision-detection
 
 /*
     AnimatedSprite* anim = new AnimatedSprite("Gold", "./resources/quest/Gold.png", "./resources/quest/Gold.xml");

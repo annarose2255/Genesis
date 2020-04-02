@@ -229,7 +229,7 @@ void DevTool::start(){
 }
 
 
-void DevTool::update(set<SDL_Scancode> pressedKeys){
+void DevTool::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
 
     // Read keyboard inputs
 

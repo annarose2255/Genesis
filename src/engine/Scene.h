@@ -24,17 +24,14 @@ public:
     
     json toJson();
 
-<<<<<<< HEAD
     DisplayObject* makeDisplayObject(json data);
     DisplayObjectContainer* makeDisplayObjectContainer(json data);
 	Layer* makeLayer(json data);
     Sprite* makeSprite(json data);
     AnimatedSprite* makeAnimatedSprite(json data);
 
-	virtual void update(set<SDL_Scancode> pressedKeys);
-=======
+	// virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput ControllerInput);
->>>>>>> collision-detection
 	virtual void draw(AffineTransform &at);
 
 	AnimatedSprite* root;

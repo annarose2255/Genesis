@@ -96,7 +96,7 @@ public:
 	bool camPerspective = true;
     SDL_Rect srcrect;
 	Hitbox hitbox;
-	
+	SDL_Texture* curTexture;
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);
 	double calculateRotation(SDL_Point &origin, SDL_Point &p);

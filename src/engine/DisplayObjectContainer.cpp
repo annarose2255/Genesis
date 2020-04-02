@@ -88,6 +88,12 @@ DisplayObject* DisplayObjectContainer::getChild(string id) {
     return NULL;
 }
 
+void DisplayObjectContainer::setScrollSpeed(double speed) {
+    cout << "DOC speed " << speed << endl;
+    scrollSpeed = speed;
+    DisplayObject::setScrollSpeed(speed);
+}
+
 void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput) {
     DisplayObject::update(pressedKeys, controllerInput);
     for (int i = 0; i < children.size(); i++) {

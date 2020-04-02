@@ -8,7 +8,7 @@ bin/./src/main/main.cpp.o: src/main/main.cpp src/engine/DisplayObject.h \
  src/main/CoinListener.h src/engine/events/Event.h \
  src/engine/events/EventDispatcher.h src/engine/events/Event.h \
  src/engine/events/EventListener.h src/engine/events/EventListener.h \
- src/main/DevTool.h src/main/SheetDemo.h \
+ src/main/DevTool.h src/main/SheetDemo.h src/main/CollisionDemo.h \
  src/engine/lib/rapidxml_utils.hpp src/engine/lib/rapidxml.hpp
 
 src/engine/DisplayObject.h:
@@ -60,6 +60,8 @@ src/engine/events/EventListener.h:
 src/main/DevTool.h:
 
 src/main/SheetDemo.h:
+
+src/main/CollisionDemo.h:
 
 src/engine/lib/rapidxml_utils.hpp:
 
