@@ -34,7 +34,10 @@ void DisplayObjectContainer::addChild(DisplayObject* child) {
     children.push_back(child);
     child->parent = (DisplayObject *)this; // make sure to include reverse reference also
     // notify event dispatcher
-    // EventDispatcher::getInstance()->dispatchEvent()
+    // create DO_ADDED_EVENT
+    unordered_map<string, void*>* data = new unordered_map<string, void*>({ {"displayObject", child} });
+    Event* e = new Event(DO_ADDED_EVENT, data);
+    EventDispatcher::getInstance()->dispatchEvent(e);
 }
 
 void DisplayObjectContainer::removeImmediateChild(DisplayObject* child) {

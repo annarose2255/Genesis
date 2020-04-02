@@ -4,11 +4,19 @@
 #include "Sprite.h"
 #include "CollisionDemo.h"
 #include "QuestManager.h"
+#include "Event.h"
+#include "CollisionSystem.h"
 
 using namespace std;
 
 CollisionDemo::CollisionDemo() : Game(1200, 1000) {
 	instance = this;
+	// init collision system for demo
+	collisionSystem = new CollisionSystem();
+	// get pointer to event dispatcher
+	EventDispatcher* eDispatcher = EventDispatcher::getInstance();
+	// register adding display object event  to collision system
+	eDispatcher->addEventListener(collisionSystem, DO_ADDED_EVENT);
 
 	allSprites = new DisplayObjectContainer();
 	// move that point to the middle
@@ -19,12 +27,16 @@ CollisionDemo::CollisionDemo() : Game(1200, 1000) {
 	coin->play("Gold");
     coin->position = {0, 0};
 	coin->setHitbox({20, 0}, 60, coin->height);
+	coin->gameType = "collectable";
 	// coin->width = coin->height = 100;
 	// coin->pivot = {50, 50};
 	questComplete = new DisplayObjectContainer("quest complete", "./resources/quest/questComplete.png");
 	questComplete->setHitbox({0, 0}, questComplete->width, questComplete->height);
+	questComplete->gameType = "not collectable";
 	allSprites->addChild(coin);
 	allSprites->addChild(questComplete);
+
+	collisionSystem->watchForCollisions("collectable", "not collectable");
 }
 
 CollisionDemo::~CollisionDemo(){
@@ -129,12 +141,12 @@ void CollisionDemo::update(set<SDL_Scancode> pressedKeys, ControllerInput contro
 		questComplete->scaleY *= 1/1.05;
 	}
 
-	if (collisionSystem->collidesWith(questComplete, coin) ) {
-		cout << "COLLISION" << endl;
-	} else {
-		cout << "NO COLLISION" << endl;
-	}
-	
+	// if (collisionSystem->collidesWith(questComplete, coin) ) {
+	// 	// cout << "COLLISION" << endl;
+	// } else {
+	// 	// cout << "NO COLLISION" << endl;
+	// }
+	collisionSystem->update();
 
 	Game::update(pressedKeys, controllerInput);
 }

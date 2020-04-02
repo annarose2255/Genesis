@@ -110,14 +110,14 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys, ControllerInput controller
         }
 	}
     if (coin->visible && isCharInCoin(character, coin)) { 
-        eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
+        eDispatcher->dispatchEvent(new Event(PICKUP));
         allSprites->removeImmediateChild(coin);
     }
 	if (!coin->visible && isOngoing)
 	{
 		cout << "collected event" << endl;
 		isOngoing = false;
-        eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
+        eDispatcher->dispatchEvent(new Event(COLLECTED));
 	}
 	// if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 	// 	// sun->rotation += 0.01;

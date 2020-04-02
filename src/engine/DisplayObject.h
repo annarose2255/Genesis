@@ -54,6 +54,7 @@ public:
 	string imgPath = "";
 	int red, green, blue;
 	string type = "DisplayObject";
+	string gameType = "";
 
 	DisplayObject* parent = NULL;
 

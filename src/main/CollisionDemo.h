@@ -24,7 +24,6 @@ public:
 private:
 
 	CollisionSystem* collisionSystem;
-	
 	AnimatedSprite* coin;
 	DisplayObjectContainer *questComplete;
 	DisplayObjectContainer* allSprites;

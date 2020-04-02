@@ -5,7 +5,8 @@
 using namespace std;
 
 CollisionSystem::CollisionSystem(){
-
+	typeMap = unordered_map<string, vector<DisplayObject*>>();
+	collisionPairs = vector<pair<string, string>>();
 }
 
 CollisionSystem::~CollisionSystem(){
@@ -15,20 +16,45 @@ CollisionSystem::~CollisionSystem(){
 //checks collisions between pairs of DOs where the corresponding types have been requested
 //to be checked (via a single call to watchForCollisions) below.
 void CollisionSystem::update(){
-
+	// iterate over colllision pairs
+	for (auto pair=collisionPairs.begin(); pair != collisionPairs.end(); ++pair) {
+		// check for collisions between the elements in each vector
+		for (auto doType1=typeMap.at(pair->first).begin(); doType1 != typeMap.at(pair->first).end(); ++doType1) {
+			for (auto doType2=typeMap.at(pair->second).begin(); doType2 != typeMap.at(pair->second).end(); ++doType2) {
+				if (collidesWith(*doType1, *doType2)){
+					cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
+				}
+			}
+		}
+	} 
 }
 
 //This system watches the game's display tree and is notified whenever a display object is placed onto
 //or taken off of the tree. Thus, the collision system always knows what DOs are in the game at any moment automatically.
 void CollisionSystem::handleEvent(Event* e){
-
+	if (e->getType() == DO_ADDED_EVENT){
+		cout << "DISPLAY OBJECT ADDED"  << endl;
+		DisplayObject* displayObject = (DisplayObject*) e->getData("displayObject");
+		// check if gameType is not already in map
+		if (typeMap.find(displayObject->gameType) == typeMap.end()){
+			cout << "Object gameType is new: " << displayObject->gameType  << endl;
+			// if not go ahead and insert new vector with element
+			vector<DisplayObject*> newList = vector<DisplayObject*>();
+			newList.push_back(displayObject);
+			typeMap.insert({displayObject->gameType, newList});
+		} else {
+			// if already present insert into existing vector
+			cout << "Object gameType is NOT new" << displayObject->gameType  << endl;
+			typeMap.at(displayObject->gameType).push_back(displayObject);
+		}
+	}
 }
 
 //This function asks the collision system to start checking for collisions between all pairs
 //of DOs of a given type (e.g., player vs platform). The system will begin to check all player objects
 //against all platform objects that are in the current scene.
 void CollisionSystem::watchForCollisions(string type1, string type2){
-    
+    this->collisionPairs.emplace_back(type1, type2);
 }
 
 //returns true iff obj1 hitbox and obj2 hitbox overlap. Uses the following method from DO:
