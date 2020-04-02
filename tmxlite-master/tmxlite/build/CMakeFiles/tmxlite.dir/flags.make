@@ -7,11 +7,11 @@ C_FLAGS = -fPIC
 
 C_DEFINES = -Dtmxlite_EXPORTS
 
-C_INCLUDES = -I"/mnt/c/Users/Julie Zhou/Documents/Github/Genesis/tmxlite-master/tmxlite/include" 
+C_INCLUDES = -I/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/include 
 
 CXX_FLAGS =  -Wall -fPIC   -std=gnu++14
 
 CXX_DEFINES = -Dtmxlite_EXPORTS
 
-CXX_INCLUDES = -I"/mnt/c/Users/Julie Zhou/Documents/Github/Genesis/tmxlite-master/tmxlite/include" 
+CXX_INCLUDES = -I/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/include 
 

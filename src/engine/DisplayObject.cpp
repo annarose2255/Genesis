@@ -16,12 +16,14 @@ DisplayObject::DisplayObject(){
 	pos2.x = position.x; 
 	pos2.y = position.y;
 	// cam = new Camera();
+	this->setScrollSpeed(1.0);
 }
 
 DisplayObject::DisplayObject(string id, string filepath){
 	this->id = id;
 	this->imgPath = filepath;
 	loadTexture(filepath);
+	this->setScrollSpeed(1.0);
 }
 
 DisplayObject::DisplayObject(string id, int red, int green, int blue){
@@ -33,6 +35,7 @@ DisplayObject::DisplayObject(string id, int red, int green, int blue){
 	this->green = green;
 
 	this->loadRGBTexture(red, green, blue);
+	this->setScrollSpeed(1.0);
 }
 
 DisplayObject::~DisplayObject(){
@@ -132,6 +135,12 @@ void DisplayObject::draw(AffineTransform &at){
 			dstrect.w = w; 
 			dstrect.h = h;
 		}
+		else {
+			cout << "uh" << endl;
+			dstrect = {origin.x, origin.y, w, h};
+		}
+
+		//dstrect = { origin.x, origin.y, w, h };
 		
 		SDL_RendererFlip flip;
 		if (facingRight) {

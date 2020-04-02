@@ -14,23 +14,41 @@ const int WINDOW_Y = 700;
 using namespace std;
 namespace fs = std::experimental::filesystem;
 
+
 DevTool::DevTool() : Game(WINDOW_X, WINDOW_Y) {
     if (SDL_Init(SDL_INIT_EVENTS) != 0){
         cout << "Unable to initialize Events" << endl;
     }
 	instance = this;
+
+    // Initialize what we will see
     tileMenu = new DisplayObjectContainer();
     sceneWindow = new DisplayObjectContainer();
+    currentScene = new Scene();
     tileMenu->position={0, instance->windowHeight - SPRITESIZE};
-	instance->addChild(tileMenu);
-    instance->addChild(sceneWindow);
+
+    // Test
+    DisplayObjectContainer* test = new DisplayObjectContainer("test", "./resources/quest/Gold_5.png");
+    
+    currentScene->addChild(test);
+
+    sceneWindow->addChild(currentScene);
+
+	instance->addChild(tileMenu); // idk about this so far
+    Game::camera->addChild(sceneWindow);
+    instance->addChild(Game::camera);
     cout << "initted" << endl;
     IterateDirectory("resources");
+    //test->setScrollSpeed(1.0);
+    cout << test->position.x << endl;
+    cout << test->scrollSpeed <<endl;
 
-    // cam = new Camera();
-    // cam->addChild(currentScene);
 }
 
+/*
+ * Iterates through every directory in search of .png files
+ * Adds those images to the tile menu as a DOC
+*/
 void DevTool::IterateDirectory(string filepath)
 {
     for(auto& p: fs::directory_iterator(filepath))
@@ -56,6 +74,8 @@ void DevTool::IterateDirectory(string filepath)
             IterateDirectory(p.path());
         }
     }
+    cout << tileMenu->children.back()->position.x << " " << tileMenu->children.back()->position.y << endl;
+    cout << Game::camera->position.x << " " << Game::camera->position.y << endl;
 }
 
 DevTool::~DevTool(){
@@ -117,25 +137,6 @@ void DevTool::start(){
 			case SDL_KEYUP:
 				pressedKeys.erase(event.key.keysym.scancode);
 				break;
-            // case SDL_FINGERDOWN:
-            //     cout << "finger event" << endl;
-            //     if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
-            //     {
-            //         initMouseLoc = {(int)mouseEvent.tfinger.x, (int)mouseEvent.tfinger.y};
-            //         if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
-            //         {
-            //             cout << "selecting from tile menu" << endl;
-            //             int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
-            //             if (ind < tileMenu->children.size())
-            //             {
-            //                 selected = tileMenu->children[ind];
-            //             }
-            //             DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
-            //             temp->alpha = 70;
-            //             ((DisplayObjectContainer *)selected)->addChild(temp);
-            //         }
-            //     }
-            //     break;
             case SDL_MOUSEBUTTONDOWN:
                 // cout << initMouseLoc.x << endl;
                 // cout << "mousedown event" << endl;
@@ -228,18 +229,18 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
             case SDL_SCANCODE_W:
                 tileMenu->position.x += 5;
                 break;
-            // case SDL_SCANCODE_UP:
-            //     cam->position.y += 5;
-            //     break;
-            // case SDL_SCANCODE_DOWN:
-            //     cam->position.y -= 5;
-            //     break;
-            // case SDL_SCANCODE_LEFT:
-            //     cam->position.x += 5;
-            //     break;
-            // case SDL_SCANCODE_RIGHT:
-            //     cam->position.x -= 5;
-            //     break;
+            case SDL_SCANCODE_UP:
+                Game::camera->position.y += 5;
+                break;
+            case SDL_SCANCODE_DOWN:
+                Game::camera->position.y -= 5;
+                break;
+            case SDL_SCANCODE_LEFT:
+                Game::camera->position.x += 5;
+                break;
+            case SDL_SCANCODE_RIGHT:
+                Game::camera->position.x -= 5;
+                break;
             case SDL_SCANCODE_A:
                 {
                     cout << "You are altering " << selected->id << endl;
@@ -471,7 +472,6 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
 }
 
 void DevTool::draw(AffineTransform &at){ //have to remove selection box before saving then add it back in after
-	// Game::draw(at);
     SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Game::renderer);
     DevTool::drawGrid();

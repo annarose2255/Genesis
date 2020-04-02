@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/mnt/c/Users/Julie Zhou/Documents/Github/Genesis/tmxlite-master/tmxlite"
+CMAKE_SOURCE_DIR = /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/mnt/c/Users/Julie Zhou/Documents/Github/Genesis/tmxlite-master/tmxlite/build"
+CMAKE_BINARY_DIR = /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,9 +126,9 @@ install/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/mnt/c/Users/Julie Zhou/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles" "/mnt/c/Users/Julie Zhou/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/mnt/c/Users/Julie Zhou/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

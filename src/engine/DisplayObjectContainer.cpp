@@ -9,14 +9,17 @@ using namespace std;
 
 DisplayObjectContainer::DisplayObjectContainer() : DisplayObject() {
     this->type = "DisplayObjectContainer";
+    this->setScrollSpeed(1.0);
 }
 
 DisplayObjectContainer::DisplayObjectContainer(string id, string filepath) : DisplayObject(id, filepath) {
     this->type = "DisplayObjectContainer";
+    this->setScrollSpeed(1.0);
 }
 
 DisplayObjectContainer::DisplayObjectContainer(string id, int red, int green, int blue) : DisplayObject(id, red, green, blue) {
     this->type = "DisplayObjectContainer";
+    this->setScrollSpeed(1.0);
 }
 
 DisplayObjectContainer::~DisplayObjectContainer() {
