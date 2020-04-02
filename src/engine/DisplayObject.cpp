@@ -13,12 +13,14 @@ DisplayObject::DisplayObject(){
 	image = NULL;
 	texture = NULL;
 	curTexture = NULL;
+	pos2.x = position.x; 
+	pos2.y = position.y;
+	// cam = new Camera();
 }
 
 DisplayObject::DisplayObject(string id, string filepath){
 	this->id = id;
 	this->imgPath = filepath;
-
 	loadTexture(filepath);
 }
 
@@ -58,12 +60,58 @@ void DisplayObject::setTexture(SDL_Texture* t){
 }
 
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
-	
-}
 
+}
+void DisplayObject::setScrollSpeed(double speed) {
+	scrollSpeed = speed;
+}
+bool DisplayObject::checkCollision(SDL_Rect a, SDL_Rect b){
+	//The sides of the rectangles
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+
+    //Calculate the sides of rect A
+    leftA = a.x;
+    rightA = a.x + a.w;
+    topA = a.y;
+    bottomA = a.y + a.h;
+
+    //Calculate the sides of rect B
+    leftB = b.x;
+    rightB = b.x + b.w;
+    topB = b.y;
+    bottomB = b.y + b.h;
+
+    //If any of the sides from A are outside of B
+    if( bottomA <= topB )
+    {
+        return false;
+    }
+
+    if( topA >= bottomB )
+    {
+        return false;
+    }
+
+    if( rightA <= leftB )
+    {
+        return false;
+    }
+
+    if( leftA >= rightB )
+    {
+        return false;
+    }
+
+    //If none of the sides from A are outside B
+    return true;
+}
 void DisplayObject::draw(AffineTransform &at){
 	applyTransformations(at);
-	
+	// cout << "Drawing " << id << endl;
+
 	if(curTexture != NULL && visible) {
 		SDL_Point origin = at.transformPoint(0, 0);
 		SDL_Point upperRight = at.transformPoint(width, 0);
@@ -73,8 +121,18 @@ void DisplayObject::draw(AffineTransform &at){
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
 
-		SDL_Rect dstrect = { origin.x, origin.y, w, h };
+		pos2.x = origin.x; 
+		pos2.y = origin.y;
 
+		if (&Game::camera != NULL) {
+			// cout << "Camera " << Game::camera->camera.x << endl;
+			// cout << "srcrect w" << srcrect.w << endl;
+			dstrect.x = (int) (pos2.x - Game::camera->camera.x) * scrollSpeed; 
+			dstrect.y = (int) (pos2.y - Game::camera->camera.y) * scrollSpeed; 
+			dstrect.w = w; 
+			dstrect.h = h;
+		}
+		
 		SDL_RendererFlip flip;
 		if (facingRight) {
 			flip = SDL_FLIP_NONE;

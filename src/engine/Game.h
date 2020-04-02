@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "DisplayObjectContainer.h"
+#include "Camera.h"
 #include <vector>
 #include <set>
 
@@ -19,7 +20,7 @@ public:
 
 	int frames_per_sec = 60;
 	int windowWidth, windowHeight;
-
+	static Camera* camera; 
 	SDL_Window * window;
 	static SDL_Renderer* renderer;
 

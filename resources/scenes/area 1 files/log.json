@@ -1,0 +1,14 @@
+{ "columns":1,
+ "image":"..\/..\/Downloads\/craftpix-774512-free-jump-game-items\/PNG\/Props\/Prop_3.png",
+ "imageheight":143,
+ "imagewidth":380,
+ "margin":0,
+ "name":"log",
+ "spacing":0,
+ "tilecount":1,
+ "tiledversion":"1.3.2",
+ "tileheight":143,
+ "tilewidth":380,
+ "type":"tileset",
+ "version":1.2
+}

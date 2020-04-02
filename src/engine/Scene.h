@@ -4,6 +4,7 @@
 #include "DisplayObject.h"
 #include "DisplayObjectContainer.h"
 #include "Sprite.h"
+#include "Layer.h"
 #include "AnimatedSprite.h"
 #include <json.hpp>
 #include <string>
@@ -11,6 +12,7 @@
 #include <fstream>
 
 using namespace std;
+
 using json = nlohmann::json;
 
 class Scene : public DisplayObjectContainer{
@@ -22,18 +24,28 @@ public:
 	void loadScene(string sceneFilePath);
     
     json toJson();
+	void loadTileMap(string tilePath); 
+
+    DisplayObject* makeDisplayObject(json data);
+    DisplayObjectContainer* makeDisplayObjectContainer(json data);
+	Layer* makeLayer(json data);
+    Sprite* makeSprite(json data);
+    AnimatedSprite* makeAnimatedSprite(json data);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
-
+	AnimatedSprite* root;
+	vector<DisplayObjectContainer*> layerList; 
+	vector<DisplayObject*> objects; //in the scene
+	vector<AnimatedSprite*> asList;
+	map<int, string> tilesets; //store image file of tilesets
+	map<int, SDL_Point> tsize; //store image file of tilesets	
+	// vector<pair<int, SDL_Point>> tsize; //store size of tilesets 
+	vector<DisplayObject*> tiles;
 private:
 
     json parse(auto* obj); //Display Objects
-    DisplayObject* makeDisplayObject(json data);
-    DisplayObjectContainer* makeDisplayObjectContainer(json data);
-    Sprite* makeSprite(json data);
-    AnimatedSprite* makeAnimatedSprite(json data);
 
 };
 
