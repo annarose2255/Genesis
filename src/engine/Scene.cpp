@@ -162,19 +162,22 @@ void Scene::loadScene(string sceneFilePath) {
 
 json Scene::toJson() {
     json j;
-    json childs;
+    cout << "a" << endl;
 
     for(auto* entity : this->children) {
+        cout << "b" << endl;
         json temp = parse(entity);
-        childs.push_back(json::object_t::value_type(entity->id, temp));
+        cout << "c" << endl;
+        j.push_back(json::object_t::value_type(entity->id, temp));
+        cout << "d" << endl;
     }
 
     // Setting name of scene
-    j = {
-        {"id", {"name", this->id} }, 
-    };
-    
-    j += childs;
+    cout << "e" << endl;
+
+    cout << j.dump(4) << endl;
+    cout << "######################" << endl;
+
     return j;
 }
 
@@ -200,14 +203,13 @@ json Scene::parse(auto* obj) {
         {"facingRight", obj->facingRight}
     };
 
-    // Having Trouble Converting...
-/*
     // Animations
     if(obj->type == "AnimatedSprite") {
         json anim;
-        for(int i = 0; i < obj->animationNames.size; i++) {
+        AnimatedSprite* tempSpr = dynamic_cast<AnimatedSprite*>(obj);
+        for(int i = 0; i < tempSpr->animationNames.size(); i++) {
             json tempJson;
-            Animation* tempAni = obj->getAnimation(obj->animationNames[i]);
+            Animation* tempAni = tempSpr->getAnimation(tempSpr->animationNames[i]);
             
             tempJson = {
                 {"filepath", tempAni->filepath},
@@ -224,17 +226,16 @@ json Scene::parse(auto* obj) {
     else {
         j += json::object_t::value_type("filepath", obj->imgPath); 
     }
-
     // Children
     if(obj->type != "DisplayObject"){
         json childs;
-        for(auto* child : obj->children) {
+        DisplayObjectContainer* doc = dynamic_cast<DisplayObjectContainer*>(obj);
+        for(auto* child : doc->children) {
             json temp = parse(child);
             childs += json::object_t::value_type(temp["id"], temp);
         }
         j += json::object_t::value_type("children", childs);
     }
-*/
 
     return j;
 }

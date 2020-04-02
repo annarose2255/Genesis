@@ -98,9 +98,11 @@ void DevTool::save(string filepath)
     ofstream saveFile;
     saveFile.open(filepath);
     
-    json saveData = currentScene->toJson();
-    string data = saveData.dump(4);
-    
+    // json saveData;
+    // saveData = currentScene->toJson();
+    cout << "hi" << endl;
+    string data = currentScene->toJson().dump(4);
+    cout << "pie" << endl;
     saveFile << data;
     saveFile.close();
 }
