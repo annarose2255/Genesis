@@ -3,6 +3,17 @@
 WASD to move Sprite
 Up/Down/Left/Right to move camera 
 
+*To Set Up*
+Using tmxlite library: https://github.com/fallahn/tmxlite 
+In the event that it doesn't compile: 
+-Delete build folder under tmxlite-master/tmxlite
+-Run the following commands: 
+-mkdir build 
+-cd build
+-cmake ..
+-sudo make install 
+Also if you get an error about the library not linking then run: sudo ldconfig (that's an L in ldconfig)
+
 *3.27 Updates* 
 So far, no working demo :( 
 * Worked on implementing Tween files from last hw; implemented some.

@@ -31,13 +31,16 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
     auto& map_tilesets = map.getTilesets();
     SDL_Point sdl_ts;
     for (auto& tset : map_tilesets) {
-        //save the SDL_textures somewhere 
-        auto tex = tset.getImagePath();
-        auto ts = tset.getTileSize(); 
-        sdl_ts.x = ts.x; 
-        sdl_ts.y = ts.y; 
-        tilesets.insert(std::pair<int, string>(tset.getFirstGID(), tex));
-        tsize.insert(std::pair<int, SDL_Point>(tset.getFirstGID(), sdl_ts)); //save size of each tileset
+        //save the SDL_textures somewhere
+        DisplayObject* temp = new DisplayObject("", tset.getImagePath()); 
+        auto tex = temp->curTexture;
+
+        // auto ts = tset.getTileSize(); 
+        // sdl_ts.x = ts.x; 
+        // sdl_ts.y = ts.y; 
+        tilesets.insert(std::pair<int, SDL_Texture*>(tset.getFirstGID(), tex));
+        tileDO.insert(std::pair<int, DisplayObject*>(tset.getFirstGID(), temp));
+        // tsize.insert(std::pair<int, SDL_Point>(tset.getFirstGID(), sdl_ts)); //save size of each tileset
         // cout << "Tsize x " << sdl_ts.x << endl;
         // cout << "Tsize y " << sdl_ts.y << endl;
         // cout << "T image " << tex << endl;
@@ -84,16 +87,16 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 // cout << "Tileset GID " << tset_gid << endl;
                 //normalizing the GID
                 cur_gid -= tset_gid;
-                // auto ts_width = 0;
-                // auto ts_height = 0;
-                // SDL_QueryTexture(tilesets[tset_gid],
-                //     NULL, NULL, &ts_width, &ts_height);
+                auto ts_width = 0;
+                auto ts_height = 0;
+                SDL_QueryTexture(tilesets[tset_gid],
+                    NULL, NULL, &ts_width, &ts_height);
                 // cout << "TS w " << ts_width << endl;
                 // cout << "TS h " << ts_height << endl;
                 
                 //calculate area to draw on
-                // auto region_x = (cur_gid % (ts_width / tile_width)) * tile_width;
-                // auto region_y = (cur_gid / (ts_width / tile_height)) * tile_height;
+                auto region_x = (cur_gid % (ts_width / tile_width)) * tile_width;
+                auto region_y = (cur_gid / (ts_width / tile_height)) * tile_height;
                 // cout << "region_x " << region_x << endl;
                 // cout << "region_y " << region_y << endl;
                 //calculate world position of tile
@@ -102,21 +105,21 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 //save tile info in the vector 
                 //x_pos, y_pos, tile_width=w, tile_height=h
                 //include region_x and y?? like the origin I guess..
-                DisplayObject* temp = new DisplayObject(" ", tilesets[tset_gid]);
-                cout << tilesets[tset_gid] << endl;
+                DisplayObject* temp = new DisplayObject("", tileDO[tset_gid]->imgPath);
+                // cout << tilesets[tset_gid] << endl;
                 temp->position.x = x_pos; 
                 temp->position.y = y_pos; 
                 temp->width = tile_width; 
                 temp->height = tile_height; 
-                // temp->srcrect.x = 0; 
-                // temp->srcrect.y = 0; 
-                // temp->srcrect.w = tile_width; 
-                // temp->srcrect.h = tile_height; 
+                temp->srcrect.x = region_x; 
+                temp->srcrect.y = region_y; 
+                temp->srcrect.w = tile_width; 
+                temp->srcrect.h = tile_height; 
                 temp->visible = true;
                 temp->scaleX = 1;
                 temp->scaleY = 1;
                 temp->alpha = 255;
-                temp->facingRight = true;
+                temp->facingRight = false;
                 newLayer->addChild(temp);
                 //for the number of tilesets, if part of this tileset i
                     //DisplayObject temp = new DisplayObject("",tileset[i].imgpath)
