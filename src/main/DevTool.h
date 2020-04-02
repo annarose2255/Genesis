@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "AnimatedSprite.h"
 #include "Scene.h"
+#include "Camera.h"
 #define SPRITESIZE 100
 using namespace std;
 
@@ -18,7 +19,7 @@ public:
 	virtual ~DevTool();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
-	virtual void draw(AffineTransform &at, SDL_Rect camera);
+	virtual void draw(AffineTransform &at);
     virtual void start();
 
     void IterateDirectory(string filepath);

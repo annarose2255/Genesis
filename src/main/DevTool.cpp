@@ -20,10 +20,13 @@ DevTool::DevTool() : Game(WINDOW_X, WINDOW_Y) {
     }
 	instance = this;
     tileMenu = new DisplayObjectContainer();
+    cout << "tileMenu camPerspective: " << tileMenu->camPerspective << endl;
     sceneWindow = new DisplayObjectContainer();
     tileMenu->position={0, instance->windowHeight - SPRITESIZE};
 	instance->addChild(tileMenu);
     instance->addChild(sceneWindow);
+    tileMenu -> camPerspective = false;
+    sceneWindow -> camPerspective = false;
     cout << "initted" << endl;
     IterateDirectory("resources");
 
@@ -103,7 +106,7 @@ void DevTool::start(){
 			this->update(pressedKeys);
 			AffineTransform at;
             // cout << "before draw" << endl;
-			this->draw(at, cam->camera);
+			this->draw(at);
 		}
 		SDL_PollEvent(&event);
 		switch (event.type)
@@ -117,25 +120,6 @@ void DevTool::start(){
 			case SDL_KEYUP:
 				pressedKeys.erase(event.key.keysym.scancode);
 				break;
-            // case SDL_FINGERDOWN:
-            //     cout << "finger event" << endl;
-            //     if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
-            //     {
-            //         initMouseLoc = {(int)mouseEvent.tfinger.x, (int)mouseEvent.tfinger.y};
-            //         if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
-            //         {
-            //             cout << "selecting from tile menu" << endl;
-            //             int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
-            //             if (ind < tileMenu->children.size())
-            //             {
-            //                 selected = tileMenu->children[ind];
-            //             }
-            //             DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
-            //             temp->alpha = 70;
-            //             ((DisplayObjectContainer *)selected)->addChild(temp);
-            //         }
-            //     }
-            //     break;
             case SDL_MOUSEBUTTONDOWN:
                 // cout << initMouseLoc.x << endl;
                 // cout << "mousedown event" << endl;
@@ -184,43 +168,42 @@ void DevTool::start(){
                 }
                 // cout << "broke out of switch" << endl;
                 break;
-            // case SDL_MOUSEMOTION:
-            //     if (selected && initMouseLoc.x != -1 && initMouseLoc.y != -1)
-            //     {
-            //         selected->position.x += event.motion.x - initMouseLoc.x;
-            //         selected->position.y += event.motion.y - initMouseLoc.y;
-            //         initMouseLoc = {event.motion.x, event.motion.y};
-            //         cout << "changing position to: " << event.motion.x << ", " << event.motion.y << endl;
-            //     }
             case SDL_MOUSEBUTTONUP:
                 // cout << "mouse up" << endl;
                 if (selected && initMouseLoc.x != -1 && initMouseLoc.y != -1)
                 {
-                    selected->position.x += event.button.x - initMouseLoc.x;
-                    selected->position.y += event.button.y - initMouseLoc.y;
-
                     //tile menu
                     if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
                     {
                         if (selected->position.y <(this->windowHeight - 3*SPRITESIZE/2))
                         {
+                            selected->removeImmediateChild("selected");
+                            selected = new DisplayObjectContainer(selected->id, selected->imgPath);
+                            int loc = (int)((initMouseLoc.x)/SPRITESIZE);
+                            selected->position = {loc*SPRITESIZE, this->windowHeight - SPRITESIZE};
                             sceneWindow->addChild(selected);
-                            int ind = (int)((initMouseLoc.x - tileMenu->position.x)/SPRITESIZE);
+                            DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+                            temp->alpha = 70;
+                            selected->addChild(temp);
                             cout << "creating copy" << endl;
-                            sceneWindow->children[ind] = new DisplayObjectContainer(selected->id, selected->imgPath);
-                            sceneWindow->children[ind]->position.x = ind*SPRITESIZE;
+                            // sceneWindow->children[ind]->position.x = ind*SPRITESIZE;
 
                             //converting to sceneWindow coordinates
-                            selected->position.x += tileMenu->position.x;
-                            selected->position.y += tileMenu->position.y;
+                            // selected->position.x += tileMenu->position.x;
+                            // selected->position.y += tileMenu->position.y;
                         }
-                        else
-                        {
-                            //revert change to stay same
-                            selected->position.x -= event.button.x - initMouseLoc.x;
-                            selected->position.y -= event.button.y - initMouseLoc.y;
-                        }
+                        // else
+                        // {
+                        //     //revert change to stay same
+                        //     selected->position.x -= event.button.x - initMouseLoc.x;
+                        //     selected->position.y -= event.button.y - initMouseLoc.y;
+                        // }
                     }
+
+                    selected->position.x += event.button.x - initMouseLoc.x;
+                    selected->position.y += event.button.y - initMouseLoc.y;
+
+                    
 
                     // Snap to tile
                     int posX, posY;
@@ -501,12 +484,12 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
 	Game::update(pressedKeys);
 }
 
-void DevTool::draw(AffineTransform &at, SDL_Rect camera){ //have to remove selection box before saving then add it back in after
+void DevTool::draw(AffineTransform &at){ //have to remove selection box before saving then add it back in after
 	// Game::draw(at);
     SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Game::renderer);
     DevTool::drawGrid();
-	DisplayObjectContainer::draw(at, camera);
+	DisplayObjectContainer::draw(at);
 	SDL_RenderPresent(Game::renderer);
 }
 
