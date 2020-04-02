@@ -38,7 +38,7 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
     allSprites->addChild(character);
     character->position = {-500, 200};
 	character->pivot = {character->width/2, character->height/2};
-    eDispatcher = new EventDispatcher();
+    eDispatcher = EventDispatcher::getInstance();
 	coinlis = new CoinListener(character, coin);
 	myQuestManager = new QuestManager(questComplete);
 	eDispatcher->addEventListener(coinlis, PICKUP);

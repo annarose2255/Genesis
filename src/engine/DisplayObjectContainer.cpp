@@ -1,6 +1,8 @@
 #include "DisplayObjectContainer.h"
 #include "DisplayObject.h"
 #include "AffineTransform.h"
+#include "EventDispatcher.h"
+#include "Event.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -31,6 +33,8 @@ void DisplayObjectContainer::addChild(DisplayObject* child) {
     cout << "adding child" << endl;
     children.push_back(child);
     child->parent = (DisplayObject *)this; // make sure to include reverse reference also
+    // notify event dispatcher
+    // EventDispatcher::getInstance()->dispatchEvent()
 }
 
 void DisplayObjectContainer::removeImmediateChild(DisplayObject* child) {

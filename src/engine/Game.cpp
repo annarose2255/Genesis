@@ -3,6 +3,7 @@
 #include <string>
 #include <ctime>
 #include "DisplayObject.h"
+#include "EventDispatcher.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
@@ -58,6 +59,8 @@ void Game::initSDL(){
 }
 
 void Game::start(){
+	// initiale Event Dispatcher
+	EventDispatcher* eDispatcher = EventDispatcher::getInstance();
 
 	int ms_per_frame = (1.0/(double)this->frames_per_sec)*1000;
 	std::clock_t start = std::clock();

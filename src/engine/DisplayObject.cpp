@@ -132,17 +132,13 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 }
 
 AffineTransform *DisplayObject::globalTransform() {
-	// cout << "GT" << endl;
 	AffineTransform *gt = new AffineTransform();
-	// cout << parent << endl;
 	if (parent != NULL){
-		// cout << "have parent" << endl;
 		gt = this->parent->globalTransform();
 		// undo pivot transformations
+		// gt->translate(this->parent->pivot.x, this->parent->pivot.y);
 	}
 	this->applyTransformations(*gt);
-	// cout << "returning: " << endl;
-	// gt->printAT();
 	return gt;
 }
 

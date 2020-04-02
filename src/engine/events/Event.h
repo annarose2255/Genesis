@@ -11,6 +11,8 @@ class EventDispatcher;
 
 class Event{
 
+string DO_ADDED_EVENT = "Display Object Added Event";
+
 public:
 
 	Event(string type, EventDispatcher* source);
