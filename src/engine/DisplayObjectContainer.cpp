@@ -1,4 +1,5 @@
 #include "DisplayObjectContainer.h"
+#include "DisplayObject.h"
 #include "AffineTransform.h"
 #include <vector>
 #include <string>
@@ -31,7 +32,7 @@ void DisplayObjectContainer::addChild(DisplayObject* child) {
     cout << "parent camPerspective: " << camPerspective << endl;
     child->camPerspective = camPerspective;
     children.push_back(child);
-    child->parent = this; // make sure to include reverse reference also
+    child->parent = (DisplayObject *)this; // make sure to include reverse reference also
 }
 
 void DisplayObjectContainer::removeImmediateChild(DisplayObject* child) {
@@ -87,16 +88,10 @@ DisplayObject* DisplayObjectContainer::getChild(string id) {
     return NULL;
 }
 
-void DisplayObjectContainer::setScrollSpeed(double speed) {
-    cout << "DOC speed " << speed << endl;
-    scrollSpeed = speed;
-    DisplayObject::setScrollSpeed(speed);
-}
-
-void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys) {
-    DisplayObject::update(pressedKeys);
+void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput) {
+    DisplayObject::update(pressedKeys, controllerInput);
     for (int i = 0; i < children.size(); i++) {
-        children[i]->update(pressedKeys);
+        children[i]->update(pressedKeys, controllerInput);
     }
 }
 

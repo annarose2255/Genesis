@@ -1,5 +1,5 @@
-#ifndef QUESTDEMO_H
-#define QUESTDEMO_H
+#ifndef COLLISIONDEMO_H
+#define COLLISIONDEMO_H
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -11,11 +11,11 @@
 
 using namespace std;
 
-class SheetDemo : public Game{
+class CollisionDemo : public Game{
 
 public:
-	SheetDemo();
-	virtual ~SheetDemo();
+	CollisionDemo();
+	virtual ~CollisionDemo();
 
 	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
 	virtual void draw(AffineTransform &at);

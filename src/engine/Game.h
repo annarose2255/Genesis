@@ -5,7 +5,11 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "DisplayObjectContainer.h"
+<<<<<<< HEAD
 #include "Camera.h"
+=======
+#include "DisplayObject.h"
+>>>>>>> collision-detection
 #include <vector>
 #include <set>
 
@@ -14,7 +18,7 @@ using namespace std;
 class Game : public DisplayObjectContainer {
 
 public:
-
+	
 	/* Singleton pattern */
 	static Game* instance;
 
@@ -31,12 +35,14 @@ public:
 	virtual ~Game();
 	virtual void start();
 
-	virtual void update(set<SDL_Scancode> pressedKeys);
-	set<SDL_Scancode> pressedKeys;
+	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
 	virtual void draw(AffineTransform &at);
+	set<SDL_Scancode> pressedKeys;
+	ControllerInput controllerInput;
+	SDL_GameController* controller;
 
 private:
-
+	
 	void initSDL();
 	void quitSDL();
 	
