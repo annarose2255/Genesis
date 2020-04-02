@@ -28,7 +28,7 @@ public:
     DisplayObjectContainer * sceneClick(int x, int y);
     bool inSquare(DisplayObjectContainer *parent, int x, int y);
     DisplayObjectContainer *sceneClickHelper(DisplayObjectContainer *sceneObj, int x, int y);
-    void tileSnap();
+    void tileSnap(DisplayObjectContainer *obj);
     void copy();
     void paste(); 
     void drawGrid();
@@ -38,10 +38,11 @@ private:
     // Camera* cam;
     Scene* currentScene;
     DisplayObjectContainer* selected; // For Alter Scene
-    DisplayObject* copied;
+    DisplayObjectContainer* copied = NULL;
     DisplayObjectContainer* sceneWindow;
     DisplayObjectContainer* tileMenu;
     SDL_Point initMouseLoc = {-1, -1};
+    SDL_Point currMouseLoc = {-1, -1};
 
 };
 

@@ -117,9 +117,11 @@ DisplayObjectContainer *DevTool::sceneClickHelper(DisplayObjectContainer *parent
         ret = sceneClickHelper((DisplayObjectContainer *)objChildren, newPoint.x, newPoint.y);
         if (ret)
         {
+            cout << "returning" << endl;
             return ret;
         }
     }
+    cout << "returning null" << endl;
     return ret;
 }
 
@@ -158,6 +160,7 @@ void DevTool::start(){
             case SDL_MOUSEBUTTONDOWN:
                 // cout << initMouseLoc.x << endl;
                 // cout << "mousedown event" << endl;
+                currMouseLoc = {event.button.x, event.button.y};
                 if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
                 {
                     //cout << "first click" << endl;
@@ -178,7 +181,7 @@ void DevTool::start(){
                             selected = (DisplayObjectContainer *)tileMenu->children[ind];
                         }
                         // cout << "finished selection" << endl;
-                        DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+                        DisplayObjectContainer *temp = new DisplayObjectContainer("selected", 200, 0, 0);
                         temp->alpha = 70;
                         // cout << "plz work" << endl;
                         selected->addChild(temp);
@@ -191,27 +194,17 @@ void DevTool::start(){
                         
                         if (selected)  //clicked on a sprite
                         {
-                            DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+                            DisplayObjectContainer *temp = new DisplayObjectContainer("selected", 200, 0, 0);
                             temp->alpha = 70;
                             selected->addChild(temp);
                         }
                         // cout << "not here" << endl;
                     }
                 }
-                // else
-                // {
-                //     if (selected)
-                //     {
-                //         selected->position.x += event.button.x - initMouseLoc.x;
-                //         selected->position.y += event.button.y - initMouseLoc.y;
-                //         initMouseLoc = {event.button.x, event.button.y};
-                //     }
-                //     // cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
-                // }
-                // cout << "broke out of switch" << endl;
                 break;
             case SDL_MOUSEBUTTONUP:
                 // cout << "mouse up" << endl;
+                currMouseLoc = {event.button.x, event.button.y};
                 if (selected && initMouseLoc.x != -1 && initMouseLoc.y != -1)
                 {
                     //tile menu
@@ -224,54 +217,68 @@ void DevTool::start(){
                             int loc = (int)((initMouseLoc.x)/SPRITESIZE);
                             selected->position = {loc*SPRITESIZE, this->windowHeight - SPRITESIZE};
                             sceneWindow->addChild(selected);
-                            DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+                            DisplayObjectContainer *temp = new DisplayObjectContainer("selected", 200, 0, 0);
                             temp->alpha = 70;
                             selected->addChild(temp);
                             cout << "creating copy" << endl;
-                            // sceneWindow->children[ind]->position.x = ind*SPRITESIZE;
-
-                            //converting to sceneWindow coordinates
-                            // selected->position.x += tileMenu->position.x;
-                            // selected->position.y += tileMenu->position.y;
                         }
-                        // else
-                        // {
-                        //     //revert change to stay same
-                        //     selected->position.x -= event.button.x - initMouseLoc.x;
-                        //     selected->position.y -= event.button.y - initMouseLoc.y;
-                        // }
                     }
-
-                    selected->position.x += event.button.x - initMouseLoc.x;
-                    selected->position.y += event.button.y - initMouseLoc.y;
-
-                    
-
-                    // Snap to tile
-                    int posX, posY;
-                    posX = selected->position.x;
-                    posY = selected->position.y;
-                    selected->position.x = posX - (posX % TILE_SIZE);
-                    selected->position.y = posY - (posY % TILE_SIZE);
-                    if (posX % TILE_SIZE > TILE_SIZE/2)
+                    if (event.button.y <(this->windowHeight - SPRITESIZE))
                     {
-                        selected->position.x += TILE_SIZE;
+                        // selected->position.x += event.button.x - initMouseLoc.x;
+                        // selected->position.y += event.button.y - initMouseLoc.y;
+                        selected->position.x = event.button.x;
+                        selected->position.y = event.button.y;
+                        // Snap to tile
+                        tileSnap(selected);
                     }
-                    if (posY % TILE_SIZE > TILE_SIZE/2)
-                    {
-                        selected->position.y += TILE_SIZE;
-                    }
+                
                     // initMouseLoc = {event.button.x, event.button.y};
                     // cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
                 }
                 initMouseLoc = {-1, -1};
+                break;
+            case SDL_MOUSEMOTION:
+                currMouseLoc = {event.motion.x, event.motion.y};
+                // cout << "mouse location: " << currMouseLoc.x << "," << currMouseLoc.y <<endl;
                 break;
 		}
 	
 	}
 }
 
+void DevTool::tileSnap(DisplayObjectContainer *obj)
+{
+    int posX, posY;
+    posX = obj->position.x;
+    posY = obj->position.y;
+    obj->position.x = posX - (posX % TILE_SIZE);
+    obj->position.y = posY - (posY % TILE_SIZE);
+    // if (posX % TILE_SIZE > TILE_SIZE/2)
+    // {
+    //     obj->position.x += TILE_SIZE;
+    // }
+    // if (posY % TILE_SIZE > TILE_SIZE/2)
+    // {
+    //     obj->position.y += TILE_SIZE;
+    // }
+}
 
+void DevTool::paste()
+{
+    int x, y;
+    x = currMouseLoc.x;
+    y = currMouseLoc.y;
+    if (copied && ! sceneClick(x, y))
+    {
+        cout << "pasting" << endl;
+        DisplayObjectContainer *temp = new DisplayObjectContainer(copied->id, copied->imgPath);
+        sceneWindow->addChild(temp);
+        cout << "mouse location: " << currMouseLoc.x << "," << currMouseLoc.y <<endl;
+        temp->position = {x, y};
+        tileSnap(temp);
+    }
+}
 void DevTool::update(set<SDL_Scancode> pressedKeys){
 
     // Read keyboard inputs
@@ -296,6 +303,15 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
             // case SDL_SCANCODE_RIGHT:
             //     cam->position.x -= 5;
             //     break;
+            case SDL_SCANCODE_C:
+                if (selected)
+                {
+                    copied = selected;
+                }
+                break;
+            case SDL_SCANCODE_V:
+                paste();
+                break;
             case SDL_SCANCODE_A:
                 {
                     cout << "You are altering " << selected->id << endl;
