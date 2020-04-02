@@ -28,7 +28,7 @@ DisplayObjectContainer::~DisplayObjectContainer() {
 
 void DisplayObjectContainer::addChild(DisplayObject* child) {
     cout << "adding child" << endl;
-    cout << "parent camPerspective: " << camPerspective << endl;
+    // cout << "parent camPerspective: " << camPerspective << endl;
     child->camPerspective = camPerspective;
     children.push_back(child);
     child->parent = this; // make sure to include reverse reference also

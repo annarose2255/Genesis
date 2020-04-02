@@ -88,6 +88,41 @@ void DevTool::save(string filepath)
     saveFile.close();
 }
 
+DisplayObjectContainer *DevTool::sceneClick(int x, int y)
+{
+    cout << "mouse click: " << x << "," << y <<endl;
+    return sceneClickHelper(sceneWindow, x, y);
+}
+
+bool DevTool::inSquare(DisplayObjectContainer *parent, int x, int y)
+{
+    return parent->position.x <= x && parent->position.x + SPRITESIZE >= x && parent->position.y <= y && parent->position.y + SPRITESIZE >= y;
+}
+
+DisplayObjectContainer *DevTool::sceneClickHelper(DisplayObjectContainer *parent, int x, int y)
+{
+    cout << "is inside: " << inSquare(parent, x, y) << endl;
+    if (inSquare(parent, x, y))
+    {
+        return parent;
+    }
+    AffineTransform *gt = new AffineTransform();
+    parent->applyTransformations(*gt);
+    SDL_Point newPoint = gt->transformPoint(x, y);
+    delete gt;
+    cout << "transformed point: " << newPoint.x << "," << newPoint.y <<endl;
+    DisplayObjectContainer *ret = NULL;
+    for (DisplayObject *objChildren : parent->children)
+    {
+        ret = sceneClickHelper((DisplayObjectContainer *)objChildren, newPoint.x, newPoint.y);
+        if (ret)
+        {
+            return ret;
+        }
+    }
+    return ret;
+}
+
 void DevTool::start(){
 
 	int ms_per_frame = (1.0/(double)this->frames_per_sec)*1000;
@@ -152,20 +187,27 @@ void DevTool::start(){
                     else
                     {  
                         // cout << "in scene window" << endl;
-                        selected = NULL;
+                        selected = sceneClick(event.button.x, event.button.y);
+                        
+                        if (selected)  //clicked on a sprite
+                        {
+                            DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+                            temp->alpha = 70;
+                            selected->addChild(temp);
+                        }
                         // cout << "not here" << endl;
                     }
                 }
-                else
-                {
-                    if (selected)
-                    {
-                        selected->position.x += event.button.x - initMouseLoc.x;
-                        selected->position.y += event.button.y - initMouseLoc.y;
-                        initMouseLoc = {event.button.x, event.button.y};
-                    }
-                    // cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
-                }
+                // else
+                // {
+                //     if (selected)
+                //     {
+                //         selected->position.x += event.button.x - initMouseLoc.x;
+                //         selected->position.y += event.button.y - initMouseLoc.y;
+                //         initMouseLoc = {event.button.x, event.button.y};
+                //     }
+                //     // cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
+                // }
                 // cout << "broke out of switch" << endl;
                 break;
             case SDL_MOUSEBUTTONUP:
@@ -175,7 +217,7 @@ void DevTool::start(){
                     //tile menu
                     if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
                     {
-                        if (selected->position.y <(this->windowHeight - 3*SPRITESIZE/2))
+                        if (event.button.y <(this->windowHeight - SPRITESIZE))
                         {
                             selected->removeImmediateChild("selected");
                             selected = new DisplayObjectContainer(selected->id, selected->imgPath);

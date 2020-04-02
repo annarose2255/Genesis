@@ -25,6 +25,9 @@ public:
     void IterateDirectory(string filepath);
     void load(string filepath);
     void save(string filepath);
+    DisplayObjectContainer * sceneClick(int x, int y);
+    bool inSquare(DisplayObjectContainer *parent, int x, int y);
+    DisplayObjectContainer *sceneClickHelper(DisplayObjectContainer *sceneObj, int x, int y);
     void tileSnap();
     void copy();
     void paste(); 
