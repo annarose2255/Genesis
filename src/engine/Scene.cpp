@@ -74,7 +74,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 // cout << "Size of tilesets " << tilesets.size() << endl;
                 //for( auto it = x.begin(); it != x.end(); i++)
                 for (auto ts = tilesets.rbegin(); ts != tilesets.rend(); ts++) {
-                    cout << "ts first " << ts->first << endl;
+                    // cout << "ts first " << ts->first << endl;
                     cout << "cur gid " << cur_gid << endl;
                     if (ts->first <= cur_gid) {
                         tset_gid = ts->first;
@@ -87,6 +87,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 // cout << "Tileset GID " << tset_gid << endl;
                 //normalizing the GID
                 cur_gid -= tset_gid;
+                cout << "tset_gid " << tset_gid << endl;
                 auto ts_width = 0;
                 auto ts_height = 0;
                 SDL_QueryTexture(tilesets[tset_gid],
@@ -119,7 +120,11 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 temp->scaleX = 1;
                 temp->scaleY = 1;
                 temp->alpha = 255;
-                temp->facingRight = false;
+                temp->facingRight = true;
+                // if (cur_gid == 187 || cur_gid == 158 || cur_gid == 159 ) {
+                //     cout << "ROTATE PLS" << endl;
+                //     temp->rotation = 90.0; 
+                // }
                 newLayer->addChild(temp);
                 //for the number of tilesets, if part of this tileset i
                     //DisplayObject temp = new DisplayObject("",tileset[i].imgpath)
