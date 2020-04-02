@@ -73,7 +73,7 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 	// see if any line intersects
 	for (int i = 0; i < 4; i++){
 		for (int j = 0; j < 4; j++){
-			cout << "i: " << i << " j: " << j << endl;
+			// cout << "i: " << i << " j: " << j << endl;
 			// if any line intersects there is a collision
 			if ( intersects(displayObjectLines1[i], displayObjectLines2[j]) ){
 				return true;
@@ -102,18 +102,18 @@ bool CollisionSystem::intersects(Line l1, Line l2) {
 	SDL_Point q1 = l1.pt2;
 	SDL_Point p2 = l2.pt1;
 	SDL_Point q2 = l2.pt2;
-	cout << "O1" << endl;
+	// cout << "O1" << endl;
 	int o1 = getOrientation(p1, q1, p2);
-	cout << "O2" << endl;
+	// cout << "O2" << endl;
 	int o2 = getOrientation(p1, q1, q2);
-	cout << "O3" << endl;
+	// cout << "O3" << endl;
 	int o3 = getOrientation(p2, q2, p1);
-	cout << "O4" << endl;
+	// cout << "O4" << endl;
 	int o4 = getOrientation(p2, q2, q1);
 	// if one orientation is the same then there is no intersection
 	if ( o1 != o2  && o3 != o4 ){
-		cout << "HERE" << endl;
-		cout << "o1 " << o1 << " o2 " << o2 << " o3 " << o3 << " o4 " << o4 << endl;
+		// cout << "HERE" << endl;
+		// cout << "o1 " << o1 << " o2 " << o2 << " o3 " << o3 << " o4 " << o4 << endl;
 		return true;
 	// check if colinear
 	} else if ((o1 == 0) && (o2 == 0) && (o3 == 0) && (o4 == 0)){
@@ -176,7 +176,7 @@ int CollisionSystem::getOrientation(SDL_Point p1, SDL_Point p2, SDL_Point p3) {
 	// 	cout << "p3.y: " << p3.y << " p1.y " << p1.y << " p3.x " << p3.x << " p1.x " << p1.x << endl;
 	// 	s2 = (float)(p3.y - p1.y) / (float)(p3.x - p1.x);
 	// }
-	cout << "s1: " << s1 << " s2: " << s2 << endl;
+	// cout << "s1: " << s1 << " s2: " << s2 << endl;
 	if (s1 < s2){
 		// turns left
 		return -1;
@@ -191,12 +191,12 @@ int CollisionSystem::getOrientation(SDL_Point p1, SDL_Point p2, SDL_Point p3) {
 
 bool CollisionSystem::checkInside(HitboxPoints pts, SDL_Point pt){
 	// get pixel area of hitbox
-	
-	int width = abs(pts.topRight.x - pts.topLeft.x);
-	cout << "W: " << width << endl;
-	int height = abs(pts.bottomLeft.y - pts.topLeft.y);
-	cout << "H: " << height << endl;
-	int area = width * height;
+	int area = abs(pts.topLeft.x * (pts.topRight.y - pts.bottomLeft.y) + pts.topRight.x * (pts.bottomLeft.y - pts.topLeft.y) + pts.bottomLeft.x * (pts.topLeft.y - pts.topRight.y));
+	// int width = abs(pts.topRight.x - pts.topLeft.x);
+	// cout << "W: " << width << endl;
+	// int height = abs(pts.bottomLeft.y - pts.topLeft.y);
+	// cout << "H: " << height << endl;
+	// int area = width * height;
 	int sum = 0;
 	// make triangle out of corners and pt
 	Line l1 = {pts.topLeft, pts.topRight};
@@ -219,8 +219,8 @@ bool CollisionSystem::checkInside(HitboxPoints pts, SDL_Point pt){
 		sum += abs(lines[i].pt1.x * (lines[i].pt2.y - pt.y) + lines[i].pt2.x * (pt.y-lines[i].pt1.y) + pt.x * (lines[i].pt1.y - lines[i].pt2.y));
 	}
 	// check if equal
-	cout << "SUM: " << sum << endl;
-	cout << "AREA: " << 2 * area << endl;
+	// cout << "SUM: " << sum << endl;
+	// cout << "AREA: " << 2 * area << endl;
 	if (sum != (2 * area)){
 		return false;
 	}

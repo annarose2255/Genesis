@@ -96,7 +96,7 @@ public:
     bool isSheet = false;
     SDL_Rect srcrect;
 	Hitbox hitbox;
-	double distance(SDL_Point &p1, SDL_Point &p2);
+	static double distance(SDL_Point &p1, SDL_Point &p2);
 	
 private:
 	
