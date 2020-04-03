@@ -15,17 +15,16 @@ class SceneManager: public EventListener{
 
 public:
 
-    SceneManager(AnimatedSprite* chara, Scene* s);
+    SceneManager(DisplayObject *chara, Scene *s);
     ~SceneManager();
 	void handleEvent(Event* e);
-    Scene* getCurrentScene();
 
 private:	
-    Scene* currentS;
+	Scene* currentS;
 	Scene* prevS;
 	SDL_Point prevPos;
     DisplayObject* door;
-    AnimatedSprite* character;
+    DisplayObject* character;
 };
 
 #endif

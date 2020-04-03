@@ -15,14 +15,21 @@ using namespace std;
 
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
-    scene1 = new Scene();
+	// cam = new Camera();
+
+	scene1 = new Scene(); 
+	scene1->loadScene("./resources/scenes/solarsystem.json");
+
+    scene2 = new Scene();
     // scene2->loadScene("./resources/scenes/character.json");
-	scene1->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx", false);
-	scene2 = new Scene();
-	scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx", true);
+	scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx");
 
     change = true;
-    currentScene = scene1;
+    currentScene = scene2;
+
+	//Camera
+	// cam->addChild(currentScene);
+    // instance->addChild(cam);
 
 	Game::camera->addChild(currentScene);
 	instance->addChild(Game::camera);
@@ -30,10 +37,6 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     //Sound 
 	mainMusic = new Sound();
 
-	//Change Scene 
-	sm = new SceneManager(currentScene->getCharacter(), currentScene);
-	eDispatcher = new EventDispatcher();
-	eDispatcher->addEventListener(sm, CHANGE);
 	//QuestDemo
 	// eDispatcher = new EventDispatcher();
 	// // cout << "up to dispatcher" << endl;
@@ -82,74 +85,88 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	if ((pressedKeys.find(SDL_SCANCODE_Z) != pressedKeys.end())) {
 		currentScene->scaleX+=0.01; 
 		currentScene->scaleY+=0.01;
+		// currentScene->scaleY++; 
+		
 	}
 	if ((pressedKeys.find(SDL_SCANCODE_X) != pressedKeys.end())) {
 		currentScene->scaleY-=0.01;
 		currentScene->scaleX-=0.01;
+		// currentScene->scaleY--;
 	}
-
+	//pivot
+	if ((pressedKeys.find(SDL_SCANCODE_I) != pressedKeys.end())) {
+		currentScene->pivot.y++;
+		// currentScene->scaleY++; 	
+	}
+	if ((pressedKeys.find(SDL_SCANCODE_J) != pressedKeys.end())) {
+		currentScene->pivot.x--;
+	}
+	if ((pressedKeys.find(SDL_SCANCODE_K) != pressedKeys.end())) {
+		currentScene->pivot.y--;
+		
+	}
+	if ((pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end())) {
+		currentScene->pivot.x++;		
+	}
     //for music - press1 and the music will play
 	//user press 1 --> play music
 	if ((pressedKeys.find(SDL_SCANCODE_1) != pressedKeys.end())) {
 		cout<<"playing?"<<endl;
-		mainMusic->playMusic();	
-	} 
+		mainMusic->playMusic();
+		
+	}
+    
 	//user press2 --> stop music
     if ((pressedKeys.find(SDL_SCANCODE_2) != pressedKeys.end())) {
 		cout<<"pause playing"<<endl;
-		mainMusic->pauseMusic();	
+		mainMusic->pauseMusic();
+		
 	}
+	//changing position of camera
+    if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
+		Game::camera->position.x-=5;
 
-	//changing position of scene
-	if (currentScene->position.x-5 > -2105) {
-		if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-			// Game::camera->position.x-=5;
-			currentScene->position.x-=5;
-		}
 	}
-	if (currentScene->position.x+5 < 0) {
-		if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-			// Game::camera->position.x+=5;
-			currentScene->position.x+=5;
-		}
+	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
+		Game::camera->position.x+=5;
 	}
-	if (currentScene->position.y-5 > -180) {
+	if (currentScene->position.y-2 > 106) {
 		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-			// Game::camera->position.y-=5;
-			currentScene->position.y-=5;
-		}
-	}	
-	if (currentScene->position.y+5 < -5){
-		if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-			// Game::camera->position.y+=5;
-			currentScene->position.y+=5;
+			Game::camera->position.y-=5;
 		}
 	}
 
+	
+	if ((currentScene->position.y <= Game::camera->camera.h) ){
+		if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+			Game::camera->position.y+=5;
+		}
+	}
 	//character moves separately from scene
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
-		currentScene->getCharacter()->position.y -=2;
+		currentScene->asList.at(0)->position.y -=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
-		currentScene->getCharacter()->position.y +=2;
+		currentScene->asList.at(0)->position.y +=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
-		currentScene->getCharacter()->facingRight = false;
-		currentScene->getCharacter()->position.x -=2;
-			// currentScene->position.x+=2; //comment out to just move sprite
+		currentScene->asList.at(0)->facingRight = false;
+		currentScene->asList.at(0)->position.x -=2;
+		Game::camera->position.x+=2; //comment out to just move sprite
 	}
 	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
-		currentScene->getCharacter()->facingRight = true;
-		currentScene->getCharacter()->position.x +=2; 
-			// currentScene->position.x-=2; //comment out to just move sprite
+		currentScene->asList.at(0)->facingRight = true;
+		currentScene->asList.at(0)->position.x +=2; 
+		Game::camera->position.x-=2; //comment out to just move sprite
 	}
-	//updating camera position
+
+
     Game::camera->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
-	cout << "Scene x " << currentScene->position.x << endl; 
-	cout << "Scene y " << currentScene->position.y << endl; 
-	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
-	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
+	// cout << "Cam x " << Game::camera->camera.x << endl; 
+	// cout << "Cam y " << Game::camera->camera.y << endl;
+	// cout << "Scene x " << currentScene->position.x << endl; 
+	// cout << "Scene y " << currentScene->position.y << endl; 
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}
@@ -162,7 +179,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	if (Game::camera->camera.y > Game::camera->camera.h) {
 		Game::camera->camera.y = Game::camera->camera.h;
 	}
-	//Quest Demo stuff
 	// if (currentScene->objects.size() > 0) {
 	// 	// cout << "objects exist" << endl;
 	// 	if (currentScene->objects.at(0)->visible && isCharInCoin(currentScene->asList.at(0), currentScene->objects.at(0))) {
@@ -173,25 +189,9 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	// 	{
 	// 		// cout << "collected event" << endl;
 	// 		isOngoing = false;
-	// 		eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher, currentScene.asList(0),
-		//"./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx"));
+	// 		eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
 	// 	}
 	// }
-
-	//Change scene 
-	if ((currentScene == scene1) && (currentScene->getCharacter()->position.y < 36 && 
-		(24 < currentScene->getCharacter()->position.x && currentScene->getCharacter()->position.x < 140))) {
-			cout << "exited room!" << endl;
-			eDispatcher->dispatchEvent(new Event(CHANGE, eDispatcher, currentScene->getCharacter(), 
-				scene2));
-			cout << "out of dispatcher" << endl;
-			Game::camera->removeImmediateChild(currentScene);
-			currentScene = sm->getCurrentScene();        
-			Game::camera->addChild(currentScene);
-			// Game::camera->addChild(currentScene);
-			// Game::camera->removeImmediateChild(currentScene);
-	}
-	//sm->handleEvent(CHANGE);
 	Game::update(pressedKeys);
 	// currentScene->doCam = cam->camera;
 }

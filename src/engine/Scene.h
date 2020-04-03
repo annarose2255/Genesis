@@ -22,7 +22,7 @@ public:
 
 	/* Load scene from a file */
 	void loadScene(string sceneFilePath);
-	void loadTileMap(string tilePath, bool isNextMap); 
+	void loadTileMap(string tilePath); 
 
     DisplayObject* makeDisplayObject(json data);
     DisplayObjectContainer* makeDisplayObjectContainer(json data);
@@ -33,16 +33,18 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
-	DisplayObject* getObject(int index);
-	AnimatedSprite* getCharacter();
-	//add get Layer method?
-
-private:
+	AnimatedSprite* root;
+	vector<DisplayObjectContainer*> layerList; 
 	vector<DisplayObject*> objects; //in the scene
+	vector<AnimatedSprite*> asList;
 	map<int, SDL_Texture*> tilesets; //store image file of tilesets
 	map<int, DisplayObject*> tileDO; //store image file of tilesets
+
+	// map<int, SDL_Point> tsize; //store image file of tilesets	
+	// vector<pair<int, SDL_Point>> tsize; //store size of tilesets 
 	vector<DisplayObject*> tiles;
-	AnimatedSprite* character; 
+private:
+
 };
 
 #endif

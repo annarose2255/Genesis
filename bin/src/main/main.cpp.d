@@ -6,11 +6,8 @@ bin/./src/main/main.cpp.o: src/main/main.cpp src/engine/DisplayObject.h \
  src/engine/Layer.h src/engine/AnimatedSprite.h src/engine/json.hpp \
  src/engine/Camera.h src/main/CoinListener.h src/engine/events/Event.h \
  src/engine/events/EventDispatcher.h src/engine/events/Event.h \
- src/engine/events/EventListener.h src/main/events/ChangeSceneEvent.h \
- src/engine/DisplayObjectContainer.h src/engine/events/EventDispatcher.h \
- src/main/events/FightEvent.h src/engine/events/EventListener.h \
- src/main/events/SceneManager.h src/main/events/FightEvent.h \
- src/main/events/ChangeSceneEvent.h src/main/QuestDemo.h
+ src/engine/events/EventListener.h src/engine/events/EventListener.h \
+ src/main/QuestDemo.h
 
 src/engine/DisplayObject.h:
 
@@ -54,20 +51,6 @@ src/engine/events/Event.h:
 
 src/engine/events/EventListener.h:
 
-src/main/events/ChangeSceneEvent.h:
-
-src/engine/DisplayObjectContainer.h:
-
-src/engine/events/EventDispatcher.h:
-
-src/main/events/FightEvent.h:
-
 src/engine/events/EventListener.h:
-
-src/main/events/SceneManager.h:
-
-src/main/events/FightEvent.h:
-
-src/main/events/ChangeSceneEvent.h:
 
 src/main/QuestDemo.h:

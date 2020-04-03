@@ -129,14 +129,8 @@ void DisplayObject::draw(AffineTransform &at){
 			// cout << "srcrect x " << srcrect.x << endl;
 			dstrect.x = (int) (pos2.x - Game::camera->camera.x) * scrollSpeed; 
 			dstrect.y = (int) (pos2.y - Game::camera->camera.y) * scrollSpeed; 
-			if (srcrect.x > 0 && srcrect.y > 0) {
-				dstrect.w = srcrect.w; 
-				dstrect.h = srcrect.h;
-			}
-			else {
-				dstrect.w = w; 
-				dstrect.h = h;
-			}
+			dstrect.w = srcrect.w; 
+			dstrect.h = srcrect.h;
 		}
 		
 		SDL_RendererFlip flip;
@@ -148,12 +142,7 @@ void DisplayObject::draw(AffineTransform &at){
 		}
 		
 		SDL_SetTextureAlphaMod(curTexture, alpha);
-		if (srcrect.x > 0 && srcrect.y > 0) {
-			SDL_RenderCopyEx(Game::renderer, curTexture, &srcrect, &dstrect, calculateRotation(origin, upperRight), &corner, flip);
-		}
-		else {
-			SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);
-		}
+		SDL_RenderCopyEx(Game::renderer, curTexture, &srcrect, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
 	}
 
 	reverseTransformations(at);

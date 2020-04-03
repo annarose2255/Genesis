@@ -11,7 +11,6 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "CoinListener.h"
-#include "SceneManager.h"
 
 using namespace std;
 
@@ -37,13 +36,12 @@ private:
     bool change;    
     Scene* scene1;
     Scene* scene2;    	
-    // Camera* cam;
+    Camera* cam;
 
     EventListener* coinlis;
 	EventListener* myQuestManager;
 	EventDispatcher* eDispatcher;
     DisplayObjectContainer *questComplete;
-    SceneManager* sm;
     bool isOngoing = true;
 
     bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);

@@ -2,13 +2,12 @@
 #define FIGHTEVENT_H
 
 #include "Event.h"
-#include "EventDispatcher.h"
 #include "DisplayObjectContainer.h"
 #include "Scene.h"
 
 using namespace std;
 
-class FightEvent {
+class FightEvent : public Event {
 
 public:
 	FightEvent(string type, EventDispatcher* source, DisplayObjectContainer* character, DisplayObjectContainer* enemy, string scenePath);
