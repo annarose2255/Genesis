@@ -127,17 +127,14 @@ void DisplayObject::draw(AffineTransform &at){
 		pos2.x = origin.x; 
 		pos2.y = origin.y;
 
-		if (&Game::camera != NULL) {
+		SDL_Rect dstrect = { origin.x, origin.y, w, h }; //added this back
+		// cout << "camPerspective: " << camPerspective << endl;
+		if (&Game::camera != NULL && camPerspective) {
 			// cout << "Camera " << Game::camera->camera.x << endl;
-			// cout << "srcrect w" << srcrect.w << endl;
 			dstrect.x = (int) (pos2.x - Game::camera->camera.x) * scrollSpeed; 
 			dstrect.y = (int) (pos2.y - Game::camera->camera.y) * scrollSpeed; 
 			dstrect.w = w; 
 			dstrect.h = h;
-		}
-		else {
-			cout << "uh" << endl;
-			dstrect = {origin.x, origin.y, w, h};
 		}
 
 		//dstrect = { origin.x, origin.y, w, h };

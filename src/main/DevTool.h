@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "AnimatedSprite.h"
 #include "Scene.h"
+#include "Camera.h"
 #define SPRITESIZE 100
 using namespace std;
 
@@ -24,7 +25,10 @@ public:
     void IterateDirectory(string filepath);
     void load(string filepath);
     void save(string filepath);
-    void tileSnap();
+    DisplayObjectContainer * sceneClick(int x, int y);
+    bool inSquare(DisplayObjectContainer *parent, int x, int y);
+    DisplayObjectContainer *sceneClickHelper(DisplayObjectContainer *sceneObj, int x, int y);
+    void tileSnap(DisplayObjectContainer *obj);
     void copy();
     void paste(); 
     void drawGrid();
@@ -34,10 +38,11 @@ private:
     // Camera* cam;
     Scene* currentScene;
     DisplayObjectContainer* selected; // For Alter Scene
-    DisplayObject* copied;
-    DisplayObjectContainer* sceneWindow;
+    DisplayObjectContainer* copied = NULL;
+    Scene* sceneWindow;
     DisplayObjectContainer* tileMenu;
     SDL_Point initMouseLoc = {-1, -1};
+    SDL_Point currMouseLoc = {-1, -1};
 
 };
 

@@ -58,7 +58,8 @@ public:
 	int alpha = 255;
 	bool facingRight = true;
     bool isSheet = false;
-	SDL_Rect srcrect;
+	bool camPerspective = true;
+    SDL_Rect srcrect;
 	SDL_Rect dstrect;
 	// Camera * cam;
 	// SDL_Rect camera = { 0, 0, 800, 700 };

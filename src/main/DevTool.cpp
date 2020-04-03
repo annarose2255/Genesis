@@ -23,25 +23,24 @@ DevTool::DevTool() : Game(WINDOW_X, WINDOW_Y) {
 
     // Initialize what we will see
     tileMenu = new DisplayObjectContainer();
-    sceneWindow = new DisplayObjectContainer();
+    cout << "tileMenu camPerspective: " << tileMenu->camPerspective << endl;
+    sceneWindow = new Scene();
     currentScene = new Scene();
     tileMenu->position={0, instance->windowHeight - SPRITESIZE};
 
-    // Test
-    DisplayObjectContainer* test = new DisplayObjectContainer("test", "./resources/quest/Gold_5.png");
-    
-    currentScene->addChild(test);
-
     sceneWindow->addChild(currentScene);
 
-	instance->addChild(tileMenu); // idk about this so far
+	instance->addChild(tileMenu); 
     Game::camera->addChild(sceneWindow);
     instance->addChild(Game::camera);
+
+// 	instance->addChild(tileMenu);
+//     instance->addChild(sceneWindow);
+//     tileMenu -> camPerspective = false;
+//     sceneWindow -> camPerspective = false;
+// >>>>>>> Engine
     cout << "initted" << endl;
     IterateDirectory("resources");
-    //test->setScrollSpeed(1.0);
-    cout << test->position.x << endl;
-    cout << test->scrollSpeed <<endl;
 
 }
 
@@ -100,11 +99,47 @@ void DevTool::save(string filepath)
     
     // json saveData;
     // saveData = currentScene->toJson();
-    cout << "hi" << endl;
-    string data = currentScene->toJson().dump(4);
-    cout << "pie" << endl;
+
+    string data = sceneWindow->toJson().dump(4);
     saveFile << data;
     saveFile.close();
+}
+
+DisplayObjectContainer *DevTool::sceneClick(int x, int y)
+{
+    cout << "mouse click: " << x << "," << y <<endl;
+    return sceneClickHelper(sceneWindow, x, y);
+}
+
+bool DevTool::inSquare(DisplayObjectContainer *parent, int x, int y)
+{
+    return parent->position.x <= x && parent->position.x + SPRITESIZE >= x && parent->position.y <= y && parent->position.y + SPRITESIZE >= y;
+}
+
+DisplayObjectContainer *DevTool::sceneClickHelper(DisplayObjectContainer *parent, int x, int y)
+{
+    cout << "is inside: " << inSquare(parent, x, y) << endl;
+    if (inSquare(parent, x, y))
+    {
+        return parent;
+    }
+    AffineTransform *gt = new AffineTransform();
+    parent->applyTransformations(*gt);
+    SDL_Point newPoint = gt->transformPoint(x, y);
+    delete gt;
+    cout << "transformed point: " << newPoint.x << "," << newPoint.y <<endl;
+    DisplayObjectContainer *ret = NULL;
+    for (DisplayObject *objChildren : parent->children)
+    {
+        ret = sceneClickHelper((DisplayObjectContainer *)objChildren, newPoint.x, newPoint.y);
+        if (ret)
+        {
+            cout << "returning" << endl;
+            return ret;
+        }
+    }
+    cout << "returning null" << endl;
+    return ret;
 }
 
 void DevTool::start(){
@@ -142,6 +177,7 @@ void DevTool::start(){
             case SDL_MOUSEBUTTONDOWN:
                 // cout << initMouseLoc.x << endl;
                 // cout << "mousedown event" << endl;
+                currMouseLoc = {event.button.x, event.button.y};
                 if (initMouseLoc.x == -1 && initMouseLoc.y == -1)
                 {
                     //cout << "first click" << endl;
@@ -162,7 +198,7 @@ void DevTool::start(){
                             selected = (DisplayObjectContainer *)tileMenu->children[ind];
                         }
                         // cout << "finished selection" << endl;
-                        DisplayObject *temp = new DisplayObject("selected", 200, 0, 0);
+                        DisplayObjectContainer *temp = new DisplayObjectContainer("selected", 200, 0, 0);
                         temp->alpha = 70;
                         // cout << "plz work" << endl;
                         selected->addChild(temp);
@@ -171,54 +207,95 @@ void DevTool::start(){
                     else
                     {  
                         // cout << "in scene window" << endl;
-                        selected = NULL;
+                        selected = sceneClick(event.button.x, event.button.y);
+                        
+                        if (selected)  //clicked on a sprite
+                        {
+                            DisplayObjectContainer *temp = new DisplayObjectContainer("selected", 200, 0, 0);
+                            temp->alpha = 70;
+                            selected->addChild(temp);
+                        }
                         // cout << "not here" << endl;
                     }
                 }
-                else
-                {
-                    if (selected)
-                    {
-                        selected->position.x += event.button.x - initMouseLoc.x;
-                        selected->position.y += event.button.y - initMouseLoc.y;
-                        initMouseLoc = {event.button.x, event.button.y};
-                    }
-                    // cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
-                }
-                // cout << "broke out of switch" << endl;
                 break;
-            // case SDL_MOUSEMOTION:
-            //     if (selected && initMouseLoc.x != -1 && initMouseLoc.y != -1)
-            //     {
-            //         selected->position.x += event.motion.x - initMouseLoc.x;
-            //         selected->position.y += event.motion.y - initMouseLoc.y;
-            //         initMouseLoc = {event.motion.x, event.motion.y};
-            //         cout << "changing position to: " << event.motion.x << ", " << event.motion.y << endl;
-            //     }
             case SDL_MOUSEBUTTONUP:
                 // cout << "mouse up" << endl;
+                currMouseLoc = {event.button.x, event.button.y};
                 if (selected && initMouseLoc.x != -1 && initMouseLoc.y != -1)
                 {
-                    selected->position.x += event.button.x - initMouseLoc.x;
-                    selected->position.y += event.button.y - initMouseLoc.y;
-
-                    // Snap to tile
-                    int posX, posY;
-                    posX = selected->position.x;
-                    posY = selected->position.y;
-                    selected->position.x = posX - (posX % TILE_SIZE);
-                    selected->position.y = posY - (posY % TILE_SIZE);
+                    //tile menu
+                    if (initMouseLoc.y >= this->windowHeight - SPRITESIZE)
+                    {
+                        if (event.button.y <(this->windowHeight - SPRITESIZE))
+                        {
+                            selected->removeImmediateChild("selected");
+                            selected = new DisplayObjectContainer(selected->id, selected->imgPath);
+                            int loc = (int)((initMouseLoc.x)/SPRITESIZE);
+                            selected->position = {loc*SPRITESIZE, this->windowHeight - SPRITESIZE};
+                            sceneWindow->addChild(selected);
+                            DisplayObjectContainer *temp = new DisplayObjectContainer("selected", 200, 0, 0);
+                            temp->alpha = 70;
+                            selected->addChild(temp);
+                            cout << "creating copy" << endl;
+                        }
+                    }
+                    if (event.button.y <(this->windowHeight - SPRITESIZE))
+                    {
+                        // selected->position.x += event.button.x - initMouseLoc.x;
+                        // selected->position.y += event.button.y - initMouseLoc.y;
+                        selected->position.x = event.button.x;
+                        selected->position.y = event.button.y;
+                        // Snap to tile
+                        tileSnap(selected);
+                    }
+                
                     // initMouseLoc = {event.button.x, event.button.y};
                     // cout << "changing position to: " << event.button.x << ", " << event.button.y << endl;
                 }
                 initMouseLoc = {-1, -1};
+                break;
+            case SDL_MOUSEMOTION:
+                currMouseLoc = {event.motion.x, event.motion.y};
+                // cout << "mouse location: " << currMouseLoc.x << "," << currMouseLoc.y <<endl;
                 break;
 		}
 	
 	}
 }
 
+void DevTool::tileSnap(DisplayObjectContainer *obj)
+{
+    int posX, posY;
+    posX = obj->position.x;
+    posY = obj->position.y;
+    obj->position.x = posX - (posX % TILE_SIZE);
+    obj->position.y = posY - (posY % TILE_SIZE);
+    // if (posX % TILE_SIZE > TILE_SIZE/2)
+    // {
+    //     obj->position.x += TILE_SIZE;
+    // }
+    // if (posY % TILE_SIZE > TILE_SIZE/2)
+    // {
+    //     obj->position.y += TILE_SIZE;
+    // }
+}
 
+void DevTool::paste()
+{
+    int x, y;
+    x = currMouseLoc.x;
+    y = currMouseLoc.y;
+    if (copied && ! sceneClick(x, y))
+    {
+        cout << "pasting" << endl;
+        DisplayObjectContainer *temp = new DisplayObjectContainer(copied->id, copied->imgPath);
+        sceneWindow->addChild(temp);
+        cout << "mouse location: " << currMouseLoc.x << "," << currMouseLoc.y <<endl;
+        temp->position = {x, y};
+        tileSnap(temp);
+    }
+}
 void DevTool::update(set<SDL_Scancode> pressedKeys){
 
     // Read keyboard inputs
@@ -242,6 +319,14 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
                 break;
             case SDL_SCANCODE_RIGHT:
                 Game::camera->position.x -= 5;
+            case SDL_SCANCODE_C:
+                if (selected)
+                {
+                    copied = selected;
+                }
+                break;
+            case SDL_SCANCODE_V:
+                paste();
                 break;
             case SDL_SCANCODE_A:
                 {
@@ -461,6 +546,18 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
                     cin >> loadpath;
                     load(loadpath);
                     break; 
+                }
+            case SDL_SCANCODE_Z:
+                {
+                    cout << "Clear the scene?" << endl;
+                    string uInp;
+                    cin >> uInp;
+                    if (uInp == "y") {
+                        for(int i = sceneWindow->children.size() - 1; i > -1; i--) {
+                            sceneWindow->removeChild(i);
+                        }
+                    }
+                    break;
                 }
         }
     }

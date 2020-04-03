@@ -162,21 +162,12 @@ void Scene::loadScene(string sceneFilePath) {
 
 json Scene::toJson() {
     json j;
-    cout << "a" << endl;
 
     for(auto* entity : this->children) {
-        cout << "b" << endl;
         json temp = parse(entity);
-        cout << "c" << endl;
         j.push_back(json::object_t::value_type(entity->id, temp));
-        cout << "d" << endl;
     }
 
-    // Setting name of scene
-    cout << "e" << endl;
-
-    cout << j.dump(4) << endl;
-    cout << "######################" << endl;
 
     return j;
 }
