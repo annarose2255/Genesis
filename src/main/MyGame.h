@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "CoinListener.h"
 #include "SceneManager.h"
+#include "HealthBar.h"
 
 using namespace std;
 
@@ -31,6 +32,9 @@ public:
     const int levelWidth = 1280;
 	const int levelHeight = 960;
 
+    // UI Components
+    HealthBar* hp;
+
 private:
     Sound* mainMusic;
     
@@ -48,6 +52,7 @@ private:
     bool isOngoing = true;
     bool fight = false;
     bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
+
 
 };
 

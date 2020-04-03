@@ -10,6 +10,7 @@
 #include "Tween.h"
 #include "TweenableParams.h"
 #include "TweenJuggler.h"
+#include "HealthBar.h"
 
 using namespace std;
 
@@ -26,9 +27,14 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     change = true;
     currentScene = scene1;
 
+    // UI Components
+    hp = new HealthBar(0, 100, 0);
+
 	Game::camera->addChild(currentScene);
+	instance->addChild(hp);
 	instance->addChild(Game::camera);
 
+	hp->position = { 100, 100 };
     //Sound 
 	mainMusic = new Sound();
 

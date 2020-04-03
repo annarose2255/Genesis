@@ -11,6 +11,7 @@ bin/./src/main/MyGame.cpp.o: src/main/MyGame.cpp src/engine/Sprite.h \
  src/engine/events/EventDispatcher.h src/main/events/FightEvent.h \
  src/engine/events/EventListener.h src/main/events/SceneManager.h \
  src/main/events/FightEvent.h src/main/events/ChangeSceneEvent.h \
+ src/engine/ui/HealthBar.h src/engine/AffineTransform.h \
  src/main/QuestDemo.h src/main/QuestManager.h src/engine/tweening/Tween.h \
  src/engine/tweening/TweenableParams.h \
  src/engine/tweening/TweenTransitions.h \
@@ -74,6 +75,10 @@ src/main/events/SceneManager.h:
 src/main/events/FightEvent.h:
 
 src/main/events/ChangeSceneEvent.h:
+
+src/engine/ui/HealthBar.h:
+
+src/engine/AffineTransform.h:
 
 src/main/QuestDemo.h:
 
