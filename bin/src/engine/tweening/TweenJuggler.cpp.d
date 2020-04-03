@@ -5,8 +5,8 @@ bin/./src/engine/tweening/TweenJuggler.cpp.o: \
  src/engine/tweening/TweenableParams.h \
  src/engine/tweening/TweenTransitions.h src/engine/AnimatedSprite.h \
  src/engine/Sprite.h src/engine/DisplayObjectContainer.h \
- src/engine/Scene.h src/engine/Layer.h src/engine/AnimatedSprite.h \
- src/engine/json.hpp
+ src/engine/lib/rapidxml.hpp src/engine/Scene.h src/engine/Layer.h \
+ src/engine/AnimatedSprite.h src/engine/lib/json.hpp
 
 src/engine/tweening/TweenJuggler.h:
 
@@ -28,10 +28,12 @@ src/engine/Sprite.h:
 
 src/engine/DisplayObjectContainer.h:
 
+src/engine/lib/rapidxml.hpp:
+
 src/engine/Scene.h:
 
 src/engine/Layer.h:
 
 src/engine/AnimatedSprite.h:
 
-src/engine/json.hpp:
+src/engine/lib/json.hpp:

@@ -8,6 +8,7 @@ bin/./src/main/CoinListener.cpp.o: src/main/CoinListener.cpp \
  src/engine/Sprite.h src/engine/Layer.h src/engine/AnimatedSprite.h \
  src/engine/json.hpp src/main/events/FightEvent.h \
  src/engine/AnimatedSprite.h src/engine/events/EventListener.h
+ src/engine/AffineTransform.h src/engine/lib/rapidxml.hpp
 
 src/main/CoinListener.h:
 
@@ -46,3 +47,4 @@ src/main/events/FightEvent.h:
 src/engine/AnimatedSprite.h:
 
 src/engine/events/EventListener.h:
+src/engine/lib/rapidxml.hpp:

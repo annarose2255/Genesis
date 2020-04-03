@@ -22,7 +22,8 @@ public:
 
 	/* Load scene from a file */
 	void loadScene(string sceneFilePath);
-	void loadTileMap(string tilePath, bool isNextMap); 
+    json toJson();
+	void loadTileMap(string tilePath);
 
     DisplayObject* makeDisplayObject(json data);
     DisplayObjectContainer* makeDisplayObjectContainer(json data);
@@ -45,7 +46,7 @@ private:
 	map<int, SDL_Texture*> tilesets; //store image file of tilesets
 	map<int, DisplayObject*> tileDO; //store image file of tilesets
 	vector<DisplayObject*> tiles;
-	AnimatedSprite* character; 
+    json parse(auto* obj); //Display Objects
+
 };
 
-#endif

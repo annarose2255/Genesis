@@ -10,7 +10,7 @@ Scene::Scene() : DisplayObjectContainer() {
     this->type = "Scene";
 }
 //Tmx tutorial: https://codeofconnor.com/2017/08/18/how-to-load-and-render-tiled-maps-in-your-sdl2-game/
-void Scene::loadTileMap(string tilePath, bool isNextMap) { //working on parsing in tmx room files 
+void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room files 
     tmx::Map map;
     map.load(tilePath);
     auto map_dim = map.getTileCount();
@@ -146,11 +146,20 @@ void Scene::loadScene(string sceneFilePath) {
     json j;
     ifstream ifs(sceneFilePath);
     ifs >> j;
-    // int i = 0;
+
+    // this->id = j["id"]["name"];
+    
+    int i = 0;
     for(auto& [key, value] : j.items()) {
         json data = value;
+        cout << "hi" << endl;
+        cout << data["type"] << endl;
          //quick fix: find j["character"], set it to root & call in myGame
         if(data["type"] == "DisplayObject") {
+            DisplayObject* newDC = makeDisplayObject(data);
+            this->addChild(newDC);
+        }
+        if(data["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(data);
             this->addChild(newDOC);
         }
@@ -158,7 +167,10 @@ void Scene::loadScene(string sceneFilePath) {
             Sprite* newS = makeSprite(data);
             this->addChild(newS);
         }
-        if(data["type"] == "Layer") { // This is probably not needed?
+         if(data["type"] == "Layer") {
+            // DisplayObjectContainer* newDO = makeLayer(data);
+            // this->addChild(newDO);
+            // layerList.push_back(newDO);
             Layer* newLayer = makeLayer(data);
             this->addChild(newLayer);
         }
@@ -168,6 +180,77 @@ void Scene::loadScene(string sceneFilePath) {
             this->addChild(newAS);
         }
     }
+}
+
+json Scene::toJson() {
+    json j;
+
+    for(auto* entity : this->children) {
+        json temp = parse(entity);
+        j.push_back(json::object_t::value_type(entity->id, temp));
+    }
+
+
+    return j;
+}
+
+/*
+This turns a DisplayObj, Sprite, etc. pointer into a json
+*/
+json Scene::parse(auto* obj) {
+    json j;
+    j = {
+        {"type", obj->type},
+        {"id", obj->id},
+        {"visible", obj->visible},
+        {"position.x", obj->position.x},
+        {"position.y", obj->position.y},
+        {"width", obj->width},
+        {"height", obj->height},
+        {"pivot.x", obj->pivot.x},
+        {"pivot.y", obj->pivot.y},
+        {"scaleX", obj->scaleX},
+        {"scaleY", obj->scaleY},
+        {"rotation", obj->rotation},
+        {"alpha", obj->alpha},
+        {"facingRight", obj->facingRight}
+    };
+
+    // Animations
+    if(obj->type == "AnimatedSprite") {
+        json anim;
+        AnimatedSprite* tempSpr = dynamic_cast<AnimatedSprite*>(obj);
+        for(int i = 0; i < tempSpr->animationNames.size(); i++) {
+            json tempJson;
+            Animation* tempAni = tempSpr->getAnimation(tempSpr->animationNames[i]);
+            
+            tempJson = {
+                {"filepath", tempAni->filepath},
+                {"name", tempAni->animName},
+                {"frames", tempAni->numFrames},
+                {"rate", tempAni->frameRate},
+                {"loop", tempAni->loop}
+            };
+            
+            anim += json::object_t::value_type(to_string(i), tempJson);
+        }
+        j += json::object_t::value_type("animations", anim);
+    }
+    else {
+        j += json::object_t::value_type("filepath", obj->imgPath); 
+    }
+    // Children
+    if(obj->type != "DisplayObject"){
+        json childs;
+        DisplayObjectContainer* doc = dynamic_cast<DisplayObjectContainer*>(obj);
+        for(auto* child : doc->children) {
+            json temp = parse(child);
+            childs += json::object_t::value_type(temp["id"], temp);
+        }
+        j += json::object_t::value_type("children", childs);
+    }
+
+    return j;
 }
 
 DisplayObject* Scene::makeDisplayObject(json data) {

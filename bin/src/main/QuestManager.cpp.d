@@ -8,6 +8,7 @@ bin/./src/main/QuestManager.cpp.o: src/main/QuestManager.cpp \
  src/engine/Sprite.h src/engine/Layer.h src/engine/AnimatedSprite.h \
  src/engine/json.hpp src/main/events/FightEvent.h \
  src/engine/AnimatedSprite.h src/engine/events/EventListener.h \
+ src/engine/AffineTransform.h src/engine/lib/rapidxml.hpp \
  src/main/CoinListener.h
 
 src/main/QuestManager.h:
@@ -47,5 +48,6 @@ src/main/events/FightEvent.h:
 src/engine/AnimatedSprite.h:
 
 src/engine/events/EventListener.h:
+src/engine/lib/rapidxml.hpp:
 
 src/main/CoinListener.h:

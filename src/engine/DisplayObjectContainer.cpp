@@ -9,23 +9,30 @@ using namespace std;
 
 DisplayObjectContainer::DisplayObjectContainer() : DisplayObject() {
     this->type = "DisplayObjectContainer";
+    this->setScrollSpeed(1.0);
 }
 
 DisplayObjectContainer::DisplayObjectContainer(string id, string filepath) : DisplayObject(id, filepath) {
     this->type = "DisplayObjectContainer";
+    this->setScrollSpeed(1.0);
 }
 
 DisplayObjectContainer::DisplayObjectContainer(string id, int red, int green, int blue) : DisplayObject(id, red, green, blue) {
     this->type = "DisplayObjectContainer";
+    this->setScrollSpeed(1.0);
 }
 
 DisplayObjectContainer::~DisplayObjectContainer() {
     for (int i = 0; i < children.size(); i++ ) {
         delete children[i];
+        // children.erase(i)
     }
 }
 
 void DisplayObjectContainer::addChild(DisplayObject* child) {
+    cout << "adding child" << endl;
+    // cout << "parent camPerspective: " << camPerspective << endl;
+    child->camPerspective = camPerspective;
     children.push_back(child);
     // cout << "parent of child " << child->parent->id << endl;
     child->parent = this; // make sure to include reverse reference also
@@ -105,7 +112,10 @@ void DisplayObjectContainer::draw(AffineTransform &at) {
     // undo the parent's pivot
     at.translate(pivot.x, pivot.y);
     for (int i = 0; i < children.size(); i++) {
-        children[i]->setScrollSpeed(scrollSpeed);
+        if (camPerspective)
+        {
+            children[i]->setScrollSpeed(scrollSpeed);
+        }
         children[i]->draw(at);
     }
     // redo the parent's pivot
