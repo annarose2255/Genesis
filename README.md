@@ -14,8 +14,9 @@ In the event that it doesn't compile:
 -sudo make install 
 Also if you get an error about the library not linking then run: sudo ldconfig (that's an L in ldconfig)
 
-*3.27 Updates* 
-So far, no working demo :( 
-* Worked on implementing Tween files from last hw; implemented some.
-* In the main folder, added an events folder with first attempts at making a SceneManager and scene transition events
-* Since the dev tool wasn't available to use, we started to parse in tmx files through a parsing library in Scene, but nothing is completely parsed yet.
+
+
+*4.3 Updates* 
+Scene Transitions: First scene, run into the enemy to enter a battle scene; from the battle scene
+run into the enemy again to go back to the previous scene. In the first scene, move the character up to 
+enter a different area. Move down to go back to the first scene. 

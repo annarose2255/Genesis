@@ -115,7 +115,7 @@ void DisplayObject::draw(AffineTransform &at){
 		}
 		
 		SDL_SetTextureAlphaMod(curTexture, alpha);
-		if (isSheet) { 
+		if (isSheet || (srcrect.x != 0 && srcrect.w < 1000) && (srcrect.y != 0 && srcrect.h < 1000)) { 
             SDL_RenderCopyEx(Game::renderer, curTexture, &srcrect, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
         } else {
             SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	

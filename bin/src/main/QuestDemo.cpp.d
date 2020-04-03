@@ -8,7 +8,7 @@ bin/./src/main/QuestDemo.cpp.o: src/main/QuestDemo.cpp \
  src/engine/events/Event.h src/engine/events/EventListener.h \
  src/main/events/ChangeSceneEvent.h src/engine/DisplayObjectContainer.h \
  src/engine/events/EventDispatcher.h src/engine/Scene.h \
- src/engine/Layer.h src/engine/AnimatedSprite.h src/engine/json.hpp \
+ src/engine/Layer.h src/engine/AnimatedSprite.h src/engine/lib/json.hpp \
  src/main/events/FightEvent.h src/engine/events/EventListener.h \
  src/main/QuestManager.h
 
@@ -54,7 +54,7 @@ src/engine/Layer.h:
 
 src/engine/AnimatedSprite.h:
 
-src/engine/json.hpp:
+src/engine/lib/json.hpp:
 
 src/main/events/FightEvent.h:
 

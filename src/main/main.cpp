@@ -32,18 +32,18 @@ int main(int argc, char ** argv)
 /*
     AnimatedSprite* anim = new AnimatedSprite("Gold", "./resources/quest/Gold.png", "./resources/quest/Gold.xml");
 */
-	DevTool* devTool = new DevTool();
-    devTool->start();
+	// DevTool* devTool = new DevTool();
+    // devTool->start();
 
-	delete devTool;
-	return 0;
-
-
-	// MyGame* myGame = new MyGame();
- //    myGame->start();
-
-	// delete myGame;
+	// delete devTool;
 	// return 0;
+
+
+	MyGame* myGame = new MyGame();
+    myGame->start();
+
+	delete myGame;
+	return 0;
 /*
 	QuestDemo* questDemo = new QuestDemo();
 	questDemo->start();

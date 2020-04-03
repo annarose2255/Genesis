@@ -17,7 +17,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
     scene1 = new Scene();
     scene1->loadScene("./resources/scenes/character.json");
-	// scene1->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx", false);
+	// scene1->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx");
 	scene2 = new Scene();
 	scene2->loadScene("./resources/scenes/solarsystem.json");
 	// scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx", true);
@@ -103,29 +103,21 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	}
 
 	//changing position of scene
-	if (currentScene->position.x-5 > -2105) {
-		if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-			// Game::camera->position.x-=5;
-			currentScene->position.x-=5;
-		}
+	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
+		Game::camera->position.x-=5;
+		// currentScene->position.x-=5;
 	}
-	if (currentScene->position.x+5 < 0) {
-		if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-			// Game::camera->position.x+=5;
-			currentScene->position.x+=5;
-		}
+	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
+		Game::camera->position.x+=5;
+		// currentScene->position.x+=5;
 	}
-	if (currentScene->position.y-5 > -180) {
-		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-			// Game::camera->position.y-=5;
-			currentScene->position.y-=5;
-		}
+	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+		Game::camera->position.y-=5;
+		// currentScene->position.y-=5;
 	}	
-	if (currentScene->position.y+5 < -5){
-		if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-			// Game::camera->position.y+=5;
-			currentScene->position.y+=5;
-		}
+	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+		Game::camera->position.y+=5;
+		// currentScene->position.y+=5;
 	}
 
 	//character moves separately from scene
@@ -150,8 +142,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
 	// cout << "Scene x " << currentScene->position.x << endl; 
 	// cout << "Scene y " << currentScene->position.y << endl; 
-	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
-	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
+	cout << "Character x " << currentScene->getCharacter()->position.x << endl;
+	cout << "Character y " << currentScene->getCharacter()->position.y << endl;
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}
@@ -179,9 +171,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 		//"./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx"));
 	// 	}
 	// }
-
 	//Change scene 
-	if ((currentScene == scene1) && (currentScene->getCharacter()->position.x < 60)) {
+	if ((currentScene == scene1) && (currentScene->getCharacter()->position.y < 70)) {
 			cout << "exited room!" << endl;
 			eDispatcher->dispatchEvent(new Event(CHANGE, eDispatcher, currentScene->getCharacter(), 
 				scene2));
@@ -189,24 +180,38 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 			Game::camera->removeImmediateChild(currentScene);
 			currentScene = sm->getCurrentScene();       
 			Game::camera->addChild(currentScene);
-			eDispatcher->addEventListener(sm, REVERT);
+			eDispatcher->addEventListener(sm, CHANGE);
 	}
-	// else if ((currentScene == scene1)) {
-	// 		cout << "inside revert!" << endl;
-	// 		eDispatcher->dispatchEvent(new Event(FIGHT, eDispatcher, currentScene->getCharacter(),
-	// 			currentScene->getEnemy(1), scene3));
-			
-	// }
-	else if ((currentScene == scene2) && (currentScene->getCharacter()->position.x < 60)) {
+	else if ((currentScene->enemies.size() > 0) && (!fight) && (isCharInCoin(currentScene->getCharacter(), currentScene->getEnemy(0)))) {
+		cout << "inside fight!" << endl;
+		eDispatcher->dispatchEvent(new Event(FIGHT, eDispatcher, currentScene->getCharacter(),
+			currentScene->getEnemy(0), scene3));
+		Game::camera->removeImmediateChild(currentScene);
+		currentScene = sm->getCurrentScene();       
+		Game::camera->addChild(currentScene);
+		fight = true;
+		eDispatcher->addEventListener(sm, REVERT);
+	}
+	else if ((fight) && (isCharInCoin(currentScene->getCharacter(), currentScene->getEnemy(0)))) {
 			cout << "inside revert!" << endl;
 			eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher));
 			cout << "out of revert dispatch" << endl;
 			Game::camera->removeImmediateChild(currentScene);
-			// cout << "removed child!" << endl;
-			currentScene = sm->getCurrentScene();
-			// cout << "set to the current scene!" << endl;       
+			currentScene = sm->getCurrentScene();      
 			Game::camera->addChild(currentScene);
-			// cout << "add child again!" << endl;
+			fight = false;
+			// eDispatcher->addEventListener(sm, CHANGE);
+			// eDispatcher->addEventListener(sm, FIGHT);
+	}
+	else if ((currentScene == scene2) && (currentScene->getCharacter()->position.y > 572)) {
+			cout << "exited mountain!" << endl;
+			// eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher, currentScene->getCharacter(), 
+			//	scene1));
+			eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher));
+			cout << "out of dispatcher" << endl;
+			Game::camera->removeImmediateChild(currentScene);
+			currentScene = sm->getCurrentScene();       
+			Game::camera->addChild(currentScene);
 			eDispatcher->addEventListener(sm, CHANGE);
 	}
 	//sm->handleEvent(CHANGE);
@@ -219,17 +224,13 @@ void MyGame::draw(AffineTransform &at){
 	SDL_RenderSetViewport(Game::renderer, &Game::camera->camera);
 }
 
-// bool MyGame::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
-//     SDL_Point* charPos, charTemp;
-//     SDL_Rect* cnRect, cnTemp;
-//     charTemp = {chara->position.x + chara->pivot.x, chara->position.y + chara->pivot.y};
-//     charPos = &charTemp;
-// 	cout << "cn pos x " << cn->position.x << endl;
-// 	cout << "cn pos y " << cn->position.y << endl;
-// 	cout << "cn w " << cn->width << endl;
-// 	cout << "cn h" << cn->height << endl;
-//     cnTemp = {cn->position.x, cn->position.y, cn->width, cn->height};
-//     cnRect = &cnTemp;
-//     return SDL_PointInRect(charPos, cnRect);
-// }
+bool MyGame::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
+    SDL_Point* charPos, charTemp;
+    SDL_Rect* cnRect, cnTemp;
+    charTemp = {chara->position.x + chara->pivot.x, chara->position.y + chara->pivot.y};
+    charPos = &charTemp; 
+    cnTemp = {cn->position.x, cn->position.y, cn->width, cn->height};
+    cnRect = &cnTemp;
+    return SDL_PointInRect(charPos, cnRect);
+}
 

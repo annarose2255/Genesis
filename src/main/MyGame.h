@@ -46,8 +46,8 @@ private:
     DisplayObjectContainer *questComplete;
     SceneManager* sm;
     bool isOngoing = true;
-
-    // bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
+    bool fight = false;
+    bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
 
 };
 

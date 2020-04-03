@@ -15,25 +15,26 @@ void SceneManager::handleEvent(Event* e)
 {
     if (e->getType() == CHANGE)
     {
-        cout << "inside change!" << endl;
         // Event* event = dynamic_cast<Event*>(event);
         // Scene* nextScene = new Scene();
-        cout << "new scene path " << endl;
         // nextScene->loadTileMap(e->getScenePath(), true);
-        cout << "loaded map " << endl;
+        // Change these later according to design team
+        character->position.x = 300;
+        character->position.y = 500;
+
         Layer* layer = new Layer(); 
         layer->scrollSpeed = 1;
         layer->addChild(character);
         e->getNextScene()->addChild(layer);
         e->getNextScene()->setCharacter(character);
-        // Change these later according to design team
-        character->position.x = 300;
-        character->position.y = 500;
+        SDL_Point pos = {character->position.x, character->position.y};
+        prevPos = pos;
+        prevS = currentS;
         EventDispatcher* ed = e->getSource();
         ed->removeEventListener(this, CHANGE);
         currentS = e->getNextScene();
 
-        ed->addEventListener(this, CHANGE);
+        // ed->addEventListener(this, CHANGE);
 
 
     }
@@ -42,20 +43,21 @@ void SceneManager::handleEvent(Event* e)
         // FightEvent* event = dynamic_cast<FightEvent*>(event);
         // Scene* nextScene = new Scene();
         // nextScene->loadTileMap(e->getScenePath(), true);
+        // Change these later according to design team
+        character->position.x = 200;
+        character->position.y = 400;
+        e->getEnemy()->position.x = 400;
+        e->getEnemy()->position.y = 400;
+        
         Layer* layer = new Layer(); 
         layer->scrollSpeed = 1;
         layer->addChild(character);
         e->getNextScene()->addChild(layer);
         e->getNextScene()->addChild(e->getEnemy());
         e->getNextScene()->setCharacter(character);
+        e->getNextScene()->enemies.push_back(e->getEnemy());
         SDL_Point pos = {character->position.x, character->position.y};
         prevPos = pos;
-
-        // Change these later according to design team
-        character->position.x = 200;
-        character->position.y = 200;
-        e->getEnemy()->position.x = 400;
-        e->getEnemy()->position.y = 400;
 
         EventDispatcher* ed = e->getSource();
         ed->removeEventListener(this, CHANGE);

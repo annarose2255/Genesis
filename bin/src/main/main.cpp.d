@@ -11,10 +11,9 @@ bin/./src/main/main.cpp.o: src/main/main.cpp src/engine/DisplayObject.h \
  src/engine/DisplayObjectContainer.h src/engine/events/EventDispatcher.h \
  src/main/events/FightEvent.h src/engine/events/EventListener.h \
  src/main/events/SceneManager.h src/main/events/FightEvent.h \
- src/main/events/ChangeSceneEvent.h src/main/QuestDemo.h
- src/engine/events/EventListener.h src/engine/events/EventListener.h \
- src/main/DevTool.h src/main/SheetDemo.h \
- src/engine/lib/rapidxml_utils.hpp src/engine/lib/rapidxml.hpp
+ src/main/events/ChangeSceneEvent.h src/main/DevTool.h \
+ src/main/SheetDemo.h src/engine/lib/rapidxml_utils.hpp \
+ src/engine/lib/rapidxml.hpp
 
 src/engine/DisplayObject.h:
 
@@ -76,7 +75,6 @@ src/main/events/FightEvent.h:
 
 src/main/events/ChangeSceneEvent.h:
 
-src/main/QuestDemo.h:
 src/main/DevTool.h:
 
 src/main/SheetDemo.h:
