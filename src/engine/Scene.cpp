@@ -135,8 +135,14 @@ void Scene::loadScene(string sceneFilePath) {
     int i = 0;
     for(auto& [key, value] : j.items()) {
         json data = value;
+        cout << "hi" << endl;
+        cout << data["type"] << endl;
          //quick fix: find j["character"], set it to root & call in myGame
         if(data["type"] == "DisplayObject") {
+            DisplayObject* newDC = makeDisplayObject(data);
+            this->addChild(newDC);
+        }
+        if(data["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(data);
             this->addChild(newDOC);
         }
@@ -144,7 +150,7 @@ void Scene::loadScene(string sceneFilePath) {
             Sprite* newS = makeSprite(data);
             this->addChild(newS);
         }
-         if(data["type"] == "Layer") { // This is probably not needed?
+         if(data["type"] == "Layer") {
             // DisplayObjectContainer* newDO = makeLayer(data);
             // this->addChild(newDO);
             // layerList.push_back(newDO);

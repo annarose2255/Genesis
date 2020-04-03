@@ -43,6 +43,7 @@ private:
     DisplayObjectContainer* tileMenu;
     SDL_Point initMouseLoc = {-1, -1};
     SDL_Point currMouseLoc = {-1, -1};
+    int num = 0;
 
 };
 

@@ -64,6 +64,7 @@ void DevTool::IterateDirectory(string filepath)
                 continue;
             }
             cout << path << endl;
+            path = "./" + path;
             tileMenu->addChild(new DisplayObjectContainer(path, path));
             tileMenu->children.back()->position = {(int)(tileMenu->children.size()-1)*SPRITESIZE};
             cout << tileMenu->children.back()->position.x << " " << tileMenu->children.back()->position.y << endl;
@@ -85,10 +86,10 @@ DevTool::~DevTool(){
 
 void DevTool::load(string filepath)
 {
-    Scene *thisScene = new Scene();
-    thisScene->loadScene(filepath);
-    sceneWindow->addChild(thisScene);
-    currentScene = thisScene;
+    //Scene *thisScene = new Scene();
+    sceneWindow->loadScene(filepath);
+    // sceneWindow = thisScene;
+    // currentScene = thisScene;
     // sceneWindow = thisScene;
 }
 
@@ -230,7 +231,8 @@ void DevTool::start(){
                         if (event.button.y <(this->windowHeight - SPRITESIZE))
                         {
                             selected->removeImmediateChild("selected");
-                            selected = new DisplayObjectContainer(selected->id, selected->imgPath);
+                            string nameID = selected->id + to_string(num);
+                            selected = new DisplayObjectContainer(nameID, selected->imgPath);
                             int loc = (int)((initMouseLoc.x)/SPRITESIZE);
                             selected->position = {loc*SPRITESIZE, this->windowHeight - SPRITESIZE};
                             sceneWindow->addChild(selected);
@@ -238,6 +240,7 @@ void DevTool::start(){
                             temp->alpha = 70;
                             selected->addChild(temp);
                             cout << "creating copy" << endl;
+                            num++;
                         }
                     }
                     if (event.button.y <(this->windowHeight - SPRITESIZE))
@@ -571,11 +574,12 @@ void DevTool::update(set<SDL_Scancode> pressedKeys){
 }
 
 void DevTool::draw(AffineTransform &at){ //have to remove selection box before saving then add it back in after
-    SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
-    SDL_RenderClear(Game::renderer);
-    DevTool::drawGrid();
-	DisplayObjectContainer::draw(at);
-	SDL_RenderPresent(Game::renderer);
+ //    SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
+ //    SDL_RenderClear(Game::renderer);
+ //    DevTool::drawGrid();
+	// DisplayObjectContainer::draw(at);
+	// SDL_RenderPresent(Game::renderer);
+    Game::draw(at);
 }
 
 void DevTool::drawGrid(){
