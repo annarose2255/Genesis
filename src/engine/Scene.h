@@ -35,10 +35,13 @@ public:
 
 	DisplayObject* getObject(int index);
 	AnimatedSprite* getCharacter();
+	DisplayObjectContainer* getEnemy(int index);
+	void setCharacter(AnimatedSprite* chara); 
 	//add get Layer method?
 
 private:
 	vector<DisplayObject*> objects; //in the scene
+	vector<DisplayObjectContainer*> enemies; //in the scene
 	map<int, SDL_Texture*> tilesets; //store image file of tilesets
 	map<int, DisplayObject*> tileDO; //store image file of tilesets
 	vector<DisplayObject*> tiles;

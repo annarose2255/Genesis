@@ -233,6 +233,24 @@
                 "alpha": 255,
                 "facingRight": true,
                 "filepath": "./resources/quest/questComplete.png"
+            }, 
+            "enemy1": {
+                "type": "DisplayObjectContainer",
+                "id": "enemy",
+                "visible": true,
+                "position.x": 500, 
+                "position.y": 456, 
+                "width": 100,
+                "height": 100, 
+                "pivot.x": 15, 
+                "pivot.y": 15,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "rotation": 0.0,
+                "alpha": 255,
+                "facingRight": true,
+                "filepath": "./resources/scenes/area 1 files/imgs/Ghost.png", 
+                "children": {}
             }
         }
     }, 
@@ -246,8 +264,8 @@
                 "type": "AnimatedSprite",
                 "id": "character",
                 "visible": true,
-                "position.x": 0,
-                "position.y": 700,
+                "position.x": 140,
+                "position.y": 500,
                 "width": 100,
                 "height": 100, 
                 "pivot.x": 50, 

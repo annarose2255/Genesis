@@ -65,49 +65,6 @@ void DisplayObject::update(set<SDL_Scancode> pressedKeys){
 void DisplayObject::setScrollSpeed(double speed) {
 	scrollSpeed = speed;
 }
-bool DisplayObject::checkCollision(SDL_Rect a, SDL_Rect b){
-	//The sides of the rectangles
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
-
-    //Calculate the sides of rect A
-    leftA = a.x;
-    rightA = a.x + a.w;
-    topA = a.y;
-    bottomA = a.y + a.h;
-
-    //Calculate the sides of rect B
-    leftB = b.x;
-    rightB = b.x + b.w;
-    topB = b.y;
-    bottomB = b.y + b.h;
-
-    //If any of the sides from A are outside of B
-    if( bottomA <= topB )
-    {
-        return false;
-    }
-
-    if( topA >= bottomB )
-    {
-        return false;
-    }
-
-    if( rightA <= leftB )
-    {
-        return false;
-    }
-
-    if( leftA >= rightB )
-    {
-        return false;
-    }
-
-    //If none of the sides from A are outside B
-    return true;
-}
 void DisplayObject::draw(AffineTransform &at){
 	applyTransformations(at);
 	// cout << "Drawing " << id << endl;
@@ -129,7 +86,11 @@ void DisplayObject::draw(AffineTransform &at){
 			// cout << "srcrect x " << srcrect.x << endl;
 			dstrect.x = (int) (pos2.x - Game::camera->camera.x) * scrollSpeed; 
 			dstrect.y = (int) (pos2.y - Game::camera->camera.y) * scrollSpeed; 
-			if (srcrect.x > 0 && srcrect.y > 0) {
+			if ((srcrect.x != 0 && srcrect.w < 1000) && (srcrect.y != 0 && srcrect.h < 1000)) {
+				// cout << "srcrect x " << srcrect.x << endl;
+				// cout << "srcrect y " << srcrect.y << endl;
+				// cout << "srcrect w " << srcrect.w << endl;
+				// cout << "srcrect h " << srcrect.h << endl;
 				dstrect.w = srcrect.w; 
 				dstrect.h = srcrect.h;
 			}
@@ -148,7 +109,11 @@ void DisplayObject::draw(AffineTransform &at){
 		}
 		
 		SDL_SetTextureAlphaMod(curTexture, alpha);
-		if (srcrect.x > 0 && srcrect.y > 0) {
+		if ((srcrect.x != 0 && srcrect.w < 1000) && (srcrect.y != 0 && srcrect.h < 1000)) {
+			// cout << "rsrcrect x " << srcrect.x << endl;
+			// cout << "rsrcrect y " << srcrect.y << endl;
+			// cout << "rsrcrect w " << srcrect.w << endl;
+			// cout << "rsrcrect h " << srcrect.h << endl;
 			SDL_RenderCopyEx(Game::renderer, curTexture, &srcrect, &dstrect, calculateRotation(origin, upperRight), &corner, flip);
 		}
 		else {

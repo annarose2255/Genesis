@@ -16,11 +16,13 @@ using namespace std;
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
     scene1 = new Scene();
-    // scene2->loadScene("./resources/scenes/character.json");
-	scene1->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx", false);
+    scene1->loadScene("./resources/scenes/character.json");
+	// scene1->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx", false);
 	scene2 = new Scene();
-	scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx", true);
-
+	scene2->loadScene("./resources/scenes/solarsystem.json");
+	// scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx", true);
+	scene3 = new Scene();
+	scene3->loadScene("./resources/scenes/fight1.json");
     change = true;
     currentScene = scene1;
 
@@ -146,8 +148,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	//updating camera position
     Game::camera->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
-	cout << "Scene x " << currentScene->position.x << endl; 
-	cout << "Scene y " << currentScene->position.y << endl; 
+	// cout << "Scene x " << currentScene->position.x << endl; 
+	// cout << "Scene y " << currentScene->position.y << endl; 
 	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
 	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
 	if( Game::camera->camera.x < 0){
@@ -179,17 +181,33 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	// }
 
 	//Change scene 
-	if ((currentScene == scene1) && (currentScene->getCharacter()->position.y < 36 && 
-		(24 < currentScene->getCharacter()->position.x && currentScene->getCharacter()->position.x < 140))) {
+	if ((currentScene == scene1) && (currentScene->getCharacter()->position.x < 60)) {
 			cout << "exited room!" << endl;
 			eDispatcher->dispatchEvent(new Event(CHANGE, eDispatcher, currentScene->getCharacter(), 
 				scene2));
 			cout << "out of dispatcher" << endl;
 			Game::camera->removeImmediateChild(currentScene);
-			currentScene = sm->getCurrentScene();        
+			currentScene = sm->getCurrentScene();       
 			Game::camera->addChild(currentScene);
-			// Game::camera->addChild(currentScene);
-			// Game::camera->removeImmediateChild(currentScene);
+			eDispatcher->addEventListener(sm, REVERT);
+	}
+	// else if ((currentScene == scene1)) {
+	// 		cout << "inside revert!" << endl;
+	// 		eDispatcher->dispatchEvent(new Event(FIGHT, eDispatcher, currentScene->getCharacter(),
+	// 			currentScene->getEnemy(1), scene3));
+			
+	// }
+	else if ((currentScene == scene2) && (currentScene->getCharacter()->position.x < 60)) {
+			cout << "inside revert!" << endl;
+			eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher));
+			cout << "out of revert dispatch" << endl;
+			Game::camera->removeImmediateChild(currentScene);
+			// cout << "removed child!" << endl;
+			currentScene = sm->getCurrentScene();
+			// cout << "set to the current scene!" << endl;       
+			Game::camera->addChild(currentScene);
+			// cout << "add child again!" << endl;
+			eDispatcher->addEventListener(sm, CHANGE);
 	}
 	//sm->handleEvent(CHANGE);
 	Game::update(pressedKeys);
@@ -201,13 +219,17 @@ void MyGame::draw(AffineTransform &at){
 	SDL_RenderSetViewport(Game::renderer, &Game::camera->camera);
 }
 
-bool MyGame::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
-    SDL_Point* charPos, charTemp;
-    SDL_Rect* cnRect, cnTemp;
-    charTemp = {chara->position.x + chara->pivot.x, chara->position.y + chara->pivot.y};
-    charPos = &charTemp;
-    cnTemp = {cn->position.x, cn->position.y, cn->width, cn->height};
-    cnRect = &cnTemp;
-    return SDL_PointInRect(charPos, cnRect);
-}
+// bool MyGame::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
+//     SDL_Point* charPos, charTemp;
+//     SDL_Rect* cnRect, cnTemp;
+//     charTemp = {chara->position.x + chara->pivot.x, chara->position.y + chara->pivot.y};
+//     charPos = &charTemp;
+// 	cout << "cn pos x " << cn->position.x << endl;
+// 	cout << "cn pos y " << cn->position.y << endl;
+// 	cout << "cn w " << cn->width << endl;
+// 	cout << "cn h" << cn->height << endl;
+//     cnTemp = {cn->position.x, cn->position.y, cn->width, cn->height};
+//     cnRect = &cnTemp;
+//     return SDL_PointInRect(charPos, cnRect);
+// }
 

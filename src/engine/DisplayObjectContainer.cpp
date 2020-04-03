@@ -27,6 +27,7 @@ DisplayObjectContainer::~DisplayObjectContainer() {
 
 void DisplayObjectContainer::addChild(DisplayObject* child) {
     children.push_back(child);
+    // cout << "parent of child " << child->parent->id << endl;
     child->parent = this; // make sure to include reverse reference also
 }
 

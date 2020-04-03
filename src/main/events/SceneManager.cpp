@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include "Layer.h"
 #include <iostream>
 
 SceneManager::SceneManager(AnimatedSprite* chara, Scene* s)
@@ -16,18 +17,21 @@ void SceneManager::handleEvent(Event* e)
     {
         cout << "inside change!" << endl;
         // Event* event = dynamic_cast<Event*>(event);
-        Scene* nextScene = new Scene();
+        // Scene* nextScene = new Scene();
         cout << "new scene path " << endl;
         // nextScene->loadTileMap(e->getScenePath(), true);
         cout << "loaded map " << endl;
-        nextScene->addChild(character);
-
+        Layer* layer = new Layer(); 
+        layer->scrollSpeed = 1;
+        layer->addChild(character);
+        e->getNextScene()->addChild(layer);
+        e->getNextScene()->setCharacter(character);
         // Change these later according to design team
-        character->position.x = 70;
-        character->position.y = 370;
+        character->position.x = 300;
+        character->position.y = 500;
         EventDispatcher* ed = e->getSource();
         ed->removeEventListener(this, CHANGE);
-        currentS = nextScene;
+        currentS = e->getNextScene();
 
         ed->addEventListener(this, CHANGE);
 
@@ -36,10 +40,14 @@ void SceneManager::handleEvent(Event* e)
     else if (e->getType() == FIGHT)
     {
         // FightEvent* event = dynamic_cast<FightEvent*>(event);
-        Scene* nextScene = new Scene();
+        // Scene* nextScene = new Scene();
         // nextScene->loadTileMap(e->getScenePath(), true);
-        nextScene->addChild(character);
-        nextScene->addChild(e->getEnemy());
+        Layer* layer = new Layer(); 
+        layer->scrollSpeed = 1;
+        layer->addChild(character);
+        e->getNextScene()->addChild(layer);
+        e->getNextScene()->addChild(e->getEnemy());
+        e->getNextScene()->setCharacter(character);
         SDL_Point pos = {character->position.x, character->position.y};
         prevPos = pos;
 
@@ -53,9 +61,7 @@ void SceneManager::handleEvent(Event* e)
         ed->removeEventListener(this, CHANGE);
         
         prevS = currentS;
-        currentS = nextScene;
-
-        ed->addEventListener(this, REVERT);
+        currentS = e->getNextScene();
     }
     else if (e->getType() == REVERT) 
     {

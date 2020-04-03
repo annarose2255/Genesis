@@ -30,9 +30,9 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
-	SDL_Rect doCam; //camera for display object
-	SDL_Rect collider;
-	bool checkCollision(SDL_Rect a, SDL_Rect b);
+	// SDL_Rect doCam; //camera for display object
+	// SDL_Rect collider;
+	// bool checkCollision(SDL_Rect a, SDL_Rect b);
 
 	void loadTexture(string filepath);
 	void loadRGBTexture(int red, int green, int blue);

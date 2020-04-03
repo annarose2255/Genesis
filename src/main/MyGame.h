@@ -36,7 +36,8 @@ private:
     
     bool change;    
     Scene* scene1;
-    Scene* scene2;    	
+    Scene* scene2; 
+    Scene* scene3;   	
     // Camera* cam;
 
     EventListener* coinlis;
@@ -46,7 +47,7 @@ private:
     SceneManager* sm;
     bool isOngoing = true;
 
-    bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
+    // bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
 
 };
 

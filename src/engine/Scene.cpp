@@ -133,8 +133,14 @@ void Scene::loadTileMap(string tilePath, bool isNextMap) { //working on parsing 
 DisplayObject* Scene::getObject(int index){
     return this->objects[index];
 }
+DisplayObjectContainer* Scene::getEnemy(int index){
+    return this->enemies[index];
+}
 AnimatedSprite* Scene::getCharacter(){
     return this->character;
+}
+void Scene::setCharacter(AnimatedSprite* chara) {
+    this->character = chara;
 }
 void Scene::loadScene(string sceneFilePath) {
     json j;
@@ -248,6 +254,9 @@ Layer* Scene::makeLayer(json data) {
         if(childData["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(childData);
             newLayer->addChild(newDOC);
+             if (childData["id"] == "enemy") {
+                this->enemies.push_back(newDOC);
+            }
         }
         if(childData["type"] == "Sprite") {
             Sprite* newS = makeSprite(childData);
@@ -259,6 +268,7 @@ Layer* Scene::makeLayer(json data) {
             this->character = newAS;
         }
     }
+    cout << "children of newLayer " << newLayer->children.size() << endl;
     return newLayer;
 }
 
