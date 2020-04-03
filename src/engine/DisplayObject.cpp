@@ -44,6 +44,11 @@ DisplayObject::~DisplayObject(){
 	if(texture != NULL) SDL_DestroyTexture(texture);	
 }
 
+void DisplayObject::loadTexture(SDL_Surface* srf){
+	texture = SDL_CreateTextureFromSurface(Game::renderer, srf);
+	setTexture(texture);
+}
+
 void DisplayObject::loadTexture(string filepath){
 	image = IMG_Load(filepath.c_str());
 	texture = SDL_CreateTextureFromSurface(Game::renderer, image);

@@ -30,6 +30,7 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
+	void loadTexture(SDL_Surface* srf);
 	void loadTexture(string filepath);
 	void loadRGBTexture(int red, int green, int blue);
 	void setTexture(SDL_Texture* t);
