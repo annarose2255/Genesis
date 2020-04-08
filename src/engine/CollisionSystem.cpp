@@ -151,6 +151,13 @@ bool CollisionSystem::intersects(Line l1, Line l2) {
 			smallerX = q1.x;
 			largerX = p1.x;
 		}
+		// same thing for y
+		// int smallerY = p1.y;
+		// int largerY = q1.y;
+		// if (q1.y < smallerY){
+		// 	smallerY = q1.y;
+		// 	largerY = p1.y;
+		// }
 		// see if either of the other line's points fall in between
 		if ( (p2.x >= smallerX && p2.x <= largerX) || (q2.x >= smallerX && q2.x <= largerX) ){
 			return true;
@@ -185,8 +192,10 @@ int CollisionSystem::getOrientation(SDL_Point p1, SDL_Point p2, SDL_Point p3) {
 	// 	return 0;
 	// }
 
-	s1 = atan2(p2.y - p1.y, p2.x - p1.x);
-	s2 = atan2(p3.y - p1.y, p3.x - p1.x);
+	// s1 = atan2(p2.y - p1.y, p2.x - p1.x);
+	// s2 = atan2(p3.y - p1.y, p3.x - p1.x);
+	s1 = (p3.y - p1.y) * (p2.x - p3.x) - (p3.x - p1.x) * (p2.y - p3.y);
+	s2 = 0;
 
 	// cout << " P1: (" << p1.x << "," << p1.y << ")" << " P2: (" << p2.x << "," << p2.y << ")" << " P3: (" << p3.x << "," << p3.y << ")" << endl;
 	// if (p2.x - p1.x == 0){
