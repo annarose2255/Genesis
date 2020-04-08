@@ -39,8 +39,8 @@ public:
 	Layer* makeLayer(json data);
     Sprite* makeSprite(json data);
     AnimatedSprite* makeAnimatedSprite(json data);
-	
-	virtual void update(set<SDL_Scancode> pressedKeys);
+
+	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput ControllerInput);
 	virtual void draw(AffineTransform &at);
 
 	DisplayObject* getObject(int index);

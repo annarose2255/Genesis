@@ -9,13 +9,19 @@
 #include "Tween.h"
 #include "DisplayObjectContainer.h"
 
+#define DO_ADDED_EVENT "Display Object Added Event"
+
 using namespace std;
 
 class EventDispatcher;
 
 class Event{
 
+
 public:
+	
+	// types
+	// static const string DO_ADDED_EVENT;
 
 	Event(string type, EventDispatcher* source);
 	Event(string type, Tween* tween);

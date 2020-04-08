@@ -15,5 +15,7 @@ Tween* TweenEvent::getTween(){
 }
 void TweenEvent::handleEvent(Event* e)
 {
-   
+    // if (e->getType().compare(EXIST)==0) 
+    //else if (e->getType().compare(COLLECTED)==0)
+    // add 
 }
