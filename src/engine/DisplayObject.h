@@ -40,6 +40,7 @@ public:
 
 	int getWidth();
 	int getHeight();
+	SDL_Texture* getTexture();
 
 	void setScrollSpeed(double speed);
 	bool visible = true;
@@ -54,6 +55,7 @@ public:
 	double rotation = 0.0; // in radians
 	int alpha = 255;
 	bool facingRight = true;
+	bool tile = false;
     bool isSheet = false;
 	bool camPerspective = true;
     SDL_Rect srcrect;

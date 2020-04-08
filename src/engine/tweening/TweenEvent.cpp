@@ -6,9 +6,14 @@
 #include "EventDispatcher.h"
 
 
-TweenEvent::TweenEvent(string eventType, Tween tween) : Event(eventType, this->source) {
-
+TweenEvent::TweenEvent(string eventType, Tween* tween) : Event(eventType, tween) {
+    this->eventType = eventType; 
+    this->tween = tween; 
 }
-Tween TweenEvent::getTween(){
-
+Tween* TweenEvent::getTween(){
+    return this->tween;
+}
+void TweenEvent::handleEvent(Event* e)
+{
+   
 }

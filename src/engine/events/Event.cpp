@@ -6,6 +6,10 @@ Event::Event(string type, EventDispatcher* source) {
     this->eventType = type;
     this->source = source;
 }
+Event::Event(string type, Tween* tween) {
+    this->eventType = type;
+    this->tween = tween;
+}
 Event::Event(string type, EventDispatcher* source, AnimatedSprite* character, Scene* switchScene) {
     this->eventType = type;
 	this->source = source;

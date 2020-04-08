@@ -73,6 +73,9 @@ void DisplayObject::update(set<SDL_Scancode> pressedKeys){
 void DisplayObject::setScrollSpeed(double speed) {
 	scrollSpeed = speed;
 }
+SDL_Texture* DisplayObject::getTexture(){
+	return this->texture;
+}
 void DisplayObject::draw(AffineTransform &at){
 	applyTransformations(at);
 	// cout << "Drawing " << id << endl;
@@ -95,7 +98,7 @@ void DisplayObject::draw(AffineTransform &at){
 			// cout << "Camera " << Game::camera->camera.x << endl;
 			dstrect.x = (int) (pos2.x - Game::camera->camera.x) * scrollSpeed; 
 			dstrect.y = (int) (pos2.y - Game::camera->camera.y) * scrollSpeed; 
-			if ((srcrect.x != 0 && srcrect.w < 1000) && (srcrect.y != 0 && srcrect.h < 1000)) {
+			if (tile) {
 				// cout << "srcrect x " << srcrect.x << endl;
 				// cout << "srcrect y " << srcrect.y << endl;
 				// cout << "srcrect w " << srcrect.w << endl;
@@ -120,7 +123,7 @@ void DisplayObject::draw(AffineTransform &at){
 		}
 		
 		SDL_SetTextureAlphaMod(curTexture, alpha);
-		if (isSheet || (srcrect.x != 0 && srcrect.w < 1000) && (srcrect.y != 0 && srcrect.h < 1000)) { 
+		if (isSheet || tile) { 
             SDL_RenderCopyEx(Game::renderer, curTexture, &srcrect, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
         } else {
             SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	

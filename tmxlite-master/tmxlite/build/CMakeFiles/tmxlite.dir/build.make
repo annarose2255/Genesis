@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite
+CMAKE_SOURCE_DIR = /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build
+CMAKE_BINARY_DIR = /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/tmxlite.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/tmxlite.dir/flags.make
 
 CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.o: CMakeFiles/tmxlite.dir/flags.make
 CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.o: ../src/detail/pugixml.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.o -c /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/detail/pugixml.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.o -c /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/detail/pugixml.cpp
 
 CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/detail/pugixml.cpp > CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/detail/pugixml.cpp > CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.i
 
 CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/detail/pugixml.cpp -o CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/detail/pugixml.cpp -o CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.s
 
 CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/tmxlite.dir/src/detail/pugixml.cpp.o.provides.build: CMakeFiles/tmxli
 
 CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.o: CMakeFiles/tmxlite.dir/flags.make
 CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.o: ../src/FreeFuncs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.o -c /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/FreeFuncs.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.o -c /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/FreeFuncs.cpp
 
 CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/FreeFuncs.cpp > CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/FreeFuncs.cpp > CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.i
 
 CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/FreeFuncs.cpp -o CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/FreeFuncs.cpp -o CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.s
 
 CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.o.requires:
 
@@ -107,16 +107,16 @@ CMakeFiles/tmxlite.dir/src/FreeFuncs.cpp.o.provides.build: CMakeFiles/tmxlite.di
 
 CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.o: CMakeFiles/tmxlite.dir/flags.make
 CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.o: ../src/ImageLayer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.o -c /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/ImageLayer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.o -c /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/ImageLayer.cpp
 
 CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/ImageLayer.cpp > CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/ImageLayer.cpp > CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.i
 
 CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/ImageLayer.cpp -o CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/ImageLayer.cpp -o CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.s
 
 CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.o.requires:
 
@@ -131,16 +131,16 @@ CMakeFiles/tmxlite.dir/src/ImageLayer.cpp.o.provides.build: CMakeFiles/tmxlite.d
 
 CMakeFiles/tmxlite.dir/src/Map.cpp.o: CMakeFiles/tmxlite.dir/flags.make
 CMakeFiles/tmxlite.dir/src/Map.cpp.o: ../src/Map.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/tmxlite.dir/src/Map.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/Map.cpp.o -c /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Map.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/tmxlite.dir/src/Map.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/Map.cpp.o -c /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Map.cpp
 
 CMakeFiles/tmxlite.dir/src/Map.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tmxlite.dir/src/Map.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Map.cpp > CMakeFiles/tmxlite.dir/src/Map.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Map.cpp > CMakeFiles/tmxlite.dir/src/Map.cpp.i
 
 CMakeFiles/tmxlite.dir/src/Map.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tmxlite.dir/src/Map.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Map.cpp -o CMakeFiles/tmxlite.dir/src/Map.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Map.cpp -o CMakeFiles/tmxlite.dir/src/Map.cpp.s
 
 CMakeFiles/tmxlite.dir/src/Map.cpp.o.requires:
 
@@ -155,16 +155,16 @@ CMakeFiles/tmxlite.dir/src/Map.cpp.o.provides.build: CMakeFiles/tmxlite.dir/src/
 
 CMakeFiles/tmxlite.dir/src/miniz.c.o: CMakeFiles/tmxlite.dir/flags.make
 CMakeFiles/tmxlite.dir/src/miniz.c.o: ../src/miniz.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/tmxlite.dir/src/miniz.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/tmxlite.dir/src/miniz.c.o   -c /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/miniz.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/tmxlite.dir/src/miniz.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/tmxlite.dir/src/miniz.c.o   -c /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/miniz.c
 
 CMakeFiles/tmxlite.dir/src/miniz.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/tmxlite.dir/src/miniz.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/miniz.c > CMakeFiles/tmxlite.dir/src/miniz.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/miniz.c > CMakeFiles/tmxlite.dir/src/miniz.c.i
 
 CMakeFiles/tmxlite.dir/src/miniz.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/tmxlite.dir/src/miniz.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/miniz.c -o CMakeFiles/tmxlite.dir/src/miniz.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/miniz.c -o CMakeFiles/tmxlite.dir/src/miniz.c.s
 
 CMakeFiles/tmxlite.dir/src/miniz.c.o.requires:
 
@@ -179,16 +179,16 @@ CMakeFiles/tmxlite.dir/src/miniz.c.o.provides.build: CMakeFiles/tmxlite.dir/src/
 
 CMakeFiles/tmxlite.dir/src/Object.cpp.o: CMakeFiles/tmxlite.dir/flags.make
 CMakeFiles/tmxlite.dir/src/Object.cpp.o: ../src/Object.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/tmxlite.dir/src/Object.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/Object.cpp.o -c /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Object.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/tmxlite.dir/src/Object.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/Object.cpp.o -c /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Object.cpp
 
 CMakeFiles/tmxlite.dir/src/Object.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tmxlite.dir/src/Object.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Object.cpp > CMakeFiles/tmxlite.dir/src/Object.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Object.cpp > CMakeFiles/tmxlite.dir/src/Object.cpp.i
 
 CMakeFiles/tmxlite.dir/src/Object.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tmxlite.dir/src/Object.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Object.cpp -o CMakeFiles/tmxlite.dir/src/Object.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Object.cpp -o CMakeFiles/tmxlite.dir/src/Object.cpp.s
 
 CMakeFiles/tmxlite.dir/src/Object.cpp.o.requires:
 
@@ -203,16 +203,16 @@ CMakeFiles/tmxlite.dir/src/Object.cpp.o.provides.build: CMakeFiles/tmxlite.dir/s
 
 CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.o: CMakeFiles/tmxlite.dir/flags.make
 CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.o: ../src/ObjectGroup.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.o -c /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/ObjectGroup.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.o -c /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/ObjectGroup.cpp
 
 CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/ObjectGroup.cpp > CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/ObjectGroup.cpp > CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.i
 
 CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/ObjectGroup.cpp -o CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/ObjectGroup.cpp -o CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.s
 
 CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.o.requires:
 
@@ -227,16 +227,16 @@ CMakeFiles/tmxlite.dir/src/ObjectGroup.cpp.o.provides.build: CMakeFiles/tmxlite.
 
 CMakeFiles/tmxlite.dir/src/Property.cpp.o: CMakeFiles/tmxlite.dir/flags.make
 CMakeFiles/tmxlite.dir/src/Property.cpp.o: ../src/Property.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/tmxlite.dir/src/Property.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/Property.cpp.o -c /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Property.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/tmxlite.dir/src/Property.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/Property.cpp.o -c /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Property.cpp
 
 CMakeFiles/tmxlite.dir/src/Property.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tmxlite.dir/src/Property.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Property.cpp > CMakeFiles/tmxlite.dir/src/Property.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Property.cpp > CMakeFiles/tmxlite.dir/src/Property.cpp.i
 
 CMakeFiles/tmxlite.dir/src/Property.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tmxlite.dir/src/Property.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Property.cpp -o CMakeFiles/tmxlite.dir/src/Property.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Property.cpp -o CMakeFiles/tmxlite.dir/src/Property.cpp.s
 
 CMakeFiles/tmxlite.dir/src/Property.cpp.o.requires:
 
@@ -251,16 +251,16 @@ CMakeFiles/tmxlite.dir/src/Property.cpp.o.provides.build: CMakeFiles/tmxlite.dir
 
 CMakeFiles/tmxlite.dir/src/TileLayer.cpp.o: CMakeFiles/tmxlite.dir/flags.make
 CMakeFiles/tmxlite.dir/src/TileLayer.cpp.o: ../src/TileLayer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/tmxlite.dir/src/TileLayer.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/TileLayer.cpp.o -c /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/TileLayer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/tmxlite.dir/src/TileLayer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/TileLayer.cpp.o -c /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/TileLayer.cpp
 
 CMakeFiles/tmxlite.dir/src/TileLayer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tmxlite.dir/src/TileLayer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/TileLayer.cpp > CMakeFiles/tmxlite.dir/src/TileLayer.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/TileLayer.cpp > CMakeFiles/tmxlite.dir/src/TileLayer.cpp.i
 
 CMakeFiles/tmxlite.dir/src/TileLayer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tmxlite.dir/src/TileLayer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/TileLayer.cpp -o CMakeFiles/tmxlite.dir/src/TileLayer.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/TileLayer.cpp -o CMakeFiles/tmxlite.dir/src/TileLayer.cpp.s
 
 CMakeFiles/tmxlite.dir/src/TileLayer.cpp.o.requires:
 
@@ -275,16 +275,16 @@ CMakeFiles/tmxlite.dir/src/TileLayer.cpp.o.provides.build: CMakeFiles/tmxlite.di
 
 CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.o: CMakeFiles/tmxlite.dir/flags.make
 CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.o: ../src/LayerGroup.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.o -c /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/LayerGroup.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.o -c /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/LayerGroup.cpp
 
 CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/LayerGroup.cpp > CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/LayerGroup.cpp > CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.i
 
 CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/LayerGroup.cpp -o CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/LayerGroup.cpp -o CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.s
 
 CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.o.requires:
 
@@ -299,16 +299,16 @@ CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.o.provides.build: CMakeFiles/tmxlite.d
 
 CMakeFiles/tmxlite.dir/src/Tileset.cpp.o: CMakeFiles/tmxlite.dir/flags.make
 CMakeFiles/tmxlite.dir/src/Tileset.cpp.o: ../src/Tileset.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/tmxlite.dir/src/Tileset.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/Tileset.cpp.o -c /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Tileset.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/tmxlite.dir/src/Tileset.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tmxlite.dir/src/Tileset.cpp.o -c /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Tileset.cpp
 
 CMakeFiles/tmxlite.dir/src/Tileset.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tmxlite.dir/src/Tileset.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Tileset.cpp > CMakeFiles/tmxlite.dir/src/Tileset.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Tileset.cpp > CMakeFiles/tmxlite.dir/src/Tileset.cpp.i
 
 CMakeFiles/tmxlite.dir/src/Tileset.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tmxlite.dir/src/Tileset.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/Tileset.cpp -o CMakeFiles/tmxlite.dir/src/Tileset.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/Tileset.cpp -o CMakeFiles/tmxlite.dir/src/Tileset.cpp.s
 
 CMakeFiles/tmxlite.dir/src/Tileset.cpp.o.requires:
 
@@ -351,7 +351,7 @@ libtmxlite.so: CMakeFiles/tmxlite.dir/src/LayerGroup.cpp.o
 libtmxlite.so: CMakeFiles/tmxlite.dir/src/Tileset.cpp.o
 libtmxlite.so: CMakeFiles/tmxlite.dir/build.make
 libtmxlite.so: CMakeFiles/tmxlite.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX shared library libtmxlite.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX shared library libtmxlite.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tmxlite.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -378,6 +378,6 @@ CMakeFiles/tmxlite.dir/clean:
 .PHONY : CMakeFiles/tmxlite.dir/clean
 
 CMakeFiles/tmxlite.dir/depend:
-	cd /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build /home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/build/CMakeFiles/tmxlite.dir/DependInfo.cmake --color=$(COLOR)
+	cd /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build /mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/build/CMakeFiles/tmxlite.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/tmxlite.dir/depend
 

@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "CoinListener.h"
 #include "SceneManager.h"
+#include "TweenJuggler.h"
 #include "HealthBar.h"
 
 using namespace std;
@@ -43,6 +44,7 @@ private:
     Scene* scene2; 
     Scene* scene3;   	
     // Camera* cam;
+    TweenJuggler* tj;
 
     EventListener* coinlis;
 	EventListener* myQuestManager;

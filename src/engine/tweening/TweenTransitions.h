@@ -9,13 +9,17 @@
 class TweenTransitions{ 
     
 public:
+    TweenTransitions();
 	void applyTransition(double percentDone);
     void easeInOut(double percentDone); 
     //all the different transitions
     //include at least ONE non-linear transition
-    
+    void setVal(double current, double end);
+    double getNewVal();
 private:
-
+    double curVal, startVal, endVal;
+    int startTime, endTime; 
+    double newValue;
 	
 };
 

@@ -52,17 +52,15 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	// eDispatcher->addEventListener(myQuestManager, COLLECTED);
 
 	//Tween
-	// TweenJuggler* tj = new TweenJuggler();
-	// Tween* charTween = new Tween(scene2->asList.at(0));
-	// TweenableParams px;
-	// TweenableParams py; 
-	// px.name = "position.x";
-	// py.name = "position.y";
-	// charTween->animate(px, 0, 300, 30); //have not implemented yet :')
-	// charTween->animate(py, 700, 300, 30);
-	// // TweenEvent te = new TweenEvent("enterChara", charTween); //handle events 
-	// //mimic coin demo
-	// tj->add(charTween);
+	tj = new TweenJuggler();
+	Tween* charTween = new Tween(currentScene->getCharacter());
+	TweenableParams chalpha;
+	chalpha.name = "alpha";
+	charTween->animate(chalpha, 0, 255, 3); 
+	
+	// TweenEvent te = new TweenEvent("enterChara", charTween); //handle events 
+	//mimic coin demo
+	tj->add(charTween);
 
 }
 
@@ -148,8 +146,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
 	// cout << "Scene x " << currentScene->position.x << endl; 
 	// cout << "Scene y " << currentScene->position.y << endl; 
-	cout << "Character x " << currentScene->getCharacter()->position.x << endl;
-	cout << "Character y " << currentScene->getCharacter()->position.y << endl;
+	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
+	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}
@@ -221,6 +219,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 			eDispatcher->addEventListener(sm, CHANGE);
 	}
 	//sm->handleEvent(CHANGE);
+	tj->nextFrame(); 
+	cout << "Char alpha " << currentScene->getCharacter()->alpha << endl;
 	Game::update(pressedKeys);
 	// currentScene->doCam = cam->camera;
 }

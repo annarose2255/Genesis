@@ -6,6 +6,7 @@
 #include "EventDispatcher.h"
 #include "AnimatedSprite.h"
 #include "Scene.h"
+#include "Tween.h"
 #include "DisplayObjectContainer.h"
 
 using namespace std;
@@ -17,6 +18,7 @@ class Event{
 public:
 
 	Event(string type, EventDispatcher* source);
+	Event(string type, Tween* tween);
 	Event(string type, EventDispatcher* source, AnimatedSprite* character, Scene* switchScene); //change scene
 	Event(string type, EventDispatcher* source, AnimatedSprite* character, DisplayObjectContainer* enemy, Scene* switchScene);
 	string getType();
@@ -30,6 +32,7 @@ private:
 	AnimatedSprite* chara;
 	DisplayObjectContainer* enemy;
 	string scenePath;
+	Tween* tween;
 	Scene* switchScene;
 	
 };

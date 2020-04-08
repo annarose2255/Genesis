@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "DisplayObjectContainer.h"
+#include "TweenParam.h"
 #include "TweenableParams.h"
 #include "TweenTransitions.h"
 #include "AnimatedSprite.h"
@@ -13,20 +14,23 @@
 class Tween{ 
 
 public:
-	Tween(AnimatedSprite* object);
-    Tween(Scene* object);
+	Tween(DisplayObject* object);
+    // Tween(Scene* scene);
+    ~Tween(); 
     void animate(TweenableParams fieldtoAnimate, double startVal, double endVal, double time);
 
     void update();
     bool isComplete(); 
     void setValue(TweenableParams param, double value);
 private:
-    AnimatedSprite* object;
+    DisplayObject* object;
+    SDL_Texture* tex; 
     Scene* scene;
-	double curTime;
-    double endTime;
+	int curFrame = 0;
+    int endFrame;
     TweenableParams param; 
-    double value;
+    TweenParam* tp; 
+    double value, endVal;
 };
 
 #endif

@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/junnikunni/Projects/Game/Genesis/tmxlite-master/tmxlite/src/miniz.c
+/mnt/c/Users/Julie/Documents/Github/Genesis/tmxlite-master/tmxlite/src/miniz.c
 stdlib.h
 -
 time.h
