@@ -68,8 +68,8 @@ MyGame::~MyGame(){
 }
 
 
-void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
-    
+void MyGame::update(set<SDL_Scancode> pressedKeys){
+
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
         Game::camera->removeImmediateChild(currentScene);
@@ -242,7 +242,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 	//sm->handleEvent(CHANGE);
 	tj->nextFrame(); 
 	// cout << "Char alpha " << currentScene->getCharacter()->alpha << endl;
-	Game::update(pressedKeys, controllerInput);
+	Game::update(pressedKeys);
 	// currentScene->doCam = cam->camera;
 }
 

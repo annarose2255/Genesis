@@ -1,9 +1,5 @@
 #include "DisplayObjectContainer.h"
-#include "DisplayObject.h"
 #include "AffineTransform.h"
-#include "EventDispatcher.h"
-#include "Event.h"
-#include "DisplayObjectEvent.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -38,11 +34,8 @@ void DisplayObjectContainer::addChild(DisplayObject* child) {
     // cout << "parent camPerspective: " << camPerspective << endl;
     child->camPerspective = camPerspective;
     children.push_back(child);
-    child->parent = (DisplayObject *)this; // make sure to include reverse reference also
-    // notify event dispatcher
-    // create DO_ADDED_EVENT
-    DisplayObjectEvent* e = new DisplayObjectEvent(DO_ADDED_EVENT, EventDispatcher::getInstance(), child);
-    EventDispatcher::getInstance()->dispatchEvent(e);
+    // cout << "parent of child " << child->parent->id << endl;
+    child->parent = this; // make sure to include reverse reference also
 }
 
 void DisplayObjectContainer::removeImmediateChild(DisplayObject* child) {
@@ -104,10 +97,10 @@ void DisplayObjectContainer::setScrollSpeed(double speed) {
     DisplayObject::setScrollSpeed(speed);
 }
 
-void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput) {
-    DisplayObject::update(pressedKeys, controllerInput);
+void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys) {
+    DisplayObject::update(pressedKeys);
     for (int i = 0; i < children.size(); i++) {
-        children[i]->update(pressedKeys, controllerInput);
+        children[i]->update(pressedKeys);
     }
 }
 

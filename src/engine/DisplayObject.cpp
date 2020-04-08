@@ -51,16 +51,12 @@ void DisplayObject::loadTexture(SDL_Surface* srf){
 
 void DisplayObject::loadTexture(string filepath){
 	image = IMG_Load(filepath.c_str());
-	hitbox.width = image->w;
-	hitbox.height = image->h;
 	texture = SDL_CreateTextureFromSurface(Game::renderer, image);
 	setTexture(texture);
 }
 
 void DisplayObject::loadRGBTexture(int red, int green, int blue){
 	image = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0x000000ff);
-	hitbox.width = image->w;
-	hitbox.height = image->h;
 	SDL_FillRect(image, NULL, SDL_MapRGB(image->format, red, green, blue));
 	texture = SDL_CreateTextureFromSurface(Game::renderer, image);
 	SDL_SetTextureBlendMode( texture, SDL_BLENDMODE_BLEND );
@@ -71,10 +67,9 @@ void DisplayObject::setTexture(SDL_Texture* t){
 	this->curTexture = t;
 }
 
-void DisplayObject::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
-	
-}
+void DisplayObject::update(set<SDL_Scancode> pressedKeys){
 
+}
 void DisplayObject::setScrollSpeed(double speed) {
 	scrollSpeed = speed;
 }
@@ -133,11 +128,9 @@ void DisplayObject::draw(AffineTransform &at){
         } else {
             SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
         }
-		drawHitbox();
 	}
 
 	reverseTransformations(at);
-	
 }
 
 void DisplayObject::applyTransformations(AffineTransform &at) {
@@ -170,60 +163,4 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 	double y = p.y - origin.y;
 	double x = p.x - origin.x;
 	return (atan2(y, x) * 180 / PI);
-}
-
-AffineTransform *DisplayObject::globalTransform() {
-	AffineTransform *gt = new AffineTransform();
-	if (parent != NULL){
-		gt = this->parent->globalTransform();
-		// undo pivot transformations
-		// gt->translate(this->parent->pivot.x, this->parent->pivot.y);
-	}
-	this->applyTransformations(*gt);
-	return gt;
-}
-
-HitboxPoints DisplayObject::getHitboxPts() {
-	AffineTransform gt = *this->globalTransform();
-	HitboxPoints pts;
-	// width and height are hardcoded to 100 for some reason
-	// this->hitbox.width = width;
-	// this->hitbox.height = height;
-	pts.topLeft = gt.transformPoint(this->hitbox.origin.x, this->hitbox.origin.y);
-	pts.topRight = gt.transformPoint(this->hitbox.origin.x + this->hitbox.width, this->hitbox.origin.y);
-	pts.bottomLeft = gt.transformPoint(this->hitbox.origin.x, this->hitbox.origin.y + this->hitbox.height);
-	pts.bottomRight = gt.transformPoint(this->hitbox.origin.x + this->hitbox.width, this->hitbox.origin.y + this->hitbox.height);
-	return pts;
-}
-
-// Line** DisplayObject::getHitboxLines() {
-// 	Line* lines = new Line[4];
-// 	HitboxPoints pts = this->getHitboxPts();
-// 	Line* l1 = new Line();
-// 	Line* l2 = new Line();
-// 	Line* l3 = new Line();
-// 	Line* l4 = new Line();
-// 	*l1 = {pts.topLeft, pts.topRight};
-// 	*l2 = {pts.topRight, pts.bottomRight};
-// 	*l3 = {pts.bottomLeft, pts.bottomRight};
-// 	*l4 = {pts.topLeft, pts.bottomLeft};
-
-// }
-
-void DisplayObject::setHitbox(SDL_Point origin, int width, int height) {
-	this->hitbox.origin = origin;
-	this->hitbox.width = width;
-	this->hitbox.height = height;
-}
-
-void DisplayObject::drawHitbox(){
-	// set draw color to white
-    SDL_SetRenderDrawColor(Game::renderer, 102, 255, 0, SDL_ALPHA_OPAQUE);
-    HitboxPoints pts = this->getHitboxPts();
-    SDL_RenderDrawLine(Game::renderer, pts.topLeft.x, pts.topLeft.y, pts.topRight.x, pts.topRight.y);
-    SDL_RenderDrawLine(Game::renderer, pts.topRight.x, pts.topRight.y, pts.bottomRight.x, pts.bottomRight.y);
-	SDL_RenderDrawLine(Game::renderer, pts.bottomLeft.x, pts.bottomLeft.y, pts.bottomRight.x, pts.bottomRight.y);
-	SDL_RenderDrawLine(Game::renderer, pts.topLeft.x, pts.topLeft.y, pts.bottomLeft.x, pts.bottomLeft.y);
-	// set back to black
-	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
 }

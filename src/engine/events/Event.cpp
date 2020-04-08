@@ -2,15 +2,6 @@
 
 using namespace std;
 
-// types
-// const string DO_ADDED_EVENT = "Display Object Added Event";
-
-// Event::Event(string type, unordered_map<string, void*>* data) {
-//     this->eventType = type;
-//     // this->source = source;
-//     this->data = data;
-// }
-
 Event::Event(string type, EventDispatcher* source) {
     this->eventType = type;
     this->source = source;
@@ -50,7 +41,3 @@ Scene* Event::getNextScene(){
 DisplayObjectContainer* Event::getEnemy(){
     return this->enemy;
 }
-
-// void* Event::getData(string key) {
-//     return this->data->at(key);
-// }

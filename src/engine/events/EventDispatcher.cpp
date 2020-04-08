@@ -2,15 +2,6 @@
 
 using namespace std;
 
-EventDispatcher* EventDispatcher::instance;
-
-EventDispatcher* EventDispatcher::getInstance() {
-    if (!instance){
-        instance = new EventDispatcher();
-    }
-    return instance;
-}
-
 EventDispatcher::EventDispatcher() {
     listeners = new unordered_map<string, vector<EventListener*>*>();
 }

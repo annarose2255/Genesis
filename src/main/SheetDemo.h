@@ -17,7 +17,7 @@ public:
 	SheetDemo();
 	virtual ~SheetDemo();
 
-	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
+	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
 private:

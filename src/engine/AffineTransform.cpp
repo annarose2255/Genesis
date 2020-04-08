@@ -43,22 +43,6 @@ double **AffineTransform::identity()
 	return id;
 }
 
-void AffineTransform::matrixPrint(double** matrix, int rows, int cols){
-	// cout << "sizes" << sizeof(matrix)/sizeof(matrix[0]) << "  " << sizeof(matrix[0])/sizeof(double) << endl;
-	cout << "[" << endl;
-	for(int i=0; i<rows; i++){
-		for(int j=0; j<cols; j++){
-			cout << matrix[i][j] << " ";
-		}
-		cout << endl;
-	}
-	cout << "]" << endl;
-}
-
-void AffineTransform::printAT(){
-	matrixPrint(transform, 3, 3);
-}
-
 /* Takes a point in the local coordinate system and transforms it to global space given this AffineTransform */
 SDL_Point AffineTransform::transformPoint(int x, int y)
 {
