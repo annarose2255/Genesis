@@ -2,15 +2,23 @@
 
 using namespace std;
 
-Event::Event(string type, EventDispatcher* source) {
+// types
+// const string DO_ADDED_EVENT = "Display Object Added Event";
+
+Event::Event(string type, unordered_map<string, void*>* data) {
     this->eventType = type;
-    this->source = source;
+    // this->source = source;
+    this->data = data;
 }
 
 string Event::getType() {
     return this->eventType;
 }
 
-EventDispatcher* Event::getSource() {
-    return this->source;
+// EventDispatcher* Event::getSource() {
+//     return this->source;
+// }
+
+void* Event::getData(string key) {
+    return this->data->at(key);
 }

@@ -16,8 +16,8 @@ class Event;
 class EventDispatcher{
 
 public:
-
-	EventDispatcher();
+	// EventDispatcher();
+	static EventDispatcher* getInstance();
 	virtual ~EventDispatcher();
 	
 	void addEventListener(EventListener* l, string eventType);
@@ -26,9 +26,10 @@ public:
 	void dispatchEvent(Event *e);
 
 private:
-	
+	static EventDispatcher* instance;
+	EventDispatcher();
 	/* List of listeners */
-    std::unordered_map<std::string, std::vector<EventListener*>*> *listeners;
+	std::unordered_map<std::string, std::vector<EventListener*>*> *listeners;
 
 
 };

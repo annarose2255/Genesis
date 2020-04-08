@@ -10,13 +10,51 @@
 
 using namespace std;
 
+struct HitboxPoints {
+	SDL_Point topLeft;
+	SDL_Point topRight;
+	SDL_Point bottomLeft;
+	SDL_Point bottomRight;
+};
+
+struct Line {
+	SDL_Point pt1;
+	SDL_Point pt2;
+};
+
 class DisplayObject{
 
+
 public:
+
+	struct ControllerInput {
+		bool connected = false;
+		bool a = false;
+		bool b = false;
+		bool x = false;
+		bool y = false;
+		bool leftDpad = false;
+		bool rightDpad = false;
+		bool upDpad = false;
+		bool downDpad = false;
+		int leftStickX = 0;
+		int rightStickX = 0;
+		int leftStickY = 0;
+		int rightStickY = 0;
+	};
+
+	struct Hitbox {
+		// top left point
+		SDL_Point origin = {0, 0};
+		int width = 100;
+		int height = 100;
+	};
+
 	string id = "DEFAULT_ID";
 	string imgPath = "";
 	int red, green, blue;
 	string type = "DisplayObject";
+	string gameType = "";
 
 	DisplayObject* parent = NULL;
 
@@ -27,7 +65,7 @@ public:
 	DisplayObject(string id, int red, int green, int blue);
 	virtual ~DisplayObject();
 	
-	virtual void update(set<SDL_Scancode> pressedKeys);
+	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
 	virtual void draw(AffineTransform &at);
 
 	SDL_Rect doCam; //camera for display object
@@ -41,8 +79,14 @@ public:
 	void applyTransformations(AffineTransform &at);
 	void reverseTransformations(AffineTransform &at);
 
+	AffineTransform *globalTransform();
+
 	int getWidth();
 	int getHeight();
+	HitboxPoints getHitboxPts();
+	// Line** getHitboxLines();
+	void setHitbox(SDL_Point origin, int width, int height);
+	void drawHitbox();
 
 	void setScrollSpeed(double speed);
 	bool visible = true;
@@ -64,8 +108,11 @@ public:
 	// Camera * cam;
 	// SDL_Rect camera = { 0, 0, 800, 700 };
 	SDL_Texture* curTexture;
+	Hitbox hitbox;
+	static double distance(SDL_Point &p1, SDL_Point &p2);
+	
 private:
-	double distance(SDL_Point &p1, SDL_Point &p2);
+	
 	double calculateRotation(SDL_Point &origin, SDL_Point &p);
 	
 	SDL_Texture* texture = NULL;

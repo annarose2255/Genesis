@@ -38,7 +38,7 @@ QuestDemo::QuestDemo() : Game(1200, 1000) {
     allSprites->addChild(character);
     character->position = {-500, 200};
 	character->pivot = {character->width/2, character->height/2};
-    eDispatcher = new EventDispatcher();
+    eDispatcher = EventDispatcher::getInstance();
 	coinlis = new CoinListener(character, coin);
 	myQuestManager = new QuestManager(questComplete);
 	eDispatcher->addEventListener(coinlis, PICKUP);
@@ -52,7 +52,7 @@ QuestDemo::~QuestDemo(){
 }
 
 
-void QuestDemo::update(set<SDL_Scancode> pressedKeys){
+void QuestDemo::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
     // character->play("Idle");
     if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		character->position.x += 3;
@@ -110,14 +110,14 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
         }
 	}
     if (coin->visible && isCharInCoin(character, coin)) { 
-        eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
+        eDispatcher->dispatchEvent(new Event(PICKUP));
         allSprites->removeImmediateChild(coin);
     }
 	if (!coin->visible && isOngoing)
 	{
 		cout << "collected event" << endl;
 		isOngoing = false;
-        eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
+        eDispatcher->dispatchEvent(new Event(COLLECTED));
 	}
 	// if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 	// 	// sun->rotation += 0.01;
@@ -149,7 +149,7 @@ void QuestDemo::update(set<SDL_Scancode> pressedKeys){
 	// if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end()) {
 	// 	sun->stop();
 	// }
-	Game::update(pressedKeys);
+	Game::update(pressedKeys, controllerInput);
 }
 
 void QuestDemo::draw(AffineTransform &at){
