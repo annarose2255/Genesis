@@ -14,15 +14,24 @@ Tween::Tween(DisplayObject* object) {
 // }
 
 Tween::~Tween() {
-    delete tp; 
+    for (int i = 0; i < params.size(); i++) {
+        delete params[i]; 
+    }
 }
 void Tween::animate(TweenableParams fieldToAnimate, double startVal, double endVal, double time){
     //saves the field to be tweened 
     //save the frameRate as well....to tween animated sprites 
-    this->tp = new TweenParam(fieldToAnimate, startVal, endVal, time);
+    TweenParam* temp = new TweenParam(fieldToAnimate, startVal, endVal, time);
+    if (startVal > endVal) {
+        temp->easeIn = false; 
+    }
+    else {
+        temp->easeIn = true;
+    }
     setValue(fieldToAnimate, startVal);
     this->endVal = endVal;
     endFrame = time * 24; //time * frames per sec 
+    params.push_back(temp);
 }
 
 void Tween::update(){
@@ -33,17 +42,16 @@ void Tween::update(){
         this->curFrame++;
         cout << "Tween Current Frame " << this->curFrame << endl;
         //increment TweenParam internal counter 
-        this->tp->currentFrame++;
-        this->tp->calcValue(); 
-        //set the object value to new value
-        setValue(this->tp->getParam(), this->tp->getNewValue());
-        // this->tex = this->object->getTexture();
-        //draw the object with the new value 
-        // DisplayObject::setTexture(this->tex);
+        for (int i = 0; i < params.size(); i++) {
+            params[i]->currentFrame++;
+            params[i]->calcValue(); 
+            //set the object value to new value
+            setValue(params[i]->getParam(), params[i]->getNewValue());
+        }
     }
 }
 bool Tween::isComplete(){
-    if (this->curFrame == this->endFrame || this->tp->getNewValue() >= this->endVal) {
+    if (this->curFrame == this->endFrame) {
         return true;
     }
     else {
@@ -59,5 +67,11 @@ void Tween::setValue(TweenableParams param, double value){
     }
     if(param.name == "alpha"){
         this->object->alpha = value;
+    }
+     if (param.name == "scaleX"){
+        this->object->scaleX = value;
+    }
+    if (param.name == "scaleY"){
+        this->object->scaleY = value;
     }
 }

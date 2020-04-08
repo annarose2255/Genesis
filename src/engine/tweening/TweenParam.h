@@ -19,6 +19,7 @@ public:
     double getTweenTime();  
     double getNewValue();  
     int currentFrame;
+    bool easeIn;
 
 private:
     TweenableParams param; 

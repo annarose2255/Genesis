@@ -21,8 +21,9 @@ TweenParam::~TweenParam() {
 void TweenParam::calcValue(){
     //sends the TweenTransitions information to Tween 
     double percentDone = (double) currentFrame/endFrame; 
-    cout << "Percent Done" << percentDone << endl;
-    this->transition->setVal(this->newValue, this->endVal);
+    // cout << "Percent Done" << percentDone << endl;
+    this->transition->setVal(this->newValue, this->startVal, this->endVal);
+    this->transition->easeIn = this->easeIn; 
     this->transition->applyTransition(percentDone);
     //save the newValue as the param's field 
     if (this->param.name == "alpha") {
@@ -34,8 +35,13 @@ void TweenParam::calcValue(){
     if (this->param.name == "position.y") {
         this->param.position.y = this->transition->getNewVal();
     }
+     if (this->param.name == "scaleX") {
+        this->param.scaleX = this->transition->getNewVal();
+    }
+    if (this->param.name == "scaleY") {
+        this->param.scaleY = this->transition->getNewVal();
+    }
     this->newValue = this->transition->getNewVal();
-    cout << "TP new value " << this->newValue << endl;
 
 }
 double TweenParam::getNewValue(){

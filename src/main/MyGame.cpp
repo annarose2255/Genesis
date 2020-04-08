@@ -17,13 +17,13 @@ using namespace std;
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
     scene1 = new Scene();
-    scene1->loadScene("./resources/scenes/character.json");
-	// scene1->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx");
-	scene2 = new Scene();
-	scene2->loadScene("./resources/scenes/solarsystem.json");
-	// scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx", true);
-	scene3 = new Scene();
-	scene3->loadScene("./resources/scenes/fight1.json");
+    // scene1->loadScene("./resources/scenes/character.json");
+	scene1->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx");
+	// scene2 = new Scene();
+	// scene2->loadScene("./resources/scenes/solarsystem.json");
+	// // scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx", true);
+	// scene3 = new Scene();
+	// scene3->loadScene("./resources/scenes/fight1.json");
     change = true;
     currentScene = scene1;
 
@@ -45,9 +45,9 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	//QuestDemo
 	// eDispatcher = new EventDispatcher();
 	// // cout << "up to dispatcher" << endl;
-	// coinlis = new CoinListener(scene2->asList.at(0), scene2->objects.at(0));
+	// coinlis = new CoinListener(scene1->getCharacter(), scene1->objects.at(0));
 	// // cout << "we good" << endl;
-	// myQuestManager = new QuestManager(scene2->objects.at(1));
+	// myQuestManager = new QuestManager(scene1->objects.at(1));
 	// eDispatcher->addEventListener(coinlis, PICKUP);
 	// eDispatcher->addEventListener(myQuestManager, COLLECTED);
 
@@ -87,11 +87,13 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
     }
 	if ((pressedKeys.find(SDL_SCANCODE_Z) != pressedKeys.end())) {
 		currentScene->scaleX+=0.01; 
-		currentScene->scaleY+=0.01;
+		currentScene->scaleY+=0.01;	
 	}
-	if ((pressedKeys.find(SDL_SCANCODE_X) != pressedKeys.end())) {
-		currentScene->scaleY-=0.01;
-		currentScene->scaleX-=0.01;
+	if (currentScene->scaleX > 1 && currentScene->scaleY > 1) {
+		if ((pressedKeys.find(SDL_SCANCODE_X) != pressedKeys.end())) {
+			currentScene->scaleY-=0.01;
+			currentScene->scaleX-=0.01;
+		}
 	}
 
     //for music - press1 and the music will play
@@ -109,19 +111,18 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	//changing position of scene
 	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 		Game::camera->position.x-=5;
-		// currentScene->position.x-=5;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		Game::camera->position.x+=5;
-		// currentScene->position.x+=5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-		Game::camera->position.y-=5;
-		// currentScene->position.y-=5;
-	}	
+	//for prev hw
+	//if (Game::camera->position.y-5 > 0) {
+		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+			Game::camera->position.y-=5;
+		}	
+	//}
 	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
 		Game::camera->position.y+=5;
-		// currentScene->position.y+=5;
 	}
 
 	//character moves separately from scene
@@ -144,8 +145,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	//updating camera position
     Game::camera->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
-	// cout << "Scene x " << currentScene->position.x << endl; 
-	// cout << "Scene y " << currentScene->position.y << endl; 
+	// cout << "Scene sx " << currentScene->scaleX << endl; 
+	// cout << "Scene sy " << currentScene->scaleY << endl; 
 	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
 	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
 	if( Game::camera->camera.x < 0){
@@ -163,64 +164,84 @@ void MyGame::update(set<SDL_Scancode> pressedKeys){
 	//Quest Demo stuff
 	// if (currentScene->objects.size() > 0) {
 	// 	// cout << "objects exist" << endl;
-	// 	if (currentScene->objects.at(0)->visible && isCharInCoin(currentScene->asList.at(0), currentScene->objects.at(0))) {
-	// 		eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
+	// 	if (currentScene->objects.at(0)->visible && isCharInCoin(currentScene->getCharacter(), currentScene->objects.at(0))) {
+	// 		Tween* coinTween = new Tween(currentScene->objects.at(0));
+	// 		TweenableParams gx, gy, gsx, gsy, coinfade;
+	// 		gx.name = "position.x";
+	// 		gy.name = "position.y";
+	// 		gsx.name = "scaleX";
+	// 		gsy.name = "scaleY";
+	// 		coinfade.name = "alpha";
+	// 		cout << "MyGame coin pos x " << currentScene->objects.at(0)->position.x << endl;
+	// 		cout << "MyGame coin pos y " << currentScene->objects.at(0)->position.y << endl;
+	// 		coinTween->animate(gx, currentScene->objects.at(0)->position.x, 600, 5);
+	// 		coinTween->animate(gy, currentScene->objects.at(0)->position.y, 300, 5); 
+	// 		coinTween->animate(gsx, currentScene->objects.at(0)->scaleX, 2, 5);
+	// 		coinTween->animate(gsy, currentScene->objects.at(0)->scaleY, 2, 5);
+	// 		coinTween->animate(coinfade, 255, 0, 5);
+	// 		//need a TweenEvent Listener here to start the coin fade animation
+	// 		//TweenEvent te = new TweenEvent(COLLECTED, coinTween)
+	// 		//eDispatcher->addNewListener(te, COLLECTED);
+	// 		//once the coin is 2x bigger then begin the fade transition
+	// 		// coinTween->animate(coinfade, 255, 0, 5); 
+	// 		tj->add(coinTween);
+	// 		// eDispatcher->removeEventListener(coinlis, PICKUP);
+	// 		// eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
 	// 		// currentScene->addChild(questComplete);
     // 	}
 	// 	if (!currentScene->objects.at(0)->visible && isOngoing)
 	// 	{
 	// 		// cout << "collected event" << endl;
 	// 		isOngoing = false;
-	// 		eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher, currentScene.asList(0),
-		//"./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx"));
+	// 		// eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
 	// 	}
 	// }
-	//Change scene 
-	if ((currentScene == scene1) && (currentScene->getCharacter()->position.y < 70)) {
-			cout << "exited room!" << endl;
-			eDispatcher->dispatchEvent(new Event(CHANGE, eDispatcher, currentScene->getCharacter(), 
-				scene2));
-			cout << "out of dispatcher" << endl;
-			Game::camera->removeImmediateChild(currentScene);
-			currentScene = sm->getCurrentScene();       
-			Game::camera->addChild(currentScene);
-			eDispatcher->addEventListener(sm, CHANGE);
-	}
-	else if ((currentScene->enemies.size() > 0) && (!fight) && (isCharInCoin(currentScene->getCharacter(), currentScene->getEnemy(0)))) {
-		cout << "inside fight!" << endl;
-		eDispatcher->dispatchEvent(new Event(FIGHT, eDispatcher, currentScene->getCharacter(),
-			currentScene->getEnemy(0), scene3));
-		Game::camera->removeImmediateChild(currentScene);
-		currentScene = sm->getCurrentScene();       
-		Game::camera->addChild(currentScene);
-		fight = true;
-		eDispatcher->addEventListener(sm, REVERT);
-	}
-	else if ((fight) && (isCharInCoin(currentScene->getCharacter(), currentScene->getEnemy(0)))) {
-			cout << "inside revert!" << endl;
-			eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher));
-			cout << "out of revert dispatch" << endl;
-			Game::camera->removeImmediateChild(currentScene);
-			currentScene = sm->getCurrentScene();      
-			Game::camera->addChild(currentScene);
-			fight = false;
-			// eDispatcher->addEventListener(sm, CHANGE);
-			// eDispatcher->addEventListener(sm, FIGHT);
-	}
-	else if ((currentScene == scene2) && (currentScene->getCharacter()->position.y > 572)) {
-			cout << "exited mountain!" << endl;
-			// eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher, currentScene->getCharacter(), 
-			//	scene1));
-			eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher));
-			cout << "out of dispatcher" << endl;
-			Game::camera->removeImmediateChild(currentScene);
-			currentScene = sm->getCurrentScene();       
-			Game::camera->addChild(currentScene);
-			eDispatcher->addEventListener(sm, CHANGE);
-	}
+	// //Change scene 
+	// if ((currentScene == scene1) && (currentScene->getCharacter()->position.y < 70)) {
+	// 		cout << "exited room!" << endl;
+	// 		eDispatcher->dispatchEvent(new Event(CHANGE, eDispatcher, currentScene->getCharacter(), 
+	// 			scene2));
+	// 		cout << "out of dispatcher" << endl;
+	// 		Game::camera->removeImmediateChild(currentScene);
+	// 		currentScene = sm->getCurrentScene();       
+	// 		Game::camera->addChild(currentScene);
+	// 		eDispatcher->addEventListener(sm, CHANGE);
+	// }
+	// else if ((currentScene->enemies.size() > 0) && (!fight) && (isCharInCoin(currentScene->getCharacter(), currentScene->getEnemy(0)))) {
+	// 	cout << "inside fight!" << endl;
+	// 	eDispatcher->dispatchEvent(new Event(FIGHT, eDispatcher, currentScene->getCharacter(),
+	// 		currentScene->getEnemy(0), scene3));
+	// 	Game::camera->removeImmediateChild(currentScene);
+	// 	currentScene = sm->getCurrentScene();       
+	// 	Game::camera->addChild(currentScene);
+	// 	fight = true;
+	// 	eDispatcher->addEventListener(sm, REVERT);
+	// }
+	// else if ((fight) && (isCharInCoin(currentScene->getCharacter(), currentScene->getEnemy(0)))) {
+	// 		cout << "inside revert!" << endl;
+	// 		eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher));
+	// 		cout << "out of revert dispatch" << endl;
+	// 		Game::camera->removeImmediateChild(currentScene);
+	// 		currentScene = sm->getCurrentScene();      
+	// 		Game::camera->addChild(currentScene);
+	// 		fight = false;
+	// 		// eDispatcher->addEventListener(sm, CHANGE);
+	// 		// eDispatcher->addEventListener(sm, FIGHT);
+	// }
+	// else if ((currentScene == scene2) && (currentScene->getCharacter()->position.y > 572)) {
+	// 		cout << "exited mountain!" << endl;
+	// 		// eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher, currentScene->getCharacter(), 
+	// 		//	scene1));
+	// 		eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher));
+	// 		cout << "out of dispatcher" << endl;
+	// 		Game::camera->removeImmediateChild(currentScene);
+	// 		currentScene = sm->getCurrentScene();       
+	// 		Game::camera->addChild(currentScene);
+	// 		eDispatcher->addEventListener(sm, CHANGE);
+	// }
 	//sm->handleEvent(CHANGE);
 	tj->nextFrame(); 
-	cout << "Char alpha " << currentScene->getCharacter()->alpha << endl;
+	// cout << "Char alpha " << currentScene->getCharacter()->alpha << endl;
 	Game::update(pressedKeys);
 	// currentScene->doCam = cam->camera;
 }

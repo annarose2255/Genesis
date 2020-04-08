@@ -10,6 +10,7 @@
 Scene::Scene() : DisplayObjectContainer() {
     this->type = "Scene";
 }
+//
 //Tmx tutorial: https://codeofconnor.com/2017/08/18/how-to-load-and-render-tiled-maps-in-your-sdl2-game/
 void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room files 
     tmx::Map map;
@@ -82,41 +83,30 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 //calculate world position of tile
                 auto x_pos = x * tile_width;
                 auto y_pos = y * tile_height;
-                //save tile info in the vector 
+                DisplayObject* temp = new DisplayObject();
+                temp->setTexture(tilesets[tset_gid]);
+                temp->position.x = x_pos; 
+                temp->position.y = y_pos; 
+                temp->width = tile_width; 
+                temp->height = tile_height; 
                 if (1 <= cur_gid && cur_gid <= 232) {
-                     Tile t;
-                    t.texture = tilesets[tset_gid]; 
-                    t.x = x_pos; 
-                    t.y = y_pos; 
-                    t.region_x = region_x; 
-                    t.region_y = region_y; 
-                    t.w = tile_width; 
-                    t.h = tile_height; 
-                    tiles.push_back(t);
+                    temp->srcrect.x = region_x; 
+                    temp->srcrect.y = region_y; 
+                    temp->srcrect.w = tile_width; 
+                    temp->srcrect.h = tile_height;  
+                    temp->tile = true;
                 }
                 else {
-                    DisplayObject* temp = new DisplayObject("", this->tilepaths[tset_gid]);
-                    temp->position.x = x_pos; 
-                    temp->position.y = y_pos; 
-                    temp->width = tile_width; 
-                    temp->height = tile_height; 
-                    // if (1 <= cur_gid && cur_gid <= 232) {
-                    //     temp->srcrect.x = region_x; 
-                    //     temp->srcrect.y = region_y; 
-                    //     temp->srcrect.w = tile_width; 
-                    //     temp->srcrect.h = tile_height;  
-                    // }
-                    // else {
-                    //     temp->srcrect.x = 0; 
-                    //     temp->srcrect.y = 0; 
-                    // }
-                    temp->visible = true;
-                    temp->scaleX = 1;
-                    temp->scaleY = 1;
-                    temp->alpha = 255;
-                    temp->facingRight = true;
-                    newLayer->addChild(temp);
+                    temp->srcrect.x = 0; 
+                    temp->srcrect.y = 0; 
                 }
+                temp->visible = true;
+                temp->scaleX = 1;
+                temp->scaleY = 1;
+                temp->alpha = 255;
+                temp->facingRight = true;
+                newLayer->addChild(temp);
+                // }
             }
         }
     }
@@ -364,7 +354,7 @@ Layer* Scene::makeLayer(json data) {
             this->character = newAS;
         }
     }
-    cout << "children of newLayer " << newLayer->children.size() << endl;
+    // cout << "children of newLayer " << newLayer->children.size() << endl;
     return newLayer;
 }
 

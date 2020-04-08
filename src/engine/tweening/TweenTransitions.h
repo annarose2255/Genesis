@@ -14,8 +14,9 @@ public:
     void easeInOut(double percentDone); 
     //all the different transitions
     //include at least ONE non-linear transition
-    void setVal(double current, double end);
+    void setVal(double current, double start, double end);
     double getNewVal();
+    bool easeIn;
 private:
     double curVal, startVal, endVal;
     int startTime, endTime; 

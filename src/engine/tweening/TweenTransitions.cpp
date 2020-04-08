@@ -12,13 +12,28 @@ void TweenTransitions::applyTransition(double percentDone){
 void TweenTransitions::easeInOut(double percentDone){
     //newvalue = (end - begin) * ((double) SDL_GetTicks() - started)/ duration + begin 
     //linear 
-    this->newValue = this->curVal + (int) (this->endVal * percentDone); 
-    if (this->newValue > this->endVal) {
-        this->newValue = this->endVal; 
+    if (easeIn) {
+        this->newValue = this->curVal + (double) (this->endVal * percentDone);
+        if (this->newValue > this->endVal) {
+            this->newValue = this->endVal; 
+        }
     }
-    cout << "Transitions cur Val " << this->curVal << endl;
-    cout << "Transitions end Val " << this->endVal << endl;
-    cout << "Transitions new Val "<< this->newValue << endl;
+    else if (this->endVal == 0) {
+        this->newValue = this->curVal - (double) (this->startVal * percentDone);
+        if (this->newValue < this->endVal) {
+            this->newValue = this->endVal; 
+        }
+    }
+    else {
+        this->newValue = this->curVal - (double) (this->endVal * percentDone);
+         if (this->newValue < this->endVal) {
+            this->newValue = this->endVal; 
+        }
+    }
+    //else ease out
+    // cout << "Transitions cur Val " << this->curVal << endl;
+    // cout << "Transitions end Val " << this->endVal << endl;
+    // cout << "Transitions new Val "<< this->newValue << endl;
     //quad 
     //cubic 
     //log 
@@ -26,8 +41,9 @@ void TweenTransitions::easeInOut(double percentDone){
 double TweenTransitions::getNewVal(){
     return this->newValue;
 }
-void TweenTransitions::setVal(double current, double end){
+void TweenTransitions::setVal(double current, double start, double end){
     this->curVal = current;
+    this->startVal = start;
     this->endVal = end; 
     cout << "set curVal " << this->curVal << endl; 
     cout << "set endVal " << this->endVal << endl;

@@ -22,13 +22,14 @@ public:
     void update();
     bool isComplete(); 
     void setValue(TweenableParams param, double value);
+    vector<TweenParam*> params;
 private:
     DisplayObject* object;
     SDL_Texture* tex; 
     Scene* scene;
 	int curFrame = 0;
     int endFrame;
-    TweenableParams param; 
+    // TweenableParams param; 
     TweenParam* tp; 
     double value, endVal;
 };
