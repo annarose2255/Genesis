@@ -39,7 +39,7 @@ MyGame2::MyGame2() : Game(800, 700) { //rendered space
 	mainMusic = new Sound();
 
 	//QuestDemo
-	eDispatcher = new EventDispatcher();
+	eDispatcher = EventDispatcher::getInstance();
 	cout << "up to dispatcher" << endl;
 	coinlis = new CoinListener(scene2->asList.at(0), scene2->objects.at(0));
 	cout << "we good" << endl;
@@ -65,7 +65,7 @@ MyGame2::~MyGame2(){
 }
 
 
-void MyGame2::update(set<SDL_Scancode> pressedKeys){
+void MyGame2::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
 
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
@@ -166,7 +166,7 @@ void MyGame2::update(set<SDL_Scancode> pressedKeys){
 			eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
 		}
 	}
-	Game::update(pressedKeys);
+	Game::update(pressedKeys, controllerInput);
 	// currentScene->doCam = cam->camera;
 }
 

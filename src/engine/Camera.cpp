@@ -19,8 +19,8 @@ Camera::~Camera(){
 }
 
 
-void Camera::update(set<SDL_Scancode> pressedKeys){
-    DisplayObjectContainer::update(pressedKeys);
+void Camera::update(set<SDL_Scancode> pressedKeys,  ControllerInput controllerInput){
+    DisplayObjectContainer::update(pressedKeys, controllerInput);
 }
 
 void Camera::draw(AffineTransform &at){

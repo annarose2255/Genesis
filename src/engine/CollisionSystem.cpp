@@ -1,5 +1,6 @@
 #include "CollisionSystem.h"
 #include "DisplayObject.h"
+#include "DisplayObjectEvent.h"
 #include <iostream>
 
 using namespace std;
@@ -34,7 +35,8 @@ void CollisionSystem::update(){
 void CollisionSystem::handleEvent(Event* e){
 	if (e->getType() == DO_ADDED_EVENT){
 		cout << "DISPLAY OBJECT ADDED"  << endl;
-		DisplayObject* displayObject = (DisplayObject*) e->getData("displayObject");
+		DisplayObjectEvent* doEvent = (DisplayObjectEvent*) e;
+		DisplayObject* displayObject = doEvent->displayObject;
 		// check if gameType is not already in map
 		if (typeMap.find(displayObject->gameType) == typeMap.end()){
 			cout << "Object gameType is new: " << displayObject->gameType  << endl;

@@ -6,7 +6,7 @@
 #include "EventDispatcher.h"
 
 
-TweenEvent::TweenEvent(string eventType, Tween tween) : Event(eventType, this->source) {
+TweenEvent::TweenEvent(string eventType, EventDispatcher* source, Tween tween) : Event(eventType, source) {
 
 }
 Tween TweenEvent::getTween(){

@@ -3,6 +3,7 @@
 #include "AffineTransform.h"
 #include "EventDispatcher.h"
 #include "Event.h"
+#include "DisplayObjectEvent.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -40,8 +41,7 @@ void DisplayObjectContainer::addChild(DisplayObject* child) {
     child->parent = (DisplayObject *)this; // make sure to include reverse reference also
     // notify event dispatcher
     // create DO_ADDED_EVENT
-    unordered_map<string, void*>* data = new unordered_map<string, void*>({ {"displayObject", child} });
-    Event* e = new Event(DO_ADDED_EVENT, data);
+    DisplayObjectEvent* e = new DisplayObjectEvent(DO_ADDED_EVENT, EventDispatcher::getInstance(), child);
     EventDispatcher::getInstance()->dispatchEvent(e);
 }
 

@@ -19,16 +19,14 @@ public:
 	// types
 	// static const string DO_ADDED_EVENT;
 
-	Event(string type, unordered_map<string, void*>* data = NULL);
+	Event(string type, EventDispatcher* source);
 
 	string getType();
-	// EventDispatcher* getSource();
-	void* getData(string);
+	EventDispatcher* getSource();
 
 private:
 	string eventType = "";
-	// EventDispatcher* source;
-	unordered_map<string, void*>* data;
+	EventDispatcher* source;
 	
 };
 
