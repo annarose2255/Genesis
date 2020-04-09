@@ -24,10 +24,7 @@ void TextBox::setText(string txt) {
 	this->text = txt;
 
 	SDL_Color color = { 255, 255, 255 }; // white
-	if(font==NULL) cout << "i see" << endl;
-	cout << "and i" << endl;
 	surface = TTF_RenderText_Solid(font, text.c_str(), color);
-	cout << "oop" << endl;
 	loadTexture(surface);
 
 }

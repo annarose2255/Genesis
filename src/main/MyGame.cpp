@@ -31,7 +31,6 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     hp = new HealthBar(0, 100, 0);
     tBox = new TextBox();
     tBox->setText("Hello World !");
-    cout << "sigh" << endl;
 
 	Game::camera->addChild(currentScene);
 	instance->addChild(hp);
