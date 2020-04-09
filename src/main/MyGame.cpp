@@ -40,7 +40,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
 	//Change Scene 
 	sm = new SceneManager(currentScene->getCharacter(), currentScene);
-	eDispatcher = new EventDispatcher();
+	eDispatcher = EventDispatcher::getInstance();
 	eDispatcher->addEventListener(sm, CHANGE);
 	//QuestDemo
 	// eDispatcher = new EventDispatcher();

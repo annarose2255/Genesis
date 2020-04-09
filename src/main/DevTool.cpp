@@ -87,7 +87,15 @@ DevTool::~DevTool(){
 void DevTool::load(string filepath)
 {
     //Scene *thisScene = new Scene();
-    sceneWindow->loadScene(filepath);
+    // sceneWindow->loadScene(filepath);
+    //add in loadTileMap() option
+    string tmx_suffix = "tmx";
+    if ((0 == filepath.compare(filepath.length() - tmx_suffix.length(), tmx_suffix.length(), tmx_suffix))){
+        sceneWindow->loadTileMap(filepath);
+    } 
+    else {
+        sceneWindow->loadScene(filepath);
+    }
     // sceneWindow = thisScene;
     // currentScene = thisScene;
     // sceneWindow = thisScene;

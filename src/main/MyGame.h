@@ -11,6 +11,7 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "CoinListener.h"
+#include "EventDispatcher.h"
 #include "SceneManager.h"
 #include "TweenJuggler.h"
 #include "HealthBar.h"
@@ -45,10 +46,9 @@ private:
     Scene* scene3;   	
     // Camera* cam;
     TweenJuggler* tj;
-
+    EventDispatcher* eDispatcher;
     EventListener* coinlis;
 	EventListener* myQuestManager;
-	EventDispatcher* eDispatcher;
     DisplayObjectContainer *questComplete;
     SceneManager* sm;
     bool isOngoing = true;

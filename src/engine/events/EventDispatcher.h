@@ -7,8 +7,7 @@
 
 #include "Event.h"
 #include "EventListener.h"
-#include "ChangeSceneEvent.h"
-#include "FightEvent.h"
+
 
 using namespace std;
 
