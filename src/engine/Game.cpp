@@ -115,26 +115,35 @@ void Game::start(){
 				break;
 			// button events
 			case SDL_JOYAXISMOTION:
-				cout << "JOYSTICK MOTION" << endl;
+				// if ((event.jaxis.value < -3200) || (event.jaxis.value > 3200)) {
+				// 	if( event.jaxis.axis == 0) 
+				// 	{
+				// 		if (event.jaxis.value < -3200){
+				// 			pressedButtons.insert(SDL_CONTROLLER_BUTTON_DPAD_LEFT);
+				// 		}
+						
+				// 	}
+
+				// 	if( event.jaxis.axis == 1) 
+				// 	{
+				// 		/* Up-Down movement code goes here */
+				// 	}
+				// }
 				break;
 			case SDL_JOYBUTTONDOWN:
-				cout << "JOYSTICK BD" << endl;
-				pressedButtons.insert((SDL_GameControllerButton) event.cbutton.button);
-				cout << event.cbutton.button << endl;
+				//cout << "JOYDOWN IS TRIGGERED" << endl;
+				pressedButtons.insert((SDL_GameControllerButton) event.jbutton.button);
 				break;
 			case SDL_JOYBUTTONUP:
-				cout << "JOYSTICK BU" << endl;
-				pressedButtons.erase((SDL_GameControllerButton) event.cbutton.button);
+				pressedButtons.erase((SDL_GameControllerButton) event.jbutton.button);
 				break;
 			case SDL_CONTROLLERAXISMOTION:
-				cout << "CONTROLLER MOTION" << endl;
 				break;
 			case SDL_CONTROLLERBUTTONDOWN:
-				cout << "CONTROLLER BD" << endl;
+				//cout << "CONTROLLER down has been triggered" << endl;
 				pressedButtons.insert((SDL_GameControllerButton) event.cbutton.button);
 				break;
 			case SDL_CONTROLLERBUTTONUP:
-				cout << "CONTROLLER BU" << endl;
 				pressedButtons.erase((SDL_GameControllerButton) event.cbutton.button);
 				break;
 			// device events

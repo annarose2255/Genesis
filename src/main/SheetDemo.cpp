@@ -53,10 +53,14 @@ SheetDemo::~SheetDemo(){
 
 void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons){
     // character->play("Idle");
+	if (pressedButtons.find(SDL_CONTROLLER_BUTTON_X) != pressedButtons.end() && pressedButtons.find(SDL_CONTROLLER_BUTTON_Y) != pressedButtons.end()){
+		//cout << "SOMETHING IS VERY WRONG" << endl;
+	}
+
     if ( (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) || 
 		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_B) != pressedButtons.end()) ||
 		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) != pressedButtons.end()) ) {
-			 
+		//cout << "RIGHT" << endl;
 		character->position.x += 3;
 		//eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (left){
@@ -73,13 +77,11 @@ void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButt
             isWalking = false;
         }
     }
-	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
+	if ( (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) || 
+		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_X) != pressedButtons.end()) ||
+		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_DPAD_LEFT) != pressedButtons.end()) ) {
+		//cout << "LEFT" << endl;
 		character->position.x -= 3;
-		//eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
-        if (!isWalking){
-            // character->scaleX = -1 * character->scaleX;
-            // character->scaleY = -1;
-        }
         if (!left){
             // character->scaleY = -1 * character->scaleX;
             left = true;
@@ -95,7 +97,10 @@ void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButt
             isWalking = false;
         }
     }
-	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+	if ( (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) || 
+		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_A) != pressedButtons.end()) ||
+		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_DPAD_DOWN) != pressedButtons.end()) ) {
+		//cout << "DONW" << endl;
 		character->position.y += 3;
 		//eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (!isJumping){
@@ -103,13 +108,25 @@ void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButt
             isJumping = true;
         }
 	}
-	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+	if ( (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) || 
+		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_Y) != pressedButtons.end()) ||
+		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_DPAD_UP) != pressedButtons.end()) ) {
+			 
+		//cout << "UP" << endl;
 		character->position.y -= 3;
-		//eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (!isJumping){
             character->play("Jump");
             isJumping = true;
         }
+	}
+	if (pressedButtons.find(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) != pressedButtons.end()){
+		character->rotation += 0.1;
+	}
+	if (pressedButtons.find(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) != pressedButtons.end()){
+		character->rotation -= 0.1;
+	}
+	if (pressedButtons.find(SDL_CONTROLLER_BUTTON_START) != pressedButtons.end()){
+		controllerManager->rumbleController(0.7, 300);
 	}
     if (coin->visible && isCharInCoin(character, coin)) { 
         eDispatcher->dispatchEvent(new Event(PICKUP, EventDispatcher::getInstance()));
