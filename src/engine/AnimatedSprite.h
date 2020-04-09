@@ -53,7 +53,7 @@ public:
 	void replay();
 	void stop();
 
-	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
+	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons);
 	virtual void draw(AffineTransform &at);
 
 	bool playing = false;

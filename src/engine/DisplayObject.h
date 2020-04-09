@@ -27,22 +27,6 @@ class DisplayObject{
 
 public:
 
-	struct ControllerInput {
-		bool connected = false;
-		bool a = false;
-		bool b = false;
-		bool x = false;
-		bool y = false;
-		bool leftDpad = false;
-		bool rightDpad = false;
-		bool upDpad = false;
-		bool downDpad = false;
-		int leftStickX = 0;
-		int rightStickX = 0;
-		int leftStickY = 0;
-		int rightStickY = 0;
-	};
-
 	struct Hitbox {
 		// top left point
 		SDL_Point origin = {0, 0};
@@ -65,7 +49,7 @@ public:
 	DisplayObject(string id, int red, int green, int blue);
 	virtual ~DisplayObject();
 	
-	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
+	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons);
 	virtual void draw(AffineTransform &at);
 
 	SDL_Rect doCam; //camera for display object

@@ -82,7 +82,6 @@ void Game::start(){
 				break;
 			} else {
 				cout << "Could not open gamecontroller" << endl;
-				controllerInput.connected = false;
 			}
 		}
 	}
@@ -92,41 +91,10 @@ void Game::start(){
 		double duration = (( end - start ) / (double) CLOCKS_PER_SEC)*1000;
 		if(duration > ms_per_frame){
 			start = end;
-			this->update(pressedKeys, controllerInput);
+			this->update(pressedKeys, pressedButtons);
 			AffineTransform at;
 			// SDL_Rect camera; 
 			this->draw(at);
-		}
-
-		// cout << SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_LEFT) << endl;	
-
-		// if (SDL_NumJoysticks() < 1){
-		// 	cout << "Warning: No joysticks connected!" << endl;
-		// 	controllerInput.connected = false;
-		// } else {
-		// 	// Load joystick
-		// 	controller = SDL_JoystickOpen(0);
-		// 	if (controller == NULL){
-		// 		cout << "Warning: Unable to open game controller!" << endl;
-		// 	}
-		// 	controllerInput.connected = true;
-		// }
-		if (controller != 0 && SDL_GameControllerGetAttached(controller)){
-			bool Up = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_UP);
-			bool Down = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_DOWN);
-			bool Left = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_LEFT);
-			bool Right = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
-			bool Start = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_START);
-			bool Back = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_BACK);
-			bool LeftShoulder = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
-			bool RightShoulder = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
-			bool AButton = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_A);
-			bool BButton = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_B);
-			bool XButton = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_X);
-			bool YButton = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_Y);
-
-			// int16 StickX = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTX);
-			// int16 StickY = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTY);
 		}
 
 		SDL_PollEvent(&event);
@@ -163,9 +131,11 @@ void Game::start(){
 				break;
 			case SDL_CONTROLLERBUTTONDOWN:
 				cout << "CONTROLLER BD" << endl;
+				pressedButtons.insert((SDL_GameControllerButton) event.cbutton.button);
 				break;
 			case SDL_CONTROLLERBUTTONUP:
 				cout << "CONTROLLER BU" << endl;
+				pressedButtons.erase((SDL_GameControllerButton) event.cbutton.button);
 				break;
 			// device events
 			case SDL_CONTROLLERDEVICEADDED:
@@ -180,9 +150,9 @@ void Game::start(){
 	}
 }
 
-void Game::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
+void Game::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons){
 	frameCounter++;
-	DisplayObjectContainer::update(pressedKeys, controllerInput);
+	DisplayObjectContainer::update(pressedKeys, pressedButtons);
 }
 
 

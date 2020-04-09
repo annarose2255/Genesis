@@ -20,7 +20,7 @@ public:
 	MyGame2();
 	virtual ~MyGame2();
 
-	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
+	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons);
 	virtual void draw(AffineTransform &at);
     Scene* currentScene;
 

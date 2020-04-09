@@ -51,9 +51,12 @@ SheetDemo::~SheetDemo(){
 }
 
 
-void SheetDemo::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
+void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons){
     // character->play("Idle");
-    if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
+    if ( (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) || 
+		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_B) != pressedButtons.end()) ||
+		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) != pressedButtons.end()) ) {
+			 
 		character->position.x += 3;
 		//eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
         if (left){
@@ -118,37 +121,7 @@ void SheetDemo::update(set<SDL_Scancode> pressedKeys, ControllerInput controller
 		isOngoing = false;
         eDispatcher->dispatchEvent(new Event(COLLECTED, EventDispatcher::getInstance()));
 	}
-	// if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
-	// 	// sun->rotation += 0.01;
-	// 	p1container->rotation += 0.05;
-	// 	p2container->rotation += 0.03;
-	// 	planet1->rotation += 0.1;
-	// 	p1container->position.x = 100*sin(p1container->rotation);
-	// 	p2container->position.x = 100*sin(p2container->rotation);
-	// }
-	// if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
-	// 	// sun->rotation -= 0.01;
-	// 	p1container->rotation -= 0.05;
-	// 	p2container->rotation -= 0.03;
-	// 	planet1->rotation -= 0.1;
-	// 	p1container->position.x = 100*sin(p1container->rotation);
-	// 	p2container->position.x = 100*sin(p2container->rotation);
-	// }
-	// if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end()) {
-	// 	allSprites->scaleX *= 1.05;
-	// 	allSprites->scaleY *= 1.05;
-	// }
-	// if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
-	// 	allSprites->scaleX *= 1/1.05;
-	// 	allSprites->scaleY *= 1/1.05;
-	// }
-	// if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
-	// 	sun->play("Sun");
-	// }
-	// if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end()) {
-	// 	sun->stop();
-	// }
-	Game::update(pressedKeys, controllerInput);
+	Game::update(pressedKeys, pressedButtons);
 }
 
 void SheetDemo::draw(AffineTransform &at){

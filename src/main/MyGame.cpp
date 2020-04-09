@@ -65,7 +65,7 @@ MyGame::~MyGame(){
 }
 
 
-void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
+void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons){
     
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
@@ -192,7 +192,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 	// 		eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
 	// 	}
 	// }
-	Game::update(pressedKeys, controllerInput);
+	Game::update(pressedKeys, pressedButtons);
 	// currentScene->doCam = cam->camera;
 }
 

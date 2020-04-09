@@ -18,7 +18,7 @@ public:
 	CollisionDemo();
 	virtual ~CollisionDemo();
 
-	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
+	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons);
 	virtual void draw(AffineTransform &at);
 
 private:

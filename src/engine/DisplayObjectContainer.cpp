@@ -104,10 +104,10 @@ void DisplayObjectContainer::setScrollSpeed(double speed) {
     DisplayObject::setScrollSpeed(speed);
 }
 
-void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput) {
-    DisplayObject::update(pressedKeys, controllerInput);
+void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons) {
+    DisplayObject::update(pressedKeys, pressedButtons);
     for (int i = 0; i < children.size(); i++) {
-        children[i]->update(pressedKeys, controllerInput);
+        children[i]->update(pressedKeys, pressedButtons);
     }
 }
 
