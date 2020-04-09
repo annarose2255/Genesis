@@ -7,6 +7,8 @@
 #include "DisplayObjectContainer.h"
 #include "Camera.h"
 #include "DisplayObject.h"
+#include "ControllerManager.h"
+#include "Event.h"
 #include <vector>
 #include <set>
 
@@ -36,7 +38,9 @@ public:
 	virtual void draw(AffineTransform &at);
 	set<SDL_Scancode> pressedKeys;
 	ControllerInput controllerInput;
+	set<SDL_GameControllerButton> pressedButtons;
 	SDL_GameController* controller;
+	ControllerManager* controllerManager;
 
 private:
 	

@@ -6,6 +6,8 @@
 #include "EventDispatcher.h"
 
 #define DO_ADDED_EVENT "Display Object Added Event"
+#define CONTROLLER_ADDED_EVENT "Controller Added Event"
+#define CONTROLLER_REMOVED_EVENT "Controller Removed Event"
 
 using namespace std;
 

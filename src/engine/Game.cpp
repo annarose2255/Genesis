@@ -4,6 +4,8 @@
 #include <ctime>
 #include "DisplayObject.h"
 #include "EventDispatcher.h"
+#include "Event.h"
+#include "ControllerEvent.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
@@ -45,7 +47,7 @@ void Game::quitSDL(){
 
 void Game::initSDL(){
 	// Initialize SDL
-	if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK ) < 0){
+	if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC ) < 0){
 		cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << endl;
 	}
 	IMG_Init(IMG_INIT_PNG);
@@ -61,6 +63,8 @@ void Game::initSDL(){
 void Game::start(){
 	// initiale Event Dispatcher
 	EventDispatcher* eDispatcher = EventDispatcher::getInstance();
+	controllerManager = new ControllerManager();
+	eDispatcher->addEventListener(controllerManager, CONTROLLER_ADDED_EVENT);
 
 	int ms_per_frame = (1.0/(double)this->frames_per_sec)*1000;
 	std::clock_t start = std::clock();
@@ -68,14 +72,13 @@ void Game::start(){
 	bool quit = false;
 	SDL_Event event;
 
+	
 	// Check for controllers
 	for (int i = 0; i < SDL_NumJoysticks(); ++i){
 		if (SDL_IsGameController(i)) {
 			controller = SDL_GameControllerOpen(i);
 			if (controller) {
-				cout << "Controller connected." << endl;
-				controllerInput.connected = true;
-				// only opens the first
+				EventDispatcher::getInstance()->dispatchEvent(new ControllerEvent(CONTROLLER_ADDED_EVENT, EventDispatcher::getInstance(), controller));				
 				break;
 			} else {
 				cout << "Could not open gamecontroller" << endl;
@@ -108,9 +111,29 @@ void Game::start(){
 		// 	}
 		// 	controllerInput.connected = true;
 		// }
+		if (controller != 0 && SDL_GameControllerGetAttached(controller)){
+			bool Up = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_UP);
+			bool Down = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_DOWN);
+			bool Left = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_LEFT);
+			bool Right = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
+			bool Start = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_START);
+			bool Back = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_BACK);
+			bool LeftShoulder = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+			bool RightShoulder = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+			bool AButton = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_A);
+			bool BButton = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_B);
+			bool XButton = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_X);
+			bool YButton = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_Y);
+
+			// int16 StickX = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTX);
+			// int16 StickY = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTY);
+		}
 
 		SDL_PollEvent(&event);
 		// cout << event.type << endl;
+		// cout << event.type << endl;
+		// cout << SDL_CONTROLLERBUTTONDOWN << endl;
+		// cout << SDL_CONTROLLER_BUTTON_DPAD_DOWN << endl;
 		switch (event.type)
 		{
 			case SDL_QUIT:
@@ -123,45 +146,34 @@ void Game::start(){
 				pressedKeys.erase(event.key.keysym.scancode);
 				break;
 			// button events
-			// case SDL_CONTROLLERBUTTONDOWN:
-			case 1539:
-				switch(event.cbutton.button){
-					case SDL_CONTROLLER_BUTTON_A:
-						controllerInput.a = true;
-						cout << "pressed A" << endl;
-						break;
-					case SDL_CONTROLLER_BUTTON_B:
-						controllerInput.b = true;
-						cout << "pressed B" << endl;
-						break;
-				}
+			case SDL_JOYAXISMOTION:
+				cout << "JOYSTICK MOTION" << endl;
 				break;
-			// case SDL_CONTROLLERBUTTONUP:
-			case 1540:
-				switch(event.cbutton.button){
-					case SDL_CONTROLLER_BUTTON_A:
-						controllerInput.a = false;
-						break;
-					case SDL_CONTROLLER_BUTTON_B:
-						controllerInput.b = false;
-						break;
-				}
+			case SDL_JOYBUTTONDOWN:
+				cout << "JOYSTICK BD" << endl;
+				pressedButtons.insert((SDL_GameControllerButton) event.cbutton.button);
+				cout << event.cbutton.button << endl;
 				break;
-			// axis events
+			case SDL_JOYBUTTONUP:
+				cout << "JOYSTICK BU" << endl;
+				pressedButtons.erase((SDL_GameControllerButton) event.cbutton.button);
+				break;
 			case SDL_CONTROLLERAXISMOTION:
-				
+				cout << "CONTROLLER MOTION" << endl;
+				break;
+			case SDL_CONTROLLERBUTTONDOWN:
+				cout << "CONTROLLER BD" << endl;
+				break;
+			case SDL_CONTROLLERBUTTONUP:
+				cout << "CONTROLLER BU" << endl;
 				break;
 			// device events
 			case SDL_CONTROLLERDEVICEADDED:
-				cout << "Device added." << endl;
 				controller = SDL_GameControllerOpen(event.cdevice.which);
-				controllerInput.connected = true;
+				EventDispatcher::getInstance()->dispatchEvent(new ControllerEvent(CONTROLLER_ADDED_EVENT, EventDispatcher::getInstance(), controller));	
 				break;
 			case SDL_CONTROLLERDEVICEREMOVED:
-				cout << "Device removed." << endl;
-				// probably should close controller too
-				controller = NULL;
-				controllerInput.connected = false;
+				EventDispatcher::getInstance()->dispatchEvent(new ControllerEvent(CONTROLLER_REMOVED_EVENT, EventDispatcher::getInstance(), controller));	
 				break;
 		}
 
