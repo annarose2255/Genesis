@@ -1,5 +1,5 @@
-#ifndef TEXTBOX_H
-#define TEXTBOX_H
+#ifndef SELECTIONMENU_H
+#define SELECTIONMENU_H
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -9,25 +9,23 @@
 
 using namespace std;
 
-class TextBox : public Sprite {
+class SelectionMenu : public Sprite {
 
 public:
 
-	// Make TextBox
-	TextBox();
-	~TextBox();
+	// Make Selection Menu
+	SelectionMenu();
+	~SelectionMenu();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
-	void setText(string txt);
-
-	string text;
+	void addItem(string item);
+	string selectItem(string item);
 
 private:
 
-	TTF_Font* font;
-	SDL_Surface* surface;
+	vector<string> listItems;
 
 };
 

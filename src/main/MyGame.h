@@ -15,6 +15,7 @@
 #include "SceneManager.h"
 #include "TweenJuggler.h"
 #include "HealthBar.h"
+#include "TextBox.h"
 
 using namespace std;
 
@@ -36,6 +37,7 @@ public:
 
     // UI Components
     HealthBar* hp;
+    TextBox* tBox;
 
 private:
     Sound* mainMusic;

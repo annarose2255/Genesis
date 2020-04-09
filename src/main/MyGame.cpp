@@ -29,12 +29,17 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
     // UI Components
     hp = new HealthBar(0, 100, 0);
+    tBox = new TextBox();
+    tBox->setText("Hello World !");
+    cout << "sigh" << endl;
 
 	Game::camera->addChild(currentScene);
 	instance->addChild(hp);
+	instance->addChild(tBox);
 	instance->addChild(Game::camera);
 
 	hp->position = { 100, 100 };
+	tBox->position = {200, 0};
     //Sound 
 	mainMusic = new Sound();
 
