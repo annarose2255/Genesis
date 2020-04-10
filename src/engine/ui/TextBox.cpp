@@ -8,19 +8,12 @@ using namespace std;
 TextBox::TextBox() : Sprite() {
 	this->id = "TextBox";
 
-	this->width = 800;
-	this->height = 100;
+	// Set this way to allow white lines to show
+	this->width = 799;
+	this->height = 99;
 
 	this->position.x = 0;
 	this->position.y = 600;
-
-	// // As wide as the screen
-	// this->width = Game::windowWidth;
-	// this->height = 100;
-
-	// // Set on the bottom of the screen
-	// this->position.x = 0;
-	// this->position.y = Game::windowHeight - 100;
 
 	font = TTF_OpenFont("./resources/fonts/sans.ttf", 55);
 
@@ -56,7 +49,6 @@ void TextBox::draw(AffineTransform &at) {
 		SDL_RenderDrawLine(Game::renderer, this->position.x+this->width, this->position.y, this->position.x + this->width, this->position.y+this->height);
 		SDL_RenderDrawLine(Game::renderer, this->position.x+this->width, this->position.y+this->height, this->position.x, this->position.y+this->height);
 		SDL_RenderDrawLine(Game::renderer, this->position.x, this->position.y, this->position.x, this->position.y+this->height);
-
 
 	}
 

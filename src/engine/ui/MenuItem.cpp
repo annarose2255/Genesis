@@ -18,6 +18,8 @@ MenuItem::MenuItem(string name, int posX, int posY) : TextBox() {
 
 	this->setText(name);
 
+	this->nextMenu = NULL;
+
 }
 
 MenuItem::~MenuItem() {

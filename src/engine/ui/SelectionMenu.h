@@ -24,10 +24,12 @@ public:
 
 	void addItem(MenuItem* item);
 	void selectItem(int ind);
+	void goBack();
 
 private:
 
 	vector<MenuItem*> menuItems;
+	MenuItem* prevItem;
 	int selectInd;
 
 };

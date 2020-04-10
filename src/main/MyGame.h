@@ -40,6 +40,7 @@ public:
     HealthBar* hp;
     TextBox* tBox;
     SelectionMenu* mainMenu;
+    SelectionMenu* itemsMenu;
 
 private:
     Sound* mainMusic;

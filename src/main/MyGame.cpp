@@ -33,16 +33,23 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     hp = new HealthBar(0, 100, 0);
     tBox = new TextBox();
     tBox->setText("Hello World !");
+    tBox->visible = false;
 
     mainMenu = new SelectionMenu();
     MenuItem* items = new MenuItem("Items", 0, 0);
     MenuItem* save = new MenuItem("Save", 250, 0);
     MenuItem* settings = new MenuItem("Settings", 500, 0);
+
+    itemsMenu = new SelectionMenu();
+    MenuItem* healthPotion = new MenuItem("Health Potion", 0, 0);
+    items->nextMenu = itemsMenu;
+
     mainMenu->addItem(items);
     mainMenu->addItem(save);
     mainMenu->addItem(settings);
-    mainMenu->position.x = 200;
-    mainMenu->position.y = 300;
+    itemsMenu->addItem(healthPotion);
+    mainMenu->id = "Main";
+    itemsMenu->id = "items";
     mainMenu->visible = false;
 
 
@@ -50,6 +57,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance->addChild(hp);
 	instance->addChild(tBox);
 	instance->addChild(mainMenu);
+	instance->addChild(itemsMenu);
 	instance->addChild(Game::camera);
 
 	hp->position = { 100, 100 };
@@ -88,6 +96,7 @@ MyGame::~MyGame(){
 
 void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
     mainMenu->update(pressedKeys);
+    itemsMenu->update(pressedKeys);
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
         Game::camera->removeImmediateChild(currentScene);
@@ -160,9 +169,18 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 		currentScene->getCharacter()->position.x +=2; 
 			// currentScene->position.x-=2; //comment out to just move sprite
 	}
+
+	/***************** UI COMPONENTS ******************/
 	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end()) {
 		mainMenu->visible = true; 
-	}		
+	}
+	if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end()) {
+		tBox->visible = true; 
+	}
+	// To change text
+	if (pressedKeys.find(SDL_SCANCODE_J) != pressedKeys.end()) {
+		tBox->setText("Testing this out !"); 
+	}	
 	//updating camera position
     Game::camera->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
