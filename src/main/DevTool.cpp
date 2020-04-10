@@ -560,6 +560,15 @@ void DevTool::update(set<SDL_Scancode> pressedKeys,  ControllerInput controllerI
                     load(loadpath, type);
                     break; 
                 }
+            case SDL_SCANCODE_M:
+                {
+                    cout << "What sprite would you like to pull up? (Enter relative path)" << endl;
+                    string sprPath;
+                    cin >> sprPath;
+                    string nameId = sprPath + to_string(num);
+                    DisplayObjectContainer* sprPulled = new DisplayObjectContainer(nameId, sprPath);
+                    sceneWindow->addChild(sprPulled);
+                }
             case SDL_SCANCODE_Z:
                 {
                     cout << "Clear the scene?" << endl;
