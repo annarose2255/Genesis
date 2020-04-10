@@ -16,6 +16,7 @@
 #include "TweenJuggler.h"
 #include "HealthBar.h"
 #include "TextBox.h"
+#include "SelectionMenu.h"
 
 using namespace std;
 
@@ -38,6 +39,7 @@ public:
     // UI Components
     HealthBar* hp;
     TextBox* tBox;
+    SelectionMenu* mainMenu;
 
 private:
     Sound* mainMusic;

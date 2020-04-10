@@ -11,6 +11,17 @@ TextBox::TextBox() : Sprite() {
 	this->width = 800;
 	this->height = 100;
 
+	this->position.x = 0;
+	this->position.y = 600;
+
+	// // As wide as the screen
+	// this->width = Game::windowWidth;
+	// this->height = 100;
+
+	// // Set on the bottom of the screen
+	// this->position.x = 0;
+	// this->position.y = Game::windowHeight - 100;
+
 	font = TTF_OpenFont("./resources/fonts/sans.ttf", 55);
 
 }

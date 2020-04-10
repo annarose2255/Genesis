@@ -6,7 +6,7 @@
 
 using namespace std;
 
-MenuItem::MenuItem(int posX, int posY) : TextBox() {
+MenuItem::MenuItem(string name, int posX, int posY) : TextBox() {
 
 	this->id = "MenuItem";
 
@@ -15,6 +15,8 @@ MenuItem::MenuItem(int posX, int posY) : TextBox() {
 
 	this->width = 200;
 	this->height = 40;
+
+	this->setText(name);
 
 }
 
@@ -26,5 +28,5 @@ void MenuItem::update(set<SDL_Scancode> pressedKeys) {
 }
 
 void MenuItem::draw(AffineTransform &at) {
-	TextBox::draw(at);
+	Sprite::draw(at);
 }

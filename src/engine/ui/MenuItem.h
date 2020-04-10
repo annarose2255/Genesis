@@ -16,7 +16,7 @@ class MenuItem : public TextBox {
 public:
 
 	// Make Menu Item
-	MenuItem(int posX, int posY);
+	MenuItem(string name, int posX, int posY);
 	~MenuItem();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);

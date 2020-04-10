@@ -11,6 +11,7 @@ SelectionMenu::SelectionMenu() : Sprite() {
 
 	this->width = 800;
 	this->height = 100;
+	this->visible = false;
 
 	selectInd = 0;
 
@@ -22,12 +23,13 @@ SelectionMenu::~SelectionMenu() {
 // addItem() automatically adds item as a child
 void SelectionMenu::addItem(MenuItem* item) {
 	this->addChild(item);
+	menuItems.push_back(item);
 	item->prevMenu = this;
 }
 
 void SelectionMenu::selectItem(int ind) {
 	MenuItem* selItem = menuItems[ind];
-	if(selItem != NULL) {
+	if(selItem->nextMenu != NULL) {
 		this->visible = false;
 		selItem->nextMenu->visible = true;
 	}
@@ -41,12 +43,12 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys) {
 				case SDL_SCANCODE_RETURN:
 					this->selectItem(selectInd);
 					break;
-				case SDL_SCANCODE_LEFT:
+				case SDL_SCANCODE_M:
 					if (selectInd != 0) {
 						selectInd -= 1;
 					}
 					break;
-				case SDL_SCANCODE_RIGHT:
+				case SDL_SCANCODE_N:
 					if (selectInd != menuItems.size()-1) {
 						selectInd +=1;
 					}
@@ -74,7 +76,7 @@ void SelectionMenu::draw(AffineTransform &at) {
 			SDL_Point itemPos = menuItems[selectInd]->position;
 			int itemW = menuItems[selectInd]->width;
 			int itemH = menuItems[selectInd]->height;
-			SDL_RenderDrawLine(Game::renderer, itemPos.x, itemPos.y+itemH, itemPos.x+itemW, itemPos.y+itemH);
+			SDL_RenderDrawLine(Game::renderer, this->position.x+itemPos.x, this->position.y+itemPos.y+itemH+5, this->position.x+itemPos.x+itemW, this->position.y+itemPos.y+itemH+5);
 		}
 
 	}

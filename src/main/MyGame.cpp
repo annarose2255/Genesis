@@ -11,6 +11,8 @@
 #include "TweenableParams.h"
 #include "TweenJuggler.h"
 #include "HealthBar.h"
+#include "SelectionMenu.h"
+#include "MenuItem.h"
 
 using namespace std;
 
@@ -32,13 +34,25 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     tBox = new TextBox();
     tBox->setText("Hello World !");
 
+    mainMenu = new SelectionMenu();
+    MenuItem* items = new MenuItem("Items", 0, 0);
+    MenuItem* save = new MenuItem("Save", 250, 0);
+    MenuItem* settings = new MenuItem("Settings", 500, 0);
+    mainMenu->addItem(items);
+    mainMenu->addItem(save);
+    mainMenu->addItem(settings);
+    mainMenu->position.x = 200;
+    mainMenu->position.y = 300;
+    mainMenu->visible = false;
+
+
 	Game::camera->addChild(currentScene);
 	instance->addChild(hp);
 	instance->addChild(tBox);
+	instance->addChild(mainMenu);
 	instance->addChild(Game::camera);
 
 	hp->position = { 100, 100 };
-	tBox->position = {200, 0};
     //Sound 
 	mainMusic = new Sound();
 
@@ -73,7 +87,7 @@ MyGame::~MyGame(){
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
-    
+    mainMenu->update(pressedKeys);
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
         Game::camera->removeImmediateChild(currentScene);
@@ -146,6 +160,9 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 		currentScene->getCharacter()->position.x +=2; 
 			// currentScene->position.x-=2; //comment out to just move sprite
 	}
+	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end()) {
+		mainMenu->visible = true; 
+	}		
 	//updating camera position
     Game::camera->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
