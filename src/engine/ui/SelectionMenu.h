@@ -9,6 +9,8 @@
 
 using namespace std;
 
+class MenuItem;
+
 class SelectionMenu : public Sprite {
 
 public:
@@ -20,12 +22,13 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
-	void addItem(string item);
-	string selectItem(string item);
+	void addItem(MenuItem* item);
+	void selectItem(int ind);
 
 private:
 
-	vector<string> listItems;
+	vector<MenuItem*> menuItems;
+	int selectInd;
 
 };
 
