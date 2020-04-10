@@ -23,7 +23,7 @@ public:
     virtual void start();
 
     void IterateDirectory(string filepath);
-    void load(string filepath);
+    void load(string filepath, int type);
     void save(string filepath);
     DisplayObjectContainer * sceneClick(int x, int y);
     bool inSquare(DisplayObjectContainer *parent, int x, int y);

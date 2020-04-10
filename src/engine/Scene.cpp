@@ -27,12 +27,26 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
     ifs >> j;
     //Level Info
     int rows, cols, tile_width, tile_height; 
-    sceneName = j["name"];
+    sceneNum = j["room"];
     //save coord of entrance/exits of Level 
     for (auto& pt : j["transitionPts"]) {
         SDL_Point temp = {pt["x"], pt["y"]};
         transitionPts.insert(std::pair<string, SDL_Point>(pt["name"], temp));
     }
+    //where the char should spawn 
+    for (auto& pt : j["charStart"]) {
+        SDL_Point temp = {pt["x"], pt["y"]};
+        charStart.insert(std::pair<int, SDL_Point>(pt["name"], temp));
+    }
+    for (auto& pt : j["charEnd"]) {
+        SDL_Point temp = {pt["x"], pt["y"]};
+        charEnd.insert(std::pair<int, SDL_Point>(pt["name"], temp));
+    }
+    //level boundaries 
+    top = j["top"];
+    bottom = j["bottom"];
+    right = j["right"];
+    left = j["left"];
     rows = j["height"];
     cols = j["width"];
     tile_width = j["tilewidth"];
@@ -137,6 +151,9 @@ AnimatedSprite* Scene::getCharacter(){
 }
 void Scene::setCharacter(AnimatedSprite* chara) {
     this->character = chara;
+}
+int Scene::getSceneNum(){
+    return this->sceneNum;
 }
 void Scene::loadScene(string sceneFilePath) {
     json j;
@@ -439,13 +456,13 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
 }
 
 void Scene::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput) {
-     if (this->sceneName == "Room7" && 
-       ( this->character->position.y < this->transitionPts["rm5Greater"].y && 
+    if (this->sceneNum == 7 && 
+       ( this->character->position.y > this->transitionPts["rm5Greater"].y && 
         (this->character->position.x > this->transitionPts["rm5Greater"].x && this->character->position.x < this->transitionPts["rm5Less"].x)))
     {
         //call change scene event
         MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
-            "./resources/scenes/area 1 files/Area 1 - Room 5.json"));
+            "./resources/scenes/area1files/Area1Room5.json"));
     } 
     DisplayObjectContainer::update(pressedKeys, controllerInput);
 }

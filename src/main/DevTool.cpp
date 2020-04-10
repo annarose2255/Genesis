@@ -84,18 +84,18 @@ DevTool::~DevTool(){
     
 }
 
-void DevTool::load(string filepath)
+void DevTool::load(string filepath, int type)
 {
     //Scene *thisScene = new Scene();
     // sceneWindow->loadScene(filepath);
     //add in loadTileMap() option
-    string tmx_suffix = "tmx";
-    if ((0 == filepath.compare(filepath.length() - tmx_suffix.length(), tmx_suffix.length(), tmx_suffix))){
+    if (type == 1){
         sceneWindow->loadTileMap(filepath);
     } 
-    else {
+    else if (type == 2) {
         sceneWindow->loadScene(filepath);
     }
+    // sceneWindow->loadScene(filepath);
     // sceneWindow = thisScene;
     // currentScene = thisScene;
     // sceneWindow = thisScene;
@@ -550,11 +550,14 @@ void DevTool::update(set<SDL_Scancode> pressedKeys,  ControllerInput controllerI
                     break; 
                 }
             case SDL_SCANCODE_L:
-                {
+                {   
+                    cout << "Load [1] Tile File or [2] Regular JSON file:\n";
+                    int type;
+                    cin >> type;
                     cout << "Please enter the relative filepath to the JSON file you want to import:\n";
                     string loadpath;
                     cin >> loadpath;
-                    load(loadpath);
+                    load(loadpath, type);
                     break; 
                 }
             case SDL_SCANCODE_Z:

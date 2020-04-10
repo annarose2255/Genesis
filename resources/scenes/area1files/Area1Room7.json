@@ -1,19 +1,29 @@
-{ "compressionlevel":0,
-       "name": "Room7",
-       "charStart.x": 70, 
-       "charStart.y": 370, 
+{      "room": 7,
+       "charStart":[
+              {
+                     "name": 5, 
+                     "x": 70, 
+                     "y": 370
+              }
+       ],
+       "charEnd": [],
        "transitionPts": [
               {
                     "name": "rm5Greater", 
-                    "x": 16, 
-                    "y": 0
+                    "x": 0, 
+                    "y": 100
               }, 
               {
                     "name": "rm5Less",
-                    "x": 140, 
-                    "y": 14
+                    "x": 12, 
+                    "y": 326
               }
       ],
+       "top": 0.1, 
+       "bottom": -180,
+       "right": -2100,
+       "left": 0,
+       "compressionlevel":0,
        "height":26,
        "infinite":false,
        "layers":[
@@ -330,27 +340,27 @@
               {
                "firstgid":1,
                "source":"..\/Forest Tiles.tsx",
-               "path": "./resources/scenes/area 1 files/imgs/tileset.png"
+               "path": "./resources/scenes/area1files/imgs/tileset.png"
               }, 
               {
                "firstgid":233,
                "source":"..\/frogy.tsx",
-               "path": "./resources/scenes/area 1 files/imgs/frog2.png"
+               "path": "./resources/scenes/area1files/imgs/frog2.png"
               }, 
               {
                "firstgid":234,
                "source":"..\/Rock1.tsx",
-               "path": "./resources/scenes/area 1 files/imgs/Prop_5.png"
+               "path": "./resources/scenes/area1files/imgs/Prop_5.png"
               }, 
               {
                "firstgid":235,
                "source":"..\/bear.tsx",
-               "path": "./resources/scenes/area 1 files/imgs/Pink_Monster.png"
+               "path": "./resources/scenes/area1files/imgs/Pink_Monster.png"
               }, 
               {
                "firstgid":236,
                "source":"..\/ghost.tsx",
-               "path": "./resources/scenes/area 1 files/imgs/Ghost.png"
+               "path": "./resources/scenes/area1files/imgs/Ghost.png"
               }],
        "tilewidth":32,
        "type":"map",

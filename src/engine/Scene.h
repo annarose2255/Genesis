@@ -40,14 +40,18 @@ public:
 	void addEnemy(DisplayObjectContainer* enemy);
 	AnimatedSprite* getCharacter();
 	void setCharacter(AnimatedSprite* chara);
-
+	map<int, SDL_Point> charStart; //where character should spawn in this scene
+	map<int, SDL_Point> charEnd;
+	int top, left, bottom, right;
+	int getSceneNum(); 
 private:
-	map<int, SDL_Texture*> tilesets; //store image file of 
-	map<string, SDL_Point> transitionPts; //store image file of tilesets
+	map<int, SDL_Texture*> tilesets; //store texture of tilesets
+	map<string, SDL_Point> transitionPts;  
 	AnimatedSprite* character;
-	string sceneName;
+	int sceneNum; //tells us what room we're loading
 	vector<DisplayObject*> objects; 
 	vector<DisplayObjectContainer*>enemies; 
+	bool fromTileMap;
 
 	// EventDispatcher* eDispatcher; 
     json parse(auto* obj); //Display Objects

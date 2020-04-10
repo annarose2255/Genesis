@@ -24,7 +24,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
     scene1 = new Scene();
     // scene1->loadScene("./resources/scenes/character.json");
-	scene1->loadTileMap("./resources/scenes/area 1 files/Area 1 - Room 7.json");
+	scene1->loadTileMap("./resources/scenes/area1files/Area1Room7.json");
 	scene1->loadScene("./resources/scenes/char.json");
 	// scene2 = new Scene();
 	// scene2->loadScene("./resources/scenes/solarsystem.json");
@@ -134,21 +134,26 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 		mainMusic->pauseMusic();	
 	}
 
-	//changing position of scene
-	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-		Game::camera->position.x-=5;
+	//changing position of camera
+	if (Game::camera->position.x > currentScene->right) {
+		if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
+			Game::camera->position.x-=5;
+		}
 	}
-	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-		Game::camera->position.x+=5;
-	}
-	//for prev hw
-	//if (Game::camera->position.y-5 > 0) {
+	if (Game::camera->position.x < currentScene->left) {
+		if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
+			Game::camera->position.x+=5;
+		}
+	}	
+	if (Game::camera->position.y > currentScene->bottom) {
 		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
 			Game::camera->position.y-=5;
-		}	
-	//}
-	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-		Game::camera->position.y+=5;
+		}
+	}	
+	if (Game::camera->position.y < currentScene->top) {
+		if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+			Game::camera->position.y+=5;
+		}
 	}
 
 	//character moves separately from scene
@@ -174,8 +179,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 	//updating camera position
     Game::camera->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
-	// cout << "Scene sx " << currentScene->scaleX << endl; 
-	// cout << "Scene sy " << currentScene->scaleY << endl; 
+	cout << "Camera x " << Game::camera->position.x << endl; 
+	cout << "Camera y " << Game::camera->position.y << endl; 
 	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
 	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
 	if( Game::camera->camera.x < 0){
@@ -190,41 +195,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 	if (Game::camera->camera.y > Game::camera->camera.h) {
 		Game::camera->camera.y = Game::camera->camera.h;
 	}
-	//Quest Demo stuff
-	// if (currentScene->objects.size() > 0) {
-	// 	// cout << "objects exist" << endl;
-	// 	if (currentScene->objects.at(0)->visible && isCharInCoin(currentScene->getCharacter(), currentScene->objects.at(0))) {
-	// 		Tween* coinTween = new Tween(currentScene->objects.at(0));
-	// 		TweenableParams gx, gy, gsx, gsy, coinfade;
-	// 		gx.name = "position.x";
-	// 		gy.name = "position.y";
-	// 		gsx.name = "scaleX";
-	// 		gsy.name = "scaleY";
-	// 		coinfade.name = "alpha";
-	// 		cout << "MyGame coin pos x " << currentScene->objects.at(0)->position.x << endl;
-	// 		cout << "MyGame coin pos y " << currentScene->objects.at(0)->position.y << endl;
-	// 		coinTween->animate(gx, currentScene->objects.at(0)->position.x, 600, 5);
-	// 		coinTween->animate(gy, currentScene->objects.at(0)->position.y, 300, 5); 
-	// 		coinTween->animate(gsx, currentScene->objects.at(0)->scaleX, 2, 5);
-	// 		coinTween->animate(gsy, currentScene->objects.at(0)->scaleY, 2, 5);
-	// 		coinTween->animate(coinfade, 255, 0, 5);
-	// 		//need a TweenEvent Listener here to start the coin fade animation
-	// 		//TweenEvent te = new TweenEvent(COLLECTED, coinTween)
-	// 		//eDispatcher->addNewListener(te, COLLECTED);
-	// 		//once the coin is 2x bigger then begin the fade transition
-	// 		// coinTween->animate(coinfade, 255, 0, 5); 
-	// 		tj->add(coinTween);
-	// 		// eDispatcher->removeEventListener(coinlis, PICKUP);
-	// 		// eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
-	// 		// currentScene->addChild(questComplete);
-    // 	}
-	// 	if (!currentScene->objects.at(0)->visible && isOngoing)
-	// 	{
-	// 		// cout << "collected event" << endl;
-	// 		isOngoing = false;
-	// 		// eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
-	// 	}
-	// }
 	// //Change scene 
 	// if ((currentScene == scene1) && (currentScene->getCharacter()->position.y < 70)) {
 	// 		cout << "exited room!" << endl;

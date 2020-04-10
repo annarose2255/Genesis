@@ -24,16 +24,33 @@ void SceneManager::handleEvent(Event* e)
         //Change to start or end of level...store this info as part of class?
         //event should hold info as to whether or not this is changing to the start/end 
             //of a level 
-        character->position.x = 300;
-        character->position.y = 500;
+        // character->position.x = 300;
+        // character->position.y = 500;
 
         Layer* layer = new Layer(); 
         layer->scrollSpeed = 1;
         layer->addChild(character);
         nextScene->addChild(layer);
+        SDL_Point pos;
+        int fromRm = currentS->getSceneNum(); 
+        int toRm = nextScene->getSceneNum(); //room numbers of current level and next level
+        //determine where to spawn character
+        if (fromRm > toRm) { 
+            pos = nextScene->charEnd[currentS->getSceneNum()]; 
+            Game::camera->position.x = nextScene->right;
+            Game::camera->position.y = nextScene->bottom;
+        }
+        else if (fromRm < toRm) {
+            pos = nextScene->charStart[currentS->getSceneNum()];
+            Game::camera->position.x = nextScene->left;
+            Game::camera->position.y = nextScene->bottom;
+        }
+        character->position.x = pos.x; 
+        character->position.y = pos.y;
+        
         nextScene->setCharacter(character);
         //set other enemies 
-        SDL_Point pos = {character->position.x, character->position.y};
+        // SDL_Point pos = {character->position.x, character->position.y};
         prevPos = pos;
         prevS = currentS;
         EventDispatcher* ed = e->getSource();
@@ -44,17 +61,21 @@ void SceneManager::handleEvent(Event* e)
         //Scene Transitions
 		MyGame::currentScene = currentS;       
 		Game::camera->addChild(MyGame::currentScene);
+        //if prevS > currentS 
+        //Game::camera->position.x = prevS->right; 
+        //Game::camera->position.y = prevS->bottom;
+        
         // Tween* prevFade = new Tween(prevS);
         Tween* newFade = new Tween(currentS);
         Tween* charIn = new Tween(currentS->getCharacter());
-        TweenableParams alpha; 
+        TweenableParams alpha, posx, posy; 
         alpha.name = "alpha";
         // prevFade->animate(alpha, 255, 0, 2); 
         newFade->animate(alpha, 0, 255, 3);
-        charIn->animate(alpha, 0, 255, 3);
+
         // MyGame::tj->add(prevFade); 
         MyGame::tj->add(newFade); 
-        MyGame::tj->add(charIn);
+        // MyGame::tj->add(charIn);
 
         // ed->addEventListener(this, CHANGE);
 
@@ -85,7 +106,7 @@ void SceneManager::handleEvent(Event* e)
 
         EventDispatcher* ed = e->getSource();
         // ed->removeEventListener(this, CHANGE);
-        
+    
         prevS = currentS;
         currentS = nextScene;
     }
