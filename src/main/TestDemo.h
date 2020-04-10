@@ -1,5 +1,5 @@
-#ifndef MYGAME_H
-#define MYGAME_H
+#ifndef TESTDEMO_H
+#define TESTDEMO_H
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -20,15 +20,15 @@
 
 using namespace std;
 
-class MyGame : public Game{
+class TestDemo : public Game{
 
 public:
-	MyGame();
-	virtual ~MyGame();
+	TestDemo();
+	virtual ~TestDemo();
 
 	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
 	virtual void draw(AffineTransform &at);
-    static Scene* currentScene;
+    Scene* currentScene;
 
     int viewportWidth = 800;
 	int viewportHeight = 700;
@@ -41,9 +41,6 @@ public:
     TextBox* tBox;
     SelectionMenu* mainMenu;
 
-    static EventDispatcher* eDispatcher;
-    static TweenJuggler* tj;
-
 private:
     Sound* mainMusic;
     
@@ -52,10 +49,11 @@ private:
     Scene* scene2; 
     Scene* scene3;   	
     // Camera* cam;
-    // TweenJuggler* tj;
-    // EventListener* coinlis;
-	// EventListener* myQuestManager;
-    // DisplayObjectContainer *questComplete;
+    TweenJuggler* tj;
+    EventDispatcher* eDispatcher;
+    EventListener* coinlis;
+	EventListener* myQuestManager;
+    DisplayObjectContainer *questComplete;
     SceneManager* sm;
     bool isOngoing = true;
     bool fight = false;

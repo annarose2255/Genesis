@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Sprite.h"
 #include "Scene.h"
-#include "MyGame.h"
+#include "TestDemo.h"
 #include "Camera.h"
 #include "QuestDemo.h"
 #include "QuestManager.h"
@@ -16,16 +16,11 @@
 
 using namespace std;
 
-EventDispatcher* MyGame::eDispatcher = EventDispatcher::getInstance();
-Scene* MyGame::currentScene = new Scene();
-TweenJuggler* MyGame::tj = new TweenJuggler();
-
-MyGame::MyGame() : Game(800, 700) { //rendered space
+TestDemo::TestDemo() : Game(800, 700) { //rendered space
 	instance = this;
     scene1 = new Scene();
     // scene1->loadScene("./resources/scenes/character.json");
-	scene1->loadTileMap("./resources/scenes/area 1 files/Area 1 - Room 7.json");
-	scene1->loadScene("./resources/scenes/char.json");
+	scene1->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx");
 	// scene2 = new Scene();
 	// scene2->loadScene("./resources/scenes/solarsystem.json");
 	// // scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx", true);
@@ -60,6 +55,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	hp->position = { 100, 100 };
     //Sound 
 	mainMusic = new Sound();
+
 	//Change Scene 
 	sm = new SceneManager(currentScene->getCharacter(), currentScene);
 	eDispatcher = EventDispatcher::getInstance();
@@ -72,8 +68,9 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	// myQuestManager = new QuestManager(scene1->objects.at(1));
 	// eDispatcher->addEventListener(coinlis, PICKUP);
 	// eDispatcher->addEventListener(myQuestManager, COLLECTED);
+
 	//Tween
-	// tj = new TweenJuggler();
+	tj = new TweenJuggler();
 	Tween* charTween = new Tween(currentScene->getCharacter());
 	TweenableParams chalpha;
 	chalpha.name = "alpha";
@@ -83,18 +80,13 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	//mimic coin demo
 	tj->add(charTween);
 
-
-
 }
 
-MyGame::~MyGame(){
-	delete currentScene; 
-	delete tj; 
-	delete eDispatcher;
+TestDemo::~TestDemo(){
 }
 
 
-void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
+void TestDemo::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
     mainMenu->update(pressedKeys);
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
@@ -275,12 +267,12 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 	// currentScene->doCam = cam->camera;
 }
 
-void MyGame::draw(AffineTransform &at){
+void TestDemo::draw(AffineTransform &at){
 	Game::draw(at); 
 	SDL_RenderSetViewport(Game::renderer, &Game::camera->camera);
 }
 
-bool MyGame::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
+bool TestDemo::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
     SDL_Point* charPos, charTemp;
     SDL_Rect* cnRect, cnTemp;
     charTemp = {chara->position.x + chara->pivot.x, chara->position.y + chara->pivot.y};

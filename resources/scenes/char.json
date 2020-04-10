@@ -1,5 +1,11 @@
 {
-     "character": {
+    "layer1": {
+        "type": "Layer", 
+        "id": "layer1",
+        "scroll": 1,
+        "filepath": "",
+        "children": {
+            "character": {
                 "type": "AnimatedSprite",
                 "id": "character",
                 "visible": true,
@@ -38,4 +44,6 @@
                     }
                 }
             }
+        }
+    }
 }

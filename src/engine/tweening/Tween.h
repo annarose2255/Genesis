@@ -9,7 +9,7 @@
 #include "TweenableParams.h"
 #include "TweenTransitions.h"
 #include "AnimatedSprite.h"
-#include "Scene.h"
+// #include "Scene.h"
 
 class Tween{ 
 
@@ -26,7 +26,7 @@ public:
 private:
     DisplayObject* object;
     SDL_Texture* tex; 
-    Scene* scene;
+    // Scene* scene;
 	int curFrame = 0;
     int endFrame;
     // TweenableParams param; 
