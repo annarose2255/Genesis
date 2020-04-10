@@ -18,7 +18,8 @@ public:
 	void scale(double x, double y);
 
 	void concatenate(AffineTransform &at);
-
+	void matrixPrint(double** matrix, int rows, int cols);
+	void printAT();
 	double getScaleX();
 	double getScaleY();
 

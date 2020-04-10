@@ -29,8 +29,10 @@ public:
 	virtual DisplayObject* getChild(int index);
 	virtual DisplayObject* getChild(string id);
 
-	virtual void update(set<SDL_Scancode> pressedKeys);
+	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
 	virtual void draw(AffineTransform &at);
+	virtual void setScrollSpeed(double speed);
+	double scrollSpeed;
 
 	vector<DisplayObject*> children;
 private:

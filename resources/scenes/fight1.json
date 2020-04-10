@@ -1,0 +1,27 @@
+{
+    "layer1":{
+        "type": "Layer", 
+        "id": "layer1",
+        "scroll": 0.5,
+        "filepath": "",
+        "children": {
+            "mountain": {
+                "type": "DisplayObject", 
+                "id": "mountain",
+                "visible": true,
+                "position.x": 300, 
+                "position.y": 806, 
+                "width": 950,
+                "height": 256, 
+                "pivot.x": 15, 
+                "pivot.y": 15,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "rotation": 0.0,
+                "alpha": 255,
+                "facingRight": true,
+                "filepath": "./resources/Mountains/Layer 4 anim1.png"
+            }
+        }
+    }
+}

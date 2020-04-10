@@ -1,0 +1,53 @@
+{
+    "layer1":{
+        "type": "Layer", 
+        "id": "layer1",
+        "scroll": 0.5,
+        "filepath": "",
+        "children": {
+            "mountain": {
+                "type": "DisplayObject", 
+                "id": "mountain",
+                "visible": true,
+                "position.x": 300, 
+                "position.y": 806, 
+                "width": 950,
+                "height": 256, 
+                "pivot.x": 15, 
+                "pivot.y": 15,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "rotation": 0.0,
+                "alpha": 255,
+                "facingRight": true,
+                "filepath": "./resources/Mountains/Layer 3 anim1.png"
+            }
+        }
+    }, 
+    "layer2":{
+        "type": "Layer", 
+        "id": "layer2",
+        "scroll": 0.5,
+        "filepath": "",
+        "children": {
+            "bonus": {
+                "type": "DisplayObjectContainer", 
+                "id": "bonus",
+                "visible": true,
+                "position.x": 1000, 
+                "position.y": 506, 
+                "width": 100,
+                "height": 100, 
+                "pivot.x": 15, 
+                "pivot.y": 15,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "rotation": 0.0,
+                "alpha": 255,
+                "facingRight": true,
+                "filepath": "./resources/scenes/area 1 files/imgs/Bonus_1_3.png"
+            }
+        }
+    }
+    
+}

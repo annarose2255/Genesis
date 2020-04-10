@@ -1,0 +1,14 @@
+{ "columns":1,
+ "image":"..\/..\/Downloads\/3610abde09d13c15915f23a6fda4ab310316cd28\/Toady - Free Character\/Toady\/Sidescroller\/Idle\/Toady_Idle0026.png",
+ "imageheight":90,
+ "imagewidth":90,
+ "margin":0,
+ "name":"boss1",
+ "spacing":0,
+ "tilecount":1,
+ "tiledversion":"1.3.2",
+ "tileheight":90,
+ "tilewidth":90,
+ "type":"tileset",
+ "version":1.2
+}
