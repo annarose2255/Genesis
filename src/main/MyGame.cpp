@@ -19,12 +19,15 @@ using namespace std;
 EventDispatcher* MyGame::eDispatcher = EventDispatcher::getInstance();
 Scene* MyGame::currentScene = new Scene();
 TweenJuggler* MyGame::tj = new TweenJuggler();
+CollisionSystem* MyGame::collisionSystem = new CollisionSystem();
 
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
+	eDispatcher->addEventListener(collisionSystem, DO_ADDED_EVENT);
     scene1 = new Scene();
     // scene1->loadScene("./resources/scenes/character.json");
 	scene1->loadTileMap("./resources/scenes/area1files/Area1Room7.json");
+	// scene1->loadScene("./resources/scenes/Room7.json");
 	scene1->loadScene("./resources/scenes/char.json");
 	// scene2 = new Scene();
 	// scene2->loadScene("./resources/scenes/solarsystem.json");
@@ -64,14 +67,9 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	sm = new SceneManager(currentScene->getCharacter(), currentScene);
 	eDispatcher = EventDispatcher::getInstance();
 	eDispatcher->addEventListener(sm, CHANGE);
-	//QuestDemo
-	// eDispatcher = new EventDispatcher();
-	// // cout << "up to dispatcher" << endl;
-	// coinlis = new CoinListener(scene1->getCharacter(), scene1->objects.at(0));
-	// // cout << "we good" << endl;
-	// myQuestManager = new QuestManager(scene1->objects.at(1));
-	// eDispatcher->addEventListener(coinlis, PICKUP);
-	// eDispatcher->addEventListener(myQuestManager, COLLECTED);
+	//Collision Detection 
+	collisionSystem->watchForCollisions("character", "platform"); 
+	// collisionSystem->watchForCollisions("character", "enemy");
 	//Tween
 	// tj = new TweenJuggler();
 	Tween* charTween = new Tween(currentScene->getCharacter());
@@ -158,18 +156,22 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 
 	//character moves separately from scene
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
+		currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
 		currentScene->getCharacter()->position.y -=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
+		currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
 		currentScene->getCharacter()->position.y +=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 		currentScene->getCharacter()->facingRight = false;
+		currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
 		currentScene->getCharacter()->position.x -=2;
 			// currentScene->position.x+=2; //comment out to just move sprite
 	}
 	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
 		currentScene->getCharacter()->facingRight = true;
+		currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
 		currentScene->getCharacter()->position.x +=2; 
 			// currentScene->position.x-=2; //comment out to just move sprite
 	}
@@ -240,6 +242,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 	// }
 	//sm->handleEvent(CHANGE);
 	tj->nextFrame(); 
+	collisionSystem->update();
 	// cout << "Char alpha " << currentScene->getCharacter()->alpha << endl;
 	Game::update(pressedKeys, controllerInput);
 	// currentScene->doCam = cam->camera;

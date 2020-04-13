@@ -93,17 +93,17 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 cur_gid -= tset_gid;
                 int ts_width = 0;
                 int ts_height = 0;
-                cout << "tset_gid " << this->tilesets[233] << endl;
+                // cout << "tset_gid " << this->tilesets[233] << endl;
                 SDL_QueryTexture(this->tilesets[tset_gid],
                     NULL, NULL, &ts_width, &ts_height);
                 //calculate area to draw on
-                cout << "cur_gid " << cur_gid << endl;
-                cout << "ts_width " << ts_width << endl; 
-                cout << "tile_width " << tile_width << endl;
+                // cout << "cur_gid " << cur_gid << endl;
+                // cout << "ts_width " << ts_width << endl; 
+                // cout << "tile_width " << tile_width << endl;
                 double region_x = (cur_gid % (ts_width / tile_width)) * tile_width;
-                cout << "after region x" << endl;
+                // cout << "after region x" << endl;
                 double region_y = (cur_gid / (ts_width / tile_height)) * tile_height;
-                cout << "after region y" << endl;
+                // cout << "after region y" << endl;
                 //calculate world position of tile
                 int x_pos = x * tile_width;
                 int y_pos = y * tile_height;
@@ -121,6 +121,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 //if part of the tiled platform, render a specific region instead of whole thing
                 //will remove later if not rendering objects other than the tiled platform
                 if (1 <= cur_gid && cur_gid <= 232) {
+                    temp->gameType = "platform";
                     temp->srcrect.x = region_x; 
                     temp->srcrect.y = region_y; 
                     temp->srcrect.w = tile_width; 
@@ -292,6 +293,7 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
     newDOC->visible = data["visible"];
     newDOC->position.x = data["position.x"];
     newDOC->position.y = data["position.y"];
+    newDOC->gameType = data["gameType"];
     newDOC->width = data["width"];
     newDOC->height = data["height"];
     newDOC->pivot.x = data["pivot.x"];
@@ -301,6 +303,7 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
     newDOC->rotation = data["rotation"];
     newDOC->alpha = data["alpha"];
     newDOC->facingRight = data["facingRight"];
+    newDOC->gameType = data["gameType"];
     if(data["filepath"] != "") {
         newDOC->imgPath = data["filepath"];
         newDOC->loadTexture(data["filepath"]);
@@ -362,7 +365,6 @@ Layer* Scene::makeLayer(json data) {
         if(childData["type"] == "AnimatedSprite") {
             AnimatedSprite* newAS = makeAnimatedSprite(childData); //possibly use root var
             newLayer->addChild(newAS);
-            this->character = newAS;
         }
     }
     // cout << "children of newLayer " << newLayer->children.size() << endl;
@@ -424,7 +426,10 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     newAS->facingRight = data["facingRight"];
     newAS->srcrect.x = 0;
     newAS->srcrect.y = 0;
-    
+    newAS->gameType = data["gameType"];
+    if (data["gameType"] == "character") {
+        this->character = newAS;
+    }
     string anim = data["animations"]["0"]["name"];
     // Animations
     for(auto& [key, value] : data["animations"].items()) {

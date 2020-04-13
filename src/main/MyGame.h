@@ -14,6 +14,7 @@
 #include "EventDispatcher.h"
 #include "SceneManager.h"
 #include "TweenJuggler.h"
+#include "CollisionSystem.h"
 #include "HealthBar.h"
 #include "TextBox.h"
 #include "SelectionMenu.h"
@@ -43,6 +44,7 @@ public:
 
     static EventDispatcher* eDispatcher;
     static TweenJuggler* tj;
+    static CollisionSystem* collisionSystem; 
 
 private:
     Sound* mainMusic;

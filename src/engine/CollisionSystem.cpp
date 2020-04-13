@@ -24,6 +24,8 @@ void CollisionSystem::update(){
 			for (auto doType2=typeMap.at(pair->second).begin(); doType2 != typeMap.at(pair->second).end(); ++doType2) {
 				if (collidesWith(*doType1, *doType2)){
 					cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
+					(*doType1)->onCollision(*doType2); 
+					(*doType2)->onCollision(*doType1);
 				}
 			}
 		}
@@ -119,7 +121,41 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 //xDelta1 and yDelta1 are the amount d moved before causing the collision.
 //xDelta2 and yDelta2 are the amount other moved before causing the collision.
 void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
-
+	//if mvmt > 0, then DO that moved position - mvmt, change back to old position
+	//checking that object moved 
+	// if (xDelta1 != 0){
+	// 	//check positive or negative 
+	// 	if (xDelta1 > 0) {
+	// 		d->position.x -= xDelta1;
+	// 	}
+	// 	else if (xDelta1 < 0) {
+	// 		d->position.x += xDelta1;
+	// 	}
+	// }
+	// else if (yDelta1 != 0){
+	// 	if (yDelta1 > 0) {
+	// 		d->position.y -= yDelta1;
+	// 	}
+	// 	else if (yDelta1 < 0) {
+	// 		d->position.y += yDelta1;
+	// 	}
+	// }
+	// else if (xDelta2 != 0){
+	// 	if (xDelta2 > 0) {
+	// 		other->position.x -= xDelta2;
+	// 	}
+	// 	else if (xDelta2 < 0) {
+	// 		other->position.x += xDelta2;
+	// 	}
+	// }
+	// else if (yDelta2 != 0){
+	// 	if (yDelta2 > 0) {
+	// 		other->position.y -= yDelta2;
+	// 	}
+	// 	else if (yDelta2 < 0) {
+	// 		other->position.y += yDelta2;
+	// 	}
+	// }
 }
 
 

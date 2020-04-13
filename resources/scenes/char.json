@@ -8,9 +8,10 @@
             "character": {
                 "type": "AnimatedSprite",
                 "id": "character",
+                "gameType": "character",
                 "visible": true,
                 "position.x": 70,
-                "position.y": 370,
+                "position.y": 300,
                 "width": 100,
                 "height": 100, 
                 "pivot.x": 50, 
