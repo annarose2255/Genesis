@@ -107,33 +107,38 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 //calculate world position of tile
                 int x_pos = x * tile_width;
                 int y_pos = y * tile_height;
-                DisplayObject* temp = new DisplayObject();
-                temp->setTexture(tilesets[tset_gid]);
-                temp->position.x = x_pos; 
-                temp->position.y = y_pos; 
-                temp->width = tile_width; 
-                temp->height = tile_height; 
-                temp->visible = true;
-                temp->scaleX = 1;
-                temp->scaleY = 1;
-                temp->alpha = 255;
-                temp->facingRight = true;
                 //if part of the tiled platform, render a specific region instead of whole thing
                 //will remove later if not rendering objects other than the tiled platform
                 if (1 <= cur_gid && cur_gid <= 232) {
-                    temp->gameType = "platform";
+                    DisplayObject* temp = new DisplayObject();
+                    temp->setTexture(tilesets[tset_gid]);
+                    temp->position.x = x_pos; 
+                    temp->position.y = y_pos; 
+                    temp->width = tile_width; 
+                    temp->height = tile_height; 
+                    temp->visible = true;
+                    temp->scaleX = 1;
+                    temp->scaleY = 1;
+                    temp->alpha = 255;
+                    temp->facingRight = true;
+                    if (cur_gid > 130) {
+                        temp->gameType = "platform";
+                    }
+                    else {
+                        temp->gameType = "grass";
+                    }
                     temp->srcrect.x = region_x; 
                     temp->srcrect.y = region_y; 
                     temp->srcrect.w = tile_width; 
                     temp->srcrect.h = tile_height;  
                     temp->tile = true;
+                    newLayer->addChild(temp);
                 }
-                else {
-                    temp->srcrect.x = 0; 
-                    temp->srcrect.y = 0; 
-                }
+                // else {
+                //     temp->srcrect.x = 0; 
+                //     temp->srcrect.y = 0; 
+                // }
                 //can only append to the same vector...no easy way to check if adding an enemy or object..
-                newLayer->addChild(temp);
             }
          }
     }
@@ -461,14 +466,14 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
 }
 
 void Scene::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput) {
-    if (this->sceneNum == 7 && 
-       ( this->character->position.y > this->transitionPts["rm5Greater"].y && 
-        (this->character->position.x > this->transitionPts["rm5Greater"].x && this->character->position.x < this->transitionPts["rm5Less"].x)))
-    {
-        //call change scene event
-        MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
-            "./resources/scenes/area1files/Area1Room5.json"));
-    } 
+    // if (this->sceneNum == 7 && 
+    //    ( this->character->position.y > this->transitionPts["rm5Greater"].y && 
+    //     (this->character->position.x > this->transitionPts["rm5Greater"].x && this->character->position.x < this->transitionPts["rm5Less"].x)))
+    // {
+    //     //call change scene event
+    //     MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
+    //         "./resources/scenes/area1files/Area1Room5.json"));
+    // } 
     DisplayObjectContainer::update(pressedKeys, controllerInput);
 }
 

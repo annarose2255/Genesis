@@ -122,40 +122,24 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 //xDelta2 and yDelta2 are the amount other moved before causing the collision.
 void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
 	//if mvmt > 0, then DO that moved position - mvmt, change back to old position
-	//checking that object moved 
-	// if (xDelta1 != 0){
-	// 	//check positive or negative 
-	// 	if (xDelta1 > 0) {
-	// 		d->position.x -= xDelta1;
-	// 	}
-	// 	else if (xDelta1 < 0) {
-	// 		d->position.x += xDelta1;
-	// 	}
-	// }
-	// else if (yDelta1 != 0){
-	// 	if (yDelta1 > 0) {
-	// 		d->position.y -= yDelta1;
-	// 	}
-	// 	else if (yDelta1 < 0) {
-	// 		d->position.y += yDelta1;
-	// 	}
-	// }
-	// else if (xDelta2 != 0){
-	// 	if (xDelta2 > 0) {
-	// 		other->position.x -= xDelta2;
-	// 	}
-	// 	else if (xDelta2 < 0) {
-	// 		other->position.x += xDelta2;
-	// 	}
-	// }
-	// else if (yDelta2 != 0){
-	// 	if (yDelta2 > 0) {
-	// 		other->position.y -= yDelta2;
-	// 	}
-	// 	else if (yDelta2 < 0) {
-	// 		other->position.y += yDelta2;
-	// 	}
-	// }
+	//checking that object moved 	
+
+	d->position.x -= xDelta1; 
+	bool yCol = collidesWith(d, other); 
+	d->position.x += xDelta1; d->position.y -= yDelta1; 
+	bool xCol = collidesWith(d, other); 
+	d->position.y += yDelta1;
+
+	if (xCol) {
+		d->position.x -=xDelta1; 
+	}
+	if (yCol) {
+		d->position.y -=yDelta1; 
+	}
+	if (!xCol && !yCol) {
+		d->position.x -= xDelta1; d->position.y -= yDelta1; 
+	}
+
 }
 
 

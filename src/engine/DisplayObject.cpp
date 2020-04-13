@@ -205,8 +205,8 @@ HitboxPoints DisplayObject::getHitboxPts() {
 	AffineTransform gt = *this->globalTransform();
 	HitboxPoints pts;
 	// width and height are hardcoded to 100 for some reason
-	// this->hitbox.width = width;
-	// this->hitbox.height = height;
+	this->hitbox.width = width;
+	this->hitbox.height = height;
 	pts.topLeft = gt.transformPoint(this->hitbox.origin.x, this->hitbox.origin.y);
 	pts.topRight = gt.transformPoint(this->hitbox.origin.x + this->hitbox.width, this->hitbox.origin.y);
 	pts.bottomLeft = gt.transformPoint(this->hitbox.origin.x, this->hitbox.origin.y + this->hitbox.height);
