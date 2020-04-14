@@ -1,4 +1,24 @@
-{      "room": 7,
+{      
+       "Layer": {
+              "facingRight": true,
+              "filepath": "",
+              "height": 100,
+              "id": "Layer 1",
+              "pivot.x": 0,
+              "pivot.y": 0,
+              "position.x": 0,
+              "position.y": 0,
+              "rotation": 0.0,
+              "scaleX": 1.0,
+              "scaleY": 1.0,
+              "type": "Layer",
+              "scroll": 1.0,
+              "visible": true,
+              "width": 100, 
+              "alpha": 255,
+              "children": {}   
+       },
+       "room": 7,
        "charStart":[
               {
                      "name": 5, 

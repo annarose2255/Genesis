@@ -298,6 +298,7 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
     newDOC->visible = data["visible"];
     newDOC->position.x = data["position.x"];
     newDOC->position.y = data["position.y"];
+    cout << data["id"] << endl;
     newDOC->gameType = data["gameType"];
     newDOC->width = data["width"];
     newDOC->height = data["height"];
@@ -416,6 +417,9 @@ Sprite* Scene::makeSprite(json data) {
 }
 
 AnimatedSprite* Scene::makeAnimatedSprite(json data) {
+    //make from spritesheet 
+    //AnimatedSprite* newAS = new AnimatedSprite(data["id"], data["filepath"], data["xmlpath"]);
+    
     AnimatedSprite* newAS = new AnimatedSprite(data["id"]);
     newAS->visible = data["visible"];
     newAS->position.x = data["position.x"];

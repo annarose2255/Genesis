@@ -138,13 +138,16 @@ DisplayObjectContainer *DevTool::sceneClickHelper(DisplayObjectContainer *parent
     delete gt;
     cout << "transformed point: " << newPoint.x << "," << newPoint.y <<endl;
     DisplayObjectContainer *ret = NULL;
-    for (DisplayObject *objChildren : parent->children)
-    {
-        ret = sceneClickHelper((DisplayObjectContainer *)objChildren, newPoint.x, newPoint.y);
-        if (ret)
+    // cout << "Parent id " << parent->id << endl;
+    if (parent->type != "DisplayObject") {
+        for (DisplayObject *objChildren : parent->children)
         {
-            cout << "returning" << endl;
-            return ret;
+            ret = sceneClickHelper((DisplayObjectContainer *)objChildren, newPoint.x, newPoint.y);
+            if (ret)
+            {
+                cout << "returning" << endl;
+                return ret;
+            }
         }
     }
     cout << "returning null" << endl;

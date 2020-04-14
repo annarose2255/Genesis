@@ -29,11 +29,11 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	scene1->loadTileMap("./resources/scenes/area1files/Area1Room7.json");
 	// scene1->loadScene("./resources/scenes/Room7.json");
 	scene1->loadScene("./resources/scenes/char.json");
-	// scene2 = new Scene();
-	// scene2->loadScene("./resources/scenes/solarsystem.json");
-	// // scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx", true);
-	// scene3 = new Scene();
-	// scene3->loadScene("./resources/scenes/fight1.json");
+	AnimatedSprite* chara = new AnimatedSprite("chara", "./resources/ghostchar/idle.png", "./resources/ghostchar/idle.xml");
+	chara->play("idle");
+    chara->position = {70, 200};
+	Game::camera->addChild(chara);
+	
     change = true;
     currentScene = scene1;
 
@@ -181,10 +181,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 	//updating camera position
     Game::camera->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
-	cout << "Camera x " << Game::camera->position.x << endl; 
-	cout << "Camera y " << Game::camera->position.y << endl; 
-	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
-	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
+	// cout << "Camera x " << Game::camera->position.x << endl; 
+	// cout << "Camera y " << Game::camera->position.y << endl; 
+	cout << "Character x " << currentScene->getCharacter()->position.x << endl;
+	cout << "Character y " << currentScene->getCharacter()->position.y << endl;
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}
