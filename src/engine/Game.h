@@ -34,10 +34,11 @@ public:
 	virtual ~Game();
 	virtual void start();
 
-	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons);
+	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
 	set<SDL_Scancode> pressedKeys;
 	set<SDL_GameControllerButton> pressedButtons;
+	set<pair<SDL_GameControllerAxis, float>> movedAxis;
 	SDL_GameController* controller;
 	ControllerManager* controllerManager;
 

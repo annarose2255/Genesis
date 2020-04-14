@@ -420,8 +420,8 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     return newAS;
 }
 
-void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons) {
-    DisplayObjectContainer::update(pressedKeys, pressedButtons);
+void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
+    DisplayObjectContainer::update(pressedKeys, pressedButtons, movedAxis);
 }
 
 void Scene::draw(AffineTransform &at) {

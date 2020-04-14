@@ -65,7 +65,7 @@ MyGame::~MyGame(){
 }
 
 
-void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons){
+void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
     
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
@@ -192,7 +192,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	// 		eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
 	// 	}
 	// }
-	Game::update(pressedKeys, pressedButtons);
+	Game::update(pressedKeys, pressedButtons, movedAxis);
 	// currentScene->doCam = cam->camera;
 }
 

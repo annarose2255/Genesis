@@ -66,7 +66,7 @@ void DisplayObject::setTexture(SDL_Texture* t){
 	this->curTexture = t;
 }
 
-void DisplayObject::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons){
+void DisplayObject::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
 	
 }
 

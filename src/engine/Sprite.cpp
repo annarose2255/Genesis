@@ -14,8 +14,8 @@ Sprite::Sprite(string id, int red, int green, int blue) : DisplayObjectContainer
     this->type = "Sprite";
 }
 
-void Sprite::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons) {
-    DisplayObjectContainer::update(pressedKeys, pressedButtons);
+void Sprite::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
+    DisplayObjectContainer::update(pressedKeys, pressedButtons, movedAxis);
 }
 
 

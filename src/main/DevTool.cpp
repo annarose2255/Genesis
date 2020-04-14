@@ -157,7 +157,7 @@ void DevTool::start(){
 		double duration = (( end - start ) / (double) CLOCKS_PER_SEC)*1000;
 		if(duration > ms_per_frame){
 			start = end;
-			this->update(pressedKeys, pressedButtons);
+			this->update(pressedKeys, pressedButtons, movedAxis);
 			AffineTransform at;
             // cout << "before draw" << endl;
 			this->draw(at);
@@ -298,7 +298,7 @@ void DevTool::paste()
         tileSnap(temp);
     }
 }
-void DevTool::update(set<SDL_Scancode> pressedKeys,  set<SDL_GameControllerButton> pressedButtons){
+void DevTool::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
 
     // Read keyboard inputs
 
@@ -569,7 +569,7 @@ void DevTool::update(set<SDL_Scancode> pressedKeys,  set<SDL_GameControllerButto
     //     instance->addChild(currentScene);
     //     change = !change;
     // }
-	Game::update(pressedKeys, pressedButtons);
+	Game::update(pressedKeys, pressedButtons, movedAxis);
 }
 
 void DevTool::draw(AffineTransform &at){ //have to remove selection box before saving then add it back in after

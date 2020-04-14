@@ -51,7 +51,7 @@ SheetDemo::~SheetDemo(){
 }
 
 
-void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons){
+void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
     // character->play("Idle");
 	if (pressedButtons.find(SDL_CONTROLLER_BUTTON_X) != pressedButtons.end() && pressedButtons.find(SDL_CONTROLLER_BUTTON_Y) != pressedButtons.end()){
 		//cout << "SOMETHING IS VERY WRONG" << endl;
@@ -81,6 +81,8 @@ void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButt
 		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_X) != pressedButtons.end()) ||
 		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_DPAD_LEFT) != pressedButtons.end()) ) {
 		//cout << "LEFT" << endl;
+		// cout << "printing X" << endl;
+		// cout << SDL_CONTROLLER_BUTTON_X << endl;
 		character->position.x -= 3;
         if (!left){
             // character->scaleY = -1 * character->scaleX;
@@ -111,6 +113,8 @@ void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButt
 	if ( (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) || 
 		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_Y) != pressedButtons.end()) ||
 		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_DPAD_UP) != pressedButtons.end()) ) {
+		// cout << "printing Y" << endl;
+		// cout << SDL_CONTROLLER_BUTTON_Y << endl;
 			 
 		//cout << "UP" << endl;
 		character->position.y -= 3;
@@ -128,6 +132,13 @@ void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButt
 	if (pressedButtons.find(SDL_CONTROLLER_BUTTON_START) != pressedButtons.end()){
 		controllerManager->rumbleController(0.7, 300);
 	}
+	// axis logic
+	for (auto axis = movedAxis.begin(); axis != movedAxis.end(); axis++){
+		if (axis->first == SDL_CONTROLLER_AXIS_TRIGGERLEFT){
+			cout << axis->second << endl;
+		}
+	}
+
     if (coin->visible && isCharInCoin(character, coin)) { 
         eDispatcher->dispatchEvent(new Event(PICKUP, EventDispatcher::getInstance()));
         allSprites->removeImmediateChild(coin);
@@ -138,7 +149,7 @@ void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButt
 		isOngoing = false;
         eDispatcher->dispatchEvent(new Event(COLLECTED, EventDispatcher::getInstance()));
 	}
-	Game::update(pressedKeys, pressedButtons);
+	Game::update(pressedKeys, pressedButtons, movedAxis);
 }
 
 void SheetDemo::draw(AffineTransform &at){

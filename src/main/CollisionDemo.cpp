@@ -43,7 +43,7 @@ CollisionDemo::~CollisionDemo(){
 }
 
 
-void CollisionDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons){
+void CollisionDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
 	
 	// all sprites movement
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
@@ -148,7 +148,7 @@ void CollisionDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 	// }
 	collisionSystem->update();
 
-	Game::update(pressedKeys, pressedButtons);
+	Game::update(pressedKeys, pressedButtons, movedAxis);
 }
 
 void CollisionDemo::draw(AffineTransform &at){

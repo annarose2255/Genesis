@@ -91,7 +91,7 @@ void Game::start(){
 		double duration = (( end - start ) / (double) CLOCKS_PER_SEC)*1000;
 		if(duration > ms_per_frame){
 			start = end;
-			this->update(pressedKeys, pressedButtons);
+			this->update(pressedKeys, pressedButtons, movedAxis);
 			AffineTransform at;
 			// SDL_Rect camera; 
 			this->draw(at);
@@ -114,36 +114,46 @@ void Game::start(){
 				pressedKeys.erase(event.key.keysym.scancode);
 				break;
 			// button events
-			case SDL_JOYAXISMOTION:
-				// if ((event.jaxis.value < -3200) || (event.jaxis.value > 3200)) {
-				// 	if( event.jaxis.axis == 0) 
-				// 	{
-				// 		if (event.jaxis.value < -3200){
-				// 			pressedButtons.insert(SDL_CONTROLLER_BUTTON_DPAD_LEFT);
-				// 		}
-						
-				// 	}
+			case SDL_CONTROLLERAXISMOTION: {
+				SDL_GameControllerAxis axis = (SDL_GameControllerAxis) event.caxis.axis;
+				float value = event.caxis.value;
+				// nomalize value based on type
+				switch (axis) {
+					case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
+						value = value / 32767;
+						break;
+				}
 
-				// 	if( event.jaxis.axis == 1) 
-				// 	{
-				// 		/* Up-Down movement code goes here */
-				// 	}
-				// }
+				bool changed = false;
+				for (auto i = movedAxis.begin(); i != movedAxis.end();){
+					// if axis is already in set
+					if (i->first == axis){
+						// remove old value
+						movedAxis.erase(i);
+						// only add back if value isn't 0
+						if (value != 0){
+							movedAxis.emplace(axis, value);
+						}
+						// breaks loop
+						changed = true;
+						break;
+					}
+				}
+				// if not already in set add if not zero
+				if (!changed && value != 0){
+					movedAxis.emplace(axis, value);
+				}
 				break;
-			case SDL_JOYBUTTONDOWN:
-				//cout << "JOYDOWN IS TRIGGERED" << endl;
-				pressedButtons.insert((SDL_GameControllerButton) event.jbutton.button);
-				break;
-			case SDL_JOYBUTTONUP:
-				pressedButtons.erase((SDL_GameControllerButton) event.jbutton.button);
-				break;
-			case SDL_CONTROLLERAXISMOTION:
-				break;
+				}
 			case SDL_CONTROLLERBUTTONDOWN:
 				//cout << "CONTROLLER down has been triggered" << endl;
+				cout << "INSERTING: " << endl;
+				cout << (SDL_GameControllerButton) event.cbutton.button << endl;
 				pressedButtons.insert((SDL_GameControllerButton) event.cbutton.button);
 				break;
 			case SDL_CONTROLLERBUTTONUP:
+				cout << "REMOVING: " << endl;
+				cout << (SDL_GameControllerButton) event.cbutton.button << endl;
 				pressedButtons.erase((SDL_GameControllerButton) event.cbutton.button);
 				break;
 			// device events
@@ -159,9 +169,9 @@ void Game::start(){
 	}
 }
 
-void Game::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons){
+void Game::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
 	frameCounter++;
-	DisplayObjectContainer::update(pressedKeys, pressedButtons);
+	DisplayObjectContainer::update(pressedKeys, pressedButtons, movedAxis);
 }
 
 

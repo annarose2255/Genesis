@@ -4,8 +4,8 @@
 Layer::Layer() {
 
 }
-void Layer::update(set<SDL_Scancode> pressedKeys,  set<SDL_GameControllerButton> pressedButtons) {
-    DisplayObjectContainer::update(pressedKeys, pressedButtons);
+void Layer::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
+    DisplayObjectContainer::update(pressedKeys, pressedButtons, movedAxis);
 }
 
 void Layer::draw(AffineTransform &at) {

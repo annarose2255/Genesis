@@ -49,7 +49,7 @@ public:
 	DisplayObject(string id, int red, int green, int blue);
 	virtual ~DisplayObject();
 	
-	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons);
+	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
 
 	SDL_Rect doCam; //camera for display object

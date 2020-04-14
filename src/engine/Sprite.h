@@ -13,7 +13,7 @@ public:
 	Sprite(string id, string filepath);
 	Sprite(string id, int red, int green, int blue);
 
-	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons);
+	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
 
 private:
