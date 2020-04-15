@@ -1,8 +1,12 @@
 #include "DisplayObject.h"
+// #include "EventDispatcher.h"
+// #include "Event.h"
+// #include "DisplayObjectEvent.h"
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "Game.h"
+#include "MyGame.h"
 #include <iostream>
 #include <algorithm>
 #include <cmath>
@@ -15,8 +19,12 @@ DisplayObject::DisplayObject(){
 	curTexture = NULL;
 	pos2.x = position.x; 
 	pos2.y = position.y;
+	 
 	// cam = new Camera();
 	this->setScrollSpeed(1.0);
+	// DisplayObjectEvent* e = new DisplayObjectEvent(DO_ADDED_EVENT, EventDispatcher::getInstance(), this);
+    // EventDispatcher::getInstance()->dispatchEvent(e);
+
 }
 
 DisplayObject::DisplayObject(string id, string filepath){
@@ -24,6 +32,8 @@ DisplayObject::DisplayObject(string id, string filepath){
 	this->imgPath = filepath;
 	loadTexture(filepath);
 	this->setScrollSpeed(1.0);
+	// DisplayObjectEvent* e = new DisplayObjectEvent(DO_ADDED_EVENT, EventDispatcher::getInstance(), this);
+    // EventDispatcher::getInstance()->dispatchEvent(e);
 }
 
 DisplayObject::DisplayObject(string id, int red, int green, int blue){
@@ -139,7 +149,15 @@ void DisplayObject::draw(AffineTransform &at){
 	reverseTransformations(at);
 	
 }
-
+//checks type of collision and resolves it accordingly
+void DisplayObject::onCollision(DisplayObject* other){
+	cout << "inside onCollision!" << endl;
+	if (other->gameType == "platform") {
+		cout << "collided with a platform!" << endl;
+		MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
+			0, 0);
+	}
+}
 void DisplayObject::applyTransformations(AffineTransform &at) {
 	at.translate(position.x, position.y);
 	at.rotate(rotation);
@@ -187,8 +205,8 @@ HitboxPoints DisplayObject::getHitboxPts() {
 	AffineTransform gt = *this->globalTransform();
 	HitboxPoints pts;
 	// width and height are hardcoded to 100 for some reason
-	// this->hitbox.width = width;
-	// this->hitbox.height = height;
+	this->hitbox.width = width;
+	this->hitbox.height = height;
 	pts.topLeft = gt.transformPoint(this->hitbox.origin.x, this->hitbox.origin.y);
 	pts.topRight = gt.transformPoint(this->hitbox.origin.x + this->hitbox.width, this->hitbox.origin.y);
 	pts.bottomLeft = gt.transformPoint(this->hitbox.origin.x, this->hitbox.origin.y + this->hitbox.height);

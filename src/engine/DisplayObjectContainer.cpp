@@ -56,6 +56,7 @@ void DisplayObjectContainer::removeImmediateChild(DisplayObject* child) {
 
 void DisplayObjectContainer::removeImmediateChild(string id) {
     for (int i = 0; i < children.size(); i++) {
+        cout << "Children id " << children[i]->id << endl;
         if (children[i]->id == id) {
             // delete the child
             //delete children[i];

@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Sprite.h"
 #include "Scene.h"
-#include "MyGame.h"
+#include "TestDemo.h"
 #include "Camera.h"
 #include "QuestDemo.h"
 #include "QuestManager.h"
@@ -16,27 +16,16 @@
 
 using namespace std;
 
-EventDispatcher* MyGame::eDispatcher = EventDispatcher::getInstance();
-Scene* MyGame::currentScene = new Scene();
-TweenJuggler* MyGame::tj = new TweenJuggler();
-CollisionSystem* MyGame::collisionSystem = new CollisionSystem();
-
-MyGame::MyGame() : Game(800, 700) { //rendered space
+TestDemo::TestDemo() : Game(800, 700) { //rendered space
 	instance = this;
-	eDispatcher->addEventListener(collisionSystem, DO_ADDED_EVENT);
     scene1 = new Scene();
     // scene1->loadScene("./resources/scenes/character.json");
-	scene1->loadTileMap("./resources/scenes/area1files/Area1Room7.json");
-	// scene1->loadScene("./resources/scenes/Room7.json");
-	// scene1->loadScene("./resources/scenes/char.json");
-	scene1->loadScene("./resources/scenes/ghostchar.json");
-	//test playable char
-	// AnimatedSprite* chara = new AnimatedSprite("chara"); 
-	// chara->addSSAnimation("./resources/ghostchar/idle.png", "./resources/ghostchar/idle.xml");
-	// chara->play("Idle");
-    // chara->position = {70, 200};
-	// Game::camera->addChild(chara);
-	
+	scene1->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 7.tmx");
+	// scene2 = new Scene();
+	// scene2->loadScene("./resources/scenes/solarsystem.json");
+	// // scene2->loadTileMap("./resources/scenes/area 1 files/tsx files/Area 1 - Room 5.tmx", true);
+	// scene3 = new Scene();
+	// scene3->loadScene("./resources/scenes/fight1.json");
     change = true;
     currentScene = scene1;
 
@@ -44,23 +33,16 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     hp = new HealthBar(0, 100, 0);
     tBox = new TextBox();
     tBox->setText("Hello World !");
-    tBox->visible = false;
 
     mainMenu = new SelectionMenu();
     MenuItem* items = new MenuItem("Items", 0, 0);
     MenuItem* save = new MenuItem("Save", 250, 0);
     MenuItem* settings = new MenuItem("Settings", 500, 0);
-
-    itemsMenu = new SelectionMenu();
-    MenuItem* healthPotion = new MenuItem("Health Potion", 0, 0);
-    items->nextMenu = itemsMenu;
-
     mainMenu->addItem(items);
     mainMenu->addItem(save);
     mainMenu->addItem(settings);
-    itemsMenu->addItem(healthPotion);
-    mainMenu->id = "Main";
-    itemsMenu->id = "items";
+    mainMenu->position.x = 200;
+    mainMenu->position.y = 300;
     mainMenu->visible = false;
 
 
@@ -68,21 +50,27 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance->addChild(hp);
 	instance->addChild(tBox);
 	instance->addChild(mainMenu);
-	instance->addChild(itemsMenu);
 	instance->addChild(Game::camera);
 
 	hp->position = { 100, 100 };
     //Sound 
 	mainMusic = new Sound();
+
 	//Change Scene 
 	sm = new SceneManager(currentScene->getCharacter(), currentScene);
 	eDispatcher = EventDispatcher::getInstance();
 	eDispatcher->addEventListener(sm, CHANGE);
-	//Collision Detection 
-	collisionSystem->watchForCollisions("character", "platform"); 
-	collisionSystem->watchForCollisions("character", "enemy");
+	//QuestDemo
+	// eDispatcher = new EventDispatcher();
+	// // cout << "up to dispatcher" << endl;
+	// coinlis = new CoinListener(scene1->getCharacter(), scene1->objects.at(0));
+	// // cout << "we good" << endl;
+	// myQuestManager = new QuestManager(scene1->objects.at(1));
+	// eDispatcher->addEventListener(coinlis, PICKUP);
+	// eDispatcher->addEventListener(myQuestManager, COLLECTED);
+
 	//Tween
-	// tj = new TweenJuggler();
+	tj = new TweenJuggler();
 	Tween* charTween = new Tween(currentScene->getCharacter());
 	TweenableParams chalpha;
 	chalpha.name = "alpha";
@@ -92,20 +80,14 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	//mimic coin demo
 	tj->add(charTween);
 
-
-
 }
 
-MyGame::~MyGame(){
-	delete currentScene; 
-	delete tj; 
-	delete eDispatcher;
+TestDemo::~TestDemo(){
 }
 
 
-void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
+void TestDemo::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput){
     mainMenu->update(pressedKeys);
-    itemsMenu->update(pressedKeys);
     if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
         cout << "abc" << endl;
         Game::camera->removeImmediateChild(currentScene);
@@ -144,68 +126,50 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 		mainMusic->pauseMusic();	
 	}
 
-	//changing position of camera
-	if (Game::camera->position.x > currentScene->right) {
-		if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-			Game::camera->position.x-=5;
-		}
+	//changing position of scene
+	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
+		Game::camera->position.x-=5;
 	}
-	if (Game::camera->position.x < currentScene->left) {
-		if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-			Game::camera->position.x+=5;
-		}
-	}	
-	if (Game::camera->position.y > currentScene->bottom) {
+	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
+		Game::camera->position.x+=5;
+	}
+	//for prev hw
+	//if (Game::camera->position.y-5 > 0) {
 		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
 			Game::camera->position.y-=5;
-		}
-	}	
-	if (Game::camera->position.y < currentScene->top) {
-		if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-			Game::camera->position.y+=5;
-		}
+		}	
+	//}
+	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+		Game::camera->position.y+=5;
 	}
 
 	//character moves separately from scene
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
-		currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
 		currentScene->getCharacter()->position.y -=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
-		currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
 		currentScene->getCharacter()->position.y +=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 		currentScene->getCharacter()->facingRight = false;
-		currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
 		currentScene->getCharacter()->position.x -=2;
 			// currentScene->position.x+=2; //comment out to just move sprite
 	}
 	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
 		currentScene->getCharacter()->facingRight = true;
-		currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
 		currentScene->getCharacter()->position.x +=2; 
 			// currentScene->position.x-=2; //comment out to just move sprite
 	}
-
-	/***************** UI COMPONENTS ******************/
 	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end()) {
 		mainMenu->visible = true; 
-	}
-	if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end()) {
-		tBox->visible = true; 
-	}
-	// To change text
-	if (pressedKeys.find(SDL_SCANCODE_J) != pressedKeys.end()) {
-		tBox->setText("Testing this out !"); 
-	}	
+	}		
 	//updating camera position
     Game::camera->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
-	// cout << "Camera x " << Game::camera->position.x << endl; 
-	// cout << "Camera y " << Game::camera->position.y << endl; 
-	cout << "Character x " << currentScene->getCharacter()->position.x << endl;
-	cout << "Character y " << currentScene->getCharacter()->position.y << endl;
+	// cout << "Scene sx " << currentScene->scaleX << endl; 
+	// cout << "Scene sy " << currentScene->scaleY << endl; 
+	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
+	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}
@@ -218,6 +182,41 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 	if (Game::camera->camera.y > Game::camera->camera.h) {
 		Game::camera->camera.y = Game::camera->camera.h;
 	}
+	//Quest Demo stuff
+	// if (currentScene->objects.size() > 0) {
+	// 	// cout << "objects exist" << endl;
+	// 	if (currentScene->objects.at(0)->visible && isCharInCoin(currentScene->getCharacter(), currentScene->objects.at(0))) {
+	// 		Tween* coinTween = new Tween(currentScene->objects.at(0));
+	// 		TweenableParams gx, gy, gsx, gsy, coinfade;
+	// 		gx.name = "position.x";
+	// 		gy.name = "position.y";
+	// 		gsx.name = "scaleX";
+	// 		gsy.name = "scaleY";
+	// 		coinfade.name = "alpha";
+	// 		cout << "MyGame coin pos x " << currentScene->objects.at(0)->position.x << endl;
+	// 		cout << "MyGame coin pos y " << currentScene->objects.at(0)->position.y << endl;
+	// 		coinTween->animate(gx, currentScene->objects.at(0)->position.x, 600, 5);
+	// 		coinTween->animate(gy, currentScene->objects.at(0)->position.y, 300, 5); 
+	// 		coinTween->animate(gsx, currentScene->objects.at(0)->scaleX, 2, 5);
+	// 		coinTween->animate(gsy, currentScene->objects.at(0)->scaleY, 2, 5);
+	// 		coinTween->animate(coinfade, 255, 0, 5);
+	// 		//need a TweenEvent Listener here to start the coin fade animation
+	// 		//TweenEvent te = new TweenEvent(COLLECTED, coinTween)
+	// 		//eDispatcher->addNewListener(te, COLLECTED);
+	// 		//once the coin is 2x bigger then begin the fade transition
+	// 		// coinTween->animate(coinfade, 255, 0, 5); 
+	// 		tj->add(coinTween);
+	// 		// eDispatcher->removeEventListener(coinlis, PICKUP);
+	// 		// eDispatcher->dispatchEvent(new Event(PICKUP, eDispatcher));
+	// 		// currentScene->addChild(questComplete);
+    // 	}
+	// 	if (!currentScene->objects.at(0)->visible && isOngoing)
+	// 	{
+	// 		// cout << "collected event" << endl;
+	// 		isOngoing = false;
+	// 		// eDispatcher->dispatchEvent(new Event(COLLECTED, eDispatcher));
+	// 	}
+	// }
 	// //Change scene 
 	// if ((currentScene == scene1) && (currentScene->getCharacter()->position.y < 70)) {
 	// 		cout << "exited room!" << endl;
@@ -263,18 +262,17 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInp
 	// }
 	//sm->handleEvent(CHANGE);
 	tj->nextFrame(); 
-	collisionSystem->update();
 	// cout << "Char alpha " << currentScene->getCharacter()->alpha << endl;
 	Game::update(pressedKeys, controllerInput);
 	// currentScene->doCam = cam->camera;
 }
 
-void MyGame::draw(AffineTransform &at){
+void TestDemo::draw(AffineTransform &at){
 	Game::draw(at); 
 	SDL_RenderSetViewport(Game::renderer, &Game::camera->camera);
 }
 
-bool MyGame::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
+bool TestDemo::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
     SDL_Point* charPos, charTemp;
     SDL_Rect* cnRect, cnTemp;
     charTemp = {chara->position.x + chara->pivot.x, chara->position.y + chara->pivot.y};

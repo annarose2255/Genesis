@@ -1,5 +1,5 @@
-#ifndef MYGAME_H
-#define MYGAME_H
+#ifndef TESTDEMO_H
+#define TESTDEMO_H
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -14,22 +14,21 @@
 #include "EventDispatcher.h"
 #include "SceneManager.h"
 #include "TweenJuggler.h"
-#include "CollisionSystem.h"
 #include "HealthBar.h"
 #include "TextBox.h"
 #include "SelectionMenu.h"
 
 using namespace std;
 
-class MyGame : public Game{
+class TestDemo : public Game{
 
 public:
-	MyGame();
-	virtual ~MyGame();
+	TestDemo();
+	virtual ~TestDemo();
 
 	virtual void update(set<SDL_Scancode> pressedKeys, ControllerInput controllerInput);
 	virtual void draw(AffineTransform &at);
-    static Scene* currentScene;
+    Scene* currentScene;
 
     int viewportWidth = 800;
 	int viewportHeight = 700;
@@ -41,11 +40,6 @@ public:
     HealthBar* hp;
     TextBox* tBox;
     SelectionMenu* mainMenu;
-    SelectionMenu* itemsMenu;
-
-    static EventDispatcher* eDispatcher;
-    static TweenJuggler* tj;
-    static CollisionSystem* collisionSystem; 
 
 private:
     Sound* mainMusic;
@@ -55,10 +49,11 @@ private:
     Scene* scene2; 
     Scene* scene3;   	
     // Camera* cam;
-    // TweenJuggler* tj;
-    // EventListener* coinlis;
-	// EventListener* myQuestManager;
-    // DisplayObjectContainer *questComplete;
+    TweenJuggler* tj;
+    EventDispatcher* eDispatcher;
+    EventListener* coinlis;
+	EventListener* myQuestManager;
+    DisplayObjectContainer *questComplete;
     SceneManager* sm;
     bool isOngoing = true;
     bool fight = false;

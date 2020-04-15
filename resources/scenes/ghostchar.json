@@ -24,9 +24,9 @@
                 "facingRight": true,
                 "animations": {
                     "0": {
-                        "filepath": "./resources/character/character_walk_sheet.png",
-                        "xmlpath": "./resources/character/character_xml.xml",
-                        "name": "Character"
+                        "filepath": "./resources/ghostchar/idle.png",
+                        "xmlpath": "./resources/ghostchar/idle.xml", 
+                        "name": "Idle"
                     }
                 }
             },
@@ -35,19 +35,19 @@
                 "children": null,
                 "facingRight": true,
                 "filepath": "./resources/scenes/area1files/imgs/Ghost.png",
-                "height": 32,
+                "height": 100,
                 "id": "./resources/scenes/area1files/imgs/Ghost.png0",
                 "gameType":"enemy",
                 "pivot.x": 0,
                 "pivot.y": 0,
                 "position.x": 432,
-                "position.y": 570,
+                "position.y": 550,
                 "rotation": 0.0,
-                "scaleX": 1.0,
-                "scaleY": 1.0,
+                "scaleX": 0.4,
+                "scaleY": 0.4,
                 "type": "DisplayObjectContainer",
                 "visible": true,
-                "width": 32
+                "width": 100
             }
         }
     }

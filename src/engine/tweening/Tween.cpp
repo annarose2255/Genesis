@@ -4,7 +4,7 @@
 #include "Tween.h"
 #include "DisplayObject.h"
 
-Tween::Tween(DisplayObject* object) {
+Tween::Tween(DisplayObjectContainer* object) {
     // DisplayObject* obj = dynamic_cast<DisplayObject*>(object);
     this->object = object; //saves the object to be tweened
 }
@@ -67,6 +67,10 @@ void Tween::setValue(TweenableParams param, double value){
     }
     if(param.name == "alpha"){
         this->object->alpha = value;
+        for (int i = 0; i < this->object->children.size(); i++){
+            this->object->children[i]->alpha = value;
+            cout << "set alpha of children" << endl;
+        }
     }
      if (param.name == "scaleX"){
         this->object->scaleX = value;

@@ -9,12 +9,12 @@
 #include "TweenableParams.h"
 #include "TweenTransitions.h"
 #include "AnimatedSprite.h"
-#include "Scene.h"
+// #include "Scene.h"
 
 class Tween{ 
 
 public:
-	Tween(DisplayObject* object);
+	Tween(DisplayObjectContainer* object);
     // Tween(Scene* scene);
     ~Tween(); 
     void animate(TweenableParams fieldtoAnimate, double startVal, double endVal, double time);
@@ -24,9 +24,9 @@ public:
     void setValue(TweenableParams param, double value);
     vector<TweenParam*> params;
 private:
-    DisplayObject* object;
+    DisplayObjectContainer* object;
     SDL_Texture* tex; 
-    Scene* scene;
+    // Scene* scene;
 	int curFrame = 0;
     int endFrame;
     // TweenableParams param; 

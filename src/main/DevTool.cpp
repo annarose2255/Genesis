@@ -84,18 +84,18 @@ DevTool::~DevTool(){
     
 }
 
-void DevTool::load(string filepath)
+void DevTool::load(string filepath, int type)
 {
     //Scene *thisScene = new Scene();
     // sceneWindow->loadScene(filepath);
     //add in loadTileMap() option
-    string tmx_suffix = "tmx";
-    if ((0 == filepath.compare(filepath.length() - tmx_suffix.length(), tmx_suffix.length(), tmx_suffix))){
+    if (type == 1){
         sceneWindow->loadTileMap(filepath);
     } 
-    else {
+    else if (type == 2) {
         sceneWindow->loadScene(filepath);
     }
+    // sceneWindow->loadScene(filepath);
     // sceneWindow = thisScene;
     // currentScene = thisScene;
     // sceneWindow = thisScene;
@@ -138,13 +138,16 @@ DisplayObjectContainer *DevTool::sceneClickHelper(DisplayObjectContainer *parent
     delete gt;
     cout << "transformed point: " << newPoint.x << "," << newPoint.y <<endl;
     DisplayObjectContainer *ret = NULL;
-    for (DisplayObject *objChildren : parent->children)
-    {
-        ret = sceneClickHelper((DisplayObjectContainer *)objChildren, newPoint.x, newPoint.y);
-        if (ret)
+    // cout << "Parent id " << parent->id << endl;
+    if (parent->type != "DisplayObject") {
+        for (DisplayObject *objChildren : parent->children)
         {
-            cout << "returning" << endl;
-            return ret;
+            ret = sceneClickHelper((DisplayObjectContainer *)objChildren, newPoint.x, newPoint.y);
+            if (ret)
+            {
+                cout << "returning" << endl;
+                return ret;
+            }
         }
     }
     cout << "returning null" << endl;
@@ -550,12 +553,24 @@ void DevTool::update(set<SDL_Scancode> pressedKeys,  ControllerInput controllerI
                     break; 
                 }
             case SDL_SCANCODE_L:
-                {
+                {   
+                    cout << "Load [1] Tile File or [2] Regular JSON file:\n";
+                    int type;
+                    cin >> type;
                     cout << "Please enter the relative filepath to the JSON file you want to import:\n";
                     string loadpath;
                     cin >> loadpath;
-                    load(loadpath);
+                    load(loadpath, type);
                     break; 
+                }
+            case SDL_SCANCODE_M:
+                {
+                    cout << "What sprite would you like to pull up? (Enter relative path)" << endl;
+                    string sprPath;
+                    cin >> sprPath;
+                    string nameId = sprPath + to_string(num);
+                    DisplayObjectContainer* sprPulled = new DisplayObjectContainer(nameId, sprPath);
+                    sceneWindow->addChild(sprPulled);
                 }
             case SDL_SCANCODE_Z:
                 {
