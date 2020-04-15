@@ -52,10 +52,7 @@ SheetDemo::~SheetDemo(){
 
 
 void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
-    // character->play("Idle");
-	if (pressedButtons.find(SDL_CONTROLLER_BUTTON_X) != pressedButtons.end() && pressedButtons.find(SDL_CONTROLLER_BUTTON_Y) != pressedButtons.end()){
-		//cout << "SOMETHING IS VERY WRONG" << endl;
-	}
+
 
     if ( (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) || 
 		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_B) != pressedButtons.end()) ||
@@ -132,10 +129,38 @@ void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButt
 	if (pressedButtons.find(SDL_CONTROLLER_BUTTON_START) != pressedButtons.end()){
 		controllerManager->rumbleController(0.7, 300);
 	}
+
 	// axis logic
 	for (auto axis = movedAxis.begin(); axis != movedAxis.end(); axis++){
 		if (axis->first == SDL_CONTROLLER_AXIS_TRIGGERLEFT){
+			if (axis->second == 1){
+				character->scaleX -= 0.1;
+				character->scaleY -= 0.1;
+			}
+		}
+		if (axis->first == SDL_CONTROLLER_AXIS_TRIGGERRIGHT){
+			if (axis->second == 1){
+				character->scaleX += 0.1;
+				character->scaleY += 0.1;
+			}
+		}
+		if (axis->first == SDL_CONTROLLER_AXIS_LEFTX){
 			cout << axis->second << endl;
+			if (axis->second > 0.5){
+				character->position.x += 3;
+			}
+			if (axis->second < -0.5){
+				character->position.x -= 3;
+			}
+		}
+		if (axis->first == SDL_CONTROLLER_AXIS_LEFTY){
+			cout << axis->second << endl;
+			if (axis->second > 0.5){
+				character->position.y += 3;
+			}
+			if (axis->second < -0.5){
+				character->position.y -= 3;
+			}
 		}
 	}
 

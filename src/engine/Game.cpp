@@ -98,10 +98,6 @@ void Game::start(){
 		}
 
 		SDL_PollEvent(&event);
-		// cout << event.type << endl;
-		// cout << event.type << endl;
-		// cout << SDL_CONTROLLERBUTTONDOWN << endl;
-		// cout << SDL_CONTROLLER_BUTTON_DPAD_DOWN << endl;
 		switch (event.type)
 		{
 			case SDL_QUIT:
@@ -117,12 +113,8 @@ void Game::start(){
 			case SDL_CONTROLLERAXISMOTION: {
 				SDL_GameControllerAxis axis = (SDL_GameControllerAxis) event.caxis.axis;
 				float value = event.caxis.value;
-				// nomalize value based on type
-				switch (axis) {
-					case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
-						value = value / 32767;
-						break;
-				}
+				// nomalize value
+				value = value / 32767;
 
 				bool changed = false;
 				for (auto i = movedAxis.begin(); i != movedAxis.end();){
@@ -137,6 +129,8 @@ void Game::start(){
 						// breaks loop
 						changed = true;
 						break;
+					} else {
+						i++;
 					}
 				}
 				// if not already in set add if not zero
