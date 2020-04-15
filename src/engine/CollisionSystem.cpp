@@ -129,13 +129,14 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
 	//if mvmt > 0, then DO that moved position - mvmt, change back to old position
 	//checking that object moved 	
-
+	cout<<"ydelta1: "<<yDelta1<<endl; 
 	d->position.x -= xDelta1; 
 	bool yCol = collidesWith(d, other); 
 	d->position.x += xDelta1; 
 	d->position.y -= yDelta1; 
 	bool xCol = collidesWith(d, other); 
 	d->position.y += yDelta1;
+	//yDelta1 = 0;
 
 	if (xCol) {
 		/* if ( d->gameType == "character"){
@@ -143,7 +144,8 @@ void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, i
 			d->position.x -=7;
 		}
 		else{ */
-			d->position.x -=xDelta1; 
+			d->position.x -=xDelta1;
+			cout<<"position x1: "<<d->position.x<<endl; 
 			//}
 		
 	}
@@ -152,14 +154,19 @@ void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, i
 			d->position.y -=7;
 		}
 		else{ */
-		cout<<"position y: "<<d->position.y<<endl;
+		//cout<<"position y: "<<d->position.y<<endl;
 		//cout<<""
-			d->position.y -=xDelta1; 
+			d->position.y -=yDelta1; 
+			cout<<"position y1: "<<d->position.y<<endl; 
 			//}	
 
 	}
 	if (!xCol && !yCol) {
-		d->position.x -= xDelta1; d->position.y -= yDelta1; 
+		d->position.x -= xDelta1; 
+		cout<<"position x2: "<<d->position.x<<endl; 
+		cout<<"ydelta2: "<<yDelta1<<endl; 
+		d->position.y -= yDelta1; 
+		cout<<"position y2: "<<d->position.y<<endl; 
 	}
 
 }

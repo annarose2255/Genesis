@@ -10,6 +10,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include "Player.h"
 
 #define PI 3.14159265
 
@@ -152,6 +153,9 @@ void DisplayObject::draw(AffineTransform &at){
 //checks type of collision and resolves it accordingly
 void DisplayObject::onCollision(DisplayObject* other){
 	cout << "inside onCollision!" << endl;
+	//if (this->gameType == "character"){
+		//Player::this->onCollision(other);
+	//}
 	if (other->gameType == "platform") {
 		// cout << "collided with a platform!" << endl;
 		MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
