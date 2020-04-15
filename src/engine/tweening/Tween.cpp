@@ -67,10 +67,6 @@ void Tween::setValue(TweenableParams param, double value){
     }
     if(param.name == "alpha"){
         this->object->alpha = value;
-        for (int i = 0; i < this->object->children.size(); i++){
-            this->object->children[i]->alpha = value;
-            cout << "set alpha of children" << endl;
-        }
     }
      if (param.name == "scaleX"){
         this->object->scaleX = value;

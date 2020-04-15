@@ -18,6 +18,7 @@ void SceneManager::handleEvent(Event* e)
     if (e->getType() == CHANGE)
     {
         // Event* event = dynamic_cast<Event*>(event);
+        MyGame::collisionSystem->clearAllData();
         Scene* nextScene = new Scene();
         nextScene->loadTileMap(e->getScenePath());
         character = e->getCharacter();
@@ -45,6 +46,8 @@ void SceneManager::handleEvent(Event* e)
             Game::camera->position.x = nextScene->left;
             Game::camera->position.y = nextScene->bottom;
         }
+        cout << "Char pos x " << pos.x << endl;
+        cout << "Char pos y " << pos.y << endl;
         character->position.x = pos.x; 
         character->position.y = pos.y;
         
@@ -64,7 +67,8 @@ void SceneManager::handleEvent(Event* e)
         //if prevS > currentS 
         //Game::camera->position.x = prevS->right; 
         //Game::camera->position.y = prevS->bottom;
-        
+        MyGame::collisionSystem->watchForCollisions("character", "platform"); 
+	    MyGame::collisionSystem->watchForCollisions("character", "enemy");
         // Tween* prevFade = new Tween(prevS);
         Tween* newFade = new Tween(currentS);
         // Tween* charIn = new Tween(currentS->getCharacter());
@@ -75,7 +79,6 @@ void SceneManager::handleEvent(Event* e)
 
         // MyGame::tj->add(prevFade); 
         MyGame::tj->add(newFade); 
-        // MyGame::tj->add(charIn);
 
         // ed->addEventListener(this, CHANGE);
 
