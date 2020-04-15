@@ -46,6 +46,7 @@ public:
 	~AnimatedSprite();
 
 	void addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop);
+	void addSSAnimation(string filepath, string xmlPath);
 	Animation* getAnimation(string animName);
     SSAnimation* getSSAnimation(string animName);
 

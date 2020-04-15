@@ -441,9 +441,17 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     }
     string anim = data["animations"]["0"]["name"];
     // Animations
-    for(auto& [key, value] : data["animations"].items()) {
-        newAS->addAnimation(value["filepath"], value["name"], value["frames"], value["rate"], value["loop"]);
+    if (data["useSpriteSheet"]) {
+        for(auto& [key, value] : data["animations"].items()) {
+            newAS->addSSAnimation(value["filepath"], value["xmlpath"]);
+        }
     }
+    else {
+        for(auto& [key, value] : data["animations"].items()) {
+            newAS->addAnimation(value["filepath"], value["name"], value["frames"], value["rate"], value["loop"]);
+        }
+    }
+    cout << "Anim name " << anim << endl;
     newAS->play(anim);
  
     // Children

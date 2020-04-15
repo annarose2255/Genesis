@@ -9,6 +9,7 @@
                 "type": "AnimatedSprite",
                 "id": "character",
                 "gameType": "character",
+                "useSpriteSheet": true,
                 "visible": true,
                 "position.x": 70,
                 "position.y": 300,
@@ -23,25 +24,9 @@
                 "facingRight": true,
                 "animations": {
                     "0": {
-                        "filepath": "./resources/character/",
-                        "name": "Idle",
-                        "frames": 16,
-                        "rate": 2,
-                        "loop": true
-                    }, 
-                    "1": {
-                        "filepath": "./resources/character/",
-                        "name": "Walk",
-                        "frames": 20,
-                        "rate": 2,
-                        "loop": true
-                    }, 
-                    "2": {
-                        "filepath": "./resources/character/",
-                        "name": "Jump",
-                        "frames": 30,
-                        "rate": 2,
-                        "loop": true
+                        "filepath": "./resources/character/character_walk_sheet.png",
+                        "xmlpath": "./resources/character/character_xml.xml",
+                        "name": "Character"
                     }
                 }
             },

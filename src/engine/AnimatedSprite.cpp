@@ -22,76 +22,7 @@ AnimatedSprite::AnimatedSprite(string id, string spriteSheetPath, string xmlPath
     this->id = id;
     this->imgPath = spriteSheetPath;
     this->isSheet = true;
-
-    loadTexture(spriteSheetPath);
-
-    char path[xmlPath.length()+1]; 
-    strcpy(path, xmlPath.c_str());
-    
-    // XML File Handler
-    xml_document<> doc;
-    file<> xmlFile(path);
-    doc.parse<0>(xmlFile.data());
-    xml_node<>* parent = doc.first_node("TextureAtlas");
-    xml_node<>* child = parent->first_node();
-    
-    string prevAnim = process(child->first_attribute()->value());
-    animationNames.push_back(prevAnim);
-    int frameCount = 0;
-    SSAnimation *temp = new SSAnimation;
-    
-    // For each sprite
-    while(child) {
-        // push sprite into existing animation
-        if(!animationNames.empty() && animationNames.back() == prevAnim) {
-            int x = stoi(child->first_attribute()->next_attribute("x")->value());
-            int y = stoi(child->first_attribute()->next_attribute("y")->value());
-            int w = stoi(child->first_attribute()->next_attribute("w")->value());
-            int h = stoi(child->first_attribute()->next_attribute("h")->value());
-            SDL_Rect frame = {x, y, w, h};
-            temp->frames.push_back(frame);
-            frameCount++;
-        }
-        else {
-            // Add last animation
-            temp->animName = prevAnim;
-            temp->filepath = spriteSheetPath;
-            temp->numFrames = frameCount + 1;
-            temp->frameRate = 2;
-            temp->loop = true;
-            temp->curFrame = 0;
-            ssanimations.push_back(temp);
-            animationNames.push_back(prevAnim);
-
-            if(!child->next_sibling()) break;
-            
-            // Create new animation
-            temp = new SSAnimation;
-            frameCount = 0;
-            prevAnim = process(child->first_attribute()->value());
-            int x = stoi(child->first_attribute()->next_attribute("x")->value());
-            int y = stoi(child->first_attribute()->next_attribute("y")->value());
-            int w = stoi(child->first_attribute()->next_attribute("w")->value());
-            int h = stoi(child->first_attribute()->next_attribute("h")->value());
-            SDL_Rect frame = {x, y, w, h};
-            temp->frames.push_back(frame);
-        }
-        child = child->next_sibling();
-        if(child) {
-            prevAnim = process(child->first_attribute()->value());
-        }
-        else {
-            // Add last animation
-            temp->animName = prevAnim;
-            temp->filepath = spriteSheetPath;
-            temp->numFrames = frameCount;
-            temp->frameRate = 2;
-            temp->loop = true;
-            temp->curFrame = 0;
-            ssanimations.push_back(temp);
-            animationNames.push_back(prevAnim);
-        }
-    }
+    addSSAnimation(spriteSheetPath, xmlPath);
 }
 
 AnimatedSprite::~AnimatedSprite() {
@@ -124,6 +55,80 @@ void AnimatedSprite::addAnimation(string basepath, string animName, int numFrame
     }
     animationNames.push_back(animName);
     animations.push_back(anim);
+}
+
+void AnimatedSprite::addSSAnimation(string filepath, string xmlPath){
+    // Animation* anim = new Animation();
+    this->isSheet = true;
+    loadTexture(filepath);
+
+    char path[xmlPath.length()+1]; 
+    strcpy(path, xmlPath.c_str());
+    
+    // XML File Handler
+    xml_document<> doc;
+    file<> xmlFile(path);
+    doc.parse<0>(xmlFile.data());
+    xml_node<>* parent = doc.first_node("TextureAtlas");
+    xml_node<>* child = parent->first_node();
+    
+    string prevAnim = process(child->first_attribute()->value());
+    animationNames.push_back(prevAnim);
+    int frameCount = 0;
+    SSAnimation *temp = new SSAnimation;
+    
+    // For each sprite
+    while(child) {
+        // push sprite into existing animation
+        if(!animationNames.empty() && animationNames.back() == prevAnim) {
+            int x = stoi(child->first_attribute()->next_attribute("x")->value());
+            int y = stoi(child->first_attribute()->next_attribute("y")->value());
+            int w = stoi(child->first_attribute()->next_attribute("w")->value());
+            int h = stoi(child->first_attribute()->next_attribute("h")->value());
+            SDL_Rect frame = {x, y, w, h};
+            temp->frames.push_back(frame);
+            frameCount++;
+        }
+        else {
+            // Add last animation
+            temp->animName = prevAnim;
+            temp->filepath = filepath;
+            temp->numFrames = frameCount + 1;
+            temp->frameRate = 2;
+            temp->loop = true;
+            temp->curFrame = 0;
+            ssanimations.push_back(temp);
+            animationNames.push_back(prevAnim);
+
+            if(!child->next_sibling()) break;
+            
+            // Create new animation
+            temp = new SSAnimation;
+            frameCount = 0;
+            prevAnim = process(child->first_attribute()->value());
+            int x = stoi(child->first_attribute()->next_attribute("x")->value());
+            int y = stoi(child->first_attribute()->next_attribute("y")->value());
+            int w = stoi(child->first_attribute()->next_attribute("w")->value());
+            int h = stoi(child->first_attribute()->next_attribute("h")->value());
+            SDL_Rect frame = {x, y, w, h};
+            temp->frames.push_back(frame);
+        }
+        child = child->next_sibling();
+        if(child) {
+            prevAnim = process(child->first_attribute()->value());
+        }
+        else {
+            // Add last animation
+            temp->animName = prevAnim;
+            temp->filepath = filepath;
+            temp->numFrames = frameCount;
+            temp->frameRate = 2;
+            temp->loop = true;
+            temp->curFrame = 0;
+            ssanimations.push_back(temp);
+            animationNames.push_back(prevAnim);
+        }
+    }
 }
 
 Animation* AnimatedSprite::getAnimation(string animName) {
