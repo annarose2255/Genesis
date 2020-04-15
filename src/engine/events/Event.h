@@ -4,6 +4,9 @@
 #include <string>
 
 #include "EventDispatcher.h"
+#include "AnimatedSprite.h"
+#include "Tween.h"
+#include "DisplayObjectContainer.h"
 
 #define DO_ADDED_EVENT "Display Object Added Event"
 #define CONTROLLER_ADDED_EVENT "Controller Added Event"
@@ -22,13 +25,22 @@ public:
 	// static const string DO_ADDED_EVENT;
 
 	Event(string type, EventDispatcher* source);
-
+	Event(string type, Tween* tween);
+	Event(string type, EventDispatcher* source, AnimatedSprite* character, string scenePath); //change scene
+	Event(string type, EventDispatcher* source, AnimatedSprite* character, DisplayObjectContainer* enemy, string scenePath);
 	string getType();
 	EventDispatcher* getSource();
-
+	AnimatedSprite* getCharacter(); 
+	string getScenePath(); 
+	DisplayObjectContainer* getEnemy(); 
 private:
 	string eventType = "";
 	EventDispatcher* source;
+	AnimatedSprite* chara;
+	DisplayObjectContainer* enemy;
+	string scenePath;
+	Tween* tween;
+	// Scene* switchScene;
 	
 };
 

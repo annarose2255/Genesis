@@ -13,11 +13,14 @@ class TweenEvent: public Event{
     
 public:
 	//list of static final strings, e.g. tween_complete_event
-    TweenEvent(string eventType, EventDispatcher* source, Tween tween);
-    Tween getTween();
+    TweenEvent(string eventType, Tween* tween);
+    Tween* getTween();
+    void handleEvent(Event* e);
 
 private:
-    EventDispatcher* source;
+    Tween* tween; 
+    string eventType;
+
 	
 };
 

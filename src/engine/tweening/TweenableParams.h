@@ -11,16 +11,13 @@ class TweenableParams{
     
 public:
 	//list of static final strings, e.g. X, Y, scale_x, etc
-    TweenableParams();
     string name;
     SDL_Point position; 
-    static int width, height; 
-    static int scaleX, scaleY; 
-    static int rotation;
+    int width, height; 
+    int scaleX, scaleY; 
+    int rotation;
     SDL_Point pivot;
-    static int alpha;
-    bool visible;
-    bool facingRight;
+    int alpha;
     
 private:
 

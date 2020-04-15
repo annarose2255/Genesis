@@ -1,5 +1,5 @@
-#ifndef MYGAME2_H
-#define MYGAME2_H
+#ifndef TESTDEMO_H
+#define TESTDEMO_H
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -11,14 +11,20 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "CoinListener.h"
+#include "EventDispatcher.h"
+#include "SceneManager.h"
+#include "TweenJuggler.h"
+#include "HealthBar.h"
+#include "TextBox.h"
+#include "SelectionMenu.h"
 
 using namespace std;
 
-class MyGame2 : public Game{
+class TestDemo : public Game{
 
 public:
-	MyGame2();
-	virtual ~MyGame2();
+	TestDemo();
+	virtual ~TestDemo();
 
 	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
@@ -30,21 +36,29 @@ public:
     const int levelWidth = 1280;
 	const int levelHeight = 960;
 
+    // UI Components
+    HealthBar* hp;
+    TextBox* tBox;
+    SelectionMenu* mainMenu;
+
 private:
     Sound* mainMusic;
     
     bool change;    
     Scene* scene1;
-    Scene* scene2;    	
-    Camera* cam;
-
+    Scene* scene2; 
+    Scene* scene3;   	
+    // Camera* cam;
+    TweenJuggler* tj;
+    EventDispatcher* eDispatcher;
     EventListener* coinlis;
 	EventListener* myQuestManager;
-	EventDispatcher* eDispatcher;
     DisplayObjectContainer *questComplete;
+    SceneManager* sm;
     bool isOngoing = true;
-
+    bool fight = false;
     bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
+
 
 };
 

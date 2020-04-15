@@ -1,8 +1,12 @@
 #include "DisplayObject.h"
+// #include "EventDispatcher.h"
+// #include "Event.h"
+// #include "DisplayObjectEvent.h"
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "Game.h"
+#include "MyGame.h"
 #include <iostream>
 #include <algorithm>
 #include <cmath>
@@ -15,8 +19,12 @@ DisplayObject::DisplayObject(){
 	curTexture = NULL;
 	pos2.x = position.x; 
 	pos2.y = position.y;
+	 
 	// cam = new Camera();
 	this->setScrollSpeed(1.0);
+	// DisplayObjectEvent* e = new DisplayObjectEvent(DO_ADDED_EVENT, EventDispatcher::getInstance(), this);
+    // EventDispatcher::getInstance()->dispatchEvent(e);
+
 }
 
 DisplayObject::DisplayObject(string id, string filepath){
@@ -24,6 +32,8 @@ DisplayObject::DisplayObject(string id, string filepath){
 	this->imgPath = filepath;
 	loadTexture(filepath);
 	this->setScrollSpeed(1.0);
+	// DisplayObjectEvent* e = new DisplayObjectEvent(DO_ADDED_EVENT, EventDispatcher::getInstance(), this);
+    // EventDispatcher::getInstance()->dispatchEvent(e);
 }
 
 DisplayObject::DisplayObject(string id, int red, int green, int blue){
@@ -42,6 +52,11 @@ DisplayObject::~DisplayObject(){
 	//TODO: Get this freeing working
 	if(image != NULL) SDL_FreeSurface(image);
 	if(texture != NULL) SDL_DestroyTexture(texture);	
+}
+
+void DisplayObject::loadTexture(SDL_Surface* srf){
+	texture = SDL_CreateTextureFromSurface(Game::renderer, srf);
+	setTexture(texture);
 }
 
 void DisplayObject::loadTexture(string filepath){
@@ -73,48 +88,8 @@ void DisplayObject::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 void DisplayObject::setScrollSpeed(double speed) {
 	scrollSpeed = speed;
 }
-bool DisplayObject::checkCollision(SDL_Rect a, SDL_Rect b){
-	//The sides of the rectangles
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
-
-    //Calculate the sides of rect A
-    leftA = a.x;
-    rightA = a.x + a.w;
-    topA = a.y;
-    bottomA = a.y + a.h;
-
-    //Calculate the sides of rect B
-    leftB = b.x;
-    rightB = b.x + b.w;
-    topB = b.y;
-    bottomB = b.y + b.h;
-
-    //If any of the sides from A are outside of B
-    if( bottomA <= topB )
-    {
-        return false;
-    }
-
-    if( topA >= bottomB )
-    {
-        return false;
-    }
-
-    if( rightA <= leftB )
-    {
-        return false;
-    }
-
-    if( leftA >= rightB )
-    {
-        return false;
-    }
-
-    //If none of the sides from A are outside B
-    return true;
+SDL_Texture* DisplayObject::getTexture(){
+	return this->texture;
 }
 void DisplayObject::draw(AffineTransform &at){
 	applyTransformations(at);
@@ -138,8 +113,18 @@ void DisplayObject::draw(AffineTransform &at){
 			// cout << "Camera " << Game::camera->camera.x << endl;
 			dstrect.x = (int) (pos2.x - Game::camera->camera.x) * scrollSpeed; 
 			dstrect.y = (int) (pos2.y - Game::camera->camera.y) * scrollSpeed; 
-			dstrect.w = w; 
-			dstrect.h = h;
+			if (tile) {
+				// cout << "srcrect x " << srcrect.x << endl;
+				// cout << "srcrect y " << srcrect.y << endl;
+				// cout << "srcrect w " << srcrect.w << endl;
+				// cout << "srcrect h " << srcrect.h << endl;
+				dstrect.w = srcrect.w; 
+				dstrect.h = srcrect.h;
+			}
+			else {
+				dstrect.w = w; 
+				dstrect.h = h;
+			}
 		}
 
 		//dstrect = { origin.x, origin.y, w, h };
@@ -153,7 +138,7 @@ void DisplayObject::draw(AffineTransform &at){
 		}
 		
 		SDL_SetTextureAlphaMod(curTexture, alpha);
-		if (isSheet) { 
+		if (isSheet || tile) { 
             SDL_RenderCopyEx(Game::renderer, curTexture, &srcrect, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
         } else {
             SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
@@ -164,7 +149,15 @@ void DisplayObject::draw(AffineTransform &at){
 	reverseTransformations(at);
 	
 }
-
+//checks type of collision and resolves it accordingly
+void DisplayObject::onCollision(DisplayObject* other){
+	cout << "inside onCollision!" << endl;
+	if (other->gameType == "platform") {
+		cout << "collided with a platform!" << endl;
+		MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
+			0, 0);
+	}
+}
 void DisplayObject::applyTransformations(AffineTransform &at) {
 	at.translate(position.x, position.y);
 	at.rotate(rotation);
@@ -212,8 +205,8 @@ HitboxPoints DisplayObject::getHitboxPts() {
 	AffineTransform gt = *this->globalTransform();
 	HitboxPoints pts;
 	// width and height are hardcoded to 100 for some reason
-	// this->hitbox.width = width;
-	// this->hitbox.height = height;
+	this->hitbox.width = width;
+	this->hitbox.height = height;
 	pts.topLeft = gt.transformPoint(this->hitbox.origin.x, this->hitbox.origin.y);
 	pts.topRight = gt.transformPoint(this->hitbox.origin.x + this->hitbox.width, this->hitbox.origin.y);
 	pts.bottomLeft = gt.transformPoint(this->hitbox.origin.x, this->hitbox.origin.y + this->hitbox.height);

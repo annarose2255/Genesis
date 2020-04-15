@@ -11,6 +11,13 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "CoinListener.h"
+#include "EventDispatcher.h"
+#include "SceneManager.h"
+#include "TweenJuggler.h"
+#include "CollisionSystem.h"
+#include "HealthBar.h"
+#include "TextBox.h"
+#include "SelectionMenu.h"
 
 using namespace std;
 
@@ -22,7 +29,7 @@ public:
 
 	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
-    Scene* currentScene;
+    static Scene* currentScene;
 
     int viewportWidth = 800;
 	int viewportHeight = 700;
@@ -30,21 +37,33 @@ public:
     const int levelWidth = 1280;
 	const int levelHeight = 960;
 
+    // UI Components
+    HealthBar* hp;
+    TextBox* tBox;
+    SelectionMenu* mainMenu;
+    SelectionMenu* itemsMenu;
+
+    static EventDispatcher* eDispatcher;
+    static TweenJuggler* tj;
+    static CollisionSystem* collisionSystem; 
+
 private:
     Sound* mainMusic;
     
     bool change;    
     Scene* scene1;
-    Scene* scene2;    	
-    Camera* cam;
-
-    EventListener* coinlis;
-	EventListener* myQuestManager;
-	EventDispatcher* eDispatcher;
-    DisplayObjectContainer *questComplete;
+    Scene* scene2; 
+    Scene* scene3;   	
+    // Camera* cam;
+    // TweenJuggler* tj;
+    // EventListener* coinlis;
+	// EventListener* myQuestManager;
+    // DisplayObjectContainer *questComplete;
+    SceneManager* sm;
     bool isOngoing = true;
-
+    bool fight = false;
     bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
+
 
 };
 

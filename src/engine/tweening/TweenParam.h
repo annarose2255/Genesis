@@ -11,16 +11,22 @@ class TweenParam{
     
 public:
 	TweenParam(TweenableParams paramToTween, double startVal, double endVal, double time);
-    TweenParam(TweenTransitions transition);
+    ~TweenParam(); 
+    void calcValue();
     TweenableParams getParam();
     double getStartVal(); 
     double getEndVal(); 
     double getTweenTime();  
-    
+    double getNewValue();  
+    int currentFrame;
+    bool easeIn;
+
 private:
     TweenableParams param; 
-    double startVal, endVal, time;
-    int currentFrame, maxFrame; 
+    TweenTransitions* transition; 
+    int endFrame;
+    double startVal, endVal, newValue, time;
+
 	
 };
 

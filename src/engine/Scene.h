@@ -1,14 +1,15 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "DisplayObject.h"
 #include "DisplayObjectContainer.h"
+#include "DisplayObject.h"
+#include "AnimatedSprite.h"
+// #include "EventDispatcher.h"
 #include "Sprite.h"
 #include "Layer.h"
-#include "AnimatedSprite.h"
-#include <json.hpp>
 #include <string>
 #include <vector>
+#include <json.hpp>
 #include <fstream>
 
 using namespace std;
@@ -19,12 +20,11 @@ class Scene : public DisplayObjectContainer{
 
 public:
 	Scene();
-
+	~Scene();
 	/* Load scene from a file */
 	void loadScene(string sceneFilePath);
-    
     json toJson();
-	void loadTileMap(string tilePath); 
+	void loadTileMap(string tilePath);
 
     DisplayObject* makeDisplayObject(json data);
     DisplayObjectContainer* makeDisplayObjectContainer(json data);
@@ -35,16 +35,25 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
 
-	AnimatedSprite* root;
-	vector<DisplayObjectContainer*> layerList; 
-	vector<DisplayObject*> objects; //in the scene
-	vector<AnimatedSprite*> asList;
-	map<int, string> tilesets; //store image file of tilesets
-	map<int, SDL_Point> tsize; //store image file of tilesets	
-	// vector<pair<int, SDL_Point>> tsize; //store size of tilesets 
-	vector<DisplayObject*> tiles;
+	DisplayObject* getObject(int index);
+	DisplayObjectContainer* getEnemy(int index);
+	void addEnemy(DisplayObjectContainer* enemy);
+	AnimatedSprite* getCharacter();
+	void setCharacter(AnimatedSprite* chara);
+	map<int, SDL_Point> charStart; //where character should spawn in this scene
+	map<int, SDL_Point> charEnd;
+	int top, left, bottom, right;
+	int getSceneNum(); 
 private:
+	map<int, SDL_Texture*> tilesets; //store texture of tilesets
+	map<string, SDL_Point> transitionPts;  
+	AnimatedSprite* character;
+	int sceneNum; //tells us what room we're loading
+	vector<DisplayObject*> objects; 
+	vector<DisplayObjectContainer*>enemies; 
+	bool fromTileMap;
 
+	// EventDispatcher* eDispatcher; 
     json parse(auto* obj); //Display Objects
 
 };

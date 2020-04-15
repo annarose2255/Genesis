@@ -52,10 +52,7 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
 
-	SDL_Rect doCam; //camera for display object
-	SDL_Rect collider;
-	bool checkCollision(SDL_Rect a, SDL_Rect b);
-
+	void loadTexture(SDL_Surface* srf);
 	void loadTexture(string filepath);
 	void loadRGBTexture(int red, int green, int blue);
 	void setTexture(SDL_Texture* t);
@@ -63,10 +60,12 @@ public:
 	void applyTransformations(AffineTransform &at);
 	void reverseTransformations(AffineTransform &at);
 
+	void onCollision(DisplayObject* other);
 	AffineTransform *globalTransform();
 
 	int getWidth();
 	int getHeight();
+	SDL_Texture* getTexture();
 	HitboxPoints getHitboxPts();
 	// Line** getHitboxLines();
 	void setHitbox(SDL_Point origin, int width, int height);
@@ -75,6 +74,7 @@ public:
 	void setScrollSpeed(double speed);
 	bool visible = true;
 	SDL_Point position = {0, 0};
+	SDL_Point prevPos; 
 	SDL_Point pos2;
 	double scrollSpeed;
 	int width = 100;
@@ -85,6 +85,7 @@ public:
 	double rotation = 0.0; // in radians
 	int alpha = 255;
 	bool facingRight = true;
+	bool tile = false;
     bool isSheet = false;
 	bool camPerspective = true;
     SDL_Rect srcrect;

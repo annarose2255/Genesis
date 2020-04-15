@@ -6,9 +6,16 @@
 #include "EventDispatcher.h"
 
 
-TweenEvent::TweenEvent(string eventType, EventDispatcher* source, Tween tween) : Event(eventType, source) {
-
+TweenEvent::TweenEvent(string eventType, Tween* tween) : Event(eventType, tween) {
+    this->eventType = eventType; 
+    this->tween = tween; 
 }
-Tween TweenEvent::getTween(){
-
+Tween* TweenEvent::getTween(){
+    return this->tween;
+}
+void TweenEvent::handleEvent(Event* e)
+{
+    // if (e->getType().compare(EXIST)==0) 
+    //else if (e->getType().compare(COLLECTED)==0)
+    // add 
 }

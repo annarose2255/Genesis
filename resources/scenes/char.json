@@ -1,0 +1,54 @@
+{
+    "layer1": {
+        "type": "Layer", 
+        "id": "layer1",
+        "scroll": 1,
+        "filepath": "",
+        "children": {
+            "character": {
+                "type": "AnimatedSprite",
+                "id": "character",
+                "gameType": "character",
+                "useSpriteSheet": true,
+                "visible": true,
+                "position.x": 70,
+                "position.y": 300,
+                "width": 100,
+                "height": 100, 
+                "pivot.x": 50, 
+                "pivot.y": 50,
+                "scaleX": 0.5,
+                "scaleY": 0.5,
+                "rotation": 0,
+                "alpha": 255,
+                "facingRight": true,
+                "animations": {
+                    "0": {
+                        "filepath": "./resources/character/character_walk_sheet.png",
+                        "xmlpath": "./resources/character/character_xml.xml",
+                        "name": "Character"
+                    }
+                }
+            },
+            "./resources/scenes/area1files/imgs/Ghost.png0": {
+                "alpha": 255,
+                "children": null,
+                "facingRight": true,
+                "filepath": "./resources/scenes/area1files/imgs/Ghost.png",
+                "height": 32,
+                "id": "./resources/scenes/area1files/imgs/Ghost.png0",
+                "gameType":"enemy",
+                "pivot.x": 0,
+                "pivot.y": 0,
+                "position.x": 432,
+                "position.y": 570,
+                "rotation": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "type": "DisplayObjectContainer",
+                "visible": true,
+                "width": 32
+            }
+        }
+    }
+}

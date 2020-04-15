@@ -1,4 +1,6 @@
 #include "Scene.h"
+#include "Game.h"
+#include "MyGame.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -9,70 +11,76 @@
 Scene::Scene() : DisplayObjectContainer() {
     this->type = "Scene";
 }
+Scene::~Scene() {
+    for (int i = 0; i < enemies.size(); i++) {
+        delete enemies[i];
+    }
+    for (int i = 0; i < objects.size(); i++) {
+        delete objects[i];
+    }
+}
+//
 //Tmx tutorial: https://codeofconnor.com/2017/08/18/how-to-load-and-render-tiled-maps-in-your-sdl2-game/
 void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room files 
-    tmx::Map map;
-    map.load(tilePath);
-    auto map_dim = map.getTileCount();
-    int rows, cols, tile_width, tile_height;
-
-    //get dimensions of tile map
-    rows = map_dim.y;
-    cols = map_dim.x;
+    json j; 
+    ifstream ifs(tilePath);
+    ifs >> j;
+    //Level Info
+    int rows, cols, tile_width, tile_height; 
+    sceneNum = j["room"];
+    //save coord of entrance/exits of Level 
+    for (auto& pt : j["transitionPts"]) {
+        SDL_Point temp = {pt["x"], pt["y"]};
+        transitionPts.insert(std::pair<string, SDL_Point>(pt["name"], temp));
+    }
+    //where the char should spawn 
+    for (auto& pt : j["charStart"]) {
+        SDL_Point temp = {pt["x"], pt["y"]};
+        charStart.insert(std::pair<int, SDL_Point>(pt["name"], temp));
+    }
+    for (auto& pt : j["charEnd"]) {
+        SDL_Point temp = {pt["x"], pt["y"]};
+        charEnd.insert(std::pair<int, SDL_Point>(pt["name"], temp));
+    }
+    //level boundaries 
+    top = j["top"];
+    bottom = j["bottom"];
+    right = j["right"];
+    left = j["left"];
+    rows = j["height"];
+    cols = j["width"];
+    tile_width = j["tilewidth"];
+    tile_height = j["tileheight"];
+    //make a new Layer 
     Layer* newLayer = new Layer();
     newLayer->id = "Layer 1";
     newLayer->scrollSpeed = 1;
     this->addChild(newLayer);
-    //get Tile size, width, height of map
-    auto tilesize = map.getTileSize();
-    tile_width = tilesize.x;
-    tile_height = tilesize.y;
-    
-    auto& map_tilesets = map.getTilesets();
-    SDL_Point sdl_ts;
-    for (auto& tset : map_tilesets) {
-        //save the SDL_textures somewhere 
-        auto tex = tset.getImagePath();
-        auto ts = tset.getTileSize(); 
-        sdl_ts.x = ts.x; 
-        sdl_ts.y = ts.y; 
-        tilesets.insert(std::pair<int, string>(tset.getFirstGID(), tex));
-        tsize.insert(std::pair<int, SDL_Point>(tset.getFirstGID(), sdl_ts)); //save size of each tileset
-        // cout << "Tsize x " << sdl_ts.x << endl;
-        // cout << "Tsize y " << sdl_ts.y << endl;
-        // cout << "T image " << tex << endl;
-        // tsize.push_back(std::make_pair(tset.getFirstGID(), sdl_ts));
+    //Loop through tilesets 
+    for (auto& tset : j["tilesets"]) {
+        //load and save textures for easy access later 
+        string path = tset["path"];
+        SDL_Surface* image = IMG_Load(path.c_str());
+	    SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::renderer, image);
+        this->tilesets.insert(std::pair<int, SDL_Texture*>(tset["firstgid"], texture));
     }
-    
-    //main loop
-    auto& map_layers = map.getLayers(); 
-    for (auto& layer : map_layers) {
-        if (layer->getType() != tmx::Layer::Type::Tile) { //rendering only tile layers
+    cout << "first gid of tset " << tilesets[1] << endl;
+    for (auto& layer : j["layers"]) {
+        if (layer["type"] != "tilelayer") { //rendering only tile layers
             continue;
         }
-        //get tile layers 
-        auto* tile_layer = dynamic_cast<const tmx::TileLayer*>(layer.get()); 
-        // Grab all of this layer's tiles.
-        auto& layer_tiles = tile_layer->getTiles();
-        //Loop through all tiles
-        for (auto y = 0; y < rows; ++y) {
-            for (auto x = 0; x < cols; ++x) {
-                auto tile_index = x + (y * cols);
-                //loop through each tile and save information
-                auto cur_gid = layer_tiles[tile_index].ID;
-                // If the GID is 0, skip
+        cout << "after checking layer type" << endl;
+         for (int y = 0; y < rows; ++y) {
+            for (int x = 0; x < cols; ++x) {
+                // cout << "inside nested loop" << endl;
+                int tile_index = x + (y * cols);
+                int cur_gid = layer["data"][tile_index];
+                // cout << "cur_gid " << cur_gid << endl;
                 if (cur_gid == 0) {
                     continue;
                 }
-                
-                //check if the tile is in the tileset by comparing GID 
-                //if first tileset's GID <= GID of tileset, then save tile GID 
-                auto tset_gid = -1; //to check for tile sets
-                // cout << "Size of tilesets " << tilesets.size() << endl;
-                //for( auto it = x.begin(); it != x.end(); i++)
-                for (auto ts = tilesets.rbegin(); ts != tilesets.rend(); ts++) {
-                    cout << "ts first " << ts->first << endl;
-                    cout << "cur gid " << cur_gid << endl;
+                int tset_gid = -1; //to check for tile sets
+                for (auto ts = this->tilesets.rbegin(); ts != this->tilesets.rend(); ts++) {
                     if (ts->first <= cur_gid) {
                         tset_gid = ts->first;
                         break;
@@ -81,49 +89,77 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 if (tset_gid == -1) { //not in the tile set, then skip
                     continue;
                 }
-                // cout << "Tileset GID " << tset_gid << endl;
                 //normalizing the GID
                 cur_gid -= tset_gid;
-                // auto ts_width = 0;
-                // auto ts_height = 0;
-                // SDL_QueryTexture(tilesets[tset_gid],
-                //     NULL, NULL, &ts_width, &ts_height);
-                // cout << "TS w " << ts_width << endl;
-                // cout << "TS h " << ts_height << endl;
-                
+                int ts_width = 0;
+                int ts_height = 0;
+                // cout << "tset_gid " << this->tilesets[233] << endl;
+                SDL_QueryTexture(this->tilesets[tset_gid],
+                    NULL, NULL, &ts_width, &ts_height);
                 //calculate area to draw on
-                // auto region_x = (cur_gid % (ts_width / tile_width)) * tile_width;
-                // auto region_y = (cur_gid / (ts_width / tile_height)) * tile_height;
-                // cout << "region_x " << region_x << endl;
-                // cout << "region_y " << region_y << endl;
+                // cout << "cur_gid " << cur_gid << endl;
+                // cout << "ts_width " << ts_width << endl; 
+                // cout << "tile_width " << tile_width << endl;
+                double region_x = (cur_gid % (ts_width / tile_width)) * tile_width;
+                // cout << "after region x" << endl;
+                double region_y = (cur_gid / (ts_width / tile_height)) * tile_height;
+                // cout << "after region y" << endl;
                 //calculate world position of tile
-                auto x_pos = x * tile_width;
-                auto y_pos = y * tile_height;
-                //save tile info in the vector 
-                //x_pos, y_pos, tile_width=w, tile_height=h
-                //include region_x and y?? like the origin I guess..
-                DisplayObject* temp = new DisplayObject(" ", tilesets[tset_gid]);
-                cout << tilesets[tset_gid] << endl;
-                temp->position.x = x_pos; 
-                temp->position.y = y_pos; 
-                temp->width = tile_width; 
-                temp->height = tile_height; 
-                // temp->srcrect.x = 0; 
-                // temp->srcrect.y = 0; 
-                // temp->srcrect.w = tile_width; 
-                // temp->srcrect.h = tile_height; 
-                temp->visible = true;
-                temp->scaleX = 1;
-                temp->scaleY = 1;
-                temp->alpha = 255;
-                temp->facingRight = true;
-                newLayer->addChild(temp);
-                //for the number of tilesets, if part of this tileset i
-                    //DisplayObject temp = new DisplayObject("",tileset[i].imgpath)
-                    //temp->position.x = x_pos...etc.
+                int x_pos = x * tile_width;
+                int y_pos = y * tile_height;
+                //if part of the tiled platform, render a specific region instead of whole thing
+                //will remove later if not rendering objects other than the tiled platform
+                if (1 <= cur_gid && cur_gid <= 232) {
+                    DisplayObject* temp = new DisplayObject();
+                    temp->setTexture(tilesets[tset_gid]);
+                    temp->position.x = x_pos; 
+                    temp->position.y = y_pos; 
+                    temp->width = tile_width; 
+                    temp->height = tile_height; 
+                    temp->visible = true;
+                    temp->scaleX = 1;
+                    temp->scaleY = 1;
+                    temp->alpha = 255;
+                    temp->facingRight = true;
+                    if (cur_gid > 130) {
+                        temp->gameType = "platform";
+                    }
+                    else {
+                        temp->gameType = "grass";
+                    }
+                    temp->srcrect.x = region_x; 
+                    temp->srcrect.y = region_y; 
+                    temp->srcrect.w = tile_width; 
+                    temp->srcrect.h = tile_height;  
+                    temp->tile = true;
+                    newLayer->addChild(temp);
+                }
+                // else {
+                //     temp->srcrect.x = 0; 
+                //     temp->srcrect.y = 0; 
+                // }
+                //can only append to the same vector...no easy way to check if adding an enemy or object..
             }
-        }
+         }
     }
+}
+DisplayObject* Scene::getObject(int index){
+    return this->objects[index];
+}
+DisplayObjectContainer* Scene::getEnemy(int index){
+    return this->enemies[index];
+}
+void Scene::addEnemy(DisplayObjectContainer* enemy){
+    this->enemies.push_back(enemy);
+}
+AnimatedSprite* Scene::getCharacter(){
+    return this->character;
+}
+void Scene::setCharacter(AnimatedSprite* chara) {
+    this->character = chara;
+}
+int Scene::getSceneNum(){
+    return this->sceneNum;
 }
 void Scene::loadScene(string sceneFilePath) {
     json j;
@@ -145,15 +181,15 @@ void Scene::loadScene(string sceneFilePath) {
         if(data["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(data);
             this->addChild(newDOC);
+            if (data["id"] == "bonus") {
+                this->objects.push_back(newDOC);
+            }
         }
         if(data["type"] == "Sprite") {
             Sprite* newS = makeSprite(data);
             this->addChild(newS);
         }
-         if(data["type"] == "Layer") {
-            // DisplayObjectContainer* newDO = makeLayer(data);
-            // this->addChild(newDO);
-            // layerList.push_back(newDO);
+        if(data["type"] == "Layer") {
             Layer* newLayer = makeLayer(data);
             this->addChild(newLayer);
         }
@@ -161,9 +197,9 @@ void Scene::loadScene(string sceneFilePath) {
         if(data["type"] == "AnimatedSprite") {
             AnimatedSprite* newAS = makeAnimatedSprite(data); 
             this->addChild(newAS);
-            asList.push_back(newAS);
         }
     }
+    ifs.close();
 }
 
 json Scene::toJson() {
@@ -262,6 +298,8 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
     newDOC->visible = data["visible"];
     newDOC->position.x = data["position.x"];
     newDOC->position.y = data["position.y"];
+    cout << data["id"] << endl;
+    newDOC->gameType = data["gameType"];
     newDOC->width = data["width"];
     newDOC->height = data["height"];
     newDOC->pivot.x = data["pivot.x"];
@@ -271,6 +309,7 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
     newDOC->rotation = data["rotation"];
     newDOC->alpha = data["alpha"];
     newDOC->facingRight = data["facingRight"];
+    newDOC->gameType = data["gameType"];
     if(data["filepath"] != "") {
         newDOC->imgPath = data["filepath"];
         newDOC->loadTexture(data["filepath"]);
@@ -294,7 +333,6 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
         if(childData["type"] == "AnimatedSprite") {
             AnimatedSprite* newAS = makeAnimatedSprite(childData);
             newDOC->addChild(newAS);
-            asList.push_back(newAS);
         }
     }
     return newDOC;
@@ -316,12 +354,15 @@ Layer* Scene::makeLayer(json data) {
             DisplayObject* newDO = makeDisplayObject(childData);
             newLayer->addChild(newDO);
             if (childData["id"] == "coin" || childData["id"] == "questComplete") {
-                objects.push_back(newDO);
+                this->objects.push_back(newDO);
             }
         }
         if(childData["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(childData);
             newLayer->addChild(newDOC);
+             if (childData["id"] == "enemy") {
+                enemies.push_back(newDOC);
+            }
         }
         if(childData["type"] == "Sprite") {
             Sprite* newS = makeSprite(childData);
@@ -330,9 +371,9 @@ Layer* Scene::makeLayer(json data) {
         if(childData["type"] == "AnimatedSprite") {
             AnimatedSprite* newAS = makeAnimatedSprite(childData); //possibly use root var
             newLayer->addChild(newAS);
-            asList.push_back(newAS);
         }
     }
+    // cout << "children of newLayer " << newLayer->children.size() << endl;
     return newLayer;
 }
 
@@ -376,7 +417,20 @@ Sprite* Scene::makeSprite(json data) {
 }
 
 AnimatedSprite* Scene::makeAnimatedSprite(json data) {
-    AnimatedSprite* newAS = new AnimatedSprite(data["id"]);
+    //make from spritesheet 
+    //AnimatedSprite* newAS = new AnimatedSprite(data["id"], data["filepath"], data["xmlpath"]);
+    AnimatedSprite* newAS;
+    if (data["useSpriteSheet"]) {
+         newAS = new AnimatedSprite(data["id"], data["animations"]["0"]["filepath"], 
+            data["animations"]["0"]["xmlpath"]);
+    }
+    else {
+        newAS = new AnimatedSprite(data["id"]);
+        for(auto& [key, value] : data["animations"].items()) {
+            newAS->addAnimation(value["filepath"], value["name"], value["frames"], value["rate"], value["loop"]);
+        }
+    }
+    // AnimatedSprite* newAS = new AnimatedSprite(data["id"]);
     newAS->visible = data["visible"];
     newAS->position.x = data["position.x"];
     newAS->position.y = data["position.y"];
@@ -389,12 +443,15 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     newAS->rotation = data["rotation"];
     newAS->alpha = data["alpha"];
     newAS->facingRight = data["facingRight"];
-    
+    newAS->srcrect.x = 0;
+    newAS->srcrect.y = 0;
+    newAS->gameType = data["gameType"];
+    if (data["gameType"] == "character") {
+        this->character = newAS;
+    }
     string anim = data["animations"]["0"]["name"];
     // Animations
-    for(auto& [key, value] : data["animations"].items()) {
-        newAS->addAnimation(value["filepath"], value["name"], value["frames"], value["rate"], value["loop"]);
-    }
+    cout << "Anim name " << anim << endl;
     newAS->play(anim);
  
     // Children
@@ -421,6 +478,14 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
 }
 
 void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
+    // if (this->sceneNum == 7 && 
+    //    ( this->character->position.y > this->transitionPts["rm5Greater"].y && 
+    //     (this->character->position.x > this->transitionPts["rm5Greater"].x && this->character->position.x < this->transitionPts["rm5Less"].x)))
+    // {
+    //     //call change scene event
+    //     MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
+    //         "./resources/scenes/area1files/Area1Room5.json"));
+    // } 
     DisplayObjectContainer::update(pressedKeys, pressedButtons, movedAxis);
 }
 

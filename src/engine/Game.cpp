@@ -42,6 +42,7 @@ void Game::quitSDL(){
 	}
 
 	IMG_Quit();
+	TTF_Quit();
 	SDL_Quit();
 }
 
