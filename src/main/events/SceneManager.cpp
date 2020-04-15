@@ -67,8 +67,8 @@ void SceneManager::handleEvent(Event* e)
         
         // Tween* prevFade = new Tween(prevS);
         Tween* newFade = new Tween(currentS);
-        Tween* charIn = new Tween(currentS->getCharacter());
-        TweenableParams alpha, posx, posy; 
+        // Tween* charIn = new Tween(currentS->getCharacter());
+        TweenableParams alpha; 
         alpha.name = "alpha";
         // prevFade->animate(alpha, 255, 0, 2); 
         newFade->animate(alpha, 0, 255, 3);

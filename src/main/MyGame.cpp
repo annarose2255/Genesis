@@ -65,11 +65,11 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
 
 	Game::camera->addChild(currentScene);
+	instance->addChild(Game::camera);
 	instance->addChild(hp);
 	instance->addChild(tBox);
 	instance->addChild(mainMenu);
 	instance->addChild(itemsMenu);
-	instance->addChild(Game::camera);
 
 	hp->position = { 100, 100 };
     //Sound 
@@ -86,7 +86,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	TweenableParams chalpha;
 	chalpha.name = "alpha";
 	charTween->animate(chalpha, 0, 255, 3); 
-	
+
 	tj->add(charTween);
 }
 
@@ -176,9 +176,19 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	/***************** UI COMPONENTS ******************/
 	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end()) {
 		mainMenu->visible = true; 
+		Tween* menuTween = new Tween(mainMenu);
+		TweenableParams malpha;
+		malpha.name = "alpha";
+		menuTween->animate(malpha, 0, 255, 3); 
+		tj->add(menuTween);
 	}
 	if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end()) {
 		tBox->visible = true; 
+		Tween* textTween = new Tween(tBox);
+		TweenableParams talpha;
+		talpha.name = "alpha";
+		textTween->animate(talpha, 0, 255, 3);
+		tj->add(textTween);
 	}
 	// To change text
 	if (pressedKeys.find(SDL_SCANCODE_J) != pressedKeys.end()) {
@@ -189,8 +199,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
 	// cout << "Camera x " << Game::camera->position.x << endl; 
 	// cout << "Camera y " << Game::camera->position.y << endl; 
-	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
-	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
+	cout << "Character x " << currentScene->getCharacter()->position.x << endl;
+	cout << "Character y " << currentScene->getCharacter()->position.y << endl;
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}

@@ -475,14 +475,14 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
 }
 
 void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
-    // if (this->sceneNum == 7 && 
-    //    ( this->character->position.y > this->transitionPts["rm5Greater"].y && 
-    //     (this->character->position.x > this->transitionPts["rm5Greater"].x && this->character->position.x < this->transitionPts["rm5Less"].x)))
-    // {
-    //     //call change scene event
-    //     MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
-    //         "./resources/scenes/area1files/Area1Room5.json"));
-    // } 
+    if (this->sceneNum == 7 && 
+       ( this->character->position.y > this->transitionPts["rm5Greater"].y && 
+        (this->character->position.x > this->transitionPts["rm5Greater"].x && this->character->position.x < this->transitionPts["rm5Less"].x)))
+    {
+        //call change scene event
+        MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
+            "./resources/scenes/area1files/Area1Room5.json"));
+    } 
     DisplayObjectContainer::update(pressedKeys, pressedButtons, movedAxis);
 }
 
