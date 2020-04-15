@@ -140,14 +140,9 @@ void Game::start(){
 				break;
 				}
 			case SDL_CONTROLLERBUTTONDOWN:
-				//cout << "CONTROLLER down has been triggered" << endl;
-				cout << "INSERTING: " << endl;
-				cout << (SDL_GameControllerButton) event.cbutton.button << endl;
 				pressedButtons.insert((SDL_GameControllerButton) event.cbutton.button);
 				break;
 			case SDL_CONTROLLERBUTTONUP:
-				cout << "REMOVING: " << endl;
-				cout << (SDL_GameControllerButton) event.cbutton.button << endl;
 				pressedButtons.erase((SDL_GameControllerButton) event.cbutton.button);
 				break;
 			// device events
