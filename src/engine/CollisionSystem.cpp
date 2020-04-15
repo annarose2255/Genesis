@@ -22,7 +22,7 @@ void CollisionSystem::clearAllData(){
 void CollisionSystem::update(){
 	// iterate over colllision pairs
 	for (auto pair=collisionPairs.begin(); pair != collisionPairs.end(); ++pair) {
-		cout << "update collisionPairs" << endl;
+		//cout << "update collisionPairs" << endl;
 		if (typeMap.count(pair->first) != 0 && typeMap.count(pair->second) != 0) {
 			for (auto doType1=typeMap.at(pair->first).begin(); doType1 != typeMap.at(pair->first).end(); ++doType1) {
 				for (auto doType2=typeMap.at(pair->second).begin(); doType2 != typeMap.at(pair->second).end(); ++doType2) {
@@ -132,15 +132,31 @@ void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, i
 
 	d->position.x -= xDelta1; 
 	bool yCol = collidesWith(d, other); 
-	d->position.x += xDelta1; d->position.y -= yDelta1; 
+	d->position.x += xDelta1; 
+	d->position.y -= yDelta1; 
 	bool xCol = collidesWith(d, other); 
 	d->position.y += yDelta1;
 
 	if (xCol) {
-		d->position.x -=xDelta1; 
+		/* if ( d->gameType == "character"){
+			cout<<"player collide"<<endl;
+			d->position.x -=7;
+		}
+		else{ */
+			d->position.x -=xDelta1; 
+			//}
+		
 	}
 	if (yCol) {
-		d->position.y -=yDelta1; 
+		/* if ( d->gameType == "character"){
+			d->position.y -=7;
+		}
+		else{ */
+		cout<<"position y: "<<d->position.y<<endl;
+		//cout<<""
+			d->position.y -=xDelta1; 
+			//}	
+
 	}
 	if (!xCol && !yCol) {
 		d->position.x -= xDelta1; d->position.y -= yDelta1; 

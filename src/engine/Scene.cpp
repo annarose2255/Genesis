@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "Player.h"
 
 Scene::Scene() : DisplayObjectContainer() {
     this->type = "Scene";
@@ -417,8 +418,9 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     //make from spritesheet 
     //AnimatedSprite* newAS = new AnimatedSprite(data["id"], data["filepath"], data["xmlpath"]);
     AnimatedSprite* newAS;
+    //Player* newplayer;
     if (data["useSpriteSheet"]) {
-         newAS = new AnimatedSprite(data["id"], data["animations"]["0"]["filepath"], 
+         newAS = new Player(data["id"], data["animations"]["0"]["filepath"], 
             data["animations"]["0"]["xmlpath"]);
     }
     else {
@@ -428,6 +430,8 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
         }
     }
     // AnimatedSprite* newAS = new AnimatedSprite(data["id"]);
+   // newplayer = newAS;
+  
     newAS->visible = data["visible"];
     newAS->position.x = data["position.x"];
     newAS->position.y = data["position.y"];
@@ -446,6 +450,8 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     if (data["gameType"] == "character") {
         this->character = newAS;
     }
+
+
     string anim = data["animations"]["0"]["name"];
     // Animations
     // cout << "Anim name " << anim << endl;
