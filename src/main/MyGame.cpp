@@ -72,7 +72,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	eDispatcher->addEventListener(sm, CHANGE);
 	//Collision Detection 
 	collisionSystem->watchForCollisions("character", "platform"); 
-	// collisionSystem->watchForCollisions("character", "enemy");
+	collisionSystem->watchForCollisions("character", "enemy");
 	//Tween
 	// tj = new TweenJuggler();
 	Tween* charTween = new Tween(currentScene->getCharacter());

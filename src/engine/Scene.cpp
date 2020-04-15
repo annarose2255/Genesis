@@ -419,8 +419,18 @@ Sprite* Scene::makeSprite(json data) {
 AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     //make from spritesheet 
     //AnimatedSprite* newAS = new AnimatedSprite(data["id"], data["filepath"], data["xmlpath"]);
-    
-    AnimatedSprite* newAS = new AnimatedSprite(data["id"]);
+    AnimatedSprite* newAS;
+    if (data["useSpriteSheet"]) {
+         newAS = new AnimatedSprite(data["id"], data["animations"]["0"]["filepath"], 
+            data["animations"]["0"]["xmlpath"]);
+    }
+    else {
+        newAS = new AnimatedSprite(data["id"]);
+        for(auto& [key, value] : data["animations"].items()) {
+            newAS->addAnimation(value["filepath"], value["name"], value["frames"], value["rate"], value["loop"]);
+        }
+    }
+    // AnimatedSprite* newAS = new AnimatedSprite(data["id"]);
     newAS->visible = data["visible"];
     newAS->position.x = data["position.x"];
     newAS->position.y = data["position.y"];
@@ -441,16 +451,6 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     }
     string anim = data["animations"]["0"]["name"];
     // Animations
-    if (data["useSpriteSheet"]) {
-        for(auto& [key, value] : data["animations"].items()) {
-            newAS->addSSAnimation(value["filepath"], value["xmlpath"]);
-        }
-    }
-    else {
-        for(auto& [key, value] : data["animations"].items()) {
-            newAS->addAnimation(value["filepath"], value["name"], value["frames"], value["rate"], value["loop"]);
-        }
-    }
     cout << "Anim name " << anim << endl;
     newAS->play(anim);
  
