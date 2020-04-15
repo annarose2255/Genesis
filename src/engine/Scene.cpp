@@ -4,9 +4,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <tmxlite/Map.hpp>
-#include <tmxlite/Layer.hpp>
-#include <tmxlite/TileLayer.hpp>
 
 Scene::Scene() : DisplayObjectContainer() {
     this->type = "Scene";
@@ -64,12 +61,12 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
 	    SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::renderer, image);
         this->tilesets.insert(std::pair<int, SDL_Texture*>(tset["firstgid"], texture));
     }
-    cout << "first gid of tset " << tilesets[1] << endl;
+    // cout << "first gid of tset " << tilesets[1] << endl;
     for (auto& layer : j["layers"]) {
         if (layer["type"] != "tilelayer") { //rendering only tile layers
             continue;
         }
-        cout << "after checking layer type" << endl;
+        // cout << "after checking layer type" << endl;
          for (int y = 0; y < rows; ++y) {
             for (int x = 0; x < cols; ++x) {
                 // cout << "inside nested loop" << endl;
@@ -171,8 +168,8 @@ void Scene::loadScene(string sceneFilePath) {
     int i = 0;
     for(auto& [key, value] : j.items()) {
         json data = value;
-        cout << "hi" << endl;
-        cout << data["type"] << endl;
+        // cout << "hi" << endl;
+        // cout << data["type"] << endl;
          //quick fix: find j["character"], set it to root & call in myGame
         if(data["type"] == "DisplayObject") {
             DisplayObject* newDC = makeDisplayObject(data);
@@ -298,7 +295,7 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
     newDOC->visible = data["visible"];
     newDOC->position.x = data["position.x"];
     newDOC->position.y = data["position.y"];
-    cout << data["id"] << endl;
+    // cout << data["id"] << endl;
     newDOC->gameType = data["gameType"];
     newDOC->width = data["width"];
     newDOC->height = data["height"];
@@ -451,7 +448,7 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     }
     string anim = data["animations"]["0"]["name"];
     // Animations
-    cout << "Anim name " << anim << endl;
+    // cout << "Anim name " << anim << endl;
     newAS->play(anim);
  
     // Children

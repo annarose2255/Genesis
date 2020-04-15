@@ -153,7 +153,7 @@ void DisplayObject::draw(AffineTransform &at){
 void DisplayObject::onCollision(DisplayObject* other){
 	cout << "inside onCollision!" << endl;
 	if (other->gameType == "platform") {
-		cout << "collided with a platform!" << endl;
+		// cout << "collided with a platform!" << endl;
 		MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
 			0, 0);
 	}

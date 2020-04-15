@@ -82,18 +82,12 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	collisionSystem->watchForCollisions("character", "platform"); 
 	collisionSystem->watchForCollisions("character", "enemy");
 	//Tween
-	// tj = new TweenJuggler();
 	Tween* charTween = new Tween(currentScene->getCharacter());
 	TweenableParams chalpha;
 	chalpha.name = "alpha";
 	charTween->animate(chalpha, 0, 255, 3); 
 	
-	// TweenEvent te = new TweenEvent("enterChara", charTween); //handle events 
-	//mimic coin demo
 	tj->add(charTween);
-
-
-
 }
 
 MyGame::~MyGame(){
@@ -107,31 +101,21 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
     mainMenu->update(pressedKeys);
     itemsMenu->update(pressedKeys);
 
-    if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
-        cout << "abc" << endl;
-        Game::camera->removeImmediateChild(currentScene);
-        cout << instance->children.size() << endl;
-        currentScene = scene2;
-        Game::camera->addChild(currentScene);
-        change = !change;
-    }
-    else if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && !change) {
-        cout << "123" << endl;
-       	Game::camera->removeImmediateChild(currentScene);
-        currentScene = scene1;
-        Game::camera->addChild(currentScene);
-        change = !change;
-    }
-	if ((pressedKeys.find(SDL_SCANCODE_Z) != pressedKeys.end())) {
-		currentScene->scaleX+=0.01; 
-		currentScene->scaleY+=0.01;	
-	}
-	if (currentScene->scaleX > 1 && currentScene->scaleY > 1) {
-		if ((pressedKeys.find(SDL_SCANCODE_X) != pressedKeys.end())) {
-			currentScene->scaleY-=0.01;
-			currentScene->scaleX-=0.01;
-		}
-	}
+    // if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
+    //     cout << "abc" << endl;
+    //     Game::camera->removeImmediateChild(currentScene);
+    //     cout << instance->children.size() << endl;
+    //     currentScene = scene2;
+    //     Game::camera->addChild(currentScene);
+    //     change = !change;
+    // }
+    // else if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && !change) {
+    //     cout << "123" << endl;
+    //    	Game::camera->removeImmediateChild(currentScene);
+    //     currentScene = scene1;
+    //     Game::camera->addChild(currentScene);
+    //     change = !change;
+    // }
 
     //for music - press1 and the music will play
 	//user press 1 --> play music
@@ -205,8 +189,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
 	// cout << "Camera x " << Game::camera->position.x << endl; 
 	// cout << "Camera y " << Game::camera->position.y << endl; 
-	cout << "Character x " << currentScene->getCharacter()->position.x << endl;
-	cout << "Character y " << currentScene->getCharacter()->position.y << endl;
+	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
+	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}
@@ -276,14 +260,3 @@ void MyGame::draw(AffineTransform &at){
 	Game::draw(at); 
 	SDL_RenderSetViewport(Game::renderer, &Game::camera->camera);
 }
-
-bool MyGame::isCharInCoin(DisplayObject* chara, DisplayObject* cn) {
-    SDL_Point* charPos, charTemp;
-    SDL_Rect* cnRect, cnTemp;
-    charTemp = {chara->position.x + chara->pivot.x, chara->position.y + chara->pivot.y};
-    charPos = &charTemp; 
-    cnTemp = {cn->position.x, cn->position.y, cn->width, cn->height};
-    cnRect = &cnTemp;
-    return SDL_PointInRect(charPos, cnRect);
-}
-

@@ -45,6 +45,6 @@ void TweenTransitions::setVal(double current, double start, double end){
     this->curVal = current;
     this->startVal = start;
     this->endVal = end; 
-    cout << "set curVal " << this->curVal << endl; 
-    cout << "set endVal " << this->endVal << endl;
+    // cout << "set curVal " << this->curVal << endl; 
+    // cout << "set endVal " << this->endVal << endl;
 }

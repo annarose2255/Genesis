@@ -15,9 +15,9 @@ void TweenJuggler::add(Tween* tween){
 void TweenJuggler::nextFrame(){
     for (int i = 0; i < queue.size(); i++) {
         if (!queue[i]->isComplete()) {
-            cout << "queue is not complete!" << endl;
+            // cout << "queue is not complete!" << endl;
             queue[i]->update();
-            cout << "out of queue update!" << endl;
+            // cout << "out of queue update!" << endl;
         }
         else {
             queue.erase(queue.begin() + i);

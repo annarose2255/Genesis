@@ -40,7 +40,7 @@ void Tween::update(){
     //update curTime 
     if (!isComplete()) {
         this->curFrame++;
-        cout << "Tween Current Frame " << this->curFrame << endl;
+        // cout << "Tween Current Frame " << this->curFrame << endl;
         //increment TweenParam internal counter 
         for (int i = 0; i < params.size(); i++) {
             params[i]->currentFrame++;

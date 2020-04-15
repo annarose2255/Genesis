@@ -36,19 +36,19 @@ void CollisionSystem::update(){
 //or taken off of the tree. Thus, the collision system always knows what DOs are in the game at any moment automatically.
 void CollisionSystem::handleEvent(Event* e){
 	if (e->getType() == DO_ADDED_EVENT){
-		cout << "DISPLAY OBJECT ADDED"  << endl;
+		// cout << "DISPLAY OBJECT ADDED"  << endl;
 		DisplayObjectEvent* doEvent = (DisplayObjectEvent*) e;
 		DisplayObject* displayObject = doEvent->displayObject;
 		// check if gameType is not already in map
 		if (typeMap.find(displayObject->gameType) == typeMap.end()){
-			cout << "Object gameType is new: " << displayObject->gameType  << endl;
+			// cout << "Object gameType is new: " << displayObject->gameType  << endl;
 			// if not go ahead and insert new vector with element
 			vector<DisplayObject*> newList = vector<DisplayObject*>();
 			newList.push_back(displayObject);
 			typeMap.insert({displayObject->gameType, newList});
 		} else {
 			// if already present insert into existing vector
-			cout << "Object gameType is NOT new" << displayObject->gameType  << endl;
+			// cout << "Object gameType is NOT new" << displayObject->gameType  << endl;
 			typeMap.at(displayObject->gameType).push_back(displayObject);
 		}
 	}
