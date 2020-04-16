@@ -165,9 +165,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		currentScene->getCharacter()->position.y +=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
-		currentScene->getCharacter()->facingRight = false;
-		currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
-		currentScene->getCharacter()->position.x -=2;
+		//currentScene->getCharacter()->facingRight = false;
+		//currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
+		//currentScene->getCharacter()->position.x -=2;
+		
 			// currentScene->position.x+=2; //comment out to just move sprite
 	}
 	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {

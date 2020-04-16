@@ -170,6 +170,7 @@ void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, i
 		//cout<<"position y2: "<<d->position.y<<endl; 
 	}
 	d->_yVel = 0;
+	d->standing = true;
 
 }
 

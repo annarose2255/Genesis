@@ -48,7 +48,7 @@ Player::Player(string id, string spriteSheetPath, string xmlPath) : AnimatedSpri
 		//DisplayObject::onCollision(other);
 		this->_yVel = 0;
 		//_yAccCount= 0;
-		_standing=true;
+		this->standing=true;
 	}
 	/* else if(other->type == "Enemy"){
 		if(!this->iFrames){
@@ -71,24 +71,23 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	if(MyGame::controls->holdRight()){
 		this->position.x += 2;
 		this->facingRight = true;
-		if(_standing){
+		if(this->standing){
 			this->play("Run");
 		}
 	}
-	/*
-	else if(controls::holdLeft()){
-		this->x -= 4;
-		this->flipH = true;
-		if(_standing){
+	else if(MyGame::controls->holdLeft()){
+		this->position.x -= 2;
+		this->facingRight = false;
+		if(this->standing){
 			this->play("Run");
 		}
-	} */
+	} 
 	
 	
 	//play idle animation if player is just standing still on ground
-	/* if(_standing && !controls::holdLeft() && !controls::holdRight()){
+	if(this->standing && !MyGame::controls->holdLeft() && !MyGame::controls->holdRight()){
 		this->play("Idle");
-	} */
+	} 
 	
 
 	/* handle iFrames if player was hit by enemy recently */
@@ -115,19 +114,14 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	//}
 
 	/* /* Jumping */
-	/*if(_standing && controls::pressJump()){
+	if(this->standing && MyGame::controls->pressJump()){ //_standing &&
 		this->_yVel = _jumpVel;
-		_standing = false;
+		this->standing = false;
 		this->play("Jump");
-	} */
+	} 
 
 	/* Actual falling depending on falling versus whether a jump occurred */
-	//if (!this->_standing){
-	//cout<<"position y check2: "<<this->position.y<<endl;
-		//cout<<"position y check2: "<<this->position.y<<endl;
 	this->position.y += this->_yVel;
-	//cout<<"position y check3: "<<this->position.y<<endl;
-	//}
 }
 
 /*void Player::onEnemyCollision(Enemy* enemy){

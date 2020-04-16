@@ -38,10 +38,10 @@ private:
 
 	int oldX=0, oldY=0;
 
-	int _jumpVel = -15;
+	int _jumpVel = -5;
 
 	/* Falling variables */
-	bool _standing = false;
+	//bool _standing = false;
 	int _maxFall = 9;
 	int _yAcc = 2; //one pixel every two frames
 	int _yAccCount = 0;
