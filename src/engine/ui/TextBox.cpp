@@ -50,6 +50,9 @@ void TextBox::draw(AffineTransform &at) {
 		SDL_RenderDrawLine(Game::renderer, this->position.x+this->width, this->position.y+this->height, this->position.x, this->position.y+this->height);
 		SDL_RenderDrawLine(Game::renderer, this->position.x, this->position.y, this->position.x, this->position.y+this->height);
 
+		SDL_SetRenderDrawBlendMode(Game::renderer, SDL_BLENDMODE_BLEND);
+		SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, this->alpha);
+
 	}
 
 }

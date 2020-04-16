@@ -28,6 +28,7 @@ public:
 
 private:
 
+	bool keypressEmpty = true;
 	vector<MenuItem*> menuItems;
 	MenuItem* prevItem;
 	int selectInd;

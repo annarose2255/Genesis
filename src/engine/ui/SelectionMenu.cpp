@@ -47,24 +47,26 @@ void SelectionMenu::goBack() {
 void SelectionMenu::update(set<SDL_Scancode> pressedKeys) {
 	// Only accept inputs if visible
 	if(this->visible) {
-		for(SDL_Scancode key : pressedKeys) {
-			switch (key) {
-				case SDL_SCANCODE_RETURN:
-					this->selectItem(selectInd);
-					break;
-				case SDL_SCANCODE_BACKSPACE:
-					this->goBack();
-					break;
-				case SDL_SCANCODE_N:
-					if (selectInd != 0) {
-						selectInd -= 1;
-					}
-					break;
-				case SDL_SCANCODE_M:
-					if (selectInd != menuItems.size()-1) {
-						selectInd +=1;
-					}
-					break;
+		if (pressedKeys.size() == 1){
+			for(SDL_Scancode key : pressedKeys) {
+				switch (key) {
+					case SDL_SCANCODE_RETURN:
+						this->selectItem(selectInd);
+						break;
+					case SDL_SCANCODE_BACKSPACE:
+						this->goBack();
+						break;
+					case SDL_SCANCODE_N:
+						if (selectInd != 0) {
+							selectInd -= 1;
+						}
+						break;
+					case SDL_SCANCODE_M:
+						if (selectInd != menuItems.size()-1) {
+							selectInd +=1;
+						}
+						break;
+				}
 			}
 		}
 	}
@@ -73,6 +75,7 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys) {
 void SelectionMenu::draw(AffineTransform &at) {
 	if(this->visible) {
 		Sprite::draw(at);
+		cout << "uhh" << endl;
 
 		SDL_SetRenderDrawBlendMode(Game::renderer, SDL_BLENDMODE_BLEND);
 		SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, this->alpha);
@@ -88,8 +91,12 @@ void SelectionMenu::draw(AffineTransform &at) {
 			SDL_Point itemPos = menuItems[selectInd]->position;
 			int itemW = menuItems[selectInd]->width;
 			int itemH = menuItems[selectInd]->height;
-			SDL_RenderDrawLine(Game::renderer, this->position.x+itemPos.x, this->position.y+itemPos.y+itemH+5, this->position.x+itemPos.x+itemW, this->position.y+itemPos.y+itemH+5);
+			SDL_RenderDrawLine(Game::renderer, this->position.x+itemPos.x, this->position.y+itemPos.y+itemH+30, this->position.x+itemPos.x+itemW, this->position.y+itemPos.y+itemH+3);
 		}
+
+		// Reset to black
+		SDL_SetRenderDrawBlendMode(Game::renderer, SDL_BLENDMODE_BLEND);
+		SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, this->alpha);
 
 	}
 
