@@ -61,7 +61,7 @@ public:
 	void reverseTransformations(AffineTransform &at);
 
 	void onCollision(DisplayObject* other);
-	AffineTransform *globalTransform();
+	void *globalTransform(AffineTransform &gt);
 
 	int getWidth();
 	int getHeight();

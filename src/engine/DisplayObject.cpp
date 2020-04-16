@@ -190,19 +190,18 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 	return (atan2(y, x) * 180 / PI);
 }
 
-AffineTransform *DisplayObject::globalTransform() {
-	AffineTransform *gt = new AffineTransform();
+void *DisplayObject::globalTransform(AffineTransform &gt) {
 	if (parent != NULL){
-		gt = this->parent->globalTransform();
+		this->parent->globalTransform(gt);
 		// undo pivot transformations
 		// gt->translate(this->parent->pivot.x, this->parent->pivot.y);
 	}
-	this->applyTransformations(*gt);
-	return gt;
+	this->applyTransformations(gt);
 }
 
 HitboxPoints DisplayObject::getHitboxPts() {
-	AffineTransform gt = *this->globalTransform();
+	AffineTransform gt;
+	this->globalTransform(gt);
 	HitboxPoints pts;
 	// width and height are hardcoded to 100 for some reason
 	this->hitbox.width = width;
@@ -214,7 +213,7 @@ HitboxPoints DisplayObject::getHitboxPts() {
 	return pts;
 }
 
-// Line** DisplayObject::getHitboxLines() {
+// Line** DisplayObject::getHitboxLines() {	
 // 	Line* lines = new Line[4];
 // 	HitboxPoints pts = this->getHitboxPts();
 // 	Line* l1 = new Line();
