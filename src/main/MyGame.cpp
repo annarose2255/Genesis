@@ -157,18 +157,18 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	//character moves separately from scene
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
 
-		currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
-		currentScene->getCharacter()->position.y -=2;
+		//currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
+		//currentScene->getCharacter()->position.y -=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
-		currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
-		currentScene->getCharacter()->position.y +=2;
+		//currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
+		//currentScene->getCharacter()->position.y +=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 		//currentScene->getCharacter()->facingRight = false;
 		//currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
 		//currentScene->getCharacter()->position.x -=2;
-		
+
 			// currentScene->position.x+=2; //comment out to just move sprite
 	}
 	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
@@ -177,6 +177,11 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		//currentScene->getCharacter()->position.x +=2; 
 
 			// currentScene->position.x-=2; //comment out to just move sprite
+	}
+	//double jump
+	if (pressedKeys.find(SDL_SCANCODE_Z)!=pressedKeys.end()){
+		currentScene->getPlayer()->setState("MovAbl");//prevPos.y = currentScene->getCharacter()->position.y;
+		currentScene->getCharacter()->position.y +=2;
 	}
 
 	/***************** UI COMPONENTS ******************/

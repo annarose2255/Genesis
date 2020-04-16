@@ -48,4 +48,10 @@ bool Controls::pressJump(){
      }
     return false;
 }
+bool Controls::useMovementAbility(){
+    if(keys.find(SDL_SCANCODE_Z) != keys.end()){
+        return true;
+    }
+    return false;
+}
 

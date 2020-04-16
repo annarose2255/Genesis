@@ -11,7 +11,7 @@
 #include <vector>
 #include <json.hpp>
 #include <fstream>
-
+#include "Player.h"
 using namespace std;
 
 using json = nlohmann::json;
@@ -31,6 +31,7 @@ public:
 	Layer* makeLayer(json data);
     Sprite* makeSprite(json data);
     AnimatedSprite* makeAnimatedSprite(json data);
+	Player* makePlayer(json data);
 
 	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
@@ -39,6 +40,7 @@ public:
 	DisplayObjectContainer* getEnemy(int index);
 	void addEnemy(DisplayObjectContainer* enemy);
 	AnimatedSprite* getCharacter();
+	Player* getPlayer();
 	void setCharacter(AnimatedSprite* chara);
 	map<int, SDL_Point> charStart; //where character should spawn in this scene
 	map<int, SDL_Point> charEnd;
@@ -48,6 +50,7 @@ private:
 	map<int, SDL_Texture*> tilesets; //store texture of tilesets
 	map<string, SDL_Point> transitionPts;  
 	AnimatedSprite* character;
+	Player* player;
 	int sceneNum; //tells us what room we're loading
 	vector<DisplayObject*> objects; 
 	vector<DisplayObjectContainer*>enemies; 

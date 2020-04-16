@@ -13,6 +13,7 @@ using namespace std;
 Player::Player() : AnimatedSprite("Player"){
 
 	this->type = "Player";
+	this->id = "Null";
 	
 	this->position.x = 55;
 	this->position.y = 200;
@@ -28,7 +29,24 @@ Player::Player() : AnimatedSprite("Player"){
 	this->addAnimation("resources/PlayerSprites/", "Jump", 30, 1, false);
 	this->play("Idle");
 }
+Player::Player(string id){
+	this->type = "Player";
+	this->id = id;
+	
+	this->position.x = 55;
+	this->position.y = 200;
+	this->width = 416;
+	this->height = 454;
+	this->scaleX = 0.15;
+	this->scaleY = 0.15;
+	this->pivot.x = this->width / 2;
+	this->pivot.y = this->height / 2;
 
+	this->addAnimation("resources/PlayerSprites/", "Idle", 16, 4, true);
+	this->addAnimation("resources/PlayerSprites/", "Run", 20, 2, true);
+	this->addAnimation("resources/PlayerSprites/", "Jump", 30, 1, false);
+	this->play("Idle");
+}
 Player::Player(string id, string spriteSheetPath, string xmlPath) : AnimatedSprite(id,  spriteSheetPath,  xmlPath){
 	this->type = "Player";
 
@@ -57,7 +75,9 @@ Player::Player(string id, string spriteSheetPath, string xmlPath) : AnimatedSpri
 	}*/
 
 }
-
+void Player::setState(string newstate){
+	state = newstate;
+}
 
 void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
 	AnimatedSprite::update(pressedKeys, pressedButtons, movedAxis);

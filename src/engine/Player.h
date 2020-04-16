@@ -14,6 +14,7 @@ class Player : public AnimatedSprite{
 
 public:
 	Player();
+	Player(string id);
 	Player(string id, string spriteSheetPath, string xmlPath);
 
 	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
@@ -21,6 +22,9 @@ public:
 
 	//void onEnemyCollision(Enemy* enemy);
 	virtual void onCollision(DisplayObject* other);
+
+	//set state 
+	void setState(string newstate); //sets the state of the character 
 
 	/* Health and such */
 	int health = 100;
@@ -39,7 +43,7 @@ private:
 	int oldX=0, oldY=0;
 
 	int _jumpVel = -5;
-
+	string state;
 	/* Falling variables */
 	//bool _standing = false;
 	int _maxFall = 9;
