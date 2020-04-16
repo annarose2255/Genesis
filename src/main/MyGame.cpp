@@ -180,7 +180,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	}
 	//double jump
 	if (pressedKeys.find(SDL_SCANCODE_Z)!=pressedKeys.end()){
-		currentScene->getPlayer()->setState("MovAbl");//prevPos.y = currentScene->getCharacter()->position.y;
+		currentScene->getCharacter()->setState("MovAbl");//prevPos.y = currentScene->getCharacter()->position.y;
 		currentScene->getCharacter()->position.y +=2;
 	}
 

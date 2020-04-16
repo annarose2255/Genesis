@@ -105,7 +105,9 @@ AnimatedSprite::~AnimatedSprite() {
         delete an;
     }
 }
-
+void AnimatedSprite::setState(string newstate){
+    state = newstate;
+}
 void AnimatedSprite::addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop) {
     Animation* anim = new Animation();
     anim->animName = animName;

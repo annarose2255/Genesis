@@ -199,10 +199,6 @@ void Scene::loadScene(string sceneFilePath) {
             AnimatedSprite* newAS = makeAnimatedSprite(data); 
             this->addChild(newAS);
         }
-        if(data["type"] == "Player") {
-            Player* newPlayer = makePlayer(data); 
-            this->addChild(newPlayer);
-        }
     }
     ifs.close();
 }

@@ -43,7 +43,7 @@ private:
 	int oldX=0, oldY=0;
 
 	int _jumpVel = -5;
-	string state;
+	//string state;
 	/* Falling variables */
 	//bool _standing = false;
 	int _maxFall = 9;

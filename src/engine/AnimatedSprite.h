@@ -55,11 +55,11 @@ public:
 
 	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
-
+	void setState(string newstate);
 	bool playing = false;
 
     vector<string> animationNames;    
-
+	string state;
 private:
 	string process(string file);
     
