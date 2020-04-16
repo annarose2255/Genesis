@@ -135,11 +135,35 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 	/* /* Jumping */
 	if(this->standing && MyGame::controls->pressJump()){ //_standing &&
+	cout<<"jump"<<endl;
 		this->_yVel = _jumpVel;
 		this->standing = false;
 		this->play("Jump");
-	} 
-
+		jump_buffer_start = true;
+	}
+	if(this->standing){
+		jump_buffer_start = false;
+		jump_buffer = 0;
+	}
+	if (jump_buffer_start == true){
+		jump_buffer++;
+	}
+	if(this->state == "MovAblStart"){
+		state_cooldown_counter++;
+		//cout<<"cooldown: "<<state_cooldown_counter<<endl;
+		if (!this->standing && MyGame::controls->pressJump() && activated == false && jump_buffer %4 == 0){
+			cout<<"double"<<endl;
+			this->_yVel = _jumpVel;
+			this->play("Jump");
+			activated = true;
+		}
+	}
+	if (state_cooldown_counter == 200){
+		cout<<"state_cooldown_counter == 200"<<endl;
+		this->state = "normal";
+		activated = false;
+		state_cooldown_counter = 0;
+	}
 	/* Actual falling depending on falling versus whether a jump occurred */
 	this->position.y += this->_yVel;
 }

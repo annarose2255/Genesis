@@ -41,8 +41,11 @@ public:
 private:
 
 	int oldX=0, oldY=0;
-
-	int _jumpVel = -5;
+	int jump_buffer = 0; //#of tiks till can jump
+	bool jump_buffer_start = false; //var to start buffer
+	int _jumpVel = -10;
+	int state_cooldown_counter= 0;//var for the time of cooldown
+	bool activated = false; //var for if the ability has been activated
 	//string state;
 	/* Falling variables */
 	//bool _standing = false;
