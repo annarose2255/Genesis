@@ -37,12 +37,14 @@ void SceneManager::handleEvent(Event* e)
         int toRm = nextScene->getSceneNum(); //room numbers of current level and next level
         //determine where to spawn character
         if (fromRm > toRm) { 
-            pos = nextScene->charEnd[currentS->getSceneNum()]; 
+            cout << "going back" << endl;
+            pos = nextScene->charEnd[fromRm]; 
             Game::camera->position.x = nextScene->right;
             Game::camera->position.y = nextScene->bottom;
         }
         else if (fromRm < toRm) {
-            pos = nextScene->charStart[currentS->getSceneNum()];
+            cout << "going forward " << endl;
+            pos = nextScene->charStart[fromRm];
             Game::camera->position.x = nextScene->left;
             Game::camera->position.y = nextScene->bottom;
         }
@@ -87,8 +89,11 @@ void SceneManager::handleEvent(Event* e)
     else if (e->getType() == FIGHT)
     {
          // FightEvent* event = dynamic_cast<FightEvent*>(event);
+        MyGame::collisionSystem->clearAllData();
         Scene* nextScene = new Scene();
-        nextScene->loadTileMap(e->getScenePath());
+        // nextScene->loadTileMap(e->getScenePath());
+        //don't load in character, save it from the previous scene
+        //set it back in revert 
         character = e->getCharacter();
         // Change these later according to design team
         character->position.x = 200;
@@ -102,16 +107,20 @@ void SceneManager::handleEvent(Event* e)
         nextScene->addChild(layer);
         nextScene->addChild(e->getEnemy());
         nextScene->setCharacter(character);
-        nextScene->addEnemy(e->getEnemy());
+        nextScene->setEnemy(e->getEnemy());
         // nextScene->enemies.push_back(e->getEnemy());
         SDL_Point pos = {character->position.x, character->position.y};
         prevPos = pos;
 
         EventDispatcher* ed = e->getSource();
         // ed->removeEventListener(this, CHANGE);
-    
+
         prevS = currentS;
         currentS = nextScene;
+        Game::camera->removeImmediateChild(MyGame::currentScene);
+        //Scene Transitions
+		MyGame::currentScene = currentS;       
+		Game::camera->addChild(MyGame::currentScene);
     }
     else if (e->getType() == REVERT) 
     {

@@ -24,6 +24,7 @@ private:
 	SDL_Point prevPos;
     DisplayObject* door;
     AnimatedSprite* character;
+    DisplayObject* chara; 
 };
 
 #endif

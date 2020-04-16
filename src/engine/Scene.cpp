@@ -9,9 +9,6 @@ Scene::Scene() : DisplayObjectContainer() {
     this->type = "Scene";
 }
 Scene::~Scene() {
-    for (int i = 0; i < enemies.size(); i++) {
-        delete enemies[i];
-    }
     for (int i = 0; i < objects.size(); i++) {
         delete objects[i];
     }
@@ -118,11 +115,12 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                     temp->scaleY = 1;
                     temp->alpha = 255;
                     temp->facingRight = true;
-                    if (cur_gid > 130) {
-                        temp->gameType = "platform";
+                    if (cur_gid == 159 || cur_gid == 158 || cur_gid < 130) {
+                        cout << "cur_gid " << cur_gid << endl;
+                        temp->gameType = "grass";
                     }
                     else {
-                        temp->gameType = "grass";
+                        temp->gameType = "platform";
                     }
                     temp->srcrect.x = region_x; 
                     temp->srcrect.y = region_y; 
@@ -143,11 +141,11 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
 DisplayObject* Scene::getObject(int index){
     return this->objects[index];
 }
-DisplayObjectContainer* Scene::getEnemy(int index){
-    return this->enemies[index];
+DisplayObject* Scene::getEnemy(){
+    return this->curEnemy;
 }
-void Scene::addEnemy(DisplayObjectContainer* enemy){
-    this->enemies.push_back(enemy);
+void Scene::setEnemy(DisplayObject* enemy){
+    this->curEnemy = enemy;
 }
 AnimatedSprite* Scene::getCharacter(){
     return this->character;
@@ -285,6 +283,7 @@ DisplayObject* Scene::makeDisplayObject(json data) {
     newDO->rotation = data["rotation"];
     newDO->alpha = data["alpha"];
     newDO->facingRight = data["facingRight"];
+    newDO->gameType = data["gameType"];
     
     return newDO;
 }
@@ -350,16 +349,13 @@ Layer* Scene::makeLayer(json data) {
         if(childData["type"] == "DisplayObject") {
             DisplayObject* newDO = makeDisplayObject(childData);
             newLayer->addChild(newDO);
-            if (childData["id"] == "coin" || childData["id"] == "questComplete") {
-                this->objects.push_back(newDO);
-            }
         }
         if(childData["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(childData);
             newLayer->addChild(newDOC);
-             if (childData["id"] == "enemy") {
-                enemies.push_back(newDOC);
-            }
+            //  if (childData["id"] == "enemy") {
+            //     enemies.push_back(newDOC);
+            // }
         }
         if(childData["type"] == "Sprite") {
             Sprite* newS = makeSprite(childData);
@@ -481,8 +477,23 @@ void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
     {
         //call change scene event
         MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
-            "./resources/scenes/area1files/Area1Room5.json"));
-    } 
+            "./resources/scenes/area1files/Area 1 - Room 5.json"));
+    }
+    //from DisplayObject, we know it's time to D U E L 
+    //if (this->character->engageBattle) -> get enemy from DO, then call dispatcher
+    if (this->character->inBattle) {
+        this->curEnemy = this->character->enemy;
+        MyGame::eDispatcher->dispatchEvent(new Event(FIGHT, MyGame::eDispatcher, this->character, this->curEnemy
+            ));
+    }
+    // if (this->sceneNum == 5 && 
+    //    ( this->character->position.y > this->transitionPts["rm5Greater"].y && 
+    //     (this->character->position.x > this->transitionPts["rm5Greater"].x && this->character->position.x < this->transitionPts["rm5Less"].x)))
+    // {
+    //     //call change scene event
+    //     MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
+    //         "./resources/scenes/area1files/Area1Room7.json"));
+    // }
     DisplayObjectContainer::update(pressedKeys, pressedButtons, movedAxis);
 }
 

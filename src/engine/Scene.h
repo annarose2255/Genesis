@@ -36,8 +36,9 @@ public:
 	virtual void draw(AffineTransform &at);
 
 	DisplayObject* getObject(int index);
-	DisplayObjectContainer* getEnemy(int index);
-	void addEnemy(DisplayObjectContainer* enemy);
+	DisplayObject* getEnemy();
+	void setEnemy(DisplayObject* enemy);
+	// void addEnemy(DisplayObject* enemy);
 	AnimatedSprite* getCharacter();
 	void setCharacter(AnimatedSprite* chara);
 	map<int, SDL_Point> charStart; //where character should spawn in this scene
@@ -50,7 +51,8 @@ private:
 	AnimatedSprite* character;
 	int sceneNum; //tells us what room we're loading
 	vector<DisplayObject*> objects; 
-	vector<DisplayObjectContainer*>enemies; 
+	// vector<DisplayObject*>enemies;
+	DisplayObject* curEnemy; 
 	bool fromTileMap;
 
 	// EventDispatcher* eDispatcher; 

@@ -157,6 +157,11 @@ void DisplayObject::onCollision(DisplayObject* other){
 		MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
 			0, 0);
 	}
+	else if (other->gameType == "enemy") {
+		cout << "collided with enemy!" << endl;
+		enemy = other;
+		inBattle = true;
+	}
 }
 void DisplayObject::applyTransformations(AffineTransform &at) {
 	at.translate(position.x, position.y);

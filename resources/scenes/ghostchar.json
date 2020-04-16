@@ -36,7 +36,7 @@
                 "facingRight": true,
                 "filepath": "./resources/scenes/area1files/imgs/Ghost.png",
                 "height": 100,
-                "id": "./resources/scenes/area1files/imgs/Ghost.png0",
+                "id": "enemy",
                 "gameType":"enemy",
                 "pivot.x": 0,
                 "pivot.y": 0,
@@ -45,7 +45,7 @@
                 "rotation": 0.0,
                 "scaleX": 0.4,
                 "scaleY": 0.4,
-                "type": "DisplayObjectContainer",
+                "type": "DisplayObject",
                 "visible": true,
                 "width": 100
             }
