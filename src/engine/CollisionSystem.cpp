@@ -156,6 +156,7 @@ void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, i
 		else{ */
 		//cout<<"position y: "<<d->position.y<<endl;
 		//cout<<""
+		cout<<"position y0: "<<d->position.y<<endl;
 			d->position.y -=yDelta1; 
 			cout<<"position y1: "<<d->position.y<<endl; 
 			//}	

@@ -158,8 +158,12 @@ void DisplayObject::onCollision(DisplayObject* other){
 	//}
 	if (other->gameType == "platform") {
 		// cout << "collided with a platform!" << endl;
-		MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
+		cout<<"position y check: "<<this->position.y<<endl;
+		if (MyGame::collisionSystem->collidesWith(this, other) == true){
+			MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
 			0, 0);
+		}
+		
 	}
 }
 void DisplayObject::applyTransformations(AffineTransform &at) {

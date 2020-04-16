@@ -37,7 +37,7 @@ Player::Player(string id, string spriteSheetPath, string xmlPath) : AnimatedSpri
 
 //Called automatically by collision system when something collides with the player
 //our job is to simply react to that collision.
-void Player::onCollision(DisplayObject* other){
+ void Player::onCollision(DisplayObject* other){
 	 if(other->type == "Platform"){
 		//MyGame::collisionSystem.resolveCollision(this, other, this->position.x - oldX, this->position.y - oldY);	
 		cout<<"ydelta in: "<< this->position.y - oldY<<endl;
@@ -122,7 +122,10 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 	/* Actual falling depending on falling versus whether a jump occurred */
 	//if (!this->_standing){
+	cout<<"position y check2: "<<this->position.y<<endl;
+		//cout<<"position y check2: "<<this->position.y<<endl;
 	this->position.y += _yVel;
+	cout<<"position y check3: "<<this->position.y<<endl;
 	//}
 }
 
