@@ -48,6 +48,9 @@ private:
 	int state_mov_cooldown_counter= 0;//var for the time of cooldown for mov ability
 	bool activated = false; //var for if the ability has been activated
 	set<string> activestates = {};
+	SDL_Texture* normaltexture;
+	SDL_Texture* shieldtexture;
+	int sprint = 0;//var to make you go faster
 	//string state;
 	/* Falling variables */
 	//bool _standing = false;

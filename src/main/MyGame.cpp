@@ -154,6 +154,11 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		}
 	}
 
+	//automove camera
+	/* if (currentScene->getCharacter()->position.x-100 > Game::camera->position.x){
+		Game::camera->position.x = -currentScene->getCharacter()->position.x + 30;
+	}
+ */
 	//character moves separately from scene
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
 
@@ -183,8 +188,19 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		currentScene->getCharacter()->setState("MovAblStart");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}
+	//ghost
 	if (pressedKeys.find(SDL_SCANCODE_G)!=pressedKeys.end()){
 		currentScene->getCharacter()->setState("ghost");//prevPos.y = currentScene->getCharacter()->position.y;
+		//currentScene->getCharacter()->position.y +=2;
+	}
+	//sprint
+	if (pressedKeys.find(SDL_SCANCODE_C)!=pressedKeys.end()){
+		currentScene->getCharacter()->setState("sprint");//prevPos.y = currentScene->getCharacter()->position.y;
+		//currentScene->getCharacter()->position.y +=2;
+	}	
+	//shield
+	if (pressedKeys.find(SDL_SCANCODE_V)!=pressedKeys.end()){
+		currentScene->getCharacter()->setState("shield");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}
 

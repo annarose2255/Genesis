@@ -49,7 +49,11 @@ Player::Player(string id){
 }
 Player::Player(string id, string spriteSheetPath, string xmlPath) : AnimatedSprite(id,  spriteSheetPath,  xmlPath){
 	this->type = "Player";
-
+	//normaltexture = this->getTexture();
+	//SDL_Texture* b;
+	//b = this->getTexture();
+	//S////DL_SetTextureColorMod(b, 125,125,250);
+	//shieldtexture = b;
 	//this = a;
 }
 
@@ -85,18 +89,83 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	oldX = this->position.x;
 	this->prevPos.x = oldX;
 	this->prevPos.y = oldY;
-	//cout<<"position y: "<<this->position.y<<endl;
+
+	/* Jumping */
+	if (this->standing && MyGame::controls->pressJump()){
+		//cout<<"jump"<<endl;
+		this->_yVel = _jumpVel;
+		this->standing = false;
+		this->play("Jump");
+		jump_buffer_start = true;
+	}
+	if(this->standing){
+		jump_buffer_start = false;
+		jump_buffer = 0;
+	}
+	if (jump_buffer_start == true){
+		jump_buffer++;
+	}
+	/* double jump*/
+	if(this->state == "MovAblStart"){
+		activestates.insert("MovAblStart");
+		//state_mov_cooldown_counter++;
+		//cout<<"cooldown: "<<state_cooldown_counter<<endl;
+		
+	}
+	/** sprint**/
+	if (this->state == "sprint"){
+		activestates.insert("sprint");
+	}
+	/* movement abilities */
+	if (activestates.find("MovAblStart") != activestates.end() || activestates.find("sprint") != activestates.end()){
+		state_mov_cooldown_counter++;
+		if (activestates.find("sprint") != activestates.end()){
+			sprint = 4;
+		}
+		if(activestates.find("MovAblStart") != activestates.end()){
+			if (!this->standing && MyGame::controls->pressJump() && activated == false && jump_buffer %4 == 0){
+				cout<<"double"<<endl;
+				this->_yVel = _jumpVel;
+				this->play("Jump");
+				activated = true;
+			}
+		}
+	}
+	/** ghost ability */
+	if(this->state == "ghost"){
+		activestates.insert("ghost");
+	}
+	if (activestates.find("ghost") != activestates.end()){
+		this->alpha = 75;
+		//this-> = 200;
+		
+		//this->getTexture().
+		activated = true;
+		state_combat_cooldown_counter++;
+	}
+	/** shield ability */
+	if(this->state == "shield"){
+		activestates.insert("shield");
+	}
+	if (activestates.find("shield") != activestates.end()){
+		SDL_SetTextureColorMod(this->getTexture(), 125,125,250);
+		//this-> = 200;	
+		//this->getTexture().
+		activated = true;
+		state_combat_cooldown_counter++;
+	}
+
 	//Movement arrow keys
 	//Controls is a class we wrote that just checks the SDL Scancode values and game controller values in one check
 	if(MyGame::controls->holdRight()){
-		this->position.x += 2;
+		this->position.x += 2 + sprint;
 		this->facingRight = true;
 		if(this->standing){
 			this->play("Run");
 		}
 	}
 	else if(MyGame::controls->holdLeft()){
-		this->position.x -= 2;
+		this->position.x -= 2 + sprint;
 		this->facingRight = false;
 		if(this->standing){
 			this->play("Run");
@@ -104,6 +173,30 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	} 
 	
 	
+	/* cool down combat ability timer */
+	if (state_combat_cooldown_counter == 200){
+		cout<<"state_combat_cooldown_counter == 200"<<endl;
+		this->state = "normal";
+		this->alpha = 255;
+		//this->setTexture(normaltexture);
+		activated = false;
+		state_combat_cooldown_counter = 0;
+		SDL_SetTextureColorMod(this->getTexture(), 255,255,255);
+		activestates.erase("ghost");
+		activestates.erase("shield");
+		cout<<"act states num: "<<activestates.size()<<endl;
+	}
+	/* cool down movment ability timer */
+	if (state_mov_cooldown_counter == 200){
+		cout<<"state_mov_cooldown_counter == 200"<<endl;
+		this->state = "normal";
+		activated = false;
+		state_mov_cooldown_counter = 0;
+		sprint = 0;
+		activestates.erase("MovAblStart");
+		activestates.erase("sprint");
+		cout<<"act states num: "<<activestates.size()<<endl;
+	}
 	//play idle animation if player is just standing still on ground
 	if(this->standing && !MyGame::controls->holdLeft() && !MyGame::controls->holdRight()){
 		this->play("Idle");
@@ -133,64 +226,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 	//}
 
-	/* /* Jumping */
-	if(this->standing && MyGame::controls->pressJump()){ //_standing &&
-	cout<<"jump"<<endl;
-		this->_yVel = _jumpVel;
-		this->standing = false;
-		this->play("Jump");
-		jump_buffer_start = true;
-	}
-	if(this->standing){
-		jump_buffer_start = false;
-		jump_buffer = 0;
-	}
-	if (jump_buffer_start == true){
-		jump_buffer++;
-	}
-	/* double jump*/
-	if(this->state == "MovAblStart"){
-		activestates.insert("MovAblStart");
-		//state_mov_cooldown_counter++;
-		//cout<<"cooldown: "<<state_cooldown_counter<<endl;
-		
-	}
-	if (activestates.find("MovAblStart") != activestates.end()){
-		state_mov_cooldown_counter++;
-		if (!this->standing && MyGame::controls->pressJump() && activated == false && jump_buffer %4 == 0){
-			cout<<"double"<<endl;
-			this->_yVel = _jumpVel;
-			this->play("Jump");
-			activated = true;
-		}
-	}
-	if(this->state == "ghost"){
-		activestates.insert("ghost");
-	}
-	if (activestates.find("ghost") != activestates.end()){
-		this->alpha = 75;
-		activated = true;
-		state_combat_cooldown_counter++;
-	}
-	/* cool down combat ability timer */
-	if (state_combat_cooldown_counter == 200){
-		cout<<"state_combat_cooldown_counter == 200"<<endl;
-		this->state = "normal";
-		this->alpha = 255;
-		activated = false;
-		state_combat_cooldown_counter = 0;
-		activestates.erase("ghost");
-		cout<<"act states num: "<<activestates.size()<<endl;
-	}
-	/* cool down movment ability timer */
-	if (state_mov_cooldown_counter == 200){
-		cout<<"state_mov_cooldown_counter == 200"<<endl;
-		this->state = "normal";
-		activated = false;
-		state_mov_cooldown_counter = 0;
-		activestates.erase("MovAblStart");
-		cout<<"act states num: "<<activestates.size()<<endl;
-	}
+
 	/* Actual falling depending on falling versus whether a jump occurred */
 	this->position.y += this->_yVel;
 }
