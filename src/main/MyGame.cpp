@@ -13,6 +13,7 @@
 #include "HealthBar.h"
 #include "SelectionMenu.h"
 #include "MenuItem.h"
+#include "Controls.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ EventDispatcher* MyGame::eDispatcher = EventDispatcher::getInstance();
 Scene* MyGame::currentScene = new Scene();
 TweenJuggler* MyGame::tj = new TweenJuggler();
 CollisionSystem* MyGame::collisionSystem = new CollisionSystem();
+Controls* MyGame::controls = new Controls();
 
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
@@ -36,7 +38,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	// chara->play("Idle");
     // chara->position = {70, 200};
 	// Game::camera->addChild(chara);
-	
+
     change = true;
     currentScene = scene1;
 
@@ -100,6 +102,7 @@ MyGame::~MyGame(){
 void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
     mainMenu->update(pressedKeys);
     itemsMenu->update(pressedKeys);
+	controls->key(pressedKeys,pressedButtons,movedAxis);
 
     // if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
     //     cout << "abc" << endl;
@@ -153,6 +156,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 	//character moves separately from scene
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
+
 		currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
 		currentScene->getCharacter()->position.y -=2;
 	}
@@ -167,9 +171,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 			// currentScene->position.x+=2; //comment out to just move sprite
 	}
 	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
-		currentScene->getCharacter()->facingRight = true;
-		currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
-		currentScene->getCharacter()->position.x +=2; 
+		//currentScene->getCharacter()->facingRight = true;
+		//currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
+		//currentScene->getCharacter()->position.x +=2; 
+
 			// currentScene->position.x-=2; //comment out to just move sprite
 	}
 

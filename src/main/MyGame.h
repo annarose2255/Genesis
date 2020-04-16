@@ -18,6 +18,7 @@
 #include "HealthBar.h"
 #include "TextBox.h"
 #include "SelectionMenu.h"
+#include "Controls.h"
 
 using namespace std;
 
@@ -46,7 +47,8 @@ public:
     static EventDispatcher* eDispatcher;
     static TweenJuggler* tj;
     static CollisionSystem* collisionSystem; 
-
+    static Controls* controls;
+    
 private:
     Sound* mainMusic;
     

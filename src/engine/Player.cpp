@@ -5,7 +5,7 @@
 #include "AnimatedSprite.h"
 #include "Sprite.h"
 #include "Game.h"
-
+#include "Controls.h"
 
 using namespace std;
 
@@ -68,13 +68,14 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	//cout<<"position y: "<<this->position.y<<endl;
 	//Movement arrow keys
 	//Controls is a class we wrote that just checks the SDL Scancode values and game controller values in one check
-	/*if(controls::holdRight()){
-		this->x += 4;
-		this->flipH = false;
+	if(MyGame::controls->holdRight()){
+		this->position.x += 2;
+		this->facingRight = true;
 		if(_standing){
 			this->play("Run");
 		}
 	}
+	/*
 	else if(controls::holdLeft()){
 		this->x -= 4;
 		this->flipH = true;

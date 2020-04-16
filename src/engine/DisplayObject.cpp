@@ -152,7 +152,7 @@ void DisplayObject::draw(AffineTransform &at){
 }
 //checks type of collision and resolves it accordingly
 void DisplayObject::onCollision(DisplayObject* other){
-	cout << "inside onCollision!" << endl;
+	//cout << "inside onCollision!" << endl;
 	//if (this->gameType == "character"){
 		//Player::this->onCollision(other);
 	//}

@@ -16,7 +16,8 @@ bin/./src/main/events/SceneManager.cpp.o: \
  src/main/events/SceneManager.h src/engine/tweening/TweenJuggler.h \
  src/engine/tweening/Tween.h src/engine/CollisionSystem.h \
  src/engine/ui/HealthBar.h src/engine/AffineTransform.h \
- src/engine/ui/TextBox.h src/engine/ui/SelectionMenu.h
+ src/engine/ui/TextBox.h src/engine/ui/SelectionMenu.h \
+ src/engine/Controls.h
 
 src/main/events/SceneManager.h:
 
@@ -95,3 +96,5 @@ src/engine/AffineTransform.h:
 src/engine/ui/TextBox.h:
 
 src/engine/ui/SelectionMenu.h:
+
+src/engine/Controls.h:
