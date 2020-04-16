@@ -183,6 +183,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		currentScene->getCharacter()->setState("MovAblStart");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}
+	if (pressedKeys.find(SDL_SCANCODE_G)!=pressedKeys.end()){
+		currentScene->getCharacter()->setState("ghost");//prevPos.y = currentScene->getCharacter()->position.y;
+		//currentScene->getCharacter()->position.y +=2;
+	}
 
 	/***************** UI COMPONENTS ******************/
 	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end()) {

@@ -148,9 +148,15 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	if (jump_buffer_start == true){
 		jump_buffer++;
 	}
+	/* double jump*/
 	if(this->state == "MovAblStart"){
-		state_cooldown_counter++;
+		activestates.insert("MovAblStart");
+		//state_mov_cooldown_counter++;
 		//cout<<"cooldown: "<<state_cooldown_counter<<endl;
+		
+	}
+	if (activestates.find("MovAblStart") != activestates.end()){
+		state_mov_cooldown_counter++;
 		if (!this->standing && MyGame::controls->pressJump() && activated == false && jump_buffer %4 == 0){
 			cout<<"double"<<endl;
 			this->_yVel = _jumpVel;
@@ -158,11 +164,32 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 			activated = true;
 		}
 	}
-	if (state_cooldown_counter == 200){
-		cout<<"state_cooldown_counter == 200"<<endl;
+	if(this->state == "ghost"){
+		activestates.insert("ghost");
+	}
+	if (activestates.find("ghost") != activestates.end()){
+		this->alpha = 75;
+		activated = true;
+		state_combat_cooldown_counter++;
+	}
+	/* cool down combat ability timer */
+	if (state_combat_cooldown_counter == 200){
+		cout<<"state_combat_cooldown_counter == 200"<<endl;
+		this->state = "normal";
+		this->alpha = 255;
+		activated = false;
+		state_combat_cooldown_counter = 0;
+		activestates.erase("ghost");
+		cout<<"act states num: "<<activestates.size()<<endl;
+	}
+	/* cool down movment ability timer */
+	if (state_mov_cooldown_counter == 200){
+		cout<<"state_mov_cooldown_counter == 200"<<endl;
 		this->state = "normal";
 		activated = false;
-		state_cooldown_counter = 0;
+		state_mov_cooldown_counter = 0;
+		activestates.erase("MovAblStart");
+		cout<<"act states num: "<<activestates.size()<<endl;
 	}
 	/* Actual falling depending on falling versus whether a jump occurred */
 	this->position.y += this->_yVel;
