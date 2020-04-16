@@ -45,8 +45,7 @@ private:
 	int _maxFall = 9;
 	int _yAcc = 2; //one pixel every two frames
 	int _yAccCount = 0;
-	int _yVel = 0;
-	bool collideing = false;
+	//int _yVel = 0;
 
 	void initIFrames(int numFrames);
 

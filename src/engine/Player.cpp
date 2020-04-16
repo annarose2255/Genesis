@@ -46,7 +46,7 @@ Player::Player(string id, string spriteSheetPath, string xmlPath) : AnimatedSpri
 		//MyGame::collisionSystem->resolveCollision
 		//this->collideing = true;
 		//DisplayObject::onCollision(other);
-		_yVel = 0;
+		this->_yVel = 0;
 		//_yAccCount= 0;
 		_standing=true;
 	}
@@ -65,7 +65,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	oldX = this->position.x;
 	this->prevPos.x = oldX;
 	this->prevPos.y = oldY;
-	cout<<"position y: "<<this->position.y<<endl;
+	//cout<<"position y: "<<this->position.y<<endl;
 	//Movement arrow keys
 	//Controls is a class we wrote that just checks the SDL Scancode values and game controller values in one check
 	/*if(controls::holdRight()){
@@ -107,8 +107,8 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	_yAccCount++;
 	if(_yAccCount == _yAcc){
 		_yAccCount=0;
-		_yVel++;
-		if(_yVel > _maxFall) _yVel = _maxFall;
+		this->_yVel++;
+		if(this->_yVel > _maxFall) this->_yVel = _maxFall;
 	}
 
 	//}
@@ -122,10 +122,10 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 	/* Actual falling depending on falling versus whether a jump occurred */
 	//if (!this->_standing){
-	cout<<"position y check2: "<<this->position.y<<endl;
+	//cout<<"position y check2: "<<this->position.y<<endl;
 		//cout<<"position y check2: "<<this->position.y<<endl;
-	this->position.y += _yVel;
-	cout<<"position y check3: "<<this->position.y<<endl;
+	this->position.y += this->_yVel;
+	//cout<<"position y check3: "<<this->position.y<<endl;
 	//}
 }
 

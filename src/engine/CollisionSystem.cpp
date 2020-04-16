@@ -2,7 +2,7 @@
 #include "DisplayObject.h"
 #include "DisplayObjectEvent.h"
 #include <iostream>
-
+#include "Player.h"
 using namespace std;
 
 CollisionSystem::CollisionSystem(){
@@ -129,7 +129,7 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
 	//if mvmt > 0, then DO that moved position - mvmt, change back to old position
 	//checking that object moved 	
-	cout<<"ydelta1: "<<yDelta1<<endl; 
+	//cout<<"ydelta1: "<<yDelta1<<endl; 
 	d->position.x -= xDelta1; 
 	bool yCol = collidesWith(d, other); 
 	d->position.x += xDelta1; 
@@ -145,7 +145,7 @@ void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, i
 		}
 		else{ */
 			d->position.x -=xDelta1;
-			cout<<"position x1: "<<d->position.x<<endl; 
+			//cout<<"position x1: "<<d->position.x<<endl; 
 			//}
 		
 	}
@@ -156,19 +156,20 @@ void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, i
 		else{ */
 		//cout<<"position y: "<<d->position.y<<endl;
 		//cout<<""
-		cout<<"position y0: "<<d->position.y<<endl;
+		//cout<<"position y0: "<<d->position.y<<endl;
 			d->position.y -=yDelta1; 
-			cout<<"position y1: "<<d->position.y<<endl; 
+			//cout<<"position y1: "<<d->position.y<<endl; 
 			//}	
 
 	}
 	if (!xCol && !yCol) {
 		d->position.x -= xDelta1; 
-		cout<<"position x2: "<<d->position.x<<endl; 
-		cout<<"ydelta2: "<<yDelta1<<endl; 
+		//cout<<"position x2: "<<d->position.x<<endl; 
+		//cout<<"ydelta2: "<<yDelta1<<endl; 
 		d->position.y -= yDelta1; 
-		cout<<"position y2: "<<d->position.y<<endl; 
+		//cout<<"position y2: "<<d->position.y<<endl; 
 	}
+	d->_yVel = 0;
 
 }
 
