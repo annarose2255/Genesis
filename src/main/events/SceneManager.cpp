@@ -25,8 +25,8 @@ void SceneManager::handleEvent(Event* e)
         nextScene->loadTileMap(e->getScenePath());
         int fromRm = currentS->getSceneNum(); 
         int toRm = nextScene->getSceneNum(); //room numbers of current level and next level
-        // string otherFilepath = "./resources/scenes/Room"+ to_string(toRm) + ".json"; //get filepath for enemies in scene
-        // nextScene->loadScene(otherFilepath); 
+        string otherFilepath = "./resources/scenes/Room"+ to_string(toRm) + ".json"; //get filepath for enemies in scene
+        nextScene->loadScene(otherFilepath); 
         //load enemies + objects
         character = e->getCharacter();
 
