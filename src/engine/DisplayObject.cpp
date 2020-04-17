@@ -144,7 +144,7 @@ void DisplayObject::draw(AffineTransform &at){
         } else {
             SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
         }
-		drawHitbox();
+		// drawHitbox();
 	}
 
 	reverseTransformations(at);
