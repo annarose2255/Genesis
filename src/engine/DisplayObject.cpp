@@ -150,14 +150,14 @@ void DisplayObject::draw(AffineTransform &at){
 	
 }
 //checks type of collision and resolves it accordingly
-void DisplayObject::onCollision(DisplayObject* other){
-	cout << "inside onCollision!" << endl;
-	if (other->gameType == "platform") {
-		cout << "collided with a platform!" << endl;
-		MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
-			0, 0);
-	}
-}
+// void DisplayObject::onCollision(DisplayObject* other){
+// 	cout << "inside onCollision!" << endl;
+// 	if ( (other->gameType == "platform") || (other->gameType == "collectable") || (other->gameType == "not collectable")) {
+// 		cout << "collided with a platform!" << endl;
+// 		MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
+// 			0, 0);
+// 	}
+// }
 void DisplayObject::applyTransformations(AffineTransform &at) {
 	at.translate(position.x, position.y);
 	at.rotate(rotation);

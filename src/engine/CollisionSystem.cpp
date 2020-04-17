@@ -21,35 +21,74 @@ void CollisionSystem::update(){
 	for (auto pair=collisionPairs.begin(); pair != collisionPairs.end(); ++pair) {
 		// check for collisions between the elements in each vector
 		for (auto doType1=typeMap.at(pair->first).begin(); doType1 != typeMap.at(pair->first).end(); ++doType1) {
+
 			for (auto doType2=typeMap.at(pair->second).begin(); doType2 != typeMap.at(pair->second).end(); ++doType2) {
+				
+				// check if anything has changed since last time
+				SDL_Point prevPos1 = prevMap.at(*doType1);
+				SDL_Point prevPos2 = prevMap.at(*doType2);
+				SDL_Point curPos1 = (*doType1)->getHitboxPts().topLeft;
+				SDL_Point curPos2 = (*doType2)->getHitboxPts().topLeft;
+
+				int xDelta1 = curPos1.x - prevPos1.x;
+				int yDelta1 = curPos1.y - prevPos1.y;
+				int xDelta2 = curPos2.x - prevPos2.x;
+				int yDelta2 = curPos2.y - prevPos2.y;
+
+				// cout << xDelta1 << endl;
+				// cout << xDelta2 << endl;
+				if ( (xDelta1 == 0) && (yDelta1 == 0) && (xDelta2 == 0) && (yDelta2 == 0)  ){
+					// if no change skip
+					// cout << "SKIPPING" << endl;
+					continue;
+				}
+
+				if(DisplayObject::distance(curPos1, curPos2) > 100){
+					// cout << "SKIPPING" << endl;
+					continue;
+				}
+
 				if (collidesWith(*doType1, *doType2)){
-					cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
-					(*doType1)->onCollision(*doType2); 
-					(*doType2)->onCollision(*doType1);
+					// cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
+					// (*doType1)->onCollision(*doType2); 
+					// (*doType2)->onCollision(*doType1);
+					resolveCollision(*doType1, *doType2, xDelta1, yDelta1, xDelta2, yDelta2);
 				}
 			}
 		}
-	} 
+	}
+
+	// update previous Hitbox point
+	for (auto object=prevMap.begin(); object != prevMap.end(); ++object){
+		object->second = object->first->getHitboxPts().topLeft;
+		// cout << "UPDATED TO: " << object->second.x << endl;
+	}
+
+	
 }
 
 //This system watches the game's display tree and is notified whenever a display object is placed onto
 //or taken off of the tree. Thus, the collision system always knows what DOs are in the game at any moment automatically.
 void CollisionSystem::handleEvent(Event* e){
 	if (e->getType() == DO_ADDED_EVENT){
-		cout << "DISPLAY OBJECT ADDED"  << endl;
+		// cout << "DISPLAY OBJECT ADDED"  << endl;
 		DisplayObjectEvent* doEvent = (DisplayObjectEvent*) e;
 		DisplayObject* displayObject = doEvent->displayObject;
 		// check if gameType is not already in map
 		if (typeMap.find(displayObject->gameType) == typeMap.end()){
-			cout << "Object gameType is new: " << displayObject->gameType  << endl;
+			// cout << "Object gameType is new: " << displayObject->gameType  << endl;
 			// if not go ahead and insert new vector with element
 			vector<DisplayObject*> newList = vector<DisplayObject*>();
 			newList.push_back(displayObject);
 			typeMap.insert({displayObject->gameType, newList});
 		} else {
 			// if already present insert into existing vector
-			cout << "Object gameType is NOT new" << displayObject->gameType  << endl;
+			// cout << "Object gameType is NOT new" << displayObject->gameType  << endl;
 			typeMap.at(displayObject->gameType).push_back(displayObject);
+		}
+		// put in prev map to keep track of previous point
+		if (prevMap.find(displayObject) == prevMap.end()){
+			prevMap.insert({displayObject, displayObject->getHitboxPts().topLeft});
 		}
 	}
 }
@@ -66,17 +105,8 @@ void CollisionSystem::watchForCollisions(string type1, string type2){
 bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
     // get points for hitbox1 in global coordinate system
 	HitboxPoints pts1 = obj1->getHitboxPts();
-	// AffineTransform gT1 = *obj1->globalTransform();
-	// SDL_Point topLeft1 = gT1.transformPoint(0, 0);
-	// SDL_Point topRight1 = gT1.transformPoint(obj1->hitbox.width, 0);
-	// SDL_Point bottomRight1 = gT1.transformPoint(obj1->hitbox.width, obj1->hitbox.height);
-	// SDL_Point bottomLeft1 = gT1.transformPoint(obj1->hitbox.width, 0);
 
 	// lines from those points
-	// Line l1 = {topLeft1, topRight1};
-	// Line l2 = {topRight1, bottomRight1};
-	// Line l3 = {bottomLeft1, bottomRight1};
-	// Line l4 = {topLeft1, bottomLeft1};
 	Line l1 = {pts1.topLeft, pts1.topRight};
 	Line l2 = {pts1.topRight, pts1.bottomRight};
 	Line l3 = {pts1.bottomLeft, pts1.bottomRight};
@@ -86,11 +116,6 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 
 	// get points for hitbox2 in global coordinate system
 	HitboxPoints pts2 = obj2->getHitboxPts();
-	// AffineTransform gT2 = *obj2->globalTransform();
-	// SDL_Point topLeft2 = gT2.transformPoint(0, 0);
-	// SDL_Point topRight2 = gT2.transformPoint(obj2->hitbox.width, 0);
-	// SDL_Point bottomRight2 = gT2.transformPoint(obj2->hitbox.width, obj2->hitbox.height);
-	// SDL_Point bottomLeft2 = gT2.transformPoint(obj2->hitbox.width, 0);
 
 	// lines from those points
 	Line l5 = {pts2.topLeft, pts2.topRight};
@@ -117,6 +142,15 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 	return false;
 }
 
+// void DisplayObject::onCollision(DisplayObject* other){
+// 	cout << "inside onCollision!" << endl;
+// 	if ( (other->gameType == "platform") || (other->gameType == "collectable") || (other->gameType == "not collectable")) {
+// 		cout << "collided with a platform!" << endl;
+// 		MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
+// 			0, 0);
+// 	}
+// }
+
 //Resolves the collision that occurred between d and other
 //xDelta1 and yDelta1 are the amount d moved before causing the collision.
 //xDelta2 and yDelta2 are the amount other moved before causing the collision.
@@ -124,9 +158,13 @@ void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, i
 	//if mvmt > 0, then DO that moved position - mvmt, change back to old position
 	//checking that object moved 	
 
+	// check if collision in y direction
 	d->position.x -= xDelta1; 
 	bool yCol = collidesWith(d, other); 
-	d->position.x += xDelta1; d->position.y -= yDelta1; 
+	d->position.x += xDelta1;
+
+	// check if collision in x direction
+	d->position.y -= yDelta1; 
 	bool xCol = collidesWith(d, other); 
 	d->position.y += yDelta1;
 
@@ -137,9 +175,100 @@ void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, i
 		d->position.y -=yDelta1; 
 	}
 	if (!xCol && !yCol) {
-		d->position.x -= xDelta1; d->position.y -= yDelta1; 
+		d->position.x -= xDelta1; 
+		d->position.y -= yDelta1; 
 	}
 
+	// binary search
+	// int maxDelta = max(xDelta1, max(yDelta1, max(xDelta2, yDelta2)));
+	// for (int i = (int) log2(maxDelta); i > 0; i--){
+	// 	xDelta1 /= 2;
+	// 	yDelta1 /= 2;
+	// 	xDelta2 /= 2;
+	// 	yDelta2 /= 2;
+	// 	if (collidesWith(d, other)){
+	// 		d->position.x -= xDelta1;
+	// 		d->position.y -= yDelta1;  
+	// 	}
+	// 	else {
+	// 		d->position.x += xDelta1;
+	// 		d->position.y += yDelta1; 
+	// 	}
+	// }
+	// // if collides with on final move, move back
+	// if (collidesWith(d, other)){
+	// 	d->position.x -= xDelta1;
+	// 	d->position.y -= yDelta1;  
+	// }
+
+	// tried both :(
+	// d->position.x -= xDelta1; 
+	// bool yCol = collidesWith(d, other); 
+	// d->position.x += xDelta1;
+
+	// // check if collision in x direction
+	// d->position.y -= yDelta1; 
+	// bool xCol = collidesWith(d, other); 
+	// d->position.y += yDelta1;
+
+	// int maxDelta;
+	// if (xCol) {
+	// 	// binary search with x
+	// 	maxDelta = max(xDelta1, xDelta2);
+	// 	for (int i = (int) log2(maxDelta); i > 0; i--){
+	// 		xDelta1 /= 2;
+	// 		xDelta2 /= 2;
+	// 		if (collidesWith(d, other)){
+	// 			d->position.x -= xDelta1;  
+	// 		}
+	// 		else {
+	// 			d->position.x += xDelta1;
+	// 		}
+	// 	}
+	// 	if (collidesWith(d, other)){
+	// 		d->position.x -= xDelta1;  
+	// 	}
+	// }
+	// if (yCol) {
+	// 	// binary search with y
+	// 	maxDelta = max(yDelta1, yDelta2);
+	// 	for (int i = (int) log2(maxDelta); i > 0; i--){
+	// 		yDelta1 /= 2;
+	// 		yDelta2 /= 2;
+	// 		if (collidesWith(d, other)){
+	// 			d->position.y -= yDelta1;  
+	// 		}
+	// 		else {
+	// 			d->position.y += yDelta1;
+	// 		}
+	// 	}
+	// 	if (collidesWith(d, other)){
+	// 		d->position.y -= yDelta1;  
+	// 	}
+	// }
+	// if (!xCol && !yCol) {
+	// 	// binary search with both
+	// 	maxDelta = max(xDelta1, max(yDelta1, max(xDelta2, yDelta2)));
+	// 	for (int i = (int) log2(maxDelta); i > 0; i--){
+	// 		xDelta1 /= 2;
+	// 		yDelta1 /= 2;
+	// 		xDelta2 /= 2;
+	// 		yDelta2 /= 2;
+	// 		if (collidesWith(d, other)){
+	// 			d->position.x -= xDelta1;
+	// 			d->position.y -= yDelta1;  
+	// 		}
+	// 		else {
+	// 			d->position.x += xDelta1;
+	// 			d->position.y += yDelta1; 
+	// 		}
+	// 	}
+	// 	// if collides with on final move, move back
+	// 	if (collidesWith(d, other)){
+	// 		d->position.x -= xDelta1;
+	// 		d->position.y -= yDelta1;  
+	// 	}
+	// }
 }
 
 

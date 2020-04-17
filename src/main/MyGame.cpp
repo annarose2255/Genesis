@@ -169,22 +169,22 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 	//character moves separately from scene
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
-		currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
+		// currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
 		currentScene->getCharacter()->position.y -=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
-		currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
+		// currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
 		currentScene->getCharacter()->position.y +=2;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 		currentScene->getCharacter()->facingRight = false;
-		currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
+		// currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
 		currentScene->getCharacter()->position.x -=2;
 			// currentScene->position.x+=2; //comment out to just move sprite
 	}
 	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
 		currentScene->getCharacter()->facingRight = true;
-		currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
+		// currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
 		currentScene->getCharacter()->position.x +=2; 
 			// currentScene->position.x-=2; //comment out to just move sprite
 	}
@@ -205,8 +205,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
 	// cout << "Camera x " << Game::camera->position.x << endl; 
 	// cout << "Camera y " << Game::camera->position.y << endl; 
-	cout << "Character x " << currentScene->getCharacter()->position.x << endl;
-	cout << "Character y " << currentScene->getCharacter()->position.y << endl;
+	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
+	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}
