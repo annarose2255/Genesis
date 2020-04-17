@@ -89,6 +89,7 @@ public:
     bool isSheet = false;
 	bool inBattle = false;
 	bool camPerspective = true;
+	bool isUI = false;
     SDL_Rect srcrect;
 	SDL_Rect dstrect;
 	// Camera * cam;

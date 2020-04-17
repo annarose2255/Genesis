@@ -159,7 +159,7 @@ void DisplayObject::onCollision(DisplayObject* other){
 	}
 	else if (other->gameType == "enemy") {
 		cout << "collided with enemy!" << endl;
-		enemy = other;
+		this->enemy = other;
 		inBattle = true;
 	}
 }

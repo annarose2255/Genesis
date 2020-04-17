@@ -12,7 +12,7 @@ MenuItem::MenuItem(string name, int posX, int posY) : TextBox() {
 
 	this->position.x = posX;
 	this->position.y = posY;
-
+	this->isUI = true;
 	this->width = 200;
 	this->height = 40;
 
@@ -25,8 +25,8 @@ MenuItem::MenuItem(string name, int posX, int posY) : TextBox() {
 MenuItem::~MenuItem() {
 }
 
-void MenuItem::update(set<SDL_Scancode> pressedKeys) {
-
+void MenuItem::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
+	TextBox::update(pressedKeys, pressedButtons, movedAxis);
 }
 
 void MenuItem::draw(AffineTransform &at) {

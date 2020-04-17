@@ -11,7 +11,7 @@ TextBox::TextBox() : Sprite() {
 	// Set this way to allow white lines to show
 	this->width = 799;
 	this->height = 99;
-
+	this->isUI = true;
 	this->position.x = 0;
 	this->position.y = 600;
 
@@ -33,8 +33,8 @@ void TextBox::setText(string txt) {
 
 }
 
-void TextBox::update(set<SDL_Scancode> pressedKeys) {
-
+void TextBox::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
+	Sprite::update(pressedKeys, pressedButtons, movedAxis);
 }
 
 void TextBox::draw(AffineTransform &at) {
@@ -43,7 +43,6 @@ void TextBox::draw(AffineTransform &at) {
 
 		SDL_SetRenderDrawBlendMode(Game::renderer, SDL_BLENDMODE_BLEND);
 		SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, this->alpha);
-
 		// Draw a white border around the textbox
 		SDL_RenderDrawLine(Game::renderer, this->position.x, this->position.y, this->position.x + this->width, this->position.y);
 		SDL_RenderDrawLine(Game::renderer, this->position.x+this->width, this->position.y, this->position.x + this->width, this->position.y+this->height);

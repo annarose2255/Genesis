@@ -12,7 +12,7 @@ SelectionMenu::SelectionMenu() : Sprite() {
 	this->width = 800;
 	this->height = 100;
 	this->visible = false;
-
+	this->isUI = true;
 	selectInd = 0;
 	prevItem = NULL;
 
@@ -44,7 +44,7 @@ void SelectionMenu::goBack() {
 	}
 }
 
-void SelectionMenu::update(set<SDL_Scancode> pressedKeys) {
+void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
 	// Only accept inputs if visible
 	if(this->visible) {
 		for(SDL_Scancode key : pressedKeys) {
@@ -68,6 +68,7 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys) {
 			}
 		}
 	}
+	Sprite::update(pressedKeys, pressedButtons, movedAxis);
 }
 
 void SelectionMenu::draw(AffineTransform &at) {

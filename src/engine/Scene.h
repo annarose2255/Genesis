@@ -45,15 +45,18 @@ public:
 	map<int, SDL_Point> charEnd;
 	int top, left, bottom, right;
 	int getSceneNum(); 
+	bool isBattle; 
+	vector<DisplayObject*>enemies;
+	vector<DisplayObject*>objects;
+	
 private:
 	map<int, SDL_Texture*> tilesets; //store texture of tilesets
 	map<string, SDL_Point> transitionPts;  
 	AnimatedSprite* character;
-	int sceneNum; //tells us what room we're loading
-	vector<DisplayObject*> objects; 
+	int sceneNum; //tells us what room we're loading 
 	// vector<DisplayObject*>enemies;
 	DisplayObject* curEnemy; 
-	bool fromTileMap;
+	// bool fromTileMap;
 
 	// EventDispatcher* eDispatcher; 
     json parse(auto* obj); //Display Objects

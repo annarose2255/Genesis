@@ -349,6 +349,12 @@ Layer* Scene::makeLayer(json data) {
         if(childData["type"] == "DisplayObject") {
             DisplayObject* newDO = makeDisplayObject(childData);
             newLayer->addChild(newDO);
+            if (childData["gameType"] == "enemy") {
+                enemies.push_back(newDO);
+            }
+            else if (childData["gameType"] == "platform") {
+                objects.push_back(newDO);
+            }
         }
         if(childData["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(childData);
@@ -479,21 +485,21 @@ void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
         MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
             "./resources/scenes/area1files/Area 1 - Room 5.json"));
     }
-    //from DisplayObject, we know it's time to D U E L 
-    //if (this->character->engageBattle) -> get enemy from DO, then call dispatcher
-    if (this->character->inBattle) {
+    //if the scene isn't a battle and the character collided with an enemy 
+    if (!isBattle && this->character->inBattle && this->character->enemy != NULL) {
         this->curEnemy = this->character->enemy;
-        MyGame::eDispatcher->dispatchEvent(new Event(FIGHT, MyGame::eDispatcher, this->character, this->curEnemy
-            ));
+        MyGame::eDispatcher->dispatchEvent(new Event(FIGHT, MyGame::eDispatcher, this->character, this->curEnemy));
     }
-    // if (this->sceneNum == 5 && 
-    //    ( this->character->position.y > this->transitionPts["rm5Greater"].y && 
-    //     (this->character->position.x > this->transitionPts["rm5Greater"].x && this->character->position.x < this->transitionPts["rm5Less"].x)))
-    // {
-    //     //call change scene event
-    //     MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
-    //         "./resources/scenes/area1files/Area1Room7.json"));
-    // }
+    if (this->sceneNum == 5 && 
+       ( this->character->position.y > this->transitionPts["rm7Greater"].y && this->character->position.y < this->transitionPts["rm7Less"].y)
+        && (this->character->position.x > this->transitionPts["rm7Greater"].x && this->character->position.x < this->transitionPts["rm7Less"].x))
+    {
+        //call change scene event
+        MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
+            "./resources/scenes/area1files/Area 1 - Room 7.json"));
+    }
+    //revert from battle to previous scene 
+    //if (isBattle && keyboard press or something to get out?)
     DisplayObjectContainer::update(pressedKeys, pressedButtons, movedAxis);
 }
 

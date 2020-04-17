@@ -27,9 +27,8 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     scene1 = new Scene();
     // scene1->loadScene("./resources/scenes/character.json");
 	scene1->loadTileMap("./resources/scenes/area1files/Area 1 - Room 7.json");
-	// scene1->loadScene("./resources/scenes/Room7.json");
-	// scene1->loadScene("./resources/scenes/char.json");
 	scene1->loadScene("./resources/scenes/ghostchar.json");
+	scene1->loadScene("./resources/scenes/Room7.json");
 	//test playable char
 	// AnimatedSprite* chara = new AnimatedSprite("chara"); 
 	// chara->addSSAnimation("./resources/ghostchar/idle.png", "./resources/ghostchar/idle.xml");
@@ -65,11 +64,11 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
 
 	Game::camera->addChild(currentScene);
-	instance->addChild(Game::camera);
 	instance->addChild(hp);
 	instance->addChild(tBox);
 	instance->addChild(mainMenu);
 	instance->addChild(itemsMenu);
+	instance->addChild(Game::camera);
 
 	hp->position = { 100, 100 };
     //Sound 
@@ -98,8 +97,6 @@ MyGame::~MyGame(){
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
-    mainMenu->update(pressedKeys);
-    itemsMenu->update(pressedKeys);
 
     // if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
     //     cout << "abc" << endl;
@@ -172,7 +169,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		currentScene->getCharacter()->position.x +=2; 
 			// currentScene->position.x-=2; //comment out to just move sprite
 	}
-
 	/***************** UI COMPONENTS ******************/
 	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end()) {
 		mainMenu->visible = true; 
@@ -258,6 +254,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	// }
 
 	//sm->handleEvent(CHANGE);
+	mainMenu->update(pressedKeys, pressedButtons, movedAxis);
+    itemsMenu->update(pressedKeys, pressedButtons, movedAxis);
 	tj->nextFrame(); 
 	collisionSystem->update();
 	// cout << "Char alpha " << currentScene->getCharacter()->alpha << endl;

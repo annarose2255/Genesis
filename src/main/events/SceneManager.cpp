@@ -2,6 +2,8 @@
 #include "Layer.h"
 #include "Game.h"
 #include "MyGame.h"
+#include "SelectionMenu.h"
+#include "MenuItem.h"
 #include <iostream>
 
 SceneManager::SceneManager(AnimatedSprite* chara, Scene* s)
@@ -21,12 +23,8 @@ void SceneManager::handleEvent(Event* e)
         MyGame::collisionSystem->clearAllData();
         Scene* nextScene = new Scene();
         nextScene->loadTileMap(e->getScenePath());
+        //load enemies + objects
         character = e->getCharacter();
-        //Change to start or end of level...store this info as part of class?
-        //event should hold info as to whether or not this is changing to the start/end 
-            //of a level 
-        // character->position.x = 300;
-        // character->position.y = 500;
 
         Layer* layer = new Layer(); 
         layer->scrollSpeed = 1;
@@ -37,49 +35,37 @@ void SceneManager::handleEvent(Event* e)
         int toRm = nextScene->getSceneNum(); //room numbers of current level and next level
         //determine where to spawn character
         if (fromRm > toRm) { 
-            cout << "going back" << endl;
             pos = nextScene->charEnd[fromRm]; 
             Game::camera->position.x = nextScene->right;
             Game::camera->position.y = nextScene->bottom;
         }
         else if (fromRm < toRm) {
-            cout << "going forward " << endl;
             pos = nextScene->charStart[fromRm];
             Game::camera->position.x = nextScene->left;
             Game::camera->position.y = nextScene->bottom;
         }
-        cout << "Char pos x " << pos.x << endl;
-        cout << "Char pos y " << pos.y << endl;
         character->position.x = pos.x; 
         character->position.y = pos.y;
         
         nextScene->setCharacter(character);
         //set other enemies 
-        // SDL_Point pos = {character->position.x, character->position.y};
+        //Save prev position & prev scene
         prevPos = pos;
         prevS = currentS;
-        EventDispatcher* ed = e->getSource();
+        // EventDispatcher* ed = e->getSource();
         // ed->removeEventListener(this, CHANGE);
         currentS = nextScene;
-        //remove previous scene 
+        //remove previous scene & re-add new scene 
         Game::camera->removeImmediateChild(MyGame::currentScene);
-        //Scene Transitions
 		MyGame::currentScene = currentS;       
 		Game::camera->addChild(MyGame::currentScene);
-        //if prevS > currentS 
-        //Game::camera->position.x = prevS->right; 
-        //Game::camera->position.y = prevS->bottom;
         MyGame::collisionSystem->watchForCollisions("character", "platform"); 
 	    MyGame::collisionSystem->watchForCollisions("character", "enemy");
-        // Tween* prevFade = new Tween(prevS);
+        //Tween scene in
         Tween* newFade = new Tween(currentS);
-        // Tween* charIn = new Tween(currentS->getCharacter());
         TweenableParams alpha; 
         alpha.name = "alpha";
-        // prevFade->animate(alpha, 255, 0, 2); 
         newFade->animate(alpha, 0, 255, 3);
-
-        // MyGame::tj->add(prevFade); 
         MyGame::tj->add(newFade); 
 
         // ed->addEventListener(this, CHANGE);
@@ -91,9 +77,10 @@ void SceneManager::handleEvent(Event* e)
          // FightEvent* event = dynamic_cast<FightEvent*>(event);
         MyGame::collisionSystem->clearAllData();
         Scene* nextScene = new Scene();
-        // nextScene->loadTileMap(e->getScenePath());
+        nextScene->inBattle = true;
         //don't load in character, save it from the previous scene
         //set it back in revert 
+        //get Player instead of character??
         character = e->getCharacter();
         // Change these later according to design team
         character->position.x = 200;
@@ -103,12 +90,31 @@ void SceneManager::handleEvent(Event* e)
         
         Layer* layer = new Layer(); 
         layer->scrollSpeed = 1;
-        layer->addChild(character);
+        // layer->addChild(character);
+        layer->addChild(e->getEnemy());
+        //add an action menu
+        SelectionMenu* actionMenu = new SelectionMenu();
+        // actionMenu->position.x = 0; 
+        actionMenu->position.y = 600;
+        MenuItem* attack = new MenuItem("Attack", 0, 0);
+        MenuItem* flee = new MenuItem("Flee", 250, 0);
+        // actionMenu->position.y = 600;
+        //check player's state here to determine what abilities are available 
+        // SelectionMenu* abilities = new SelectionMenu(); 
+        //if statements with each ability!!
+        // MenuItem* ghost = new MenuItem("Ghost", 0, 600);
+        actionMenu->addItem(attack);
+        actionMenu->addItem(flee);
+        // attack->nextMenu = abilities; 
+        // abilities->addItem(ghost);
+        // nextScene->addChild(abilities);
+        nextScene->addChild(actionMenu);
+        actionMenu->visible = true;
         nextScene->addChild(layer);
-        nextScene->addChild(e->getEnemy());
+
         nextScene->setCharacter(character);
         nextScene->setEnemy(e->getEnemy());
-        // nextScene->enemies.push_back(e->getEnemy());
+
         SDL_Point pos = {character->position.x, character->position.y};
         prevPos = pos;
 
@@ -118,13 +124,20 @@ void SceneManager::handleEvent(Event* e)
         prevS = currentS;
         currentS = nextScene;
         Game::camera->removeImmediateChild(MyGame::currentScene);
-        //Scene Transitions
+        //Transition to scene
 		MyGame::currentScene = currentS;       
 		Game::camera->addChild(MyGame::currentScene);
+        Tween* newFade = new Tween(currentS);
+        TweenableParams alpha; 
+        alpha.name = "alpha"; 
+        newFade->animate(alpha, 0, 255, 3);
+        MyGame::tj->add(newFade); 
     }
     else if (e->getType() == REVERT) 
     {
         currentS = prevS;
+        //
+        //currentS->isBattle = false;
         character->position = prevPos;
     }
 }
