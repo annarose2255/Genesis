@@ -8,6 +8,7 @@
 #define CHANGE "RoomChangeEvent"
 #define FIGHT "EngageCombatEvent" 
 #define REVERT "RevertEvent"
+#define REVERTBATTLE "RevertFromBattleEvent"
 
 class SceneManager: public EventListener{
 

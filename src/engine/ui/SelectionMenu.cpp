@@ -1,6 +1,7 @@
 #include "SelectionMenu.h"
 #include "DisplayObject.h"
 #include "Game.h"
+#include "MyGame.h"
 #include "MenuItem.h"
 #include <iostream>
 
@@ -34,6 +35,8 @@ void SelectionMenu::selectItem(int ind) {
 		this->visible = false;
 		selItem->nextMenu->prevItem = selItem;
 		selItem->nextMenu->visible = true;
+	} else if (selItem->itemAction != NULL) {
+		selItem->action(MyGame::eDispatcher); // This game's dispatcher
 	}
 }
 

@@ -85,8 +85,8 @@ void SceneManager::handleEvent(Event* e)
         //get Player instead of character??
         character = e->getCharacter();
         // Change these later according to design team
-        character->position.x = 200;
-        character->position.y = 400;
+        // character->position.x = 200;
+        // character->position.y = 400;
         e->getEnemy()->position.x = 400;
         e->getEnemy()->position.y = 400;
         
@@ -100,6 +100,7 @@ void SceneManager::handleEvent(Event* e)
         actionMenu->position.y = 600;
         MenuItem* attack = new MenuItem("Attack", 0, 0);
         MenuItem* flee = new MenuItem("Flee", 250, 0);
+        flee->setAction(new Event(REVERTBATTLE, MyGame::eDispatcher, character, e->getEnemy()));
         // actionMenu->position.y = 600;
         //check player's state here to determine what abilities are available 
         SelectionMenu* abilities = new SelectionMenu(); 
@@ -143,6 +144,19 @@ void SceneManager::handleEvent(Event* e)
         //delete currentS->enemy.at(e->getEnemy()->id)
         currentS->isBattle = false;
         character->position = prevPos;
+
+    }
+    else if (e->getType() == REVERTBATTLE)
+    {
+        currentS = prevS;
+        //if e->getEnemy()->state = "killed" or e->getEnemy()->state = "captured"
+        //delete currentS->enemy.at(e->getEnemy()->id)
+        currentS->isBattle = false;
+        character->position = prevPos;
+        e->getEnemy()->visible = false;
+        Game::camera->removeImmediateChild(MyGame::currentScene);
+        MyGame::currentScene = currentS;       
+        Game::camera->addChild(MyGame::currentScene);
     }
 }
 
