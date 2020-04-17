@@ -2,7 +2,7 @@
 #include "DisplayObject.h"
 #include "DisplayObjectEvent.h"
 #include <iostream>
-
+#include "Player.h"
 using namespace std;
 
 CollisionSystem::CollisionSystem(){
@@ -22,12 +22,12 @@ void CollisionSystem::clearAllData(){
 void CollisionSystem::update(){
 	// iterate over colllision pairs
 	for (auto pair=collisionPairs.begin(); pair != collisionPairs.end(); ++pair) {
-		cout << "update collisionPairs" << endl;
+		//cout << "update collisionPairs" << endl;
 		if (typeMap.count(pair->first) != 0 && typeMap.count(pair->second) != 0) {
 			for (auto doType1=typeMap.at(pair->first).begin(); doType1 != typeMap.at(pair->first).end(); ++doType1) {
 				for (auto doType2=typeMap.at(pair->second).begin(); doType2 != typeMap.at(pair->second).end(); ++doType2) {
 					if (collidesWith(*doType1, *doType2)){
-						cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
+						//cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
 						(*doType1)->onCollision(*doType2); 
 						(*doType2)->onCollision(*doType1);
 					}
@@ -42,19 +42,19 @@ void CollisionSystem::update(){
 //or taken off of the tree. Thus, the collision system always knows what DOs are in the game at any moment automatically.
 void CollisionSystem::handleEvent(Event* e){
 	if (e->getType() == DO_ADDED_EVENT){
-		cout << "DISPLAY OBJECT ADDED"  << endl;
+		//cout << "DISPLAY OBJECT ADDED"  << endl;
 		DisplayObjectEvent* doEvent = (DisplayObjectEvent*) e;
 		DisplayObject* displayObject = doEvent->displayObject;
 		// check if gameType is not already in map
 		if (typeMap.find(displayObject->gameType) == typeMap.end()){
-			cout << "Object gameType is new: " << displayObject->gameType  << endl;
+			//cout << "Object gameType is new: " << displayObject->gameType  << endl;
 			// if not go ahead and insert new vector with element
 			vector<DisplayObject*> newList = vector<DisplayObject*>();
 			newList.push_back(displayObject);
 			typeMap.insert({displayObject->gameType, newList});
 		} else {
 			// if already present insert into existing vector
-			cout << "Object gameType is NOT new" << displayObject->gameType  << endl;
+			//cout << "Object gameType is NOT new" << displayObject->gameType  << endl;
 			typeMap.at(displayObject->gameType).push_back(displayObject);
 		}
 	}
@@ -129,22 +129,48 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
 	//if mvmt > 0, then DO that moved position - mvmt, change back to old position
 	//checking that object moved 	
-
+	//cout<<"ydelta1: "<<yDelta1<<endl; 
 	d->position.x -= xDelta1; 
 	bool yCol = collidesWith(d, other); 
-	d->position.x += xDelta1; d->position.y -= yDelta1; 
+	d->position.x += xDelta1; 
+	d->position.y -= yDelta1; 
 	bool xCol = collidesWith(d, other); 
 	d->position.y += yDelta1;
+	//yDelta1 = 0;
 
 	if (xCol) {
-		d->position.x -=xDelta1; 
+		/* if ( d->gameType == "character"){
+			cout<<"player collide"<<endl;
+			d->position.x -=7;
+		}
+		else{ */
+			d->position.x -=xDelta1;
+			//cout<<"position x1: "<<d->position.x<<endl; 
+			//}
+		
 	}
 	if (yCol) {
-		d->position.y -=yDelta1; 
+		/* if ( d->gameType == "character"){
+			d->position.y -=7;
+		}
+		else{ */
+		//cout<<"position y: "<<d->position.y<<endl;
+		//cout<<""
+		//cout<<"position y0: "<<d->position.y<<endl;
+			d->position.y -=yDelta1; 
+			//cout<<"position y1: "<<d->position.y<<endl; 
+			//}	
+
 	}
 	if (!xCol && !yCol) {
-		d->position.x -= xDelta1; d->position.y -= yDelta1; 
+		d->position.x -= xDelta1; 
+		//cout<<"position x2: "<<d->position.x<<endl; 
+		//cout<<"ydelta2: "<<yDelta1<<endl; 
+		d->position.y -= yDelta1; 
+		//cout<<"position y2: "<<d->position.y<<endl; 
 	}
+	d->_yVel = 0;
+	d->standing = true;
 
 }
 

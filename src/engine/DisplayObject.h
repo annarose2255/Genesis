@@ -82,8 +82,10 @@ public:
 	SDL_Point pivot = {0, 0};
 	double scaleX = 1.0;
 	double scaleY = 1.0;
+	int _yVel = 0;
 	double rotation = 0.0; // in radians
 	int alpha = 255;
+	bool standing = true;
 	bool facingRight = true;
 	bool tile = false;
     bool isSheet = false;
