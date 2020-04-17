@@ -28,10 +28,9 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	eDispatcher->addEventListener(collisionSystem, DO_ADDED_EVENT);
     scene1 = new Scene();
     // scene1->loadScene("./resources/scenes/character.json");
-	scene1->loadTileMap("./resources/scenes/area1files/Area1Room7.json");
-	// scene1->loadScene("./resources/scenes/Room7.json");
-	// scene1->loadScene("./resources/scenes/char.json");
+	scene1->loadTileMap("./resources/scenes/area1files/Area 1 - Room 7.json");
 	scene1->loadScene("./resources/scenes/ghostchar.json");
+	scene1->loadScene("./resources/scenes/Room7.json"); //contains objects and enemies
 	//test playable char
 	// AnimatedSprite* chara = new AnimatedSprite("chara"); 
 	// chara->addSSAnimation("./resources/ghostchar/idle.png", "./resources/ghostchar/idle.xml");
@@ -68,10 +67,10 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
 	Game::camera->addChild(currentScene);
 	instance->addChild(Game::camera);
-	instance->addChild(hp);
 	instance->addChild(tBox);
 	instance->addChild(mainMenu);
 	instance->addChild(itemsMenu);
+	instance->addChild(hp);
 
 	hp->position = { 100, 100 };
     //Sound 
@@ -100,10 +99,9 @@ MyGame::~MyGame(){
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
-    mainMenu->update(pressedKeys);
-    itemsMenu->update(pressedKeys);
+	mainMenu->update(pressedKeys, pressedButtons, movedAxis);
+    itemsMenu->update(pressedKeys, pressedButtons, movedAxis);
 	controls->key(pressedKeys,pressedButtons,movedAxis);
-
     // if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
     //     cout << "abc" << endl;
     //     Game::camera->removeImmediateChild(currentScene);

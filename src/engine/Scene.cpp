@@ -10,12 +10,6 @@ Scene::Scene() : DisplayObjectContainer() {
     this->type = "Scene";
 }
 Scene::~Scene() {
-    for (int i = 0; i < enemies.size(); i++) {
-        delete enemies[i];
-    }
-    for (int i = 0; i < objects.size(); i++) {
-        delete objects[i];
-    }
 }
 //
 //Tmx tutorial: https://codeofconnor.com/2017/08/18/how-to-load-and-render-tiled-maps-in-your-sdl2-game/
@@ -95,9 +89,6 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 SDL_QueryTexture(this->tilesets[tset_gid],
                     NULL, NULL, &ts_width, &ts_height);
                 //calculate area to draw on
-                // cout << "cur_gid " << cur_gid << endl;
-                // cout << "ts_width " << ts_width << endl; 
-                // cout << "tile_width " << tile_width << endl;
                 double region_x = (cur_gid % (ts_width / tile_width)) * tile_width;
                 // cout << "after region x" << endl;
                 double region_y = (cur_gid / (ts_width / tile_height)) * tile_height;
@@ -119,11 +110,12 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                     temp->scaleY = 1;
                     temp->alpha = 255;
                     temp->facingRight = true;
-                    if (cur_gid > 130) {
-                        temp->gameType = "platform";
+                    if (cur_gid == 159 || cur_gid == 158 || cur_gid < 130) {
+                        // cout << "cur_gid " << cur_gid << endl;
+                        temp->gameType = "grass";
                     }
                     else {
-                        temp->gameType = "grass";
+                        temp->gameType = "platform";
                     }
                     temp->srcrect.x = region_x; 
                     temp->srcrect.y = region_y; 
@@ -132,23 +124,18 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                     temp->tile = true;
                     newLayer->addChild(temp);
                 }
-                // else {
-                //     temp->srcrect.x = 0; 
-                //     temp->srcrect.y = 0; 
-                // }
-                //can only append to the same vector...no easy way to check if adding an enemy or object..
             }
          }
     }
 }
-DisplayObject* Scene::getObject(int index){
-    return this->objects[index];
+DisplayObject* Scene::getObject(){
+    return this->curObj;
 }
-DisplayObjectContainer* Scene::getEnemy(int index){
-    return this->enemies[index];
+DisplayObject* Scene::getEnemy(){
+    return this->curEnemy;
 }
-void Scene::addEnemy(DisplayObjectContainer* enemy){
-    this->enemies.push_back(enemy);
+void Scene::setEnemy(DisplayObject* enemy){
+    this->curEnemy = enemy;
 }
 AnimatedSprite* Scene::getCharacter(){
     return this->character;
@@ -162,6 +149,12 @@ void Scene::setCharacter(AnimatedSprite* chara) {
 int Scene::getSceneNum(){
     return this->sceneNum;
 }
+// void Scene::loadEnviron(string filepath) {
+//     json j;
+//     ifstream ifs(filepath);
+//     ifs >> j;
+//     for (auto& i : j[""])
+// }
 void Scene::loadScene(string sceneFilePath) {
     json j;
     ifstream ifs(sceneFilePath);
@@ -182,9 +175,7 @@ void Scene::loadScene(string sceneFilePath) {
         if(data["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(data);
             this->addChild(newDOC);
-            if (data["id"] == "bonus") {
-                this->objects.push_back(newDOC);
-            }
+           
         }
         if(data["type"] == "Sprite") {
             Sprite* newS = makeSprite(data);
@@ -289,6 +280,7 @@ DisplayObject* Scene::makeDisplayObject(json data) {
     newDO->rotation = data["rotation"];
     newDO->alpha = data["alpha"];
     newDO->facingRight = data["facingRight"];
+    newDO->gameType = data["gameType"];
     
     return newDO;
 }
@@ -354,16 +346,19 @@ Layer* Scene::makeLayer(json data) {
         if(childData["type"] == "DisplayObject") {
             DisplayObject* newDO = makeDisplayObject(childData);
             newLayer->addChild(newDO);
-            if (childData["id"] == "coin" || childData["id"] == "questComplete") {
-                this->objects.push_back(newDO);
+            if (childData["gameType"] == "enemy") {
+                enemies.push_back(make_pair(childData["id"], newDO));
+            }
+            else if (childData["gameType"] == "platform") {
+                objects.push_back(make_pair(childData["id"], newDO));
             }
         }
         if(childData["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(childData);
             newLayer->addChild(newDOC);
-             if (childData["id"] == "enemy") {
-                enemies.push_back(newDOC);
-            }
+            //  if (childData["id"] == "enemy") {
+            //     enemies.push_back(newDOC);
+            // }
         }
         if(childData["type"] == "Sprite") {
             Sprite* newS = makeSprite(childData);
@@ -583,8 +578,27 @@ void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
     {
         //call change scene event
         MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
-            "./resources/scenes/area1files/Area1Room5.json"));
-    } 
+            "./resources/scenes/area1files/Area 1 - Room 5.json"));
+    }
+    //if the scene isn't a battle and the character collided with an enemy 
+    if (!isBattle && this->character->inBattle && this->character->enemy != NULL) {
+        cout << "in battle!" << endl;
+        this->curEnemy = this->character->enemy;
+        MyGame::eDispatcher->dispatchEvent(new Event(FIGHT, MyGame::eDispatcher, this->character, this->curEnemy));
+        isBattle = true;
+        this->character->enemy = NULL;
+        this->character->inBattle = false;
+    }
+    if (this->sceneNum == 5 && 
+       ( this->character->position.y > this->transitionPts["rm7Greater"].y && this->character->position.y < this->transitionPts["rm7Less"].y)
+        && (this->character->position.x > this->transitionPts["rm7Greater"].x && this->character->position.x < this->transitionPts["rm7Less"].x))
+    {
+        //call change scene event
+        MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
+            "./resources/scenes/area1files/Area 1 - Room 7.json"));
+    }
+    //revert from battle to previous scene 
+    //if (isBattle && keyboard press or something to get out?)
     DisplayObjectContainer::update(pressedKeys, pressedButtons, movedAxis);
 }
 

@@ -41,7 +41,7 @@ public:
 	string gameType = "";
 
 	DisplayObject* parent = NULL;
-
+	DisplayObject* enemy = NULL; 
 	bool isRGB = false;
 
 	DisplayObject();
@@ -89,7 +89,9 @@ public:
 	bool facingRight = true;
 	bool tile = false;
     bool isSheet = false;
+	bool inBattle = false;
 	bool camPerspective = true;
+	bool isUI = false;
     SDL_Rect srcrect;
 	SDL_Rect dstrect;
 	// Camera * cam;

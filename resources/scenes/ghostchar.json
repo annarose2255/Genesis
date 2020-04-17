@@ -29,25 +29,6 @@
                         "name": "Idle"
                     }
                 }
-            },
-            "./resources/scenes/area1files/imgs/Ghost.png0": {
-                "alpha": 255,
-                "children": null,
-                "facingRight": true,
-                "filepath": "./resources/scenes/area1files/imgs/Ghost.png",
-                "height": 100,
-                "id": "./resources/scenes/area1files/imgs/Ghost.png0",
-                "gameType":"enemy",
-                "pivot.x": 0,
-                "pivot.y": 0,
-                "position.x": 432,
-                "position.y": 550,
-                "rotation": 0.0,
-                "scaleX": 0.4,
-                "scaleY": 0.4,
-                "type": "DisplayObjectContainer",
-                "visible": true,
-                "width": 100
             }
         }
     }

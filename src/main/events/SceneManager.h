@@ -8,6 +8,7 @@
 #define CHANGE "RoomChangeEvent"
 #define FIGHT "EngageCombatEvent" 
 #define REVERT "RevertEvent"
+#define REVERTBATTLE "RevertFromBattleEvent"
 
 class SceneManager: public EventListener{
 
@@ -22,8 +23,10 @@ private:
     Scene* currentS;
 	Scene* prevS;
 	SDL_Point prevPos;
+    SDL_Point prevCam;
     DisplayObject* door;
     AnimatedSprite* character;
+    DisplayObject* chara; 
 };
 
 #endif

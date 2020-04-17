@@ -27,17 +27,17 @@ public:
 	Event(string type, EventDispatcher* source);
 	Event(string type, Tween* tween);
 	Event(string type, EventDispatcher* source, AnimatedSprite* character, string scenePath); //change scene
-	Event(string type, EventDispatcher* source, AnimatedSprite* character, DisplayObjectContainer* enemy, string scenePath);
+	Event(string type, EventDispatcher* source, AnimatedSprite* character, DisplayObject* enemy);
 	string getType();
 	EventDispatcher* getSource();
 	AnimatedSprite* getCharacter(); 
 	string getScenePath(); 
-	DisplayObjectContainer* getEnemy(); 
+	DisplayObject* getEnemy(); 
 private:
 	string eventType = "";
 	EventDispatcher* source;
 	AnimatedSprite* chara;
-	DisplayObjectContainer* enemy;
+	DisplayObject* enemy;
 	string scenePath;
 	Tween* tween;
 	// Scene* switchScene;
