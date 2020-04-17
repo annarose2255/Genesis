@@ -9,9 +9,6 @@ Scene::Scene() : DisplayObjectContainer() {
     this->type = "Scene";
 }
 Scene::~Scene() {
-    for (int i = 0; i < objects.size(); i++) {
-        delete objects[i];
-    }
 }
 //
 //Tmx tutorial: https://codeofconnor.com/2017/08/18/how-to-load-and-render-tiled-maps-in-your-sdl2-game/
@@ -91,9 +88,6 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 SDL_QueryTexture(this->tilesets[tset_gid],
                     NULL, NULL, &ts_width, &ts_height);
                 //calculate area to draw on
-                // cout << "cur_gid " << cur_gid << endl;
-                // cout << "ts_width " << ts_width << endl; 
-                // cout << "tile_width " << tile_width << endl;
                 double region_x = (cur_gid % (ts_width / tile_width)) * tile_width;
                 // cout << "after region x" << endl;
                 double region_y = (cur_gid / (ts_width / tile_height)) * tile_height;
@@ -116,7 +110,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                     temp->alpha = 255;
                     temp->facingRight = true;
                     if (cur_gid == 159 || cur_gid == 158 || cur_gid < 130) {
-                        cout << "cur_gid " << cur_gid << endl;
+                        // cout << "cur_gid " << cur_gid << endl;
                         temp->gameType = "grass";
                     }
                     else {
@@ -129,17 +123,12 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                     temp->tile = true;
                     newLayer->addChild(temp);
                 }
-                // else {
-                //     temp->srcrect.x = 0; 
-                //     temp->srcrect.y = 0; 
-                // }
-                //can only append to the same vector...no easy way to check if adding an enemy or object..
             }
          }
     }
 }
-DisplayObject* Scene::getObject(int index){
-    return this->objects[index];
+DisplayObject* Scene::getObject(){
+    return this->curObj;
 }
 DisplayObject* Scene::getEnemy(){
     return this->curEnemy;
@@ -156,6 +145,12 @@ void Scene::setCharacter(AnimatedSprite* chara) {
 int Scene::getSceneNum(){
     return this->sceneNum;
 }
+// void Scene::loadEnviron(string filepath) {
+//     json j;
+//     ifstream ifs(filepath);
+//     ifs >> j;
+//     for (auto& i : j[""])
+// }
 void Scene::loadScene(string sceneFilePath) {
     json j;
     ifstream ifs(sceneFilePath);
@@ -176,9 +171,7 @@ void Scene::loadScene(string sceneFilePath) {
         if(data["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(data);
             this->addChild(newDOC);
-            if (data["id"] == "bonus") {
-                this->objects.push_back(newDOC);
-            }
+           
         }
         if(data["type"] == "Sprite") {
             Sprite* newS = makeSprite(data);
@@ -350,10 +343,10 @@ Layer* Scene::makeLayer(json data) {
             DisplayObject* newDO = makeDisplayObject(childData);
             newLayer->addChild(newDO);
             if (childData["gameType"] == "enemy") {
-                enemies.push_back(newDO);
+                enemies.push_back(make_pair(childData["id"], newDO));
             }
             else if (childData["gameType"] == "platform") {
-                objects.push_back(newDO);
+                objects.push_back(make_pair(childData["id"], newDO));
             }
         }
         if(childData["type"] == "DisplayObjectContainer") {

@@ -28,7 +28,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     // scene1->loadScene("./resources/scenes/character.json");
 	scene1->loadTileMap("./resources/scenes/area1files/Area 1 - Room 7.json");
 	scene1->loadScene("./resources/scenes/ghostchar.json");
-	scene1->loadScene("./resources/scenes/Room7.json");
+	// scene1->loadScene("./resources/scenes/Room7.json"); //contains objects and enemies
 	//test playable char
 	// AnimatedSprite* chara = new AnimatedSprite("chara"); 
 	// chara->addSSAnimation("./resources/ghostchar/idle.png", "./resources/ghostchar/idle.xml");
@@ -97,7 +97,8 @@ MyGame::~MyGame(){
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
-
+	mainMenu->update(pressedKeys, pressedButtons, movedAxis);
+    itemsMenu->update(pressedKeys, pressedButtons, movedAxis);
     // if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
     //     cout << "abc" << endl;
     //     Game::camera->removeImmediateChild(currentScene);
@@ -195,8 +196,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
 	// cout << "Camera x " << Game::camera->position.x << endl; 
 	// cout << "Camera y " << Game::camera->position.y << endl; 
-	cout << "Character x " << currentScene->getCharacter()->position.x << endl;
-	cout << "Character y " << currentScene->getCharacter()->position.y << endl;
+	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
+	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}
@@ -254,8 +255,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	// }
 
 	//sm->handleEvent(CHANGE);
-	mainMenu->update(pressedKeys, pressedButtons, movedAxis);
-    itemsMenu->update(pressedKeys, pressedButtons, movedAxis);
 	tj->nextFrame(); 
 	collisionSystem->update();
 	// cout << "Char alpha " << currentScene->getCharacter()->alpha << endl;

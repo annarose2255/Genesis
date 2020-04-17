@@ -23,6 +23,10 @@ void SceneManager::handleEvent(Event* e)
         MyGame::collisionSystem->clearAllData();
         Scene* nextScene = new Scene();
         nextScene->loadTileMap(e->getScenePath());
+        int fromRm = currentS->getSceneNum(); 
+        int toRm = nextScene->getSceneNum(); //room numbers of current level and next level
+        // string otherFilepath = "./resources/scenes/Room"+ to_string(toRm) + ".json"; //get filepath for enemies in scene
+        // nextScene->loadScene(otherFilepath); 
         //load enemies + objects
         character = e->getCharacter();
 
@@ -31,8 +35,6 @@ void SceneManager::handleEvent(Event* e)
         layer->addChild(character);
         nextScene->addChild(layer);
         SDL_Point pos;
-        int fromRm = currentS->getSceneNum(); 
-        int toRm = nextScene->getSceneNum(); //room numbers of current level and next level
         //determine where to spawn character
         if (fromRm > toRm) { 
             pos = nextScene->charEnd[fromRm]; 
@@ -136,8 +138,9 @@ void SceneManager::handleEvent(Event* e)
     else if (e->getType() == REVERT) 
     {
         currentS = prevS;
-        //
-        //currentS->isBattle = false;
+        //if e->getEnemy()->state = "killed" or e->getEnemy()->state = "captured"
+        //delete currentS->enemy.at(e->getEnemy()->id)
+        currentS->isBattle = false;
         character->position = prevPos;
     }
 }

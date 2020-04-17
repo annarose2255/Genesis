@@ -35,7 +35,7 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
 
-	DisplayObject* getObject(int index);
+	DisplayObject* getObject();
 	DisplayObject* getEnemy();
 	void setEnemy(DisplayObject* enemy);
 	// void addEnemy(DisplayObject* enemy);
@@ -46,8 +46,8 @@ public:
 	int top, left, bottom, right;
 	int getSceneNum(); 
 	bool isBattle; 
-	vector<DisplayObject*>enemies;
-	vector<DisplayObject*>objects;
+	vector<pair<string, DisplayObject*>> enemies;
+	vector<pair<string, DisplayObject*>> objects;
 	
 private:
 	map<int, SDL_Texture*> tilesets; //store texture of tilesets
@@ -56,6 +56,7 @@ private:
 	int sceneNum; //tells us what room we're loading 
 	// vector<DisplayObject*>enemies;
 	DisplayObject* curEnemy; 
+	DisplayObject* curObj; 
 	// bool fromTileMap;
 
 	// EventDispatcher* eDispatcher; 

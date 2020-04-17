@@ -29,6 +29,24 @@
                         "name": "Idle"
                     }
                 }
+            }, 
+            "./resources/scenes/area1files/imgs/Ghost.png0": {
+                "alpha": 255,
+                "facingRight": true,
+                "filepath": "./resources/scenes/area1files/imgs/Ghost.png",
+                "height": 32,
+                "id": "ghost0",
+                "gameType":"enemy",
+                "pivot.x": 0,
+                "pivot.y": 0,
+                "position.x": 432,
+                "position.y": 572,
+                "rotation": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "type": "DisplayObject",
+                "visible": true,
+                "width": 32
             }
         }
     }
