@@ -77,7 +77,7 @@ void SceneManager::handleEvent(Event* e)
     else if (e->getType() == FIGHT)
     {   
          // FightEvent* event = dynamic_cast<FightEvent*>(event);
-        MyGame::collisionSystem->clearAllData();
+        // MyGame::collisionSystem->clearAllData();
         Scene* nextScene = new Scene();
         nextScene->inBattle = true;
         //don't load in character, save it from the previous scene
@@ -131,6 +131,10 @@ void SceneManager::handleEvent(Event* e)
         //Transition to scene
 		MyGame::currentScene = currentS;       
 		Game::camera->addChild(MyGame::currentScene);
+        prevCam.x = Game::camera->position.x; 
+        prevCam.y = Game::camera->position.y; 
+        Game::camera->position.x = 0; //reset camera position
+        Game::camera->position.y = 0; 
         // Tween* newFade = new Tween(currentS);
         // TweenableParams alpha; 
         // alpha.name = "alpha"; 
@@ -154,9 +158,13 @@ void SceneManager::handleEvent(Event* e)
         currentS->isBattle = false;
         character->position = prevPos;
         e->getEnemy()->visible = false;
+
         Game::camera->removeImmediateChild(MyGame::currentScene);
         MyGame::currentScene = currentS;       
         Game::camera->addChild(MyGame::currentScene);
+        Game::camera->position.x = prevCam.x; 
+        Game::camera->position.y = prevCam.y; 
+        
     }
 }
 

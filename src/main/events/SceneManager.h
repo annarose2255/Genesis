@@ -23,6 +23,7 @@ private:
     Scene* currentS;
 	Scene* prevS;
 	SDL_Point prevPos;
+    SDL_Point prevCam;
     DisplayObject* door;
     AnimatedSprite* character;
     DisplayObject* chara; 
