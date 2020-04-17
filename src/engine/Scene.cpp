@@ -480,8 +480,12 @@ void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
     }
     //if the scene isn't a battle and the character collided with an enemy 
     if (!isBattle && this->character->inBattle && this->character->enemy != NULL) {
+        cout << "in battle!" << endl;
         this->curEnemy = this->character->enemy;
         MyGame::eDispatcher->dispatchEvent(new Event(FIGHT, MyGame::eDispatcher, this->character, this->curEnemy));
+        isBattle = true;
+        this->character->enemy = NULL;
+        this->character->inBattle = false;
     }
     if (this->sceneNum == 5 && 
        ( this->character->position.y > this->transitionPts["rm7Greater"].y && this->character->position.y < this->transitionPts["rm7Less"].y)

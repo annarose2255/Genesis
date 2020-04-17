@@ -75,7 +75,7 @@ void SceneManager::handleEvent(Event* e)
 
     }
     else if (e->getType() == FIGHT)
-    {
+    {   
          // FightEvent* event = dynamic_cast<FightEvent*>(event);
         MyGame::collisionSystem->clearAllData();
         Scene* nextScene = new Scene();
@@ -102,15 +102,16 @@ void SceneManager::handleEvent(Event* e)
         MenuItem* flee = new MenuItem("Flee", 250, 0);
         // actionMenu->position.y = 600;
         //check player's state here to determine what abilities are available 
-        // SelectionMenu* abilities = new SelectionMenu(); 
+        SelectionMenu* abilities = new SelectionMenu(); 
+        abilities->position.y = 600;
         //if statements with each ability!!
-        // MenuItem* ghost = new MenuItem("Ghost", 0, 600);
+        MenuItem* ghost = new MenuItem("Ghost", 0, 0);
         actionMenu->addItem(attack);
         actionMenu->addItem(flee);
-        // attack->nextMenu = abilities; 
-        // abilities->addItem(ghost);
-        // nextScene->addChild(abilities);
+        attack->nextMenu = abilities; 
+        abilities->addItem(ghost);
         nextScene->addChild(actionMenu);
+        nextScene->addChild(abilities);
         actionMenu->visible = true;
         nextScene->addChild(layer);
 
@@ -129,11 +130,11 @@ void SceneManager::handleEvent(Event* e)
         //Transition to scene
 		MyGame::currentScene = currentS;       
 		Game::camera->addChild(MyGame::currentScene);
-        Tween* newFade = new Tween(currentS);
-        TweenableParams alpha; 
-        alpha.name = "alpha"; 
-        newFade->animate(alpha, 0, 255, 3);
-        MyGame::tj->add(newFade); 
+        // Tween* newFade = new Tween(currentS);
+        // TweenableParams alpha; 
+        // alpha.name = "alpha"; 
+        // newFade->animate(alpha, 0, 255, 3);
+        // MyGame::tj->add(newFade); 
     }
     else if (e->getType() == REVERT) 
     {

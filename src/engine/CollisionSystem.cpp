@@ -28,7 +28,7 @@ void CollisionSystem::update(){
 					if (collidesWith(*doType1, *doType2)){
 						// cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
 						(*doType1)->onCollision(*doType2); 
-						(*doType2)->onCollision(*doType1);
+						// (*doType2)->onCollision(*doType1);
 					}
 				}
 			}
