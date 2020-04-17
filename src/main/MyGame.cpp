@@ -64,11 +64,11 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
 
 	Game::camera->addChild(currentScene);
-	instance->addChild(hp);
+	instance->addChild(Game::camera);
 	instance->addChild(tBox);
 	instance->addChild(mainMenu);
 	instance->addChild(itemsMenu);
-	instance->addChild(Game::camera);
+	instance->addChild(hp);
 
 	hp->position = { 100, 100 };
     //Sound 

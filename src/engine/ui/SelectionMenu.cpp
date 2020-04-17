@@ -56,12 +56,12 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 					this->goBack();
 					break;
 				case SDL_SCANCODE_N:
-					if (selectInd != 0) {
+					if (selectInd != 0 && Game::frameCounter%12 == 0) {
 						selectInd -= 1;
 					}
 					break;
 				case SDL_SCANCODE_M:
-					if (selectInd != menuItems.size()-1) {
+					if (selectInd != menuItems.size()-1 && Game::frameCounter%12 == 0) {
 						selectInd +=1;
 					}
 					break;
