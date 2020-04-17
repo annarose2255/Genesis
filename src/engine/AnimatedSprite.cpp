@@ -104,6 +104,10 @@ AnimatedSprite::~AnimatedSprite() {
         delete an->frames;
         delete an;
     }
+    for (SSAnimation *ssan : ssanimations)  //can't really test this probably correct tho
+    {
+        delete ssan;
+    }
 }
 void AnimatedSprite::setState(string newstate){
     state = newstate;
