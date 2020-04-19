@@ -199,7 +199,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	}
 	//play idle animation if player is just standing still on ground
 	if(this->standing && !MyGame::controls->holdLeft() && !MyGame::controls->holdRight()){
-		this->play("Idle");
+		// this->play("Idle");
 	} 
 	
 

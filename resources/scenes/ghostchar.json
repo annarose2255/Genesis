@@ -6,9 +6,9 @@
         "filepath": "",
         "children": {
             "character": {
-                "type": "AnimatedSprite",
-                "id": "character",
-                "gameType": "character",
+                "type": "Player",
+                "id": "player",
+                "gameType": "player",
                 "useSpriteSheet": true,
                 "visible": true,
                 "position.x": 70,

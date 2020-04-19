@@ -39,10 +39,11 @@ public:
 	DisplayObject* getObject();
 	DisplayObject* getEnemy();
 	void setEnemy(DisplayObject* enemy);
+	void removeEnemy(DisplayObject* enemy);
 	// void addEnemy(DisplayObject* enemy);
 	AnimatedSprite* getCharacter();
 	Player* getPlayer();
-	void setCharacter(AnimatedSprite* chara);
+	void setPlayer(Player* chara);
 	map<int, SDL_Point> charStart; //where character should spawn in this scene
 	map<int, SDL_Point> charEnd;
 	int top, left, bottom, right;

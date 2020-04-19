@@ -38,7 +38,6 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     // chara->position = {70, 200};
 	// Game::camera->addChild(chara);
 
-    change = true;
     currentScene = scene1;
 
     // UI Components
@@ -76,18 +75,18 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     //Sound 
 	mainMusic = new Sound();
 	//Change Scene 
-	sm = new SceneManager(currentScene->getCharacter(), currentScene);
+	sm = new SceneManager(currentScene->getPlayer(), currentScene);
 	eDispatcher = EventDispatcher::getInstance();
 	eDispatcher->addEventListener(sm, CHANGE);
 	//Collision Detection 
-	collisionSystem->watchForCollisions("character", "platform"); 
-	collisionSystem->watchForCollisions("character", "enemy");
+	collisionSystem->watchForCollisions("player", "platform"); 
+	collisionSystem->watchForCollisions("player", "enemy");
 	//Tween
-	Tween* charTween = new Tween(currentScene->getCharacter());
+	currentScene->getPlayer()->play("Idle");
+	Tween* charTween = new Tween(currentScene->getPlayer());
 	TweenableParams chalpha;
 	chalpha.name = "alpha";
 	charTween->animate(chalpha, 0, 255, 3); 
-
 	tj->add(charTween);
 }
 
@@ -183,41 +182,43 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	}
 	//double jump
 	if (pressedKeys.find(SDL_SCANCODE_Z)!=pressedKeys.end()){
-		currentScene->getCharacter()->setState("MovAblStart");//prevPos.y = currentScene->getCharacter()->position.y;
+		currentScene->getPlayer()->setState("MovAblStart");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}
 	//ghost
 	if (pressedKeys.find(SDL_SCANCODE_G)!=pressedKeys.end()){
-		currentScene->getCharacter()->setState("ghost");//prevPos.y = currentScene->getCharacter()->position.y;
+		currentScene->getPlayer()->setState("ghost");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}
 	//sprint
 	if (pressedKeys.find(SDL_SCANCODE_C)!=pressedKeys.end()){
-		currentScene->getCharacter()->setState("sprint");//prevPos.y = currentScene->getCharacter()->position.y;
+		currentScene->getPlayer()->setState("sprint");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}	
 	//shield
 	if (pressedKeys.find(SDL_SCANCODE_V)!=pressedKeys.end()){
-		currentScene->getCharacter()->setState("shield");//prevPos.y = currentScene->getCharacter()->position.y;
+		currentScene->getPlayer()->setState("shield");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}
 
 	/***************** UI COMPONENTS ******************/
-	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && !change) {
 		mainMenu->visible = true; 
 		Tween* menuTween = new Tween(mainMenu);
 		TweenableParams malpha;
 		malpha.name = "alpha";
 		menuTween->animate(malpha, 0, 255, 3); 
 		tj->add(menuTween);
+		change = true;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end() && !tchange) {
 		tBox->visible = true; 
 		Tween* textTween = new Tween(tBox);
 		TweenableParams talpha;
 		talpha.name = "alpha";
 		textTween->animate(talpha, 0, 255, 3);
 		tj->add(textTween);
+		tchange = true;
 	}
 	// To change text
 	if (pressedKeys.find(SDL_SCANCODE_J) != pressedKeys.end()) {

@@ -129,10 +129,10 @@ void DisplayObjectContainer::draw(AffineTransform &at) {
             children[i]->draw(at);
         // }
         // else {
-        //     double oldAlpha = children[i]->alpha;
-        //     children[i]->alpha = this->alpha * children[i]->alpha; 
-        //     children[i]->draw(at);
-        //     children[i]->alpha = oldAlpha;
+            // double oldAlpha = children[i]->alpha;
+            // children[i]->alpha = this->alpha * children[i]->alpha; 
+            // children[i]->draw(at);
+            // children[i]->alpha = oldAlpha;
         // } 
     }
     // redo the parent's pivot
