@@ -75,12 +75,13 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 }
 
 void SelectionMenu::draw(AffineTransform &at) {
+	cout << "Menu alpha " << this->alpha << endl;
 	if(this->visible) {
 		Sprite::draw(at);
 
 		SDL_SetRenderDrawBlendMode(Game::renderer, SDL_BLENDMODE_BLEND);
 		SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, this->alpha);
-
+		
 		// Draw a white border around the Selection Menu
 		SDL_RenderDrawLine(Game::renderer, this->position.x, this->position.y, this->position.x + this->width, this->position.y);
 		SDL_RenderDrawLine(Game::renderer, this->position.x+this->width, this->position.y, this->position.x + this->width, this->position.y+this->height);

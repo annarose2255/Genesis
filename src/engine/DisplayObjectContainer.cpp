@@ -126,13 +126,13 @@ void DisplayObjectContainer::draw(AffineTransform &at) {
         }
         //if UI component 
         // if (this->isUI) {
-            children[i]->draw(at);
+            // children[i]->draw(at);
         // }
         // else {
-            // double oldAlpha = children[i]->alpha;
-            // children[i]->alpha = this->alpha * children[i]->alpha; 
-            // children[i]->draw(at);
-            // children[i]->alpha = oldAlpha;
+            double oldAlpha = children[i]->alpha;
+            children[i]->alpha = ((float) this->alpha/255.0) * children[i]->alpha; 
+            children[i]->draw(at);
+            children[i]->alpha = oldAlpha;
         // } 
     }
     // redo the parent's pivot
