@@ -39,7 +39,6 @@ public:
 	DisplayObject* getObject();
 	DisplayObject* getEnemy();
 	void setEnemy(DisplayObject* enemy);
-	void removeEnemy(DisplayObject* enemy);
 	// void addEnemy(DisplayObject* enemy);
 	AnimatedSprite* getCharacter();
 	Player* getPlayer();

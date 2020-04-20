@@ -149,9 +149,7 @@ void Scene::setPlayer(Player* chara) {
 int Scene::getSceneNum(){
     return this->sceneNum;
 }
-void Scene::removeEnemy(DisplayObject* enemy) {
-    
-}
+
 
 // void Scene::loadEnviron(string filepath) {
 //     json j;

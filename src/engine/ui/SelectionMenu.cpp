@@ -75,7 +75,6 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 }
 
 void SelectionMenu::draw(AffineTransform &at) {
-	cout << "Menu alpha " << this->alpha << endl;
 	if(this->visible) {
 		Sprite::draw(at);
 

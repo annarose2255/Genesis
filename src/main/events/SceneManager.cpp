@@ -135,11 +135,19 @@ void SceneManager::handleEvent(Event* e)
         prevCam.y = Game::camera->position.y; 
         Game::camera->position.x = 0; //reset camera position
         Game::camera->position.y = 0; 
-        // Tween* newFade = new Tween(currentS);
-        // TweenableParams alpha; 
-        // alpha.name = "alpha"; 
-        // newFade->animate(alpha, 0, 255, 3);
-        // MyGame::tj->add(newFade); 
+        Tween* menuMove = new Tween(actionMenu);
+        Tween* enemyMove = new Tween(MyGame::currentScene->getEnemy());
+        TweenableParams mfade, emove, egrowX, egrowY; 
+        mfade.name = "alpha"; 
+        emove.name = "position.x";
+        egrowX.name = "scaleX";
+        egrowY.name = "scaleY";
+        menuMove->animate(mfade, 0, 255, 5);
+        enemyMove->animate(emove, 800, MyGame::currentScene->getEnemy()->position.x, 5);
+        enemyMove->animate(egrowX, MyGame::currentScene->getEnemy()->scaleX, 2.5, 5);
+        enemyMove->animate(egrowY, MyGame::currentScene->getEnemy()->scaleY, 2.5, 5);
+        MyGame::tj->add(menuMove); 
+        MyGame::tj->add(enemyMove); 
     }
     else if (e->getType() == REVERT) 
     {
@@ -158,7 +166,7 @@ void SceneManager::handleEvent(Event* e)
         currentS->isBattle = false;
         player->position = prevPos;
         e->getEnemy()->visible = false;
-        // currentS->removeEnemy(e->getEnemy()); 
+        e->getEnemy()->gameType = "defeated"; //so player doesn't collide with it again
 
         Game::camera->removeImmediateChild(MyGame::currentScene);
         MyGame::currentScene = currentS;       
