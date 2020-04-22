@@ -200,6 +200,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		currentScene->getPlayer()->setState("shield");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}
+	//hover 
+	if (pressedKeys.find(SDL_SCANCODE_B)!=pressedKeys.end()){
+		currentScene->getPlayer()->setState("High jump");
+	}
 
 	/***************** UI COMPONENTS ******************/
 	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && !change) {
