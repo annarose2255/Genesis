@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:851f880af2048c428cdb2fdd8291dd04:0eded3cc7831e5285b6eaa26bd098611:8d9e30a8a0480b2c40e98f2fb25320ba$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="character_walk_sheet.png" width="1777" height="1594">
+    <sprite n="Walk_1.png" x="1323" y="1254" w="437" h="339" oX="39" oY="15" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_2.png" x="1" y="1235" w="437" h="331" oX="43" oY="13" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_3.png" x="1323" y="929" w="436" h="323" oX="47" oY="11" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_4.png" x="441" y="927" w="438" h="316" oX="51" oY="9" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_5.png" x="445" y="303" w="440" h="308" oX="55" oY="7" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_6.png" x="880" y="1" w="438" h="300" oX="59" oY="6" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_7.png" x="1" y="1" w="436" h="292" oX="64" oY="4" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_8.png" x="439" y="1" w="439" h="296" oX="65" oY="5" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_9.png" x="1320" y="1" w="441" h="300" oX="67" oY="7" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_10.png" x="1" y="299" w="442" h="305" oX="68" oY="9" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_11.png" x="887" y="303" w="444" h="309" oX="69" oY="10" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_12.png" x="1333" y="303" w="443" h="309" oX="65" oY="9" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_13.png" x="1" y="606" w="442" h="311" oX="60" oY="8" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_14.png" x="445" y="614" w="441" h="311" oX="56" oY="8" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_15.png" x="888" y="614" w="441" h="312" oX="51" oY="8" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_16.png" x="1331" y="614" w="441" h="313" oX="47" oY="7" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_17.png" x="1" y="919" w="438" h="314" oX="42" oY="7" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_18.png" x="881" y="928" w="440" h="320" oX="41" oY="9" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_19.png" x="440" y="1250" w="440" h="327" oX="40" oY="11" oW="416" oH="454" r="y"/>
+    <sprite n="Walk_20.png" x="882" y="1250" w="439" h="333" oX="39" oY="13" oW="416" oH="454" r="y"/>
+</TextureAtlas>
