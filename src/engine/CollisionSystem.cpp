@@ -2,7 +2,7 @@
 #include "DisplayObject.h"
 #include "DisplayObjectEvent.h"
 #include <iostream>
-
+#include "Player.h"
 using namespace std;
 
 CollisionSystem::CollisionSystem(){
@@ -13,7 +13,10 @@ CollisionSystem::CollisionSystem(){
 CollisionSystem::~CollisionSystem(){
 
 }
-
+void CollisionSystem::clearAllData(){
+	typeMap.clear();
+	collisionPairs.clear();
+}
 //checks collisions between pairs of DOs where the corresponding types have been requested
 //to be checked (via a single call to watchForCollisions) below.
 void CollisionSystem::update(){
@@ -200,6 +203,7 @@ void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, i
 	d->position.y -= yDelta1; 
 	bool xCol = collidesWith(d, other); 
 	d->position.y += yDelta1;
+	//yDelta1 = 0;
 
 	int maxDelta;
 	if (xCol) {

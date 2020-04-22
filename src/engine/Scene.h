@@ -11,7 +11,7 @@
 #include <vector>
 #include <json.hpp>
 #include <fstream>
-
+#include "Player.h"
 using namespace std;
 
 using json = nlohmann::json;
@@ -31,27 +31,38 @@ public:
 	Layer* makeLayer(json data);
     Sprite* makeSprite(json data);
     AnimatedSprite* makeAnimatedSprite(json data);
+	Player* makePlayer(json data);
 
 	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
 
-	DisplayObject* getObject(int index);
-	DisplayObjectContainer* getEnemy(int index);
-	void addEnemy(DisplayObjectContainer* enemy);
+	DisplayObject* getObject();
+	DisplayObject* getEnemy();
+	void setEnemy(DisplayObject* enemy);
+	// void addEnemy(DisplayObject* enemy);
 	AnimatedSprite* getCharacter();
-	void setCharacter(AnimatedSprite* chara);
+	Player* getPlayer();
+	void setPlayer(Player* chara);
 	map<int, SDL_Point> charStart; //where character should spawn in this scene
 	map<int, SDL_Point> charEnd;
 	int top, left, bottom, right;
 	int getSceneNum(); 
+	bool isBattle; 
+	vector<pair<string, DisplayObject*>> enemies;
+	vector<pair<string, DisplayObject*>> objects;
+	
 private:
 	map<int, SDL_Texture*> tilesets; //store texture of tilesets
 	map<string, SDL_Point> transitionPts;  
 	AnimatedSprite* character;
-	int sceneNum; //tells us what room we're loading
-	vector<DisplayObject*> objects; 
-	vector<DisplayObjectContainer*>enemies; 
+	Player* player;
+
 	bool fromTileMap;
+	int sceneNum; //tells us what room we're loading 
+	// vector<DisplayObject*>enemies;
+	DisplayObject* curEnemy; 
+	DisplayObject* curObj; 
+	// bool fromTileMap;
 
 	// EventDispatcher* eDispatcher; 
     json parse(auto* obj); //Display Objects

@@ -18,6 +18,7 @@
 #include "HealthBar.h"
 #include "TextBox.h"
 #include "SelectionMenu.h"
+#include "Controls.h"
 
 using namespace std;
 
@@ -46,14 +47,16 @@ public:
     static EventDispatcher* eDispatcher;
     static TweenJuggler* tj;
     static CollisionSystem* collisionSystem; 
-
+    static Controls* controls;
+    
 private:
     Sound* mainMusic;
     
-    bool change;    
+    bool change = false; 
+    bool tchange = false;    
     Scene* scene1;
-    Scene* scene2; 
-    Scene* scene3;   	
+    // Scene* scene2; 
+    // Scene* scene3;   	
     // Camera* cam;
     // TweenJuggler* tj;
     // EventListener* coinlis;
@@ -62,7 +65,7 @@ private:
     SceneManager* sm;
     bool isOngoing = true;
     bool fight = false;
-    bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
+    // bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
 
 
 };

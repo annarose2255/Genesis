@@ -1,22 +1,24 @@
 # Genesis
 *Movement*
-WASD to move Sprite
+WASD to move Player
 Up/Down/Left/Right to move camera 
 
-*To Set Up*
-Using tmxlite library: https://github.com/fallahn/tmxlite 
-In the event that it doesn't compile: 
--Delete build folder under tmxlite-master/tmxlite
--Run the following commands: 
--mkdir build 
--cd build
--cmake ..
--sudo make install 
-Also if you get an error about the library not linking then run: sudo ldconfig (that's an L in ldconfig)
+*World*  
+- Player spawns in Room 7, move all the way to the left to go to Room 5
+
+*Battle*
+-Run into an enemy to start battle
+-Use [N] and [M] to toggle selection; [Enter] to make selection
+-Attack: Not usable at this time
+-Flee: exit battle 
+
+*Character Abilities*
+[G] = Ghost 
+[C] = Sprint 
+[V] = Shield 
+[Z] = Double Jump
+
+*Menu* 
+[Y] = Main Menu 
 
 
-
-*4.3 Updates* 
-Scene Transitions: First scene, run into the enemy to enter a battle scene; from the battle scene
-run into the enemy again to go back to the previous scene. In the first scene, move the character up to 
-enter a different area. Move down to go back to the first scene. 

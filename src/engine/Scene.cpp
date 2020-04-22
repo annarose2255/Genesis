@@ -4,20 +4,12 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <tmxlite/Map.hpp>
-#include <tmxlite/Layer.hpp>
-#include <tmxlite/TileLayer.hpp>
+#include "Player.h"
 
 Scene::Scene() : DisplayObjectContainer() {
     this->type = "Scene";
 }
 Scene::~Scene() {
-    for (int i = 0; i < enemies.size(); i++) {
-        delete enemies[i];
-    }
-    for (int i = 0; i < objects.size(); i++) {
-        delete objects[i];
-    }
 }
 //
 //Tmx tutorial: https://codeofconnor.com/2017/08/18/how-to-load-and-render-tiled-maps-in-your-sdl2-game/
@@ -64,12 +56,12 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
 	    SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::renderer, image);
         this->tilesets.insert(std::pair<int, SDL_Texture*>(tset["firstgid"], texture));
     }
-    cout << "first gid of tset " << tilesets[1] << endl;
+    // cout << "first gid of tset " << tilesets[1] << endl;
     for (auto& layer : j["layers"]) {
         if (layer["type"] != "tilelayer") { //rendering only tile layers
             continue;
         }
-        cout << "after checking layer type" << endl;
+        // cout << "after checking layer type" << endl;
          for (int y = 0; y < rows; ++y) {
             for (int x = 0; x < cols; ++x) {
                 // cout << "inside nested loop" << endl;
@@ -97,9 +89,6 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 SDL_QueryTexture(this->tilesets[tset_gid],
                     NULL, NULL, &ts_width, &ts_height);
                 //calculate area to draw on
-                // cout << "cur_gid " << cur_gid << endl;
-                // cout << "ts_width " << ts_width << endl; 
-                // cout << "tile_width " << tile_width << endl;
                 double region_x = (cur_gid % (ts_width / tile_width)) * tile_width;
                 // cout << "after region x" << endl;
                 double region_y = (cur_gid / (ts_width / tile_height)) * tile_height;
@@ -121,11 +110,12 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                     temp->scaleY = 1;
                     temp->alpha = 255;
                     temp->facingRight = true;
-                    if (cur_gid > 130) {
-                        temp->gameType = "platform";
+                    if (cur_gid == 159 || cur_gid == 158 || cur_gid < 130) {
+                        // cout << "cur_gid " << cur_gid << endl;
+                        temp->gameType = "grass";
                     }
                     else {
-                        temp->gameType = "grass";
+                        temp->gameType = "platform";
                     }
                     temp->srcrect.x = region_x; 
                     temp->srcrect.y = region_y; 
@@ -134,33 +124,39 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                     temp->tile = true;
                     newLayer->addChild(temp);
                 }
-                // else {
-                //     temp->srcrect.x = 0; 
-                //     temp->srcrect.y = 0; 
-                // }
-                //can only append to the same vector...no easy way to check if adding an enemy or object..
             }
          }
     }
 }
-DisplayObject* Scene::getObject(int index){
-    return this->objects[index];
+DisplayObject* Scene::getObject(){
+    return this->curObj;
 }
-DisplayObjectContainer* Scene::getEnemy(int index){
-    return this->enemies[index];
+DisplayObject* Scene::getEnemy(){
+    return this->curEnemy;
 }
-void Scene::addEnemy(DisplayObjectContainer* enemy){
-    this->enemies.push_back(enemy);
+void Scene::setEnemy(DisplayObject* enemy){
+    this->curEnemy = enemy;
 }
 AnimatedSprite* Scene::getCharacter(){
     return this->character;
 }
-void Scene::setCharacter(AnimatedSprite* chara) {
-    this->character = chara;
+Player* Scene::getPlayer(){
+    return this->player;
+}
+void Scene::setPlayer(Player* chara) {
+    this->player = chara;
 }
 int Scene::getSceneNum(){
     return this->sceneNum;
 }
+
+
+// void Scene::loadEnviron(string filepath) {
+//     json j;
+//     ifstream ifs(filepath);
+//     ifs >> j;
+//     for (auto& i : j[""])
+// }
 void Scene::loadScene(string sceneFilePath) {
     json j;
     ifstream ifs(sceneFilePath);
@@ -171,8 +167,8 @@ void Scene::loadScene(string sceneFilePath) {
     int i = 0;
     for(auto& [key, value] : j.items()) {
         json data = value;
-        cout << "hi" << endl;
-        cout << data["type"] << endl;
+        // cout << "hi" << endl;
+        // cout << data["type"] << endl;
          //quick fix: find j["character"], set it to root & call in myGame
         if(data["type"] == "DisplayObject") {
             DisplayObject* newDC = makeDisplayObject(data);
@@ -181,9 +177,7 @@ void Scene::loadScene(string sceneFilePath) {
         if(data["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(data);
             this->addChild(newDOC);
-            if (data["id"] == "bonus") {
-                this->objects.push_back(newDOC);
-            }
+           
         }
         if(data["type"] == "Sprite") {
             Sprite* newS = makeSprite(data);
@@ -288,6 +282,7 @@ DisplayObject* Scene::makeDisplayObject(json data) {
     newDO->rotation = data["rotation"];
     newDO->alpha = data["alpha"];
     newDO->facingRight = data["facingRight"];
+    newDO->gameType = data["gameType"];
     
     return newDO;
 }
@@ -298,7 +293,7 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
     newDOC->visible = data["visible"];
     newDOC->position.x = data["position.x"];
     newDOC->position.y = data["position.y"];
-    cout << data["id"] << endl;
+    // cout << data["id"] << endl;
     newDOC->gameType = data["gameType"];
     newDOC->width = data["width"];
     newDOC->height = data["height"];
@@ -353,16 +348,19 @@ Layer* Scene::makeLayer(json data) {
         if(childData["type"] == "DisplayObject") {
             DisplayObject* newDO = makeDisplayObject(childData);
             newLayer->addChild(newDO);
-            if (childData["id"] == "coin" || childData["id"] == "questComplete") {
-                this->objects.push_back(newDO);
+            if (childData["gameType"] == "enemy") {
+                enemies.push_back(make_pair(childData["id"], newDO));
+            }
+            else if (childData["gameType"] == "platform") {
+                objects.push_back(make_pair(childData["id"], newDO));
             }
         }
         if(childData["type"] == "DisplayObjectContainer") {
             DisplayObjectContainer* newDOC = makeDisplayObjectContainer(childData);
             newLayer->addChild(newDOC);
-             if (childData["id"] == "enemy") {
-                enemies.push_back(newDOC);
-            }
+            //  if (childData["id"] == "enemy") {
+            //     enemies.push_back(newDOC);
+            // }
         }
         if(childData["type"] == "Sprite") {
             Sprite* newS = makeSprite(childData);
@@ -371,6 +369,12 @@ Layer* Scene::makeLayer(json data) {
         if(childData["type"] == "AnimatedSprite") {
             AnimatedSprite* newAS = makeAnimatedSprite(childData); //possibly use root var
             newLayer->addChild(newAS);
+            this->character = newAS;
+        }
+        if(childData["type"] == "Player") {
+            Player* newP = makePlayer(childData); //possibly use root var
+            newLayer->addChild(newP);
+            this->player = newP; 
         }
     }
     // cout << "children of newLayer " << newLayer->children.size() << endl;
@@ -420,8 +424,9 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     //make from spritesheet 
     //AnimatedSprite* newAS = new AnimatedSprite(data["id"], data["filepath"], data["xmlpath"]);
     AnimatedSprite* newAS;
+    Player* newplayer;
     if (data["useSpriteSheet"]) {
-         newAS = new AnimatedSprite(data["id"], data["animations"]["0"]["filepath"], 
+         newAS = new Player(data["id"], data["animations"]["0"]["filepath"], 
             data["animations"]["0"]["xmlpath"]);
     }
     else {
@@ -431,6 +436,26 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
         }
     }
     // AnimatedSprite* newAS = new AnimatedSprite(data["id"]);
+   // newplayer = newAS;
+ /*  if (newplayer->id != "null"){
+      newplayer->visible = data["visible"];
+    newplayer->position.x = data["position.x"];
+    newplayer->position.y = data["position.y"];
+    newplayer->width = data["width"];
+    newplayer->height = data["height"];
+    newplayer->pivot.x = data["pivot.x"];
+    newplayer->pivot.y = data["pivot.y"];
+    newplayer->scaleX = data["scaleX"];
+    newplayer->scaleY = data["scaleY"];
+    newplayer->rotation = data["rotation"];
+    newplayer->alpha = data["alpha"];
+    newplayer->facingRight = data["facingRight"];
+    newplayer->srcrect.x = 0;
+    newplayer->srcrect.y = 0;
+    newplayer->gameType = data["gameType"];
+    this->player = newplayer;
+  } */
+  //else{
     newAS->visible = data["visible"];
     newAS->position.x = data["position.x"];
     newAS->position.y = data["position.y"];
@@ -446,13 +471,17 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     newAS->srcrect.x = 0;
     newAS->srcrect.y = 0;
     newAS->gameType = data["gameType"];
-    if (data["gameType"] == "character") {
-        this->character = newAS;
-    }
+    // if (data["gameType"] == "character") {
+    //     this->character = newAS;
+    // }
+  //}
+
+
     string anim = data["animations"]["0"]["name"];
     // Animations
-    cout << "Anim name " << anim << endl;
+    // cout << "Anim name " << anim << endl;
     newAS->play(anim);
+    //newplayer->play(anim);
  
     // Children
     for(auto& [key, value] : data["children"].items()) {
@@ -476,16 +505,85 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     }
     return newAS;
 }
+Player* Scene::makePlayer(json data){
+    Player* newplayer;
+    newplayer = new Player(data["id"], data["animations"]["0"]["filepath"], 
+        data["animations"]["0"]["xmlpath"]);
+    
+    // AnimatedSprite* newAS = new AnimatedSprite(data["id"]);
+   // newplayer = newAS;
+    // (newplayer->id != "null"){
+    newplayer->visible = data["visible"];
+    newplayer->position.x = data["position.x"];
+    newplayer->position.y = data["position.y"];
+    newplayer->width = data["width"];
+    newplayer->height = data["height"];
+    newplayer->pivot.x = data["pivot.x"];
+    newplayer->pivot.y = data["pivot.y"];
+    newplayer->scaleX = data["scaleX"];
+    newplayer->scaleY = data["scaleY"];
+    newplayer->rotation = data["rotation"];
+    newplayer->alpha = data["alpha"];
+    newplayer->facingRight = data["facingRight"];
+    
+    newplayer->gameType = data["gameType"];
 
+
+    string anim = data["animations"]["0"]["name"];
+    // Animations
+    newplayer->play(anim);
+ 
+    // Children
+    for(auto& [key, value] : data["children"].items()) {
+        json childData = value;
+        if(childData["type"] == "DisplayObject") {
+            DisplayObject* newDO = makeDisplayObject(childData);
+            newplayer->addChild(newDO);
+        }
+        if(childData["type"] == "DisplayObjectContainer") {
+            DisplayObjectContainer* newDOC = makeDisplayObjectContainer(childData);
+            newplayer->addChild(newDOC);
+        }
+        if(childData["type"] == "Sprite") {
+            Sprite* newS = makeSprite(childData);
+            newplayer->addChild(newS);
+        }
+        if(childData["type"] == "AnimatedSprite") {
+            AnimatedSprite* newAS2 = makeAnimatedSprite(childData);
+            newplayer->addChild(newAS2);
+        }
+    }
+    return newplayer;
+
+}
 void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
-    // if (this->sceneNum == 7 && 
-    //    ( this->character->position.y > this->transitionPts["rm5Greater"].y && 
-    //     (this->character->position.x > this->transitionPts["rm5Greater"].x && this->character->position.x < this->transitionPts["rm5Less"].x)))
-    // {
-    //     //call change scene event
-    //     MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->character,
-    //         "./resources/scenes/area1files/Area1Room5.json"));
-    // } 
+    if (this->sceneNum == 7 && 
+       ( this->player->position.y > this->transitionPts["rm5Greater"].y && 
+        (this->player->position.x > this->transitionPts["rm5Greater"].x && this->player->position.x < this->transitionPts["rm5Less"].x)))
+    {
+        //call change scene event
+        MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
+            "./resources/scenes/area1files/Area 1 - Room 5.json"));
+    }
+    //if the scene isn't a battle and the character collided with an enemy 
+    if (!isBattle && this->player->inBattle && this->player->enemy != NULL) {
+        cout << "in battle!" << endl;
+        this->curEnemy = this->player->enemy;
+        MyGame::eDispatcher->dispatchEvent(new Event(FIGHT, MyGame::eDispatcher, this->player, this->curEnemy));
+        isBattle = true;
+        this->player->enemy = NULL;
+        this->player->inBattle = false;
+    }
+    if (this->sceneNum == 5 && 
+       ( this->player->position.y > this->transitionPts["rm7Greater"].y && this->player->position.y < this->transitionPts["rm7Less"].y)
+        && (this->player->position.x > this->transitionPts["rm7Greater"].x && this->player->position.x < this->transitionPts["rm7Less"].x))
+    {
+        //call change scene event
+        MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
+            "./resources/scenes/area1files/Area 1 - Room 7.json"));
+    }
+    //revert from battle to previous scene 
+    //if (isBattle && keyboard press or something to get out?)
     DisplayObjectContainer::update(pressedKeys, pressedButtons, movedAxis);
 }
 

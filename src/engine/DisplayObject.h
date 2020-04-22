@@ -41,7 +41,7 @@ public:
 	string gameType = "";
 
 	DisplayObject* parent = NULL;
-
+	DisplayObject* enemy = NULL; 
 	bool isRGB = false;
 
 	DisplayObject();
@@ -60,8 +60,8 @@ public:
 	void applyTransformations(AffineTransform &at);
 	void reverseTransformations(AffineTransform &at);
 
-	void onCollision(DisplayObject* other);
-	AffineTransform *globalTransform();
+	bool onCollision(DisplayObject* other);
+	void *globalTransform(AffineTransform &gt);
 
 	int getWidth();
 	int getHeight();
@@ -82,12 +82,16 @@ public:
 	SDL_Point pivot = {0, 0};
 	double scaleX = 1.0;
 	double scaleY = 1.0;
+	int _yVel = 0;
 	double rotation = 0.0; // in radians
 	int alpha = 255;
+	bool standing = true;
 	bool facingRight = true;
 	bool tile = false;
     bool isSheet = false;
+	bool inBattle = false;
 	bool camPerspective = true;
+	bool isUI = false;
     SDL_Rect srcrect;
 	SDL_Rect dstrect;
 	// Camera * cam;

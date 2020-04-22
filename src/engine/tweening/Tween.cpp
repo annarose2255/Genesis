@@ -4,7 +4,7 @@
 #include "Tween.h"
 #include "DisplayObject.h"
 
-Tween::Tween(DisplayObjectContainer* object) {
+Tween::Tween(DisplayObject* object) {
     // DisplayObject* obj = dynamic_cast<DisplayObject*>(object);
     this->object = object; //saves the object to be tweened
 }
@@ -40,7 +40,7 @@ void Tween::update(){
     //update curTime 
     if (!isComplete()) {
         this->curFrame++;
-        cout << "Tween Current Frame " << this->curFrame << endl;
+        // cout << "Tween Current Frame " << this->curFrame << endl;
         //increment TweenParam internal counter 
         for (int i = 0; i < params.size(); i++) {
             params[i]->currentFrame++;
@@ -67,10 +67,6 @@ void Tween::setValue(TweenableParams param, double value){
     }
     if(param.name == "alpha"){
         this->object->alpha = value;
-        for (int i = 0; i < this->object->children.size(); i++){
-            this->object->children[i]->alpha = value;
-            cout << "set alpha of children" << endl;
-        }
     }
      if (param.name == "scaleX"){
         this->object->scaleX = value;

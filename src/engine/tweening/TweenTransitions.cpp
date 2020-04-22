@@ -26,7 +26,7 @@ void TweenTransitions::easeInOut(double percentDone){
     }
     else {
         this->newValue = this->curVal - (double) (this->endVal * percentDone);
-         if (this->newValue < this->endVal) {
+        if (this->newValue < this->endVal) {
             this->newValue = this->endVal; 
         }
     }
@@ -45,6 +45,6 @@ void TweenTransitions::setVal(double current, double start, double end){
     this->curVal = current;
     this->startVal = start;
     this->endVal = end; 
-    cout << "set curVal " << this->curVal << endl; 
-    cout << "set endVal " << this->endVal << endl;
+    // cout << "set curVal " << this->curVal << endl; 
+    // cout << "set endVal " << this->endVal << endl;
 }
