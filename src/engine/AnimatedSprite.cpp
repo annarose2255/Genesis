@@ -17,10 +17,10 @@ AnimatedSprite::AnimatedSprite(string id) : Sprite(id, 0, 0, 0) {
     this->id = id;
 }
 
-AnimatedSprite::AnimatedSprite(string id, string spriteSheetPath, string xmlPath) : Sprite() {
+AnimatedSprite::AnimatedSprite(string id, bool isSheet) : Sprite() {
     this->type = "AnimatedSprite";
     this->id = id;
-    this->isSheet = true;
+    this->isSheet = isSheet;
 }
 
 AnimatedSprite::~AnimatedSprite() {
@@ -43,6 +43,7 @@ void AnimatedSprite::setState(string newstate){
 }
 void AnimatedSprite::addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop) {
     Animation* anim = new Animation();
+    animName[0] = toupper(animName[0]);
     anim->animName = animName;
     anim->numFrames = numFrames;
     anim->frameRate = frameRate;
@@ -91,12 +92,15 @@ void AnimatedSprite::addSSAnimation(string spriteSheetPath, string xmlPath) {
         }
         else {
             // Add last animation
+            prevAnim[0] = toupper(prevAnim[0]);
             temp->animName = prevAnim;
             temp->filepath = spriteSheetPath;
             temp->numFrames = frameCount + 1;
             temp->frameRate = 2;
             temp->loop = true;
             temp->curFrame = 0;
+            temp->image = IMG_Load(spriteSheetPath.c_str());
+            temp->texture = SDL_CreateTextureFromSurface(Game::renderer, temp->image);
             ssanimations.push_back(temp);
             animationNames.push_back(prevAnim);
 
@@ -119,6 +123,7 @@ void AnimatedSprite::addSSAnimation(string spriteSheetPath, string xmlPath) {
         }
         else {
             // Add last animation
+            prevAnim[0] = toupper(prevAnim[0]);
             temp->animName = prevAnim;
             temp->filepath = spriteSheetPath;
             temp->image = IMG_Load(spriteSheetPath.c_str());
@@ -157,8 +162,9 @@ void AnimatedSprite::play(string animName) {
     if(isSheet) {
         ssanim = getSSAnimation(animName);
         if (ssanim != NULL) {
-            if (this->sscurrent->filepath == ssanim->filepath)
-                this->setTexture(sscurrent->texture);
+            if (this->sscurrent==NULL or this->sscurrent->filepath != ssanim->filepath){
+                this->setTexture(ssanim->texture);
+            }
             this->sscurrent = ssanim;
             this->sscurrent->curFrame = 0;
             frameCount = 0;

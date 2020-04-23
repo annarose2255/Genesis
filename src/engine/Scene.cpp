@@ -426,7 +426,8 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     AnimatedSprite* newAS;
     Player* newplayer;
     if (data["useSpriteSheet"]) {
-         newAS = new Player(data["id"], data["animations"]["0"]["filepath"], 
+         newAS = new Player(data["id"], true);
+         newAS->addSSAnimation(data["animations"]["0"]["filepath"], 
             data["animations"]["0"]["xmlpath"]);
     }
     else {
@@ -507,7 +508,8 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
 }
 Player* Scene::makePlayer(json data){
     Player* newplayer;
-    newplayer = new Player(data["id"], data["animations"]["0"]["filepath"], 
+    newplayer = new Player(data["id"], true);
+    newplayer->addSSAnimation(data["animations"]["0"]["filepath"], 
         data["animations"]["0"]["xmlpath"]);
     
     // AnimatedSprite* newAS = new AnimatedSprite(data["id"]);

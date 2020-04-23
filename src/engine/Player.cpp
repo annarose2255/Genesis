@@ -24,9 +24,10 @@ Player::Player() : AnimatedSprite("Player"){
 	this->pivot.x = this->width / 2;
 	this->pivot.y = this->height / 2;
 
-	this->addAnimation("resources/PlayerSprites/", "Idle", 16, 4, true);
-	this->addAnimation("resources/PlayerSprites/", "Run", 20, 2, true);
-	this->addAnimation("resources/PlayerSprites/", "Jump", 30, 1, false);
+	this->addAnimation("resources/ghostchar/", "Idle", 6, 4, true);
+	this->addAnimation("resources/ghostchar/", "run", 6, 2, true);
+	this->addAnimation("resources/ghostchar/", "jump", 6, 1, false);
+	this->addAnimation("resources/ghostchar/", "Death", 6, 1, false);
 	this->play("Idle");
 }
 Player::Player(string id){
@@ -42,19 +43,30 @@ Player::Player(string id){
 	this->pivot.x = this->width / 2;
 	this->pivot.y = this->height / 2;
 
-	this->addAnimation("resources/PlayerSprites/", "Idle", 16, 4, true);
-	this->addAnimation("resources/PlayerSprites/", "Run", 20, 2, true);
-	this->addAnimation("resources/PlayerSprites/", "Jump", 30, 1, false);
+	this->addAnimation("resources/ghostchar/", "Idle", 6, 4, true);
+	this->addAnimation("resources/ghostchar/", "run", 6, 2, true);
+	this->addAnimation("resources/ghostchar/", "jump", 6, 1, false);
+	this->addAnimation("resources/ghostchar/", "Death", 6, 1, false);
 	this->play("Idle");
 }
-Player::Player(string id, string spriteSheetPath, string xmlPath) : AnimatedSprite(id,  spriteSheetPath,  xmlPath){
+Player::Player(string id, bool isSheet) : AnimatedSprite(id, true){
 	this->type = "Player";
-	//normaltexture = this->getTexture();
-	//SDL_Texture* b;
-	//b = this->getTexture();
-	//S////DL_SetTextureColorMod(b, 125,125,250);
-	//shieldtexture = b;
-	//this = a;
+	this->id = id;
+	
+	this->position.x = 55;
+	this->position.y = 200;
+	this->width = 416;
+	this->height = 454;
+	this->scaleX = 0.15;
+	this->scaleY = 0.15;
+	this->pivot.x = this->width / 2;
+	this->pivot.y = this->height / 2;
+
+	this->addSSAnimation("resources/ghostchar/idle.png", "resources/ghostchar/idle.xml");
+	this->addSSAnimation("resources/ghostchar/run.png", "resources/ghostchar/run.xml");
+	this->addSSAnimation("resources/ghostchar/jump.png", "resources/ghostchar/jump.xml");
+	this->addSSAnimation("resources/ghostchar/death.png", "resources/ghostchar/death.xml");
+	this->play("Idle");
 }
 
 //Called automatically by collision system when something collides with the player

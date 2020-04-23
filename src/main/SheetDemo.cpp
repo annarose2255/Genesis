@@ -15,7 +15,10 @@ SheetDemo::SheetDemo() : Game(1200, 1000) {
 	allSprites->position = {600, 500};
 	instance->addChild(allSprites);
 
-	coin = new AnimatedSprite("coin", "./resources/quest/Gold.png", "./resources/quest/Gold.xml");
+	coin = new AnimatedSprite("coin", true);
+	cout << "hi" << endl;
+	coin->addSSAnimation("./resources/quest/Gold.png", "./resources/quest/Gold.xml");
+	cout << "ic" << endl;
 	questComplete = new DisplayObjectContainer("quest complete", "./resources/quest/questComplete.png");
 	questComplete->visible = false;
 	coin->play("Gold");

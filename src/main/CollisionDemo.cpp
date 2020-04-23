@@ -23,7 +23,8 @@ CollisionDemo::CollisionDemo() : Game(1200, 1000) {
 	allSprites->position = {600, 500};
 	instance->addChild(allSprites);
 
-	coin = new AnimatedSprite("coin", "./resources/quest/Gold.png", "./resources/quest/Gold.xml");
+	coin = new AnimatedSprite("coin", true);
+	coin->addSSAnimation("./resources/quest/Gold.png", "./resources/quest/Gold.xml");
 	coin->play("Gold");
     coin->position = {0, 0};
 	coin->setHitbox({20, 0}, 60, coin->height);

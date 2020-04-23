@@ -44,11 +44,11 @@ public:
 	
 	AnimatedSprite();
 	AnimatedSprite(string id);
-	AnimatedSprite(string id, string spriteSheetPath, string xmlPath);
+	AnimatedSprite(string id, bool isSheet);
 	~AnimatedSprite();
 
 	void addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop);
-	void addSSAnimation(string animName, string spriteSheetPath, string xmlPath);
+	void addSSAnimation(string spriteSheetPath, string xmlPath);
 	Animation* getAnimation(string animName);
     SSAnimation* getSSAnimation(string animName);
 
