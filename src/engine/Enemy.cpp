@@ -195,7 +195,6 @@ void Enemy::moveToTarget(){
 	this->position.x += xComp;
     cout<<"change x : "<<position.x<<endl;
 	this->position.y += yComp;
-
 }
 
 bool Enemy::isTargetReached(){

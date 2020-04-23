@@ -137,9 +137,10 @@ DisplayObject* Scene::getEnemy(){
 vector<pair<string, DisplayObject*>> Scene::getEnemies(){
     return this->enemies;
 }
-void Scene::setRealEnemies(vector<Enemy*> e){
+/* void Scene::setRealEnemies(vector<Enemy*> e){
     RealEnemies = e;
-} 
+} */
+
 void Scene::setEnemy(DisplayObject* enemy){
     this->curEnemy = enemy;
 }
@@ -427,8 +428,6 @@ Sprite* Scene::makeSprite(json data) {
 }
 
 AnimatedSprite* Scene::makeAnimatedSprite(json data) {
-    //make from spritesheet 
-    //AnimatedSprite* newAS = new AnimatedSprite(data["id"], data["filepath"], data["xmlpath"]);
     AnimatedSprite* newAS;
     Player* newplayer;
     if (data["useSpriteSheet"]) {
@@ -441,27 +440,7 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
             newAS->addAnimation(value["filepath"], value["name"], value["frames"], value["rate"], value["loop"]);
         }
     }
-    // AnimatedSprite* newAS = new AnimatedSprite(data["id"]);
-   // newplayer = newAS;
- /*  if (newplayer->id != "null"){
-      newplayer->visible = data["visible"];
-    newplayer->position.x = data["position.x"];
-    newplayer->position.y = data["position.y"];
-    newplayer->width = data["width"];
-    newplayer->height = data["height"];
-    newplayer->pivot.x = data["pivot.x"];
-    newplayer->pivot.y = data["pivot.y"];
-    newplayer->scaleX = data["scaleX"];
-    newplayer->scaleY = data["scaleY"];
-    newplayer->rotation = data["rotation"];
-    newplayer->alpha = data["alpha"];
-    newplayer->facingRight = data["facingRight"];
-    newplayer->srcrect.x = 0;
-    newplayer->srcrect.y = 0;
-    newplayer->gameType = data["gameType"];
-    this->player = newplayer;
-  } */
-  //else{
+
     newAS->visible = data["visible"];
     newAS->position.x = data["position.x"];
     newAS->position.y = data["position.y"];
@@ -477,17 +456,10 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     newAS->srcrect.x = 0;
     newAS->srcrect.y = 0;
     newAS->gameType = data["gameType"];
-    // if (data["gameType"] == "character") {
-    //     this->character = newAS;
-    // }
-  //}
 
 
     string anim = data["animations"]["0"]["name"];
-    // Animations
-    // cout << "Anim name " << anim << endl;
     newAS->play(anim);
-    //newplayer->play(anim);
  
     // Children
     for(auto& [key, value] : data["children"].items()) {

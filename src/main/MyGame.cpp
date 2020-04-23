@@ -91,7 +91,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 		enemyType.push_back(w);
 		//currentScene->setEnemies()
 	}
-	currentScene->setRealEnemies(enemyType);
+	//currentScene->setRealEnemies(enemyType);
 	Tween* charTween = new Tween(currentScene->getPlayer());
 	TweenableParams chalpha;
 	chalpha.name = "alpha";
@@ -191,6 +191,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		//currentScene->getCharacter()->facingRight = true;
 		//currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
 		//currentScene->getCharacter()->position.x +=2; 
+		//currentScene->getEnemy()->position.x++;
+		
 
 			// currentScene->position.x-=2; //comment out to just move sprite
 	}
