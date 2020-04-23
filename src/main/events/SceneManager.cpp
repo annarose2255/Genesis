@@ -76,46 +76,27 @@ void SceneManager::handleEvent(Event* e)
     }
     else if (e->getType() == FIGHT)
     {   
-         // FightEvent* event = dynamic_cast<FightEvent*>(event);
-        // MyGame::collisionSystem->clearAllData();
+        //add player and enemy turn listeners 
+        //when player finishes a move, move on to enemy turn 
         Scene* nextScene = new Scene();
         nextScene->inBattle = true;
         //don't load in character, save it from the previous scene
         //set it back in revert 
         //get Player instead of character??
         player = e->getPlayer();
-        // Change these later according to design team
-        // character->position.x = 200;
-        // character->position.y = 400;
+    
         e->getEnemy()->position.x = 400;
         e->getEnemy()->position.y = 400;
         
         Layer* layer = new Layer(); 
         layer->scrollSpeed = 1;
-        // layer->addChild(character);
         layer->addChild(e->getEnemy());
-        //add an action menu
-        SelectionMenu* actionMenu = new SelectionMenu();
-        // actionMenu->position.x = 0; 
-        actionMenu->position.y = 600;
-        MenuItem* attack = new MenuItem("Attack", 0, 0);
-        MenuItem* flee = new MenuItem("Flee", 250, 0);
-        flee->setAction(new Event(REVERTBATTLE, MyGame::eDispatcher, player, e->getEnemy()));
-        // actionMenu->position.y = 600;
-        //check player's state here to determine what abilities are available 
-        SelectionMenu* abilities = new SelectionMenu(); 
-        abilities->position.y = 600;
-        //if statements with each ability!!
-        MenuItem* ghost = new MenuItem("Ghost", 0, 0);
-        actionMenu->addItem(attack);
-        actionMenu->addItem(flee);
-        attack->nextMenu = abilities; 
-        abilities->addItem(ghost);
-        nextScene->addChild(actionMenu);
-        nextScene->addChild(abilities);
-        actionMenu->visible = true;
+        //set action menu
+        MyGame::actionMenu->getItem(0)->setAction(new Event(ATTACK, MyGame::eDispatcher, player, e->getEnemy()));
+        MyGame::actionMenu->getItem(3)->setAction(new Event(REVERTBATTLE, MyGame::eDispatcher, player, e->getEnemy()));
+        MyGame::actionMenu->visible = true;
+        enemyHP->visible = true;
         nextScene->addChild(layer);
-
         nextScene->setPlayer(player);
         nextScene->setEnemy(e->getEnemy());
 
@@ -129,13 +110,13 @@ void SceneManager::handleEvent(Event* e)
         currentS = nextScene;
         Game::camera->removeImmediateChild(MyGame::currentScene);
         //Transition to scene
-		MyGame::currentScene = currentS;       
+		MyGame::currentScene = currentS;    
 		Game::camera->addChild(MyGame::currentScene);
         prevCam.x = Game::camera->position.x; 
         prevCam.y = Game::camera->position.y; 
         Game::camera->position.x = 0; //reset camera position
         Game::camera->position.y = 0; 
-        Tween* menuMove = new Tween(actionMenu);
+        Tween* menuMove = new Tween(MyGame::actionMenu);
         Tween* enemyMove = new Tween(MyGame::currentScene->getEnemy());
         TweenableParams mfade, emove, egrowX, egrowY; 
         mfade.name = "alpha"; 
@@ -148,6 +129,28 @@ void SceneManager::handleEvent(Event* e)
         enemyMove->animate(egrowY, MyGame::currentScene->getEnemy()->scaleY, 2.5, 5);
         MyGame::tj->add(menuMove); 
         MyGame::tj->add(enemyMove); 
+    }
+    else if (e->getType() == ATTACK){
+        if (enemyHP->curVal < 10) {
+            enemyHP->curVal = 0;
+        }
+        else {
+            enemyHP->curVal -= 10;
+        }
+        if (enemyHP->curVal == 0) {
+            //add another menu to allow character to select consume, spare, kill
+        }
+        // MyGame::actionMenu->visible = false; 
+        // MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
+        //player turn over
+    }
+    else if (e->getType() == ENEMYTURN) {
+        playerHP->curVal-=5;  
+        // TextBox* enemyattack = new TextBox(); 
+        // enemyattack->setText("The enemy attacked back!");
+        //enemy turn over
+        //how to remove/change actionMenu??? use the same menu but change the options?? 
+        MyGame::actionMenu->visible = true; 
     }
     else if (e->getType() == REVERT) 
     {
@@ -165,7 +168,11 @@ void SceneManager::handleEvent(Event* e)
         //delete currentS->enemy.at(e->getEnemy()->id)
         currentS->isBattle = false;
         player->position = prevPos;
+        MyGame::actionMenu->visible = false;
+        MyGame::actionMenu->selectInd = 0;
         e->getEnemy()->visible = false;
+        enemyHP->visible = false;
+        enemyHP->curVal = enemyHP->maxVal;
         e->getEnemy()->gameType = "defeated"; //so player doesn't collide with it again
 
         Game::camera->removeImmediateChild(MyGame::currentScene);

@@ -101,6 +101,13 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		this->play("Jump");
 		cout<<"jump"<<endl;
 		jump_buffer_start = true;
+		if (this->position.y < 350 && MyGame::camera->position.y+this->_yVel > MyGame::currentScene->top && 
+			MyGame::camera->position.y+this->_yVel < MyGame::currentScene->bottom) 
+		{
+			cout << "added " << MyGame::camera->position.y+this->_yVel << endl; 
+			cout << "top " << MyGame::currentScene->top << endl;
+			MyGame::camera->position.y+=this->_yVel;
+		}
 	}
 /* 	if(this->standing){
 		jump_buffer_start = false;
@@ -182,12 +189,28 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		if(this->standing){
 			this->play("Run");
 		}
+		//if (MyGame::camera->position.x == MyGame::currentScene->right)
+		//set backwards
+		//check if going forward or backward through a level
+		//if forward
+		if (this->position.x > 400 && MyGame::camera->position.x-2 + sprint > MyGame::currentScene->right) { //windowWidth/2
+			MyGame::camera->position.x-=2 + sprint;
+		}
+		//if backwards
+		// if (this->position.x < 400 && MyGame::camera->position.x+2 > MyGame::currentScene->right){
+			
+		// }
 	}
 	else if(MyGame::controls->holdLeft()){
 		this->position.x -= 2 + sprint;
 		this->facingRight = false;
 		if(this->standing){
 			this->play("Run");
+		}
+		//if (MyGame::camera->position.x > MyGame::currentScene->left)
+		//set forwards
+		if (this->position.x > 400 && MyGame::camera->position.x + 2 + sprint < MyGame::currentScene->left) {
+			MyGame::camera->position.x+=2 + sprint;
 		}
 	} 
 	
@@ -255,6 +278,13 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 	/* Actual falling depending on falling versus whether a jump occurred */
 	this->position.y += this->_yVel;
+	if (this->position.y > 350 && !this->standing && MyGame::camera->position.y-this->_yVel < MyGame::currentScene->bottom &&
+		MyGame::camera->position.y-this->_yVel > MyGame::currentScene->top) 
+	{
+		cout << "subtracted " << MyGame::camera->position.y-this->_yVel << endl;
+		cout << "bottom " << MyGame::currentScene->bottom << endl;
+		MyGame::camera->position.y-=this->_yVel;
+	}
 }
 
 /*void Player::onEnemyCollision(Enemy* enemy){

@@ -21,5 +21,6 @@ Up/Down/Left/Right to move camera
 
 *Menu* 
 [Y] = Main Menu 
-
+[U] = Textbox 
+[J] = Change text 
 
