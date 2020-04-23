@@ -6,10 +6,13 @@
 // #include "AnimatedSprite.h"
 #include "Player.h"
 #include "Scene.h"
+#include "HealthBar.h"
 #define CHANGE "RoomChangeEvent"
 #define FIGHT "EngageCombatEvent" 
 #define REVERT "RevertEvent"
 #define REVERTBATTLE "RevertFromBattleEvent"
+#define ATTACK "PlayerAttackEvent"
+#define ENEMYTURN "EnemyEvent"
 
 class SceneManager: public EventListener{
 
@@ -19,6 +22,8 @@ public:
     ~SceneManager();
 	void handleEvent(Event* e);
     Scene* getCurrentScene();
+    HealthBar* playerHP;
+    HealthBar* enemyHP; 
 
 private:	
     Scene* currentS;

@@ -23,14 +23,14 @@ public:
 	virtual void draw(AffineTransform &at);
 
 	void addItem(MenuItem* item);
+	MenuItem* getItem(int index);
 	void selectItem(int ind);
 	void goBack();
-
+	int selectInd;
 private:
 
 	vector<MenuItem*> menuItems;
 	MenuItem* prevItem;
-	int selectInd;
 
 };
 

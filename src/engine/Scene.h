@@ -56,7 +56,7 @@ private:
 	map<string, SDL_Point> transitionPts;  
 	AnimatedSprite* character;
 	Player* player;
-
+	// HealthBar* enemyHP;
 	bool fromTileMap;
 	int sceneNum; //tells us what room we're loading 
 	// vector<DisplayObject*>enemies;

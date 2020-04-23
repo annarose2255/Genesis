@@ -53,7 +53,7 @@ void CollisionSystem::handleEvent(Event* e){
 			typeMap.insert({displayObject->gameType, newList});
 		} else {
 			// if already present insert into existing vector
-			// cout << "Object gameType is NOT new" << displayObject->gameType  << endl;
+			// cout << "Object gameType is NOT new " << displayObject->gameType  << endl;
 			typeMap.at(displayObject->gameType).push_back(displayObject);
 		}
 	}

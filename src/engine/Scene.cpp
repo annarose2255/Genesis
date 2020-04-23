@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Game.h"
 #include "MyGame.h"
+#include "SelectionMenu.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -574,6 +575,9 @@ void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
         this->player->enemy = NULL;
         this->player->inBattle = false;
     }
+    // if (isBattle) {
+    //     MyGame::actionMenu->getItem(0)->setAction(new Event(ATTACK, MyGame::eDispatcher, this->player, this->curEnemy));
+    // }
     if (this->sceneNum == 5 && 
        ( this->player->position.y > this->transitionPts["rm7Greater"].y && this->player->position.y < this->transitionPts["rm7Less"].y)
         && (this->player->position.x > this->transitionPts["rm7Greater"].x && this->player->position.x < this->transitionPts["rm7Less"].x))

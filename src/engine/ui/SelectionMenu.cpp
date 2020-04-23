@@ -10,8 +10,8 @@ using namespace std;
 SelectionMenu::SelectionMenu() : Sprite() {
 	this->id = "SelectionMenu";
 
-	this->width = 800;
-	this->height = 100;
+	this->width = 799;
+	this->height = 99;
 	this->visible = false;
 	this->isUI = true;
 	selectInd = 0;
@@ -37,6 +37,7 @@ void SelectionMenu::selectItem(int ind) {
 		selItem->nextMenu->visible = true;
 	} else if (selItem->itemAction != NULL) {
 		selItem->action(MyGame::eDispatcher); // This game's dispatcher
+		cout << "DISPATCH ACTION" << endl;
 	}
 }
 
@@ -46,7 +47,9 @@ void SelectionMenu::goBack() {
 		prevItem->prevMenu->visible = true;
 	}
 }
-
+MenuItem* SelectionMenu::getItem(int index) {
+	return menuItems[index];
+}
 void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
 	// Only accept inputs if visible
 	if(this->visible) {
