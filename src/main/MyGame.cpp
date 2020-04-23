@@ -83,6 +83,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	collisionSystem->watchForCollisions("player", "enemy");
 	//Tween
 	currentScene->getPlayer()->play("Idle");
+	
 	Tween* charTween = new Tween(currentScene->getPlayer());
 	TweenableParams chalpha;
 	chalpha.name = "alpha";
