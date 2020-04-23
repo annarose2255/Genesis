@@ -27,7 +27,7 @@ void Controls::key(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
 }
     //method that returns if the player is moving right
 bool Controls::holdRight(){
-    if (keys.find(SDL_SCANCODE_D) != keys.end()){ //|| axis.find.find(SDL_CONTROLLER_AXIS_RIGHTX) != axis.end()){ //DONT KNOW IF CONTROLLER PART WORKS
+    if (keys.find(SDL_SCANCODE_D) != keys.end() || buttons.find(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) != buttons.end()){ //|| axis.find.find(SDL_CONTROLLER_AXIS_RIGHTX) != axis.end()){ //DONT KNOW IF CONTROLLER PART WORKS
         return true;
     }
     else{
@@ -36,7 +36,7 @@ bool Controls::holdRight(){
 }
 //method that returns if player is moving left
 bool Controls::holdLeft(){
-     if (keys.find(SDL_SCANCODE_A) != keys.end()){ //|| axis.find.find(SDL_CONTROLLER_AXIS_LEFTX) != axis.end()){
+     if (keys.find(SDL_SCANCODE_A) != keys.end() || buttons.find(SDL_CONTROLLER_BUTTON_DPAD_LEFT) != buttons.end()){ //|| axis.find.find(SDL_CONTROLLER_AXIS_LEFTX) != axis.end()){
          return true;
      }
     return false;
