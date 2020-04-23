@@ -14,6 +14,7 @@
 #include "SelectionMenu.h"
 #include "MenuItem.h"
 #include "Controls.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -83,7 +84,14 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	collisionSystem->watchForCollisions("player", "enemy");
 	//Tween
 	currentScene->getPlayer()->play("Idle");
-	
+	vector<pair<string, DisplayObject*>> enemy = currentScene->getEnemies();
+	vector< Enemy*> enemyType;
+	for(auto e: enemy){
+		Enemy* w = new Enemy(currentScene->getPlayer());
+		enemyType.push_back(w);
+		//currentScene->setEnemies()
+	}
+	currentScene->setRealEnemies(enemyType);
 	Tween* charTween = new Tween(currentScene->getPlayer());
 	TweenableParams chalpha;
 	chalpha.name = "alpha";
@@ -102,6 +110,11 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	mainMenu->update(pressedKeys, pressedButtons, movedAxis);
     itemsMenu->update(pressedKeys, pressedButtons, movedAxis);
 	controls->key(pressedKeys,pressedButtons,movedAxis);
+	for (auto e: currentScene->RealEnemies){
+		e->moveToTarget();
+		e->update(pressedKeys,pressedButtons,movedAxis);
+		
+	}
     // if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
     //     cout << "abc" << endl;
     //     Game::camera->removeImmediateChild(currentScene);

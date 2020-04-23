@@ -12,6 +12,8 @@
 #include <json.hpp>
 #include <fstream>
 #include "Player.h"
+#include "Enemy.h"
+
 using namespace std;
 
 using json = nlohmann::json;
@@ -50,6 +52,9 @@ public:
 	bool isBattle; 
 	vector<pair<string, DisplayObject*>> enemies;
 	vector<pair<string, DisplayObject*>> objects;
+	vector<pair<string, DisplayObject*>> getEnemies();
+	vector<Enemy*> RealEnemies;
+	void setRealEnemies(vector<Enemy*> e);
 	
 private:
 	map<int, SDL_Texture*> tilesets; //store texture of tilesets

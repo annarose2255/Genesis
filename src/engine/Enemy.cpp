@@ -12,6 +12,7 @@ Enemy::Enemy(Player* p): AnimatedSprite("Enemy"){
 	this->width = 42; this->height = 40;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
+    this->state = "start";
 }
 //Here, "Sayu" is the player character
 ///Enemy::Enemy(Player* sayu): AnimatedSprite("Enemy"){
@@ -64,6 +65,7 @@ void Enemy::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
 		this->state = "patrol";
 		this->targX = std::rand()%(this->maxPatX-this->minPatX) + this->minPatX;
 		this->targY = std::rand()%(this->maxPatY-this->minPatY) + this->minPatY;
+        cout<<"targetx = "<<this->targX<<endl;
 		this->vel = 0;
 		this->maxVel = 4;
 	}
@@ -179,7 +181,9 @@ void Enemy::patrol(){
 void Enemy::moveToTarget(){
 	
 	//increase velocity by accel
-	this->vel = std::min(this->vel+this->acc, this->maxVel);
+    cout<<"vel: "<<vel<<endl;
+    this->vel = std::min(this->vel+this->acc, this->maxVel);
+    cout<<"vel2: "<<vel<<endl;
 
 	//use unit vector to determine percent that goes into x and y 
 	double theta = std::atan2(std::abs(this->targY - this->position.y),std::abs(this->targX - this->position.x));
@@ -189,7 +193,9 @@ void Enemy::moveToTarget(){
 	if(this->targY - this->position.y < 0) yComp *= -1;
 
 	this->position.x += xComp;
+    cout<<"change x : "<<position.x<<endl;
 	this->position.y += yComp;
+
 }
 
 bool Enemy::isTargetReached(){

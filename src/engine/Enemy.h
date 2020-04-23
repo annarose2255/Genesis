@@ -1,17 +1,14 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include "AffineTransform.h"
-#include <string>
-#include "Player.h"
-#include "MyGame.h"
+
+#include <iostream>
 #include "AnimatedSprite.h"
-#include "Sprite.h"
-#include "Game.h"
-#include "Controls.h"
+#include <vector>
+#include <string>
 #include <fstream>
+#include "Sprite.h"
+#include "Player.h"
 using namespace std;
 
 class Enemy : public AnimatedSprite{
@@ -48,13 +45,13 @@ int pauseCount = 0;
 int targX;
 int targY;
 int vel = 0;
-int maxVel = 4;
-int acc = 0;
+int maxVel = 5;
+int acc = 10;
 int rotVel = 0;
 int rotAcc = 0;
 int maxRotVel = 3;
 int shield = 20;
-bool clean =0;
+bool clean =false;
 int health = 20; //??
 Player* player;
 };

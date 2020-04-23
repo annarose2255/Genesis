@@ -134,6 +134,12 @@ DisplayObject* Scene::getObject(){
 DisplayObject* Scene::getEnemy(){
     return this->curEnemy;
 }
+vector<pair<string, DisplayObject*>> Scene::getEnemies(){
+    return this->enemies;
+}
+void Scene::setRealEnemies(vector<Enemy*> e){
+    RealEnemies = e;
+} 
 void Scene::setEnemy(DisplayObject* enemy){
     this->curEnemy = enemy;
 }
