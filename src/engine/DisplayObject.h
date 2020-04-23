@@ -71,6 +71,8 @@ public:
 	void setHitbox(SDL_Point origin, int width, int height);
 	void drawHitbox();
 
+	//void setPatrol(SDL_Point origin);//set the patrol of enemies
+
 	void setScrollSpeed(double speed);
 	bool visible = true;
 	SDL_Point position = {0, 0};
