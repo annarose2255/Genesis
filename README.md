@@ -17,6 +17,7 @@ Up/Down/Left/Right to move camera
 [C] = Sprint 
 [V] = Shield 
 [Z] = Double Jump
+[B] = High jump/low gravity 
 
 *Menu* 
 [Y] = Main Menu 

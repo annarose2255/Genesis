@@ -83,6 +83,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	collisionSystem->watchForCollisions("player", "enemy");
 	//Tween
 	currentScene->getPlayer()->play("Idle");
+	
 	Tween* charTween = new Tween(currentScene->getPlayer());
 	TweenableParams chalpha;
 	chalpha.name = "alpha";
@@ -199,6 +200,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	if (pressedKeys.find(SDL_SCANCODE_V)!=pressedKeys.end()){
 		currentScene->getPlayer()->setState("shield");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
+	}
+	//hover 
+	if (pressedKeys.find(SDL_SCANCODE_B)!=pressedKeys.end()){
+		currentScene->getPlayer()->setState("High jump");
 	}
 
 	/***************** UI COMPONENTS ******************/
