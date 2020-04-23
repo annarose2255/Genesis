@@ -26,17 +26,18 @@ CollisionDemo::CollisionDemo() : Game(1200, 1000) {
 	coin = new AnimatedSprite("coin", "./resources/quest/Gold.png", "./resources/quest/Gold.xml");
 	coin->play("Gold");
     coin->position = {0, 0};
-	coin->setHitbox({20, 0}, 60, coin->height);
+	//coin->setHitbox({20, 0}, 60, coin->height);
 	coin->gameType = "collectable";
 	// coin->width = coin->height = 100;
 	// coin->pivot = {50, 50};
 	questComplete = new DisplayObjectContainer("quest complete", "./resources/quest/questComplete.png");
-	questComplete->setHitbox({0, 0}, questComplete->width, questComplete->height);
+	questComplete->position = {-200, 0};
+	//questComplete->setHitbox({0, 0}, questComplete->width, questComplete->height);
 	questComplete->gameType = "not collectable";
 	allSprites->addChild(coin);
 	allSprites->addChild(questComplete);
 
-	collisionSystem->watchForCollisions("collectable", "not collectable");
+	collisionSystem->watchForCollisions("not collectable", "collectable");
 }
 
 CollisionDemo::~CollisionDemo(){

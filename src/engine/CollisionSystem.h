@@ -43,6 +43,7 @@ private:
 
 	unordered_map<string, vector<DisplayObject*>> typeMap;
 	vector<pair<string, string>> collisionPairs;
+	unordered_map<DisplayObject*, SDL_Point> prevMap;
 
     int getOrientation(SDL_Point p1, SDL_Point q1, SDL_Point p2);
 	bool intersects(Line l1, Line l2);

@@ -24,7 +24,7 @@ void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressed
 void onMeleeStrike();
 
 //void onEssenceStrike(Weapon* w);
-void onCollision(DisplayObject* other);
+bool onCollision(DisplayObject* other);
 
 void draw(AffineTransform &at);
 void save(ofstream &out);

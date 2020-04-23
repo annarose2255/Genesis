@@ -119,7 +119,7 @@ void Enemy::onMeleeStrike(){
 	if(this->health < 0) this->health = 0;
 } */
 
-void Enemy::onCollision(DisplayObject* other){
+bool Enemy::onCollision(DisplayObject* other){
 /* 	if(other->type == "Weapon"){
 		if(controls::pressSpecial()) 
 			onEssenceStrike((Weapon*)other);
@@ -128,6 +128,7 @@ void Enemy::onCollision(DisplayObject* other){
 		if(controls::pressAttack())
 			onMeleeStrike();
 	} */
+	return false;
 }
 
 void Enemy::draw(AffineTransform &at){

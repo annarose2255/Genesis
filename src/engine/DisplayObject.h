@@ -60,7 +60,7 @@ public:
 	void applyTransformations(AffineTransform &at);
 	void reverseTransformations(AffineTransform &at);
 
-	void onCollision(DisplayObject* other);
+	virtual bool onCollision(DisplayObject* other);
 	void *globalTransform(AffineTransform &gt);
 
 	int getWidth();
@@ -76,9 +76,7 @@ public:
 	void setScrollSpeed(double speed);
 	bool visible = true;
 	SDL_Point position = {0, 0};
-	SDL_Point prevPos; 
-	//SDL_Point left_patrol = {0,0};
-	//SDL_Point right_patrol = {0,0};
+	// SDL_Point prevPos; 
 	SDL_Point pos2;
 	double scrollSpeed;
 	int width = 100;

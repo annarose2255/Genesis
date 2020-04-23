@@ -59,18 +59,19 @@ Player::Player(string id, string spriteSheetPath, string xmlPath) : AnimatedSpri
 
 //Called automatically by collision system when something collides with the player
 //our job is to simply react to that collision.
- void Player::onCollision(DisplayObject* other){
-	 if(other->type == "Platform"){
+ bool Player::onCollision(DisplayObject* other){
+	 if(other->gameType == "platform"){
 		//MyGame::collisionSystem.resolveCollision(this, other, this->position.x - oldX, this->position.y - oldY);	
-		cout<<"ydelta in: "<< this->position.y - oldY<<endl;
-		MyGame::collisionSystem->resolveCollision(this, other, this->position.x - oldX, this->position.y - oldY,
-			0, 0);
+		// cout<<"ydelta in: "<< this->position.y - oldY<<endl;
+		// MyGame::collisionSystem->resolveCollision(this, other, this->position.x - oldX, this->position.y - oldY,
+		// 	0, 0);
 		//MyGame::collisionSystem->resolveCollision
 		//this->collideing = true;
 		//DisplayObject::onCollision(other);
 		this->_yVel = 0;
 		//_yAccCount= 0;
 		this->standing=true;
+		return false;
 	}
 	/* else if(other->type == "Enemy"){
 		if(!this->iFrames){
@@ -88,10 +89,10 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	//cout<<"yaccount num: "<<_yAccCount<<endl;
 	state_combat_cooldown_counter_start++;
 	cout<<"yaccount num: "<<state_combat_cooldown_counter_start<<endl;
-	oldY = this->position.y;
-	oldX = this->position.x;
-	this->prevPos.x = oldX;
-	this->prevPos.y = oldY;
+	// oldY = this->position.y;
+	// oldX = this->position.x;
+	// this->prevPos.x = oldX;
+	// this->prevPos.y = oldY;
 
 	/* Jumping */
 	if (this->standing && MyGame::controls->pressJump()){
