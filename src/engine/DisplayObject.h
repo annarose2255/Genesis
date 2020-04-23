@@ -60,7 +60,7 @@ public:
 	void applyTransformations(AffineTransform &at);
 	void reverseTransformations(AffineTransform &at);
 
-	void onCollision(DisplayObject* other);
+	virtual bool onCollision(DisplayObject* other);
 	void *globalTransform(AffineTransform &gt);
 
 	int getWidth();
@@ -70,6 +70,8 @@ public:
 	// Line** getHitboxLines();
 	void setHitbox(SDL_Point origin, int width, int height);
 	void drawHitbox();
+
+	//void setPatrol(SDL_Point origin);//set the patrol of enemies
 
 	void setScrollSpeed(double speed);
 	bool visible = true;

@@ -52,11 +52,26 @@ MenuItem* SelectionMenu::getItem(int index) {
 }
 void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
 	// Only accept inputs if visible
+	//counter_for_pressing++;
+	
 	if(this->visible) {
 		for(SDL_Scancode key : pressedKeys) {
 			switch (key) {
 				case SDL_SCANCODE_RETURN:
-					this->selectItem(selectInd);
+					cout<<"selected item: "<<counter_for_pressing<<endl;
+					counter_for_pressing++;
+					if (counter_for_pressing >= 1){
+						if (counter_for_pressing == 1){
+							this->selectItem(selectInd);
+						}
+						else if (counter_for_pressing == 4) {
+							counter_for_pressing = 0;
+						}
+						else{
+							break;
+						}
+						
+					}
 					break;
 				case SDL_SCANCODE_BACKSPACE:
 					this->goBack();

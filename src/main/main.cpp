@@ -28,17 +28,6 @@ static void show_usage(std::string name)
 
 int main(int argc, char ** argv)
 {
-
-	// // /*
-	//     // Testing rapid xml
-	//     file<> xmlFile("./resources/quest/Gold.xml");
-	//     xml_document<> doc;
-	//     doc.parse<0>(xmlFile.data());
-	//     cout << doc.first_node()->name() << endl;
-	//     xml_node<> *node = doc.first_node("TextureAtlas");
-	//     cout << node->first_node()->first_attribute()->next_attribute("w")->value() << endl;
-	// */
-
 	// takes one command line argument
 	if (argc == 2){
 		if ( string(argv[1]) == "-h" || string(argv[1]) == "--help" ){
@@ -67,7 +56,7 @@ int main(int argc, char ** argv)
 			SheetDemo* sheetDemo = new SheetDemo();
 			sheetDemo->start();
 			delete sheetDemo;
-		} 
+		}
 		else {
 			std::cerr << "Invalid flag: " << argv[1] << "\n";
 			show_usage(argv[0]);

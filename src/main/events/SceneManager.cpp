@@ -133,9 +133,15 @@ void SceneManager::handleEvent(Event* e)
     else if (e->getType() == ATTACK){
         if (enemyHP->curVal < 10) {
             enemyHP->curVal = 0;
+            MyGame::actionMenu->selectedaitem = false;
+            cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
+            
         }
         else {
+            cout<<"enemy"<<endl;
             enemyHP->curVal -= 10;
+            MyGame::actionMenu->selectedaitem = false;
+            cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
         }
         if (enemyHP->curVal == 0) {
             //add another menu to allow character to select consume, spare, kill

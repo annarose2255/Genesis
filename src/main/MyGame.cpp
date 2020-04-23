@@ -111,6 +111,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	collisionSystem->watchForCollisions("player", "enemy");
 	//Tween
 	currentScene->getPlayer()->play("Idle");
+	
 	Tween* charTween = new Tween(currentScene->getPlayer());
 	TweenableParams chalpha;
 	chalpha.name = "alpha";
@@ -229,6 +230,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		currentScene->getPlayer()->setState("shield");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}
+	//hover 
+	if (pressedKeys.find(SDL_SCANCODE_B)!=pressedKeys.end()){
+		currentScene->getPlayer()->setState("High jump");
+	}
 
 	/***************** UI COMPONENTS ******************/
 	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && !change) {
@@ -259,7 +264,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	// cout << "Camera x " << this->windowWidth/2 << endl; 
 	// cout << "Camera y " << Game::camera->position.y << endl; 
 	// cout << "Character x " << currentScene->getPlayer()->position.x << endl;
-	cout << "Character y " << currentScene->getPlayer()->position.y << endl;
+	//cout << "Character y " << currentScene->getPlayer()->position.y << endl;
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}
@@ -318,9 +323,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 	//sm->handleEvent(CHANGE);
 	tj->nextFrame(); 
-	collisionSystem->update();
+	
 	// cout << "Char alpha " << currentScene->getCharacter()->alpha << endl;
 	Game::update(pressedKeys, pressedButtons, movedAxis);
+	collisionSystem->update();
 
 	// currentScene->doCam = cam->camera;
 }
