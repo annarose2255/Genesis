@@ -53,10 +53,10 @@ void CollisionSystem::update(){
 
 				if (collidesWith(*doType1, *doType2)){
 					// cout << "HEY" << endl;
-					// cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
-					// (*doType1)->onCollision(*doType2); 
+					cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
+					//(*doType1)->onCollision(*doType2); 
 					// (*doType2)->onCollision(*doType1);
-					resolveCollision(*doType1, *doType2, xDelta1, yDelta1, xDelta2, yDelta2);
+					resolveCollision(*doType2,*doType1, xDelta1, yDelta1, xDelta2, yDelta2);
 				}
 			}
 		}
@@ -145,7 +145,7 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 //Resolves the collision that occurred between d and other
 //xDelta1 and yDelta1 are the amount d moved before causing the collision.
 //xDelta2 and yDelta2 are the amount other moved before causing the collision.
-void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
+void CollisionSystem::resolveCollision(DisplayObject* other, DisplayObject* d, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
 	//if mvmt > 0, then DO that moved position - mvmt, change back to old position
 	//checking that object moved 	
 	if (d->onCollision(other) || other->onCollision(d)){

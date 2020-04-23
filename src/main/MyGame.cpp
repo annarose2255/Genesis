@@ -264,7 +264,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	// cout << "Camera x " << this->windowWidth/2 << endl; 
 	// cout << "Camera y " << Game::camera->position.y << endl; 
 	// cout << "Character x " << currentScene->getPlayer()->position.x << endl;
-	cout << "Character y " << currentScene->getPlayer()->position.y << endl;
+	//cout << "Character y " << currentScene->getPlayer()->position.y << endl;
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}

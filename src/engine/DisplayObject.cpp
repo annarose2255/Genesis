@@ -156,19 +156,21 @@ bool DisplayObject::onCollision(DisplayObject* other){
 	//if (this->gameType == "character"){
 		//Player::this->onCollision(other);
 	//}
+	cout<<other->gameType<<endl;
+	cout<<this->gameType<<endl;
 	if (other->gameType == "platform") {
-		// cout << "collided with a platform!" << endl;
+		 cout << "collided with a platform!" << endl;
 		//cout<<"position y check: "<<this->position.y<<endl;
-		// if (MyGame::collisionSystem->collidesWith(this, other) == true){
-		// 	MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
-		// 	0, 0);
-		// }
+		if (MyGame::collisionSystem->collidesWith(this, other) == true){
+		 	MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
+		 	0, 0);
+		}
 		return false;
 	}
-	else if (other->gameType == "enemy") {
-		// cout << "collided with enemy!" << endl;
-		this->enemy = other;
-		inBattle = true;
+	else if (this->gameType == "enemy") {
+		 cout << "collided with enemy!" << endl;
+		other->enemy = this;
+		other->inBattle = true;
 		return false;
 	}
 	return false;
