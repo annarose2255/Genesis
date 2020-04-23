@@ -27,6 +27,8 @@ public:
 	void selectItem(int ind);
 	void goBack();
 	int selectInd;
+	bool selectedaitem = false;
+	int counter_for_pressing = 0;
 private:
 
 	vector<MenuItem*> menuItems;
