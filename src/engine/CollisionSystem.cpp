@@ -148,9 +148,9 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 void CollisionSystem::resolveCollision(DisplayObject* d, DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
 	//if mvmt > 0, then DO that moved position - mvmt, change back to old position
 	//checking that object moved 	
-	// if (d->onCollision(other) || other->onCollision(d)){
-
-	// }
+	if (d->onCollision(other) || other->onCollision(d)){
+		return;
+	}
 
 	// check if collision in y direction
 	// d->position.x -= xDelta1; 

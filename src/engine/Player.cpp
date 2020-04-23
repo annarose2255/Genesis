@@ -60,7 +60,7 @@ Player::Player(string id, string spriteSheetPath, string xmlPath) : AnimatedSpri
 //Called automatically by collision system when something collides with the player
 //our job is to simply react to that collision.
  bool Player::onCollision(DisplayObject* other){
-	 if(other->type == "Platform"){
+	 if(other->gameType == "platform"){
 		//MyGame::collisionSystem.resolveCollision(this, other, this->position.x - oldX, this->position.y - oldY);	
 		// cout<<"ydelta in: "<< this->position.y - oldY<<endl;
 		// MyGame::collisionSystem->resolveCollision(this, other, this->position.x - oldX, this->position.y - oldY,

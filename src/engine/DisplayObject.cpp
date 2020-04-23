@@ -163,7 +163,7 @@ bool DisplayObject::onCollision(DisplayObject* other){
 		// 	MyGame::collisionSystem->resolveCollision(this, other, this->position.x - this->prevPos.x, this->position.y - this->prevPos.y,
 		// 	0, 0);
 		// }
-		return true;
+		return false;
 	}
 	else if (other->gameType == "enemy") {
 		// cout << "collided with enemy!" << endl;

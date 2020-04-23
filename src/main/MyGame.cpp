@@ -294,9 +294,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 	//sm->handleEvent(CHANGE);
 	tj->nextFrame(); 
-	collisionSystem->update();
+	
 	// cout << "Char alpha " << currentScene->getCharacter()->alpha << endl;
 	Game::update(pressedKeys, pressedButtons, movedAxis);
+	collisionSystem->update();
 
 	// currentScene->doCam = cam->camera;
 }
