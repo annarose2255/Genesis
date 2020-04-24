@@ -39,7 +39,8 @@ private:
     int abilityUse = 0;
     int blockUse = 0;
     bool ghostAbility = false;
-    int cooldown = 0;
+    int lasting = 0;
+    int cooldown = 4;
     string lastAction = "";
 };
 

@@ -140,12 +140,15 @@ void SceneManager::handleEvent(Event* e)
             
         }
         else { //damage
-            if ((jumpAbility == false || abilityUse == 4 || blockUse == 6) && block != true && (cooldown == 0 || cooldown == 2)){ //check for not block, not jump, and make sure 
+            if ((jumpAbility == false || abilityUse == 4 || blockUse == 3) && block != true && (lasting == 0 || lasting == 3)){ //check for not block, not jump, and make sure 
             //actions havent been used in a row too much, and make sure ghost isnt still happening 
                 abilityUse = 0;
                 blockUse =0;
                 enemyHP->curVal -= 10;
                   playerturn->setText("You attacked! Press SPACE to continue.");
+            }
+            else if( lasting == 1 || lasting == 2 ){
+                 playerturn->setText("You attack goes right through the enemy! Press SPACE to continue.");
             }
             else if (block == true){
                 enemyHP->curVal -= 5;
@@ -154,8 +157,8 @@ void SceneManager::handleEvent(Event* e)
             else{ //do no damage 
                  playerturn->setText("You attack seems to cause no harm! Press SPACE to continue.");
             }
-            if (cooldown == 2){ //reset cooldown
-                cooldown = 0;
+            if (lasting == 2){ //reset lasting
+                lasting = 0;
             }
             jumpAbility = false;
             block = false;
@@ -176,13 +179,38 @@ void SceneManager::handleEvent(Event* e)
         //player turn over
     }
     else if (e->getType() == ENEMYTURN) {
-        //if (cooldown )
+        //if (lasting )
+         TextBox* enemyattack = new TextBox(); 
+         cout<<"cooldown: "<<cooldown<<endl;
+         if (cooldown == 0){
+             cooldown = 4;
+         }
+         if (cooldown <= 3){
+            cooldown--;
+        }
         int choose = rand() % 100; 
+        if (cooldown <= 3 && (choose > 33 && choose <= 66)){
+            choose = rand() % 2; 
+            if (choose == 1){
+                choose = 88;
+                cout<<"choose block"<<endl;
+            }
+            else{
+                choose = 23;
+                cout<<"choose attack"<<endl;
+            }
+        }
         cout<<choose<<endl;
-        if (choose <= 33){
+        if (choose <= 33){ 
+            //attack
             cout<<"use attack"<<endl;
              playerHP->curVal-=5;  
-             TextBox* enemyattack = new TextBox(); 
+            if(lasting > 0){
+                 lasting++;
+                 if (lasting  == 2){
+                    cooldown--;
+                }
+            } 
             enemyattack->setText("The enemy attacked back! Press C to continue.");
              MyGame::currentScene->addChild(enemyattack);
              lastAction = "attack";
@@ -190,7 +218,6 @@ void SceneManager::handleEvent(Event* e)
         }
         else if (choose > 33 && choose <= 66){
             //use ability 
-            TextBox* enemyattack = new TextBox(); 
             cout<<"use ability"<<endl;
             if (lastAction == "ability"){//check for same action in a row
                 abilityUse ++;
@@ -203,33 +230,47 @@ void SceneManager::handleEvent(Event* e)
             if (id == "frog"){
                 jumpAbility = true;
                 enemyattack->setText("The enemy jumped up high! Press C to continue.");
+                if (cooldown <= 4){
+                    cooldown--;
+                }
             }
             else if (id == "ghost"){
                 ghostAbility = true;
-                cooldown++;
-                 enemyattack->setText("The enemy is transparent! Press C to continue.");
+                lasting++;
+                if (lasting  == 2){
+                    cooldown--;
+                }
+                enemyattack->setText("The enemy is transparent! Press C to continue.");
+                //MyGame::currentScene->getEnemy()->alpha == 60;
+                //MyGame::currentScene->getEnemy()->dr
             }
             //cout<<id<<endl; 
             if (abilityUse == 4){
                 enemyattack->setText("The enemy tried and failed to use an ability! Press C to continue.");
             }
+            
             //enemyattack->setText("The enemy used an ability! Press C to continue.");
             MyGame::currentScene->addChild(enemyattack);
-            lastAction = "ability";
-            
+            lastAction = "ability";        
         }
         else{
             cout<<"block"<<endl;
             block = true;
+            if(lasting > 0){
+                 lasting++;
+            }
+            if (lasting  == 2){
+                    cooldown--;
+                }
             if(lastAction == "block"){ //check for same action in a row
                 blockUse++;
             }
             else{
                 blockUse--;
             }
-             TextBox* enemyattack = new TextBox(); 
-             if (blockUse == 4){
+             if (blockUse == 3){
                 enemyattack->setText("The enemy tried and failed to use block! Press C to continue.");
+                //blockUse
             }
             enemyattack->setText("The enemy blocked! Press C to continue.");
             MyGame::currentScene->addChild(enemyattack);
