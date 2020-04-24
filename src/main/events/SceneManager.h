@@ -41,6 +41,9 @@ private:
     bool ghostAbility = false;
     int lasting = 0;
     int cooldown = 4;
+    int turnCount = 0; //the current turn #
+    int turnAbilityUse = 0; // turn where ability can be used again
+    int turnAbilityStop = 0; //turn where ability stops being used;
     string lastAction = "";
 };
 

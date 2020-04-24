@@ -100,6 +100,7 @@ void SceneManager::handleEvent(Event* e)
         nextScene->addChild(layer);
         nextScene->setPlayer(player);
         nextScene->setEnemy(e->getEnemy());
+       // turnCount++;
 
         SDL_Point pos = {player->position.x, player->position.y};
         prevPos = pos;
@@ -133,6 +134,7 @@ void SceneManager::handleEvent(Event* e)
     }
     else if (e->getType() == ATTACK){
          TextBox* playerturn = new TextBox(); 
+         turnCount++;
         if (enemyHP->curVal < 10) { //kill if under 10 hp
             enemyHP->curVal = 0;
             MyGame::actionMenu->selectedaitem = false;
@@ -140,14 +142,15 @@ void SceneManager::handleEvent(Event* e)
             
         }
         else { //damage
-            if ((jumpAbility == false || abilityUse == 4) && (block != true || blockUse == 2) && (lasting == 0 || lasting == 3)){ //check for not block, not jump, and make sure 
+            if (jumpAbility == false && (block != true || blockUse == 2)  && turnCount >= turnAbilityStop){ //|| abilityUse == 4) &&  && (lasting == 0 || lasting == 3)){ //check for not block, not jump, and make sure 
             //actions havent been used in a row too much, and make sure ghost isnt still happening 
                 abilityUse = 0;
                 blockUse =0;
                 enemyHP->curVal -= 10;
-                  playerturn->setText("You attacked! Press SPACE to continue.");
+                turnAbilityStop = 0;
+                playerturn->setText("You attacked! Press SPACE to continue.");
             }
-            else if( lasting == 1 || lasting == 2 ){
+            else if( turnCount < turnAbilityStop){ //lasting == 1 || lasting == 2 ){
                  playerturn->setText("You attack goes right through the enemy! Press SPACE to continue.");
             }
             else if (block == true){
@@ -157,9 +160,9 @@ void SceneManager::handleEvent(Event* e)
             else{ //do no damage 
                  playerturn->setText("You attack seems to cause no harm! Press SPACE to continue.");
             }
-            if (lasting == 2){ //reset lasting
-                lasting = 0;
-            }
+            // if (lasting == 2){ //reset lasting
+            //     lasting = 0;
+            // }
             jumpAbility = false;
             block = false;
             MyGame::actionMenu->enemyTurn = true;
@@ -181,17 +184,17 @@ void SceneManager::handleEvent(Event* e)
     else if (e->getType() == ENEMYTURN) {
         //if (lasting )
          TextBox* enemyattack = new TextBox(); 
-         cout<<"cooldown: "<<cooldown<<endl;
-         if (cooldown == 0){ //rest cooldown
-             cooldown = 4;
-         }
-         if (cooldown <= 3){ //decrease cooldown
-            cooldown--;
-        }
+        //  cout<<"cooldown: "<<cooldown<<endl;
+        //  if (cooldown == 0){ //rest cooldown
+        //      cooldown = 4;
+        //  }
+        //  if (cooldown <= 3){ //decrease cooldown
+        //     cooldown--;
+        // }
         int choose = rand() % 100; 
-        if (cooldown <= 3 && (choose > 33 && choose <= 66)){ //choose another ability b/c ability is on cooldown
-            choose = rand() % 2; 
-            if (choose == 1){
+        if ( turnAbilityUse > turnCount){// } <= 3 && (choose > 33 && choose <= 66)){ //choose another ability b/c ability is on cooldown
+            choose = rand() % 100; 
+            if (choose >= 70){
                 choose = 88;
                 cout<<"choose block"<<endl;
             }
@@ -200,17 +203,18 @@ void SceneManager::handleEvent(Event* e)
                 cout<<"choose attack"<<endl;
             }
         }
+        //if (turnAbilityUse )
         cout<<choose<<endl;
         if (choose <= 33){ 
             //attack
             cout<<"use attack"<<endl;
              playerHP->curVal-=5;  
-            if(lasting > 0){ //if the old ability is still lasting,
-                 lasting++;
-                 if (lasting  == 2){ //if the end of the ability lasting decrease cooldown
-                    cooldown--;
-                }
-            } 
+            // if(lasting > 0){ //if the old ability is still lasting,
+            //      lasting++;
+            //      if (lasting  == 2){ //if the end of the ability lasting decrease cooldown
+            //         cooldown--;
+            //     }
+            // } 
             enemyattack->setText("The enemy attacked back! Press C to continue.");
              MyGame::currentScene->addChild(enemyattack);
              lastAction = "attack";
@@ -229,17 +233,21 @@ void SceneManager::handleEvent(Event* e)
             id.pop_back();
             if (id == "frog"){ //if its a frog use jump
                 jumpAbility = true;
+                turnAbilityUse = turnCount + 4;
+                turnAbilityStop = turnCount+2;
                 enemyattack->setText("The enemy jumped up high! Press C to continue.");
-                if (cooldown <= 4){ //start cooldown
-                    cooldown--;
-                }
+                // if (cooldown <= 4){ //start cooldown
+                //     cooldown--;
+                // }
             }
             else if (id == "ghost"){ //if its a ghost
                 ghostAbility = true;
-                lasting++; //add to duration
-                if (lasting  == 2){ //if its the end of the duration, start cooldown 
-                    cooldown--;
-                }
+                turnAbilityUse = turnCount+8;
+                turnAbilityStop = turnCount+4;
+                // lasting++; //add to duration
+                // if (lasting  == 2){ //if its the end of the duration, start cooldown 
+                //     cooldown--;
+                // }
                 enemyattack->setText("The enemy is transparent! Press C to continue.");
             }
             //cout<<id<<endl; 
@@ -254,12 +262,12 @@ void SceneManager::handleEvent(Event* e)
         else{
             cout<<"block"<<endl;
             block = true;
-            if(lasting > 0){ //if we are still seeing how long abilities last, increase lasting
-                 lasting++;
-            }
-            if (lasting  == 2){ //if its the end of the ability lasting, start cooldown
-                    cooldown--;
-                }
+            // if(lasting > 0){ //if we are still seeing how long abilities last, increase lasting
+            //      lasting++;
+            // }
+            // if (lasting  == 2){ //if its the end of the ability lasting, start cooldown
+            //         cooldown--;
+            //     }
             if(lastAction == "block"){ //check for same action in a row
                 blockUse++;
             }
@@ -270,17 +278,21 @@ void SceneManager::handleEvent(Event* e)
                 blockUse--;
             }
             cout<<"block use: "<<blockUse<<endl;
-             if (blockUse == 2){ //if the enemy has tried to use block 3 times in a row 
+             if (blockUse >= 2){ //if the enemy has tried to use block 3 times in a row 
+                if (blockUse >= 3){ //rest block if over 3 attempts
+                    blockUse = 0;
+                }
                 enemyattack->setText("The enemy tried and failed to use block! Press C to continue.");
                 //blockUse
+                 //blockUse = 0;
             }
             else{
                 enemyattack->setText("The enemy blocked! Press C to continue.");
-                blockUse = 0;
+               
             }
             
             MyGame::currentScene->addChild(enemyattack);
-             lastAction = "block";
+            lastAction = "block";
         }
        MyGame::actionMenu->enemyTurn = false;
        cout<<"END OF ENEMY TURN"<<endl;
