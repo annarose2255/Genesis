@@ -13,6 +13,8 @@
 #define REVERTBATTLE "RevertFromBattleEvent"
 #define ATTACK "PlayerAttackEvent"
 #define ENEMYTURN "EnemyEvent"
+#define DEFEATEDENEMY "EnemyIsDefeated"
+#define DECIDEFATE "DecideEnemyFate"
 
 class SceneManager: public EventListener{
 

@@ -64,14 +64,22 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 		}
 	}
 		//if (this->getItem(0)->getAction() == NULL){
-	if (pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end() ){ //end of enemy turn textbox
+	if (pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end() && !decideFate){ //end of enemy turn textbox
 		MyGame::currentScene->removeChild(1);
 		MyGame::actionMenu->visible = true;
+		cout << "inside enemy" << endl;
 		if (this->getItem(0)->getAction() == NULL){
 			this->getItem(0)->setAction(new Event(ATTACK, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
 				MyGame::currentScene->getEnemy()));
 		}
 		enemyTurn = false;
+	}
+	if (decideFate && pressedKeys.find(SDL_SCANCODE_RETURN) != pressedKeys.end()) { //defeated enemy
+		cout << "inside decide fate" << endl;
+		MyGame::currentScene->removeChild(1);
+		MyGame::actionMenu->visible = false;
+		// MyGame::eDispatcher->dispatchEvent(new Event(DECIDEFATE, MyGame::eDispatcher, MyGame::currentScene->getPlayer(),
+		// 	MyGame::currentScene->getEnemy()));
 	}
 	if(this->visible) {
 		for(SDL_Scancode key : pressedKeys) {
