@@ -194,7 +194,7 @@ void SceneManager::handleEvent(Event* e)
         int choose = rand() % 100; 
         if ( turnAbilityUse > turnCount){// } <= 3 && (choose > 33 && choose <= 66)){ //choose another ability b/c ability is on cooldown
             choose = rand() % 100; 
-            if (choose >= 70){
+            if (choose >= 64){
                 choose = 88;
                 cout<<"choose block"<<endl;
             }
