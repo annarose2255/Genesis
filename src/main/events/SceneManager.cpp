@@ -136,7 +136,7 @@ void SceneManager::handleEvent(Event* e)
     else if (e->getType() == ATTACK){
          TextBox* playerturn = new TextBox(); 
          turnCount++;
-        if (enemyHP->curVal < 50) {
+        if (enemyHP->curVal < 10) {
             cout << "ENEMY HEALTH DEPLETED"<<endl;
             enemyHP->curVal = 0;
             MyGame::actionMenu->selectedaitem = false;
@@ -377,7 +377,16 @@ void SceneManager::handleEvent(Event* e)
         Game::camera->addChild(MyGame::currentScene);
         Game::camera->position.x = prevCam.x; 
         Game::camera->position.y = prevCam.y; 
-        
+        jumpAbility = false;
+        block = false;
+        abilityUse = 0;
+        enemyDefeated = false;
+        blockUse = 0;
+        ghostAbility = false;
+        turnCount = 0; //the current turn #
+        turnAbilityUse = 0; // turn where ability can be used again
+        turnAbilityStop = 0; //turn where ability stops being used;
+        lastAction = "";
     }
 }
 
