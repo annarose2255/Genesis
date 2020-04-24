@@ -37,7 +37,9 @@ Event::Event(string type, EventDispatcher* source, Player* player, DisplayObject
 string Event::getType() {
     return this->eventType;
 }
-
+void Event::setType(string newtype){
+    this->eventType = newtype;
+}
 EventDispatcher* Event::getSource() {
     return this->source;
 }

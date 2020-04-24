@@ -330,10 +330,23 @@ void SceneManager::handleEvent(Event* e)
 
     }
      else if (e->getType() == DECIDEFATE) {
-         cout << "inside decide fate event"<<endl;
+        cout << "inside decide fate event"<<endl;
         MyGame::actionMenu->visible = false;
         MyGame::enemyFate->visible = true;
-
+        MyGame::enemyFate->getItem(0)->setAction(new Event(SPARE, MyGame::eDispatcher, player, e->getEnemy()));
+        MyGame::enemyFate->getItem(1)->setAction(new Event(KILL, MyGame::eDispatcher, player, e->getEnemy()));
+        MyGame::enemyFate->getItem(2)->setAction(new Event(CONSUME, MyGame::eDispatcher, player, e->getEnemy()));
+    }
+    else if (e->getType() == SPARE) {
+        //Same as Revert battle basically
+        //character stuff 
+        e->setType(REVERTBATTLE);
+    }
+    else if (e->getType() == KILL) {
+        e->setType(REVERTBATTLE);
+    }
+    else if (e->getType() == CONSUME) {
+        e->setType(REVERTBATTLE);
     }
     else if (e->getType() == REVERT) 
     {
@@ -344,7 +357,7 @@ void SceneManager::handleEvent(Event* e)
         player->position = prevPos;
 
     }
-    else if (e->getType() == REVERTBATTLE)
+    if (e->getType() == REVERTBATTLE)
     {
         currentS = prevS;
         //if e->getEnemy()->state = "killed" or e->getEnemy()->state = "captured"
@@ -352,6 +365,7 @@ void SceneManager::handleEvent(Event* e)
         currentS->isBattle = false;
         player->position = prevPos;
         MyGame::actionMenu->visible = false;
+        MyGame::enemyFate->visible = false;
         MyGame::actionMenu->selectInd = 0;
         e->getEnemy()->visible = false;
         enemyHP->visible = false;

@@ -70,7 +70,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     abilities->position.y = 600;
 
 	enemyFate->position.y = 600;
-	spare = new MenuItem("Spare", 250, 0);
+	spare = new MenuItem("Spare", 0, 0);
 	kill = new MenuItem("Kill", 250, 0);
 	consume = new MenuItem("Consume", 500, 0);
 	enemyFate->addItem(spare);

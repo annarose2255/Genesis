@@ -15,6 +15,9 @@
 #define ENEMYTURN "EnemyEvent"
 #define DEFEATEDENEMY "EnemyIsDefeated"
 #define DECIDEFATE "DecideEnemyFate"
+#define SPARE "SpareEnemy"
+#define KILL "KillEnemy"
+#define CONSUME "ConsumeEnemy"
 
 class SceneManager: public EventListener{
 
