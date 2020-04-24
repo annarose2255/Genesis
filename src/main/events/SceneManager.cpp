@@ -137,6 +137,9 @@ void SceneManager::handleEvent(Event* e)
             enemyHP->curVal = 0;
             MyGame::actionMenu->selectedaitem = false;
             MyGame::eDispatcher->dispatchEvent(new Event(DEFEATEDENEMY, MyGame::eDispatcher, player, e->getEnemy()));
+             cout<<"defeat enemy"<<endl;
+             enemyDefeated = true;
+            // break;
             //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;  
         }
         else {
@@ -156,18 +159,21 @@ void SceneManager::handleEvent(Event* e)
             MyGame::actionMenu->selectedaitem = false;
             //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
         }
-        if (enemyHP->curVal <= 0){
+        if (enemyHP->curVal <= 0 && enemyDefeated == false){
             enemyHP->curVal = 0; 
             cout << "ENEMY DEFEATED"<<endl;
             enemyHP->curVal = 0;
             MyGame::actionMenu->selectedaitem = false;
             MyGame::eDispatcher->dispatchEvent(new Event(DEFEATEDENEMY, MyGame::eDispatcher, player, e->getEnemy()));
+            cout<<"defeat enemy"<<endl;
         }
         else {
             MyGame::actionMenu->visible = false; 
-            TextBox* playerturn = new TextBox(); 
-            playerturn->setText("You attacked! Press SPACE to continue.");
-            MyGame::currentScene->addChild(playerturn);
+            if (enemyDefeated == false){
+                TextBox* playerturn = new TextBox(); 
+                playerturn->setText("You attacked! Press SPACE to continue.");
+                MyGame::currentScene->addChild(playerturn);
+            }
             //MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
             cout<<"player turn over"<<endl;
         }
@@ -238,7 +244,7 @@ void SceneManager::handleEvent(Event* e)
         MyGame::actionMenu->visible = false;
         MyGame::actionMenu->decideFate = true; 
         TextBox* victoryMSG = new TextBox(); 
-        victoryMSG->setText("Congrats, you won! Press Enter to decide the enemy's fate.");
+        victoryMSG->setText("Congrats, you won! Press TAb to decide the enemy's fate.");
         victoryMSG->visible = true;
         MyGame::currentScene->addChild(victoryMSG);
 

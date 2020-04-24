@@ -39,6 +39,7 @@ private:
     bool jumpAbility = false;
     bool block = false;
     int abilityUse = 0;
+    bool enemyDefeated = false;
     int blockUse = 0;
     string lastAction = "";
 };

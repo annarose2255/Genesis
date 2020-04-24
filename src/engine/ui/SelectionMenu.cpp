@@ -74,12 +74,17 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 		}
 		enemyTurn = false;
 	}
-	if (decideFate && pressedKeys.find(SDL_SCANCODE_RETURN) != pressedKeys.end()) { //defeated enemy
+	if (decideFate && pressedKeys.find(SDL_SCANCODE_TAB) != pressedKeys.end()) { //defeated enemy
 		cout << "inside decide fate" << endl;
-		MyGame::currentScene->removeChild(1);
-		MyGame::actionMenu->visible = false;
-		// MyGame::eDispatcher->dispatchEvent(new Event(DECIDEFATE, MyGame::eDispatcher, MyGame::currentScene->getPlayer(),
-		// 	MyGame::currentScene->getEnemy()));
+		cout<<"child : "<<MyGame::currentScene->numChildren()<<endl;
+		if (MyGame::currentScene->numChildren() == 2 ){
+			cout<<"num child 3"<<endl;
+			//MyGame::currentScene->removeChild(2);
+			MyGame::currentScene->removeChild(1);
+			MyGame::actionMenu->visible = false;
+			MyGame::eDispatcher->dispatchEvent(new Event(DECIDEFATE, MyGame::eDispatcher, MyGame::currentScene->getPlayer(),
+				MyGame::currentScene->getEnemy()));
+		}
 	}
 	if(this->visible) {
 		for(SDL_Scancode key : pressedKeys) {
