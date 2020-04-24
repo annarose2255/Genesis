@@ -3,6 +3,9 @@
 WASD to move Player
 Up/Down/Left/Right to move camera 
 
+*4.24 Updates* 
+-Weird behavior with collision when reverting from the battle scene 
+
 *World*  
 - Player spawns in Room 7, move all the way to the left to go to Room 5
 
@@ -15,7 +18,7 @@ Up/Down/Left/Right to move camera
 
 *Character Abilities*
 [G] = Ghost 
-[C] = Sprint 
+[X] = Sprint 
 [V] = Shield 
 [Z] = Double Jump
 [B] = High jump/low gravity 
