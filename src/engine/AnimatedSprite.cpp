@@ -62,7 +62,7 @@ void AnimatedSprite::addAnimation(string basepath, string animName, int numFrame
     animations.push_back(anim);
 }
 
-void AnimatedSprite::addSSAnimation(string spriteSheetPath, string xmlPath) {
+void AnimatedSprite::addSSAnimation(string spriteSheetPath, string xmlPath, int frameRate, bool loop) {
     char path[xmlPath.length()+1]; 
     strcpy(path, xmlPath.c_str());
     
@@ -164,6 +164,7 @@ void AnimatedSprite::play(string animName) {
         if (ssanim != NULL) {
             if (this->sscurrent==NULL or this->sscurrent->filepath != ssanim->filepath){
                 this->setTexture(ssanim->texture);
+                srcrect = ssanim->frames[0];
             }
             this->sscurrent = ssanim;
             this->sscurrent->curFrame = 0;

@@ -48,7 +48,7 @@ public:
 	~AnimatedSprite();
 
 	void addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop);
-	void addSSAnimation(string spriteSheetPath, string xmlPath);
+	void addSSAnimation(string spriteSheetPath, string xmlPath, int frameRate, bool loop);
 	Animation* getAnimation(string animName);
     SSAnimation* getSSAnimation(string animName);
 

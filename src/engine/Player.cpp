@@ -62,10 +62,10 @@ Player::Player(string id, bool isSheet) : AnimatedSprite(id, true){
 	this->pivot.x = this->width / 2;
 	this->pivot.y = this->height / 2;
 
-	this->addSSAnimation("resources/ghostchar/idle.png", "resources/ghostchar/idle.xml");
-	this->addSSAnimation("resources/ghostchar/run.png", "resources/ghostchar/run.xml");
-	this->addSSAnimation("resources/ghostchar/jump.png", "resources/ghostchar/jump.xml");
-	this->addSSAnimation("resources/ghostchar/death.png", "resources/ghostchar/death.xml");
+	this->addSSAnimation("resources/ghostchar/idle.png", "resources/ghostchar/idle.xml", 12, true);
+	this->addSSAnimation("resources/ghostchar/run.png", "resources/ghostchar/run.xml", 2, true);
+	this->addSSAnimation("resources/ghostchar/jump.png", "resources/ghostchar/jump.xml", 1, false);
+	this->addSSAnimation("resources/ghostchar/death.png", "resources/ghostchar/death.xml", 1, false);
 	this->play("Idle");
 }
 
@@ -183,7 +183,9 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 			this->play("Run");
 		}
 	} 
-	
+	else if (this->standing){
+		this->play("Idle");
+	}
 	
 	/* cool down combat ability timer */
 	if (state_combat_cooldown_counter == 200){
