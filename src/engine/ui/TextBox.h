@@ -17,15 +17,14 @@ public:
 	TextBox();
 	~TextBox();
 
-	virtual void update(set<SDL_Scancode> pressedKeys);
+	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
 
 	void setText(string txt);
 
 	string text;
-
+	bool decideFate = false;
 private:
-
 	TTF_Font* font;
 	SDL_Surface* surface;
 

@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include "DisplayObjectContainer.h"
+#include "DisplayObject.h"
 #include "TweenParam.h"
 #include "TweenableParams.h"
 #include "TweenTransitions.h"
@@ -14,7 +14,7 @@
 class Tween{ 
 
 public:
-	Tween(DisplayObjectContainer* object);
+	Tween(DisplayObject* object);
     // Tween(Scene* scene);
     ~Tween(); 
     void animate(TweenableParams fieldtoAnimate, double startVal, double endVal, double time);
@@ -24,7 +24,7 @@ public:
     void setValue(TweenableParams param, double value);
     vector<TweenParam*> params;
 private:
-    DisplayObjectContainer* object;
+    DisplayObject* object;
     SDL_Texture* tex; 
     // Scene* scene;
 	int curFrame = 0;

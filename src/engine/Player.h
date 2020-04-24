@@ -21,7 +21,7 @@ public:
 	virtual void draw(AffineTransform &at);
 
 	//void onEnemyCollision(Enemy* enemy);
-	virtual void onCollision(DisplayObject* other);
+	virtual bool onCollision(DisplayObject* other);
 
 	//set state 
 	void setState(string newstate); //sets the state of the character 
@@ -43,8 +43,9 @@ private:
 	int oldX=0, oldY=0;
 	int jump_buffer = 0; //#of tiks till can jump
 	bool jump_buffer_start = false; //var to start buffer
-	int _jumpVel = -10;
+	int _jumpVel = -15;
 	int state_combat_cooldown_counter= 0;//var for the time of cooldown for combat ability
+	int state_combat_cooldown_counter_start= 0;//var for the time of cooldown for combat ability to start again
 	int state_mov_cooldown_counter= 0;//var for the time of cooldown for mov ability
 	bool activated = false; //var for if the ability has been activated
 	set<string> activestates = {};

@@ -19,18 +19,23 @@ public:
 	SelectionMenu();
 	~SelectionMenu();
 
-	virtual void update(set<SDL_Scancode> pressedKeys);
+	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
 
 	void addItem(MenuItem* item);
+	MenuItem* getItem(int index);
 	void selectItem(int ind);
 	void goBack();
-
+	int selectInd;
+	bool selectedaitem = false;
+	int counter_for_pressing = 0;
+	bool enemyTurn = false;
+	bool decideFate = false;
 private:
 
 	vector<MenuItem*> menuItems;
 	MenuItem* prevItem;
-	int selectInd;
+
 
 };
 

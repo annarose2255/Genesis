@@ -26,7 +26,7 @@ void TweenTransitions::easeInOut(double percentDone){
     }
     else {
         this->newValue = this->curVal - (double) (this->endVal * percentDone);
-         if (this->newValue < this->endVal) {
+        if (this->newValue < this->endVal) {
             this->newValue = this->endVal; 
         }
     }

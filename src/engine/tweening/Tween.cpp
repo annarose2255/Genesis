@@ -4,7 +4,7 @@
 #include "Tween.h"
 #include "DisplayObject.h"
 
-Tween::Tween(DisplayObjectContainer* object) {
+Tween::Tween(DisplayObject* object) {
     // DisplayObject* obj = dynamic_cast<DisplayObject*>(object);
     this->object = object; //saves the object to be tweened
 }

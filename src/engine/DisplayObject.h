@@ -41,7 +41,7 @@ public:
 	string gameType = "";
 
 	DisplayObject* parent = NULL;
-
+	DisplayObject* enemy = NULL; 
 	bool isRGB = false;
 
 	DisplayObject();
@@ -60,8 +60,8 @@ public:
 	void applyTransformations(AffineTransform &at);
 	void reverseTransformations(AffineTransform &at);
 
-	void onCollision(DisplayObject* other);
-	AffineTransform *globalTransform();
+	virtual bool onCollision(DisplayObject* other);
+	void *globalTransform(AffineTransform &gt);
 
 	int getWidth();
 	int getHeight();
@@ -70,6 +70,8 @@ public:
 	// Line** getHitboxLines();
 	void setHitbox(SDL_Point origin, int width, int height);
 	void drawHitbox();
+
+	//void setPatrol(SDL_Point origin);//set the patrol of enemies
 
 	void setScrollSpeed(double speed);
 	bool visible = true;
@@ -89,7 +91,9 @@ public:
 	bool facingRight = true;
 	bool tile = false;
     bool isSheet = false;
+	bool inBattle = false;
 	bool camPerspective = true;
+	bool isUI = false;
     SDL_Rect srcrect;
 	SDL_Rect dstrect;
 	// Camera * cam;

@@ -39,3 +39,4 @@
 
 /bin
 settings.json
+*.vscode

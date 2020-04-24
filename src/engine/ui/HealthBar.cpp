@@ -12,7 +12,7 @@ HealthBar::HealthBar(int red, int green, int blue) : Sprite(){
 	//width and height, but can be changed
 	this->width = 100;
 	this->height = 10;
-
+	this->isUI = true;
 	//this actual filling of the bar is just a rectangle. I'm making it a child here.
 	fill = new Sprite("HealthBarFill", red, green, blue);
 	fill->width = this->width;
@@ -49,7 +49,6 @@ void HealthBar::draw(AffineTransform &at){
 		//Reset blendmode (just in case) and alpha and color to black
 		SDL_SetRenderDrawBlendMode(Game::renderer, SDL_BLENDMODE_BLEND);
 		SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, this->alpha);
-
 		//draw a black border around the health bar.
 		SDL_RenderDrawLine(Game::renderer, this->position.x, this->position.y, this->position.x + this->width, this->position.y);
 		SDL_RenderDrawLine(Game::renderer, this->position.x+this->width, this->position.y, this->position.x + this->width, this->position.y+this->height);

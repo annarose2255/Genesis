@@ -59,18 +59,19 @@ Player::Player(string id, string spriteSheetPath, string xmlPath) : AnimatedSpri
 
 //Called automatically by collision system when something collides with the player
 //our job is to simply react to that collision.
- void Player::onCollision(DisplayObject* other){
-	 if(other->type == "Platform"){
+ bool Player::onCollision(DisplayObject* other){
+	 if(other->gameType == "platform"){
 		//MyGame::collisionSystem.resolveCollision(this, other, this->position.x - oldX, this->position.y - oldY);	
-		cout<<"ydelta in: "<< this->position.y - oldY<<endl;
-		MyGame::collisionSystem->resolveCollision(this, other, this->position.x - oldX, this->position.y - oldY,
-			0, 0);
+		// cout<<"ydelta in: "<< this->position.y - oldY<<endl;
+		// MyGame::collisionSystem->resolveCollision(this, other, this->position.x - oldX, this->position.y - oldY,
+		// 	0, 0);
 		//MyGame::collisionSystem->resolveCollision
 		//this->collideing = true;
 		//DisplayObject::onCollision(other);
 		this->_yVel = 0;
 		//_yAccCount= 0;
 		this->standing=true;
+		return false;
 	}
 	/* else if(other->type == "Enemy"){
 		if(!this->iFrames){
@@ -85,10 +86,13 @@ void Player::setState(string newstate){
 
 void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
 	AnimatedSprite::update(pressedKeys, pressedButtons, movedAxis);
-	oldY = this->position.y;
-	oldX = this->position.x;
-	this->prevPos.x = oldX;
-	this->prevPos.y = oldY;
+	//cout<<"yaccount num: "<<_yAccCount<<endl;
+	state_combat_cooldown_counter_start++;
+	//cout<<"yaccount num: "<<state_combat_cooldown_counter_start<<endl;
+	// oldY = this->position.y;
+	// oldX = this->position.x;
+	// this->prevPos.x = oldX;
+	// this->prevPos.y = oldY;
 
 	/* Jumping */
 	if (this->standing && MyGame::controls->pressJump()){
@@ -96,18 +100,27 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		this->_yVel = _jumpVel;
 		this->standing = false;
 		this->play("Jump");
+		cout<<"jump"<<endl;
 		jump_buffer_start = true;
+		if (this->position.y < 350 && MyGame::camera->position.y+this->_yVel > MyGame::currentScene->top && 
+			MyGame::camera->position.y+this->_yVel < MyGame::currentScene->bottom) 
+		{
+			cout << "added " << MyGame::camera->position.y+this->_yVel << endl; 
+			cout << "top " << MyGame::currentScene->top << endl;
+			MyGame::camera->position.y+=this->_yVel;
+		}
 	}
-	if(this->standing){
+/* 	if(this->standing){
 		jump_buffer_start = false;
 		jump_buffer = 0;
 	}
 	if (jump_buffer_start == true){
 		jump_buffer++;
-	}
+	} */
 	/* double jump*/
 	if(this->state == "MovAblStart"){
 		activestates.insert("MovAblStart");
+		//cout<<"insert"<<endl;
 		//state_mov_cooldown_counter++;
 		//cout<<"cooldown: "<<state_cooldown_counter<<endl;
 		
@@ -116,20 +129,34 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	if (this->state == "sprint"){
 		activestates.insert("sprint");
 	}
-	/* movement abilities */
-	if (activestates.find("MovAblStart") != activestates.end() || activestates.find("sprint") != activestates.end()){
-		state_mov_cooldown_counter++;
-		if (activestates.find("sprint") != activestates.end()){
-			sprint = 4;
-		}
-		if(activestates.find("MovAblStart") != activestates.end()){
-			if (!this->standing && MyGame::controls->pressJump() && activated == false && jump_buffer %4 == 0){
-				cout<<"double"<<endl;
-				this->_yVel = _jumpVel;
-				this->play("Jump");
-				activated = true;
+	/* High jump*/
+	if (this->state == "High jump"){
+		activestates.insert("High jump");
+	}
+	/* cool down movment ability Start timer */
+	if (state_combat_cooldown_counter_start == 20){
+		//cout<<"cooldown if"<<endl;
+		/* movement abilities */
+		if (activestates.find("MovAblStart") != activestates.end() || activestates.find("sprint") != activestates.end() || activestates.find("High jump") != activestates.end()){
+			state_mov_cooldown_counter++;
+			if (activestates.find("sprint") != activestates.end()){
+				sprint = 4;
 			}
+			if(activestates.find("MovAblStart") != activestates.end()){
+				cout<<"jump found"<<endl;
+				cout<<standing<<" "<<MyGame::controls->pressJump()<<" "<<activated<<" "<<jump_buffer %4<<endl;
+				if (!this->standing && MyGame::controls->pressJump() && activated == false) //&& jump_buffer %4 == 0){
+					cout<<"double"<<endl;
+					this->_yVel = _jumpVel;
+					this->play("Jump");
+					activated = true;
+				}
+			if(activestates.find("High jump") != activestates.end()){
+				_yAcc = 4;
+			}
+				
 		}
+		state_combat_cooldown_counter_start = 0;
 	}
 	/** ghost ability */
 	if(this->state == "ghost"){
@@ -163,12 +190,28 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		if(this->standing){
 			this->play("Run");
 		}
+		//if (MyGame::camera->position.x == MyGame::currentScene->right)
+		//set backwards
+		//check if going forward or backward through a level
+		//if forward
+		if (this->position.x > 400 && MyGame::camera->position.x-2 + sprint > MyGame::currentScene->right) { //windowWidth/2
+			MyGame::camera->position.x-=2 + sprint;
+		}
+		//if backwards
+		// if (this->position.x < 400 && MyGame::camera->position.x+2 > MyGame::currentScene->right){
+			
+		// }
 	}
 	else if(MyGame::controls->holdLeft()){
 		this->position.x -= 2 + sprint;
 		this->facingRight = false;
 		if(this->standing){
 			this->play("Run");
+		}
+		//if (MyGame::camera->position.x > MyGame::currentScene->left)
+		//set forwards
+		if (this->position.x > 400 && MyGame::camera->position.x + 2 + sprint < MyGame::currentScene->left) {
+			MyGame::camera->position.x+=2 + sprint;
 		}
 	} 
 	
@@ -184,22 +227,28 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		SDL_SetTextureColorMod(this->getTexture(), 255,255,255);
 		activestates.erase("ghost");
 		activestates.erase("shield");
-		cout<<"act states num: "<<activestates.size()<<endl;
+		//cout<<"act states num: "<<activestates.size()<<endl;
 	}
+	
 	/* cool down movment ability timer */
-	if (state_mov_cooldown_counter == 200){
+	if (state_mov_cooldown_counter == 2){
 		cout<<"state_mov_cooldown_counter == 200"<<endl;
 		this->state = "normal";
 		activated = false;
 		state_mov_cooldown_counter = 0;
 		sprint = 0;
+		_yAcc = 2;
+		_yAccCount = 0;
+		//cout<<"_yacc = "<<_yAcc<<endl;
 		activestates.erase("MovAblStart");
 		activestates.erase("sprint");
-		cout<<"act states num: "<<activestates.size()<<endl;
+		activestates.erase("High jump");
+		state_combat_cooldown_counter_start = 0;
+		//cout<<"act states num: "<<activestates.size()<<endl;
 	}
 	//play idle animation if player is just standing still on ground
 	if(this->standing && !MyGame::controls->holdLeft() && !MyGame::controls->holdRight()){
-		this->play("Idle");
+		// this->play("Idle");
 	} 
 	
 
@@ -219,6 +268,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		//cout<<"falling"<<endl;
 	_yAccCount++;
 	if(_yAccCount == _yAcc){
+		//cout<<"_yacc = "<<_yAcc<<endl;
 		_yAccCount=0;
 		this->_yVel++;
 		if(this->_yVel > _maxFall) this->_yVel = _maxFall;
@@ -229,6 +279,13 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 	/* Actual falling depending on falling versus whether a jump occurred */
 	this->position.y += this->_yVel;
+	if (this->position.y > 350 && !this->standing && MyGame::camera->position.y-this->_yVel < MyGame::currentScene->bottom &&
+		MyGame::camera->position.y-this->_yVel > MyGame::currentScene->top) 
+	{
+		cout << "subtracted " << MyGame::camera->position.y-this->_yVel << endl;
+		cout << "bottom " << MyGame::currentScene->bottom << endl;
+		MyGame::camera->position.y-=this->_yVel;
+	}
 }
 
 /*void Player::onEnemyCollision(Enemy* enemy){

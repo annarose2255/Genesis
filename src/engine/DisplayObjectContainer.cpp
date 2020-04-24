@@ -124,10 +124,11 @@ void DisplayObjectContainer::draw(AffineTransform &at) {
         {
             children[i]->setScrollSpeed(scrollSpeed);
         }
+      
         double oldAlpha = children[i]->alpha;
-        children[i]->alpha = this->alpha * children[i]->alpha; 
+        children[i]->alpha = ((float) this->alpha/255.0) * children[i]->alpha; 
         children[i]->draw(at);
-        children[i]->alpha = oldAlpha; 
+        children[i]->alpha = oldAlpha;
     }
     // redo the parent's pivot
     at.translate(-pivot.x, -pivot.y);

@@ -19,35 +19,37 @@ Event::Event(string type, Tween* tween) {
     this->eventType = type;
     this->tween = tween;
 }
-Event::Event(string type, EventDispatcher* source, AnimatedSprite* character, string scenePath) {
+Event::Event(string type, EventDispatcher* source, Player* player, string scenePath) {
     this->eventType = type;
 	this->source = source;
-	this->chara = character;
+	this->player = player;
 	this->scenePath = scenePath;
     // this->switchScene = switchScene;
 }
-Event::Event(string type, EventDispatcher* source, AnimatedSprite* character, DisplayObjectContainer* enemy, string scenePath){
+Event::Event(string type, EventDispatcher* source, Player* player, DisplayObject* enemy){
     this->eventType = type;
 	this->source = source;
-	this->chara = character;
+	this->player = player;
 	this->enemy = enemy;
-	this->scenePath = scenePath;
+	// this->scenePath = scenePath;
     // this->switchScene = switchScene;
 }
 string Event::getType() {
     return this->eventType;
 }
-
+void Event::setType(string newtype){
+    this->eventType = newtype;
+}
 EventDispatcher* Event::getSource() {
     return this->source;
 }
-AnimatedSprite* Event::getCharacter(){
-    return this->chara;
+Player* Event::getPlayer(){
+    return this->player;
 }
 string Event::getScenePath(){
     return this->scenePath;
 }
-DisplayObjectContainer* Event::getEnemy(){
+DisplayObject* Event::getEnemy(){
     return this->enemy;
 }
 

@@ -39,7 +39,7 @@ public:
 	const int levelHeight = 960;
 
     // UI Components
-    HealthBar* hp;
+    // HealthBar* hp;
     TextBox* tBox;
     SelectionMenu* mainMenu;
     SelectionMenu* itemsMenu;
@@ -48,11 +48,16 @@ public:
     static TweenJuggler* tj;
     static CollisionSystem* collisionSystem; 
     static Controls* controls;
+    static SelectionMenu* actionMenu; 
+    static SelectionMenu* abilities; 
+    static SelectionMenu* decision; 
+    static SelectionMenu* enemyFate; 
     
 private:
     Sound* mainMusic;
     
-    bool change;    
+    bool change = false; 
+    bool tchange = false;    
     Scene* scene1;
     // Scene* scene2; 
     // Scene* scene3;   	
@@ -64,6 +69,15 @@ private:
     SceneManager* sm;
     bool isOngoing = true;
     bool fight = false;
+    MenuItem* attack;
+    MenuItem* defend;
+    MenuItem* transform;
+    MenuItem* flee;
+    MenuItem* spare; 
+    MenuItem* kill;
+    MenuItem* consume; 
+    HealthBar* hp; 
+    HealthBar* enemyHP;
     // bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);
 
 

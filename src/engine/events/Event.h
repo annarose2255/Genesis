@@ -4,7 +4,8 @@
 #include <string>
 
 #include "EventDispatcher.h"
-#include "AnimatedSprite.h"
+// #include "AnimatedSprite.h"
+#include "Player.h"
 #include "Tween.h"
 #include "DisplayObjectContainer.h"
 
@@ -26,18 +27,20 @@ public:
 
 	Event(string type, EventDispatcher* source);
 	Event(string type, Tween* tween);
-	Event(string type, EventDispatcher* source, AnimatedSprite* character, string scenePath); //change scene
-	Event(string type, EventDispatcher* source, AnimatedSprite* character, DisplayObjectContainer* enemy, string scenePath);
+	Event(string type, EventDispatcher* source, Player* player, string scenePath); //change scene
+	Event(string type, EventDispatcher* source, Player* player, DisplayObject* enemy);
 	string getType();
 	EventDispatcher* getSource();
-	AnimatedSprite* getCharacter(); 
+	Player* getPlayer(); 
 	string getScenePath(); 
-	DisplayObjectContainer* getEnemy(); 
+	DisplayObject* getEnemy(); 
+	void setType(string newtype);
 private:
 	string eventType = "";
 	EventDispatcher* source;
-	AnimatedSprite* chara;
-	DisplayObjectContainer* enemy;
+	// AnimatedSprite* chara;
+	Player* player;
+	DisplayObject* enemy;
 	string scenePath;
 	Tween* tween;
 	// Scene* switchScene;
