@@ -34,6 +34,17 @@ private:
     // AnimatedSprite* character;
     Player* player;
     DisplayObject* chara; 
+    bool jumpAbility = false;
+    bool block = false;
+    int abilityUse = 0;
+    int blockUse = 0;
+    bool ghostAbility = false;
+    int lasting = 0;
+    int cooldown = 4;
+    int turnCount = 0; //the current turn #
+    int turnAbilityUse = 0; // turn where ability can be used again
+    int turnAbilityStop = 0; //turn where ability stops being used;
+    string lastAction = "";
 };
 
 #endif

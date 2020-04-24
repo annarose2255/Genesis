@@ -27,7 +27,7 @@ public:
 
 	void setAction(Event* e);
 	void action(EventDispatcher* ed);
-
+	Event* getAction();
 	// To keep track of which menu to go to !
 	// ie. Selecting "Items" -> ItemsMenu
 	SelectionMenu* nextMenu;

@@ -5,6 +5,7 @@
 #include "SelectionMenu.h"
 #include "MenuItem.h"
 #include <iostream>
+#include <string>
 
 SceneManager::SceneManager(Player* chara, Scene* s)
 {
@@ -99,6 +100,7 @@ void SceneManager::handleEvent(Event* e)
         nextScene->addChild(layer);
         nextScene->setPlayer(player);
         nextScene->setEnemy(e->getEnemy());
+       // turnCount++;
 
         SDL_Point pos = {player->position.x, player->position.y};
         prevPos = pos;
@@ -131,26 +133,178 @@ void SceneManager::handleEvent(Event* e)
         MyGame::tj->add(enemyMove); 
     }
     else if (e->getType() == ATTACK){
-        if (enemyHP->curVal < 10) {
+         TextBox* playerturn = new TextBox(); 
+         turnCount++;
+        if (enemyHP->curVal < 10) { //kill if under 10 hp
             enemyHP->curVal = 0;
+            MyGame::actionMenu->selectedaitem = false;
+            //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
+            
         }
-        else {
-            enemyHP->curVal -= 10;
+        else { //damage
+            if (jumpAbility == false && (block != true || blockUse == 2)  && turnCount >= turnAbilityStop){ //|| abilityUse == 4) &&  && (lasting == 0 || lasting == 3)){ //check for not block, not jump, and make sure 
+            //actions havent been used in a row too much, and make sure ghost isnt still happening 
+                abilityUse = 0;
+                blockUse =0;
+                enemyHP->curVal -= 10;
+                turnAbilityStop = 0;
+                playerturn->setText("You attacked! Press SPACE to continue.");
+            }
+            else if( turnCount < turnAbilityStop){ //lasting == 1 || lasting == 2 ){
+                 playerturn->setText("You attack goes right through the enemy! Press SPACE to continue.");
+            }
+            else if (block == true){
+                enemyHP->curVal -= 5;
+                 playerturn->setText("You attacked but it isnt very effective. Press SPACE to continue.");
+            }
+            else{ //do no damage 
+                 playerturn->setText("You attack seems to cause no harm! Press SPACE to continue.");
+            }
+            // if (lasting == 2){ //reset lasting
+            //     lasting = 0;
+            // }
+            jumpAbility = false;
+            block = false;
+            MyGame::actionMenu->enemyTurn = true;
+            MyGame::actionMenu->selectedaitem = false;
+            //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
         }
-        if (enemyHP->curVal == 0) {
+        if (enemyHP->curVal == 0) { //kill
             //add another menu to allow character to select consume, spare, kill
         }
-        // MyGame::actionMenu->visible = false; 
-        // MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
+        
+        MyGame::actionMenu->visible = false; 
+       
+      
+        MyGame::currentScene->addChild(playerturn);
+        //MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
+        cout<<"player turn over"<<endl;
         //player turn over
     }
     else if (e->getType() == ENEMYTURN) {
-        playerHP->curVal-=5;  
-        // TextBox* enemyattack = new TextBox(); 
-        // enemyattack->setText("The enemy attacked back!");
+        //if (lasting )
+         TextBox* enemyattack = new TextBox(); 
+        //  cout<<"cooldown: "<<cooldown<<endl;
+        //  if (cooldown == 0){ //rest cooldown
+        //      cooldown = 4;
+        //  }
+        //  if (cooldown <= 3){ //decrease cooldown
+        //     cooldown--;
+        // }
+        int choose = rand() % 100; 
+        if ( turnAbilityUse > turnCount){// } <= 3 && (choose > 33 && choose <= 66)){ //choose another ability b/c ability is on cooldown
+            choose = rand() % 100; 
+            if (choose >= 64){
+                choose = 88;
+                cout<<"choose block"<<endl;
+            }
+            else{
+                choose = 23;
+                cout<<"choose attack"<<endl;
+            }
+        }
+        //if (turnAbilityUse )
+        cout<<choose<<endl;
+        if (choose <= 33){ 
+            //attack
+            cout<<"use attack"<<endl;
+             playerHP->curVal-=5;  
+            // if(lasting > 0){ //if the old ability is still lasting,
+            //      lasting++;
+            //      if (lasting  == 2){ //if the end of the ability lasting decrease cooldown
+            //         cooldown--;
+            //     }
+            // } 
+            enemyattack->setText("The enemy attacked back! Press C to continue.");
+             MyGame::currentScene->addChild(enemyattack);
+             lastAction = "attack";
+             
+        }
+        else if (choose > 33 && choose <= 66){
+            //use ability 
+            cout<<"use ability"<<endl;
+            if (lastAction == "ability"){//check for same action in a row
+                abilityUse ++;
+            }
+            else{
+                abilityUse--;
+            }
+            string id = MyGame::currentScene->getEnemy()->id;
+            id.pop_back();
+            if (id == "frog"){ //if its a frog use jump
+                jumpAbility = true;
+                turnAbilityUse = turnCount + 4;
+                turnAbilityStop = turnCount+2;
+                enemyattack->setText("The enemy jumped up high! Press C to continue.");
+                // if (cooldown <= 4){ //start cooldown
+                //     cooldown--;
+                // }
+            }
+            else if (id == "ghost"){ //if its a ghost
+                ghostAbility = true;
+                turnAbilityUse = turnCount+8;
+                turnAbilityStop = turnCount+4;
+                // lasting++; //add to duration
+                // if (lasting  == 2){ //if its the end of the duration, start cooldown 
+                //     cooldown--;
+                // }
+                enemyattack->setText("The enemy is transparent! Press C to continue.");
+            }
+            //cout<<id<<endl; 
+            if (abilityUse == 4){ //if abilities has been used 4 times in a row
+                enemyattack->setText("The enemy tried and failed to use an ability! Press C to continue.");
+            }
+            
+            //enemyattack->setText("The enemy used an ability! Press C to continue.");
+            MyGame::currentScene->addChild(enemyattack);
+            lastAction = "ability";        
+        }
+        else{
+            cout<<"block"<<endl;
+            block = true;
+            // if(lasting > 0){ //if we are still seeing how long abilities last, increase lasting
+            //      lasting++;
+            // }
+            // if (lasting  == 2){ //if its the end of the ability lasting, start cooldown
+            //         cooldown--;
+            //     }
+            if(lastAction == "block"){ //check for same action in a row
+                blockUse++;
+            }
+            else if (blockUse == 0){
+
+            }
+            else{
+                blockUse--;
+            }
+            cout<<"block use: "<<blockUse<<endl;
+             if (blockUse >= 2){ //if the enemy has tried to use block 3 times in a row 
+                if (blockUse >= 3){ //rest block if over 3 attempts
+                    blockUse = 0;
+                }
+                enemyattack->setText("The enemy tried and failed to use block! Press C to continue.");
+                //blockUse
+                 //blockUse = 0;
+            }
+            else{
+                enemyattack->setText("The enemy blocked! Press C to continue.");
+               
+            }
+            
+            MyGame::currentScene->addChild(enemyattack);
+            lastAction = "block";
+        }
+       MyGame::actionMenu->enemyTurn = false;
+       cout<<"END OF ENEMY TURN"<<endl;
+    
         //enemy turn over
         //how to remove/change actionMenu??? use the same menu but change the options?? 
-        MyGame::actionMenu->visible = true; 
+        
+        // Game::camera->removeImmediateChild(MyGame::currentScene);
+        // MyGame::currentScene->removeImmediateChild(enemyattack);    
+		// Game::camera->addChild(MyGame::currentScene);
+        // MyGame::actionMenu->visible = true;
+        // MyGame::actionMenu->visible = true; 
     }
     else if (e->getType() == REVERT) 
     {

@@ -47,7 +47,9 @@ void MenuItem::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButto
 void MenuItem::draw(AffineTransform &at) {
 	Sprite::draw(at);
 }
-
+Event* MenuItem::getAction(){
+	return this->itemAction;
+}
 void MenuItem::setAction(Event* e) {
 	this->itemAction = e;
 }

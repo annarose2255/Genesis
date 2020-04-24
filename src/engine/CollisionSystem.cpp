@@ -53,7 +53,7 @@ void CollisionSystem::update(){
 
 				if (collidesWith(*doType1, *doType2)){
 					// cout << "HEY" << endl;
-					cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
+					//cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
 					//(*doType1)->onCollision(*doType2); 
 					// (*doType2)->onCollision(*doType1);
 					resolveCollision(*doType2,*doType1, xDelta1, yDelta1, xDelta2, yDelta2);
