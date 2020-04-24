@@ -34,6 +34,11 @@ private:
     // AnimatedSprite* character;
     Player* player;
     DisplayObject* chara; 
+    bool jumpAbility = false;
+    bool block = false;
+    int abilityUse = 0;
+    int blockUse = 0;
+    string lastAction = "";
 };
 
 #endif

@@ -134,29 +134,89 @@ void SceneManager::handleEvent(Event* e)
         if (enemyHP->curVal < 10) {
             enemyHP->curVal = 0;
             MyGame::actionMenu->selectedaitem = false;
-            cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
+            //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
             
         }
         else {
-            cout<<"enemy"<<endl;
-            enemyHP->curVal -= 10;
+            //cout<<"enemy"<<endl;
+            if ((jumpAbility == false || abilityUse == 4 || blockUse == 6) && block != true){ //check for not block, not jump, and make sure 
+            //actions havent been used in a row too much
+                abilityUse = 0;
+                blockUse =0;
+                enemyHP->curVal -= 10;
+            }
+            if (block == true){
+                enemyHP->curVal -= 5;
+            }
+            jumpAbility = false;
+            block = false;
             MyGame::actionMenu->enemyTurn = true;
             MyGame::actionMenu->selectedaitem = false;
-            cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
+            //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
         }
         if (enemyHP->curVal == 0) {
             //add another menu to allow character to select consume, spare, kill
         }
         
         MyGame::actionMenu->visible = false; 
-        MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
+        TextBox* playerturn = new TextBox(); 
+        playerturn->setText("You attacked! Press SPACE to continue.");
+        MyGame::currentScene->addChild(playerturn);
+        //MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
+        cout<<"player turn over"<<endl;
         //player turn over
     }
     else if (e->getType() == ENEMYTURN) {
-        playerHP->curVal-=5;  
-        TextBox* enemyattack = new TextBox(); 
-        enemyattack->setText("The enemy attacked back! Press C to continue.");
-        MyGame::currentScene->addChild(enemyattack);
+        int choose = rand() % 100; 
+        if (choose <= 33){
+            cout<<"use attack"<<endl;
+             playerHP->curVal-=5;  
+             TextBox* enemyattack = new TextBox(); 
+            enemyattack->setText("The enemy attacked back! Press C to continue.");
+             MyGame::currentScene->addChild(enemyattack);
+             lastAction = "attack";
+             
+        }
+        else if (choose > 33 && choose <= 66){
+            //use ability 
+            cout<<"use ability"<<endl;
+            if (lastAction == "ability"){//check for same action in a row
+                abilityUse ++;
+            }
+            else{
+                abilityUse--;
+            }
+            string id = MyGame::currentScene->getEnemy()->id;
+            cout<<id<<endl;
+            jumpAbility = true;
+            TextBox* enemyattack = new TextBox(); 
+            if (abilityUse == 4){
+                enemyattack->setText("The enemy tried and failed to use an ability! Press C to continue.");
+            }
+            enemyattack->setText("The enemy used an ability! Press C to continue.");
+            MyGame::currentScene->addChild(enemyattack);
+            lastAction = "ability";
+            
+        }
+        else{
+            cout<<"block"<<endl;
+            block = true;
+            if(lastAction == "block"){ //check for same action in a row
+                blockUse++;
+            }
+            else{
+                blockUse--;
+            }
+             TextBox* enemyattack = new TextBox(); 
+             if (blockUse == 4){
+                enemyattack->setText("The enemy tried and failed to use block! Press C to continue.");
+            }
+            enemyattack->setText("The enemy blocked! Press C to continue.");
+            MyGame::currentScene->addChild(enemyattack);
+             lastAction = "block";
+        }
+       MyGame::actionMenu->enemyTurn = false;
+    
         //enemy turn over
         //how to remove/change actionMenu??? use the same menu but change the options?? 
         

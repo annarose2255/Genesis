@@ -53,8 +53,18 @@ MenuItem* SelectionMenu::getItem(int index) {
 void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
 	// Only accept inputs if visible
 	//counter_for_pressing++;
-	if (pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end()){
-		cout << "Current children " << MyGame::currentScene->numChildren() << endl;
+	if(pressedKeys.find(SDL_SCANCODE_SPACE) != pressedKeys.end() && enemyTurn == false){ //end of player turn textbox
+		if (MyGame::currentScene->numChildren() == 2 ){
+			MyGame::currentScene->removeChild(1);
+			//MyGame::actionMenu->visible = true;
+			//MyGame::eDispatcher->
+			MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
+					MyGame::currentScene->getEnemy()));
+			enemyTurn = true;
+		}
+	}
+		//if (this->getItem(0)->getAction() == NULL){
+	if (pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end() ){ //end of enemy turn textbox
 		MyGame::currentScene->removeChild(1);
 		MyGame::actionMenu->visible = true;
 		if (this->getItem(0)->getAction() == NULL){
