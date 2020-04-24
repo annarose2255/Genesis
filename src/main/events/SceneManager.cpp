@@ -140,7 +140,7 @@ void SceneManager::handleEvent(Event* e)
             
         }
         else { //damage
-            if ((jumpAbility == false || abilityUse == 4 || blockUse == 3) && block != true && (lasting == 0 || lasting == 3)){ //check for not block, not jump, and make sure 
+            if ((jumpAbility == false || abilityUse == 4) && (block != true || blockUse == 2) && (lasting == 0 || lasting == 3)){ //check for not block, not jump, and make sure 
             //actions havent been used in a row too much, and make sure ghost isnt still happening 
                 abilityUse = 0;
                 blockUse =0;
@@ -182,14 +182,14 @@ void SceneManager::handleEvent(Event* e)
         //if (lasting )
          TextBox* enemyattack = new TextBox(); 
          cout<<"cooldown: "<<cooldown<<endl;
-         if (cooldown == 0){
+         if (cooldown == 0){ //rest cooldown
              cooldown = 4;
          }
-         if (cooldown <= 3){
+         if (cooldown <= 3){ //decrease cooldown
             cooldown--;
         }
         int choose = rand() % 100; 
-        if (cooldown <= 3 && (choose > 33 && choose <= 66)){
+        if (cooldown <= 3 && (choose > 33 && choose <= 66)){ //choose another ability b/c ability is on cooldown
             choose = rand() % 2; 
             if (choose == 1){
                 choose = 88;
@@ -205,9 +205,9 @@ void SceneManager::handleEvent(Event* e)
             //attack
             cout<<"use attack"<<endl;
              playerHP->curVal-=5;  
-            if(lasting > 0){
+            if(lasting > 0){ //if the old ability is still lasting,
                  lasting++;
-                 if (lasting  == 2){
+                 if (lasting  == 2){ //if the end of the ability lasting decrease cooldown
                     cooldown--;
                 }
             } 
@@ -227,25 +227,23 @@ void SceneManager::handleEvent(Event* e)
             }
             string id = MyGame::currentScene->getEnemy()->id;
             id.pop_back();
-            if (id == "frog"){
+            if (id == "frog"){ //if its a frog use jump
                 jumpAbility = true;
                 enemyattack->setText("The enemy jumped up high! Press C to continue.");
-                if (cooldown <= 4){
+                if (cooldown <= 4){ //start cooldown
                     cooldown--;
                 }
             }
-            else if (id == "ghost"){
+            else if (id == "ghost"){ //if its a ghost
                 ghostAbility = true;
-                lasting++;
-                if (lasting  == 2){
+                lasting++; //add to duration
+                if (lasting  == 2){ //if its the end of the duration, start cooldown 
                     cooldown--;
                 }
                 enemyattack->setText("The enemy is transparent! Press C to continue.");
-                //MyGame::currentScene->getEnemy()->alpha == 60;
-                //MyGame::currentScene->getEnemy()->dr
             }
             //cout<<id<<endl; 
-            if (abilityUse == 4){
+            if (abilityUse == 4){ //if abilities has been used 4 times in a row
                 enemyattack->setText("The enemy tried and failed to use an ability! Press C to continue.");
             }
             
@@ -256,23 +254,31 @@ void SceneManager::handleEvent(Event* e)
         else{
             cout<<"block"<<endl;
             block = true;
-            if(lasting > 0){
+            if(lasting > 0){ //if we are still seeing how long abilities last, increase lasting
                  lasting++;
             }
-            if (lasting  == 2){
+            if (lasting  == 2){ //if its the end of the ability lasting, start cooldown
                     cooldown--;
                 }
             if(lastAction == "block"){ //check for same action in a row
                 blockUse++;
             }
+            else if (blockUse == 0){
+
+            }
             else{
                 blockUse--;
             }
-             if (blockUse == 3){
+            cout<<"block use: "<<blockUse<<endl;
+             if (blockUse == 2){ //if the enemy has tried to use block 3 times in a row 
                 enemyattack->setText("The enemy tried and failed to use block! Press C to continue.");
                 //blockUse
             }
-            enemyattack->setText("The enemy blocked! Press C to continue.");
+            else{
+                enemyattack->setText("The enemy blocked! Press C to continue.");
+                blockUse = 0;
+            }
+            
             MyGame::currentScene->addChild(enemyattack);
              lastAction = "block";
         }
