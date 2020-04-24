@@ -131,15 +131,20 @@ void SceneManager::handleEvent(Event* e)
         enemyMove->animate(egrowY, MyGame::currentScene->getEnemy()->scaleY, 2.5, 5);
         MyGame::tj->add(menuMove); 
         MyGame::tj->add(enemyMove); 
+        cout << "in fight" << endl;
     }
     else if (e->getType() == ATTACK){
          TextBox* playerturn = new TextBox(); 
          turnCount++;
-        if (enemyHP->curVal < 10) { //kill if under 10 hp
+        if (enemyHP->curVal < 50) {
+            cout << "ENEMY HEALTH DEPLETED"<<endl;
             enemyHP->curVal = 0;
             MyGame::actionMenu->selectedaitem = false;
-            //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
-            
+            MyGame::eDispatcher->dispatchEvent(new Event(DEFEATEDENEMY, MyGame::eDispatcher, player, e->getEnemy()));
+             cout<<"defeat enemy"<<endl;
+             enemyDefeated = true;
+            // break;
+            //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;  
         }
         else { //damage
             if (jumpAbility == false && (block != true || blockUse == 2)  && turnCount >= turnAbilityStop){ //|| abilityUse == 4) &&  && (lasting == 0 || lasting == 3)){ //check for not block, not jump, and make sure 
@@ -169,16 +174,24 @@ void SceneManager::handleEvent(Event* e)
             MyGame::actionMenu->selectedaitem = false;
             //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
         }
-        if (enemyHP->curVal == 0) { //kill
-            //add another menu to allow character to select consume, spare, kill
+        if (enemyHP->curVal <= 0 && enemyDefeated == false){
+            enemyHP->curVal = 0; 
+            cout << "ENEMY DEFEATED"<<endl;
+            enemyHP->curVal = 0;
+            MyGame::actionMenu->selectedaitem = false;
+            MyGame::eDispatcher->dispatchEvent(new Event(DEFEATEDENEMY, MyGame::eDispatcher, player, e->getEnemy()));
+            cout<<"defeat enemy"<<endl;
         }
-        
-        MyGame::actionMenu->visible = false; 
-       
-      
-        MyGame::currentScene->addChild(playerturn);
-        //MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
-        cout<<"player turn over"<<endl;
+        else {
+            MyGame::actionMenu->visible = false; 
+            if (enemyDefeated == false){
+                TextBox* playerturn = new TextBox(); 
+                playerturn->setText("You attacked! Press SPACE to continue.");
+                MyGame::currentScene->addChild(playerturn);
+            }
+            //MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
+            cout<<"player turn over"<<endl;
+        }
         //player turn over
     }
     else if (e->getType() == ENEMYTURN) {
@@ -305,6 +318,22 @@ void SceneManager::handleEvent(Event* e)
 		// Game::camera->addChild(MyGame::currentScene);
         // MyGame::actionMenu->visible = true;
         // MyGame::actionMenu->visible = true; 
+    }
+    else if (e->getType() == DEFEATEDENEMY) {
+        cout << "u defeated the enemy!"<< endl;
+        MyGame::actionMenu->visible = false;
+        MyGame::actionMenu->decideFate = true; 
+        TextBox* victoryMSG = new TextBox(); 
+        victoryMSG->setText("Congrats, you won! Press TAb to decide the enemy's fate.");
+        victoryMSG->visible = true;
+        MyGame::currentScene->addChild(victoryMSG);
+
+    }
+     else if (e->getType() == DECIDEFATE) {
+         cout << "inside decide fate event"<<endl;
+        MyGame::actionMenu->visible = false;
+        MyGame::enemyFate->visible = true;
+
     }
     else if (e->getType() == REVERT) 
     {

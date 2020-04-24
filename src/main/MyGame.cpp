@@ -25,6 +25,7 @@ Controls* MyGame::controls = new Controls();
 SelectionMenu* MyGame::actionMenu = new SelectionMenu();
 SelectionMenu* MyGame::decision = new SelectionMenu(); 
 SelectionMenu* MyGame::abilities = new SelectionMenu();
+SelectionMenu* MyGame::enemyFate = new SelectionMenu(); 
 
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
@@ -66,8 +67,17 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	actionMenu->addItem(defend);
     actionMenu->addItem(transform);
     actionMenu->addItem(flee);
-
     abilities->position.y = 600;
+
+	enemyFate->position.y = 600;
+	spare = new MenuItem("Spare", 250, 0);
+	kill = new MenuItem("Kill", 250, 0);
+	consume = new MenuItem("Consume", 500, 0);
+	enemyFate->addItem(spare);
+	enemyFate->addItem(kill);
+	enemyFate->addItem(consume);
+	enemyFate->visible = false;
+
     //if statements with each ability!!
     MenuItem* ghost = new MenuItem("Ghost", 0, 0);
     abilities->addItem(ghost);
@@ -92,6 +102,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance->addChild(mainMenu);
 	instance->addChild(actionMenu); //try child of scene or camera
 	instance->addChild(abilities);
+	instance->addChild(enemyFate);
 	instance->addChild(itemsMenu);
 	instance->addChild(hp);
 	instance->addChild(enemyHP);

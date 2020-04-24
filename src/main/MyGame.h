@@ -51,6 +51,7 @@ public:
     static SelectionMenu* actionMenu; 
     static SelectionMenu* abilities; 
     static SelectionMenu* decision; 
+    static SelectionMenu* enemyFate; 
     
 private:
     Sound* mainMusic;
@@ -72,7 +73,9 @@ private:
     MenuItem* defend;
     MenuItem* transform;
     MenuItem* flee;
-
+    MenuItem* spare; 
+    MenuItem* kill;
+    MenuItem* consume; 
     HealthBar* hp; 
     HealthBar* enemyHP;
     // bool isCharInCoin(DisplayObject* chara, DisplayObject* cn);

@@ -30,6 +30,7 @@ public:
 	bool selectedaitem = false;
 	int counter_for_pressing = 0;
 	bool enemyTurn = false;
+	bool decideFate = false;
 private:
 
 	vector<MenuItem*> menuItems;

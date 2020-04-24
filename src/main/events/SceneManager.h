@@ -13,6 +13,8 @@
 #define REVERTBATTLE "RevertFromBattleEvent"
 #define ATTACK "PlayerAttackEvent"
 #define ENEMYTURN "EnemyEvent"
+#define DEFEATEDENEMY "EnemyIsDefeated"
+#define DECIDEFATE "DecideEnemyFate"
 
 class SceneManager: public EventListener{
 
@@ -37,6 +39,7 @@ private:
     bool jumpAbility = false;
     bool block = false;
     int abilityUse = 0;
+    bool enemyDefeated = false;
     int blockUse = 0;
     bool ghostAbility = false;
     int lasting = 0;

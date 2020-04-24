@@ -1,6 +1,7 @@
 #include "TextBox.h"
 #include "DisplayObject.h"
 #include "Game.h"
+#include "MyGame.h"
 #include <iostream>
 
 using namespace std;

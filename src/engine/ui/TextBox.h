@@ -23,9 +23,8 @@ public:
 	void setText(string txt);
 
 	string text;
-
+	bool decideFate = false;
 private:
-
 	TTF_Font* font;
 	SDL_Surface* surface;
 
