@@ -17,14 +17,52 @@ AnimatedSprite::AnimatedSprite(string id) : Sprite(id, 0, 0, 0) {
     this->id = id;
 }
 
-AnimatedSprite::AnimatedSprite(string id, string spriteSheetPath, string xmlPath) : Sprite() {
+AnimatedSprite::AnimatedSprite(string id, bool isSheet) : Sprite() {
     this->type = "AnimatedSprite";
     this->id = id;
-    this->imgPath = spriteSheetPath;
-    this->isSheet = true;
+    this->isSheet = isSheet;
+}
 
-    loadTexture(spriteSheetPath);
+AnimatedSprite::~AnimatedSprite() {
+    for (Animation* an : animations) {
+        for (int i = 0; i < an->numFrames; i++) {// this needs to be an iterator loop
+            if(an->frames[i]->image != NULL) SDL_FreeSurface(an->frames[i]->image);
+	        if(an->frames[i]->texture != NULL) SDL_DestroyTexture(an->frames[i]->texture);
+            delete an->frames[i];
+        }
+        delete an->frames;
+        delete an;
+    }
+    for (SSAnimation *ssan : ssanimations)  //can't really test this probably correct tho
+    {
+        delete ssan;
+    }
+}
+void AnimatedSprite::setState(string newstate){
+    state = newstate;
+}
+void AnimatedSprite::addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop) {
+    Animation* anim = new Animation();
+    animName[0] = toupper(animName[0]);
+    anim->animName = animName;
+    anim->numFrames = numFrames;
+    anim->frameRate = frameRate;
+    anim->loop = loop;
+    anim->curFrame = 0;
+    anim->filepath = basepath;
+    anim->frames = new Frame*[numFrames]; // new frame pointer array of size numFrames;
+    for (int i = 0; i < numFrames; i++ ) {
+        Frame* f = new Frame();
+        string path = basepath + animName + "_" + to_string(i+1) + ".png";
+        f->image = IMG_Load(path.c_str());
+        f->texture = SDL_CreateTextureFromSurface(Game::renderer, f->image);
+        anim->frames[i] = f;
+    }
+    animationNames.push_back(animName);
+    animations.push_back(anim);
+}
 
+void AnimatedSprite::addSSAnimation(string spriteSheetPath, string xmlPath, int frameRate, bool loop) {
     char path[xmlPath.length()+1]; 
     strcpy(path, xmlPath.c_str());
     
@@ -54,12 +92,15 @@ AnimatedSprite::AnimatedSprite(string id, string spriteSheetPath, string xmlPath
         }
         else {
             // Add last animation
+            prevAnim[0] = toupper(prevAnim[0]);
             temp->animName = prevAnim;
             temp->filepath = spriteSheetPath;
             temp->numFrames = frameCount + 1;
             temp->frameRate = 2;
             temp->loop = true;
             temp->curFrame = 0;
+            temp->image = IMG_Load(spriteSheetPath.c_str());
+            temp->texture = SDL_CreateTextureFromSurface(Game::renderer, temp->image);
             ssanimations.push_back(temp);
             animationNames.push_back(prevAnim);
 
@@ -82,8 +123,11 @@ AnimatedSprite::AnimatedSprite(string id, string spriteSheetPath, string xmlPath
         }
         else {
             // Add last animation
+            prevAnim[0] = toupper(prevAnim[0]);
             temp->animName = prevAnim;
             temp->filepath = spriteSheetPath;
+            temp->image = IMG_Load(spriteSheetPath.c_str());
+            temp->texture = SDL_CreateTextureFromSurface(Game::renderer, temp->image);
             temp->numFrames = frameCount;
             temp->frameRate = 2;
             temp->loop = true;
@@ -92,44 +136,6 @@ AnimatedSprite::AnimatedSprite(string id, string spriteSheetPath, string xmlPath
             animationNames.push_back(prevAnim);
         }
     }
-}
-
-AnimatedSprite::~AnimatedSprite() {
-    for (Animation* an : animations) {
-        for (int i = 0; i < an->numFrames; i++) {// this needs to be an iterator loop
-            if(an->frames[i]->image != NULL) SDL_FreeSurface(an->frames[i]->image);
-	        if(an->frames[i]->texture != NULL) SDL_DestroyTexture(an->frames[i]->texture);
-            delete an->frames[i];
-        }
-        delete an->frames;
-        delete an;
-    }
-    for (SSAnimation *ssan : ssanimations)  //can't really test this probably correct tho
-    {
-        delete ssan;
-    }
-}
-void AnimatedSprite::setState(string newstate){
-    state = newstate;
-}
-void AnimatedSprite::addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop) {
-    Animation* anim = new Animation();
-    anim->animName = animName;
-    anim->numFrames = numFrames;
-    anim->frameRate = frameRate;
-    anim->loop = loop;
-    anim->curFrame = 0;
-    anim->filepath = basepath;
-    anim->frames = new Frame*[numFrames]; // new frame pointer array of size numFrames;
-    for (int i = 0; i < numFrames; i++ ) {
-        Frame* f = new Frame();
-        string path = basepath + animName + "_" + to_string(i+1) + ".png";
-        f->image = IMG_Load(path.c_str());
-        f->texture = SDL_CreateTextureFromSurface(Game::renderer, f->image);
-        anim->frames[i] = f;
-    }
-    animationNames.push_back(animName);
-    animations.push_back(anim);
 }
 
 Animation* AnimatedSprite::getAnimation(string animName) {
@@ -156,6 +162,10 @@ void AnimatedSprite::play(string animName) {
     if(isSheet) {
         ssanim = getSSAnimation(animName);
         if (ssanim != NULL) {
+            if (this->sscurrent==NULL or this->sscurrent->filepath != ssanim->filepath){
+                this->setTexture(ssanim->texture);
+                srcrect = ssanim->frames[0];
+            }
             this->sscurrent = ssanim;
             this->sscurrent->curFrame = 0;
             frameCount = 0;

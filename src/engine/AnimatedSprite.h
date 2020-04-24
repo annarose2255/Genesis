@@ -27,6 +27,8 @@ struct Animation {
 };
 
 struct SSAnimation {
+	SDL_Surface* image;
+	SDL_Texture* texture;
     vector<SDL_Rect> frames;
     string animName;
     string filepath;
@@ -42,10 +44,11 @@ public:
 	
 	AnimatedSprite();
 	AnimatedSprite(string id);
-	AnimatedSprite(string id, string spriteSheetPath, string xmlPath);
+	AnimatedSprite(string id, bool isSheet);
 	~AnimatedSprite();
 
 	void addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop);
+	void addSSAnimation(string spriteSheetPath, string xmlPath, int frameRate, bool loop);
 	Animation* getAnimation(string animName);
     SSAnimation* getSSAnimation(string animName);
 

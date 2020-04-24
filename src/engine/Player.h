@@ -15,7 +15,7 @@ class Player : public AnimatedSprite{
 public:
 	Player();
 	Player(string id);
-	Player(string id, string spriteSheetPath, string xmlPath);
+	Player(string id, bool isSheet);
 
 	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);

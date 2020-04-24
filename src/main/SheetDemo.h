@@ -8,6 +8,8 @@
 #include "Sprite.h"
 #include "AnimatedSprite.h"
 #include "CoinListener.h"
+#include "TextBox.h"
+#include "HealthBar.h"
 
 using namespace std;
 
@@ -35,6 +37,9 @@ private:
 	EventListener* myQuestManager;
 	EventDispatcher* eDispatcher;
 	AnimatedSprite* character;
+	TextBox* tb;
+	HealthBar* hb;
+
 	bool isWalking = false;
 	bool left = false;
 	bool isJumping = false;
