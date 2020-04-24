@@ -156,8 +156,8 @@ bool DisplayObject::onCollision(DisplayObject* other){
 	//if (this->gameType == "character"){
 		//Player::this->onCollision(other);
 	//}
-	cout<<other->gameType<<endl;
-	cout<<this->gameType<<endl;
+	//cout<<other->gameType<<endl;
+	//cout<<this->gameType<<endl;
 	if (other->gameType == "platform") {
 		//cout << "collided with a platform!" << endl;
 		//cout<<"position y check: "<<this->position.y<<endl;

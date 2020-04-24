@@ -5,6 +5,7 @@
 #include "SelectionMenu.h"
 #include "MenuItem.h"
 #include <iostream>
+#include <string>
 
 SceneManager::SceneManager(Player* chara, Scene* s)
 {
@@ -131,22 +132,30 @@ void SceneManager::handleEvent(Event* e)
         MyGame::tj->add(enemyMove); 
     }
     else if (e->getType() == ATTACK){
-        if (enemyHP->curVal < 10) {
+         TextBox* playerturn = new TextBox(); 
+        if (enemyHP->curVal < 10) { //kill if under 10 hp
             enemyHP->curVal = 0;
             MyGame::actionMenu->selectedaitem = false;
             //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
             
         }
-        else {
-            //cout<<"enemy"<<endl;
-            if ((jumpAbility == false || abilityUse == 4 || blockUse == 6) && block != true){ //check for not block, not jump, and make sure 
-            //actions havent been used in a row too much
+        else { //damage
+            if ((jumpAbility == false || abilityUse == 4 || blockUse == 6) && block != true && (cooldown == 0 || cooldown == 2)){ //check for not block, not jump, and make sure 
+            //actions havent been used in a row too much, and make sure ghost isnt still happening 
                 abilityUse = 0;
                 blockUse =0;
                 enemyHP->curVal -= 10;
+                  playerturn->setText("You attacked! Press SPACE to continue.");
             }
-            if (block == true){
+            else if (block == true){
                 enemyHP->curVal -= 5;
+                 playerturn->setText("You attacked but it isnt very effective. Press SPACE to continue.");
+            }
+            else{ //do no damage 
+                 playerturn->setText("You attack seems to cause no harm! Press SPACE to continue.");
+            }
+            if (cooldown == 2){ //reset cooldown
+                cooldown = 0;
             }
             jumpAbility = false;
             block = false;
@@ -154,20 +163,22 @@ void SceneManager::handleEvent(Event* e)
             MyGame::actionMenu->selectedaitem = false;
             //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
         }
-        if (enemyHP->curVal == 0) {
+        if (enemyHP->curVal == 0) { //kill
             //add another menu to allow character to select consume, spare, kill
         }
         
         MyGame::actionMenu->visible = false; 
-        TextBox* playerturn = new TextBox(); 
-        playerturn->setText("You attacked! Press SPACE to continue.");
+       
+      
         MyGame::currentScene->addChild(playerturn);
         //MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
         cout<<"player turn over"<<endl;
         //player turn over
     }
     else if (e->getType() == ENEMYTURN) {
+        //if (cooldown )
         int choose = rand() % 100; 
+        cout<<choose<<endl;
         if (choose <= 33){
             cout<<"use attack"<<endl;
              playerHP->curVal-=5;  
@@ -179,6 +190,7 @@ void SceneManager::handleEvent(Event* e)
         }
         else if (choose > 33 && choose <= 66){
             //use ability 
+            TextBox* enemyattack = new TextBox(); 
             cout<<"use ability"<<endl;
             if (lastAction == "ability"){//check for same action in a row
                 abilityUse ++;
@@ -187,13 +199,21 @@ void SceneManager::handleEvent(Event* e)
                 abilityUse--;
             }
             string id = MyGame::currentScene->getEnemy()->id;
-            cout<<id<<endl;
-            jumpAbility = true;
-            TextBox* enemyattack = new TextBox(); 
+            id.pop_back();
+            if (id == "frog"){
+                jumpAbility = true;
+                enemyattack->setText("The enemy jumped up high! Press C to continue.");
+            }
+            else if (id == "ghost"){
+                ghostAbility = true;
+                cooldown++;
+                 enemyattack->setText("The enemy is transparent! Press C to continue.");
+            }
+            //cout<<id<<endl; 
             if (abilityUse == 4){
                 enemyattack->setText("The enemy tried and failed to use an ability! Press C to continue.");
             }
-            enemyattack->setText("The enemy used an ability! Press C to continue.");
+            //enemyattack->setText("The enemy used an ability! Press C to continue.");
             MyGame::currentScene->addChild(enemyattack);
             lastAction = "ability";
             
@@ -216,6 +236,7 @@ void SceneManager::handleEvent(Event* e)
              lastAction = "block";
         }
        MyGame::actionMenu->enemyTurn = false;
+       cout<<"END OF ENEMY TURN"<<endl;
     
         //enemy turn over
         //how to remove/change actionMenu??? use the same menu but change the options?? 
