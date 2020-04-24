@@ -53,24 +53,34 @@ MenuItem* SelectionMenu::getItem(int index) {
 void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
 	// Only accept inputs if visible
 	//counter_for_pressing++;
-	
+	if (pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end()){
+		cout << "Current children " << MyGame::currentScene->numChildren() << endl;
+		MyGame::currentScene->removeChild(1);
+		MyGame::actionMenu->visible = true;
+		if (this->getItem(0)->getAction() == NULL){
+			this->getItem(0)->setAction(new Event(ATTACK, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
+				MyGame::currentScene->getEnemy()));
+		}
+		enemyTurn = false;
+	}
 	if(this->visible) {
 		for(SDL_Scancode key : pressedKeys) {
 			switch (key) {
 				case SDL_SCANCODE_RETURN:
-					cout<<"selected item: "<<counter_for_pressing<<endl;
-					counter_for_pressing++;
-					if (counter_for_pressing >= 1){
-						if (counter_for_pressing == 1){
-							this->selectItem(selectInd);
-						}
-						else if (counter_for_pressing == 4) {
-							counter_for_pressing = 0;
-						}
-						else{
-							break;
-						}
-						
+					// cout<<"selected item: "<<counter_for_pressing<<endl;
+					// counter_for_pressing++;
+					// if (counter_for_pressing >= 1){
+					// 	if (counter_for_pressing == 1){
+					// 		this->selectItem(selectInd);
+					// 	}
+					// 	else if (counter_for_pressing == 4) {
+					// 		counter_for_pressing = 0;
+					// 	}
+					// 	else{
+					// 		break;
+					// 	}
+					if(!enemyTurn){
+						this->selectItem(selectInd);
 					}
 					break;
 				case SDL_SCANCODE_BACKSPACE:

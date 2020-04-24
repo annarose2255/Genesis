@@ -140,23 +140,31 @@ void SceneManager::handleEvent(Event* e)
         else {
             cout<<"enemy"<<endl;
             enemyHP->curVal -= 10;
+            MyGame::actionMenu->enemyTurn = true;
             MyGame::actionMenu->selectedaitem = false;
             cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
         }
         if (enemyHP->curVal == 0) {
             //add another menu to allow character to select consume, spare, kill
         }
-        // MyGame::actionMenu->visible = false; 
-        // MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
+        
+        MyGame::actionMenu->visible = false; 
+        MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
         //player turn over
     }
     else if (e->getType() == ENEMYTURN) {
         playerHP->curVal-=5;  
-        // TextBox* enemyattack = new TextBox(); 
-        // enemyattack->setText("The enemy attacked back!");
+        TextBox* enemyattack = new TextBox(); 
+        enemyattack->setText("The enemy attacked back! Press C to continue.");
+        MyGame::currentScene->addChild(enemyattack);
         //enemy turn over
         //how to remove/change actionMenu??? use the same menu but change the options?? 
-        MyGame::actionMenu->visible = true; 
+        
+        // Game::camera->removeImmediateChild(MyGame::currentScene);
+        // MyGame::currentScene->removeImmediateChild(enemyattack);    
+		// Game::camera->addChild(MyGame::currentScene);
+        // MyGame::actionMenu->visible = true;
+        // MyGame::actionMenu->visible = true; 
     }
     else if (e->getType() == REVERT) 
     {

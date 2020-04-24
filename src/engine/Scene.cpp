@@ -576,7 +576,12 @@ void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
         this->player->inBattle = false;
     }
     // if (isBattle) {
-    //     MyGame::actionMenu->getItem(0)->setAction(new Event(ATTACK, MyGame::eDispatcher, this->player, this->curEnemy));
+    //     if (enemyTurn) {
+    //         Game::camera->removeImmediateChild(MyGame::currentScene);
+    //         MyGame::currentScene->removeImmediateChild(enemyattack);    
+	// 	    Game::camera->addChild(MyGame::currentScene);
+    //         MyGame::actionMenu->visible = true;
+    //     }
     // }
     if (this->sceneNum == 5 && 
        ( this->player->position.y > this->transitionPts["rm7Greater"].y && this->player->position.y < this->transitionPts["rm7Less"].y)

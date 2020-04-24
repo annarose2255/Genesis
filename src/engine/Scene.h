@@ -50,6 +50,7 @@ public:
 	bool isBattle; 
 	vector<pair<string, DisplayObject*>> enemies;
 	vector<pair<string, DisplayObject*>> objects;
+	bool enemyTurn = false;
 	
 private:
 	map<int, SDL_Texture*> tilesets; //store texture of tilesets

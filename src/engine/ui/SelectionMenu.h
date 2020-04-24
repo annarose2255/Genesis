@@ -29,10 +29,12 @@ public:
 	int selectInd;
 	bool selectedaitem = false;
 	int counter_for_pressing = 0;
+	bool enemyTurn = false;
 private:
 
 	vector<MenuItem*> menuItems;
 	MenuItem* prevItem;
+
 
 };
 
