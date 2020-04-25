@@ -15,7 +15,7 @@ Up/Down/Left/Right to move camera
 
 *Character Abilities*
 [G] = Ghost 
-[C] = Sprint 
+[X] = Sprint 
 [V] = Shield 
 [Z] = Double Jump
 [B] = High jump/low gravity 

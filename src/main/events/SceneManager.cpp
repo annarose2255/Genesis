@@ -79,16 +79,15 @@ void SceneManager::handleEvent(Event* e)
     {   
         //add player and enemy turn listeners 
         //when player finishes a move, move on to enemy turn 
+        prevS = currentS;
+        MyGame::collisionSystem->clearCollisionPairs();
         Scene* nextScene = new Scene();
         nextScene->inBattle = true;
-        //don't load in character, save it from the previous scene
-        //set it back in revert 
-        //get Player instead of character??
         player = e->getPlayer();
     
         e->getEnemy()->position.x = 400;
         e->getEnemy()->position.y = 400;
-        
+
         Layer* layer = new Layer(); 
         layer->scrollSpeed = 1;
         layer->addChild(e->getEnemy());
@@ -105,13 +104,10 @@ void SceneManager::handleEvent(Event* e)
         SDL_Point pos = {player->position.x, player->position.y};
         prevPos = pos;
 
-        EventDispatcher* ed = e->getSource();
+        // EventDispatcher* ed = e->getSource();
         // ed->removeEventListener(this, CHANGE);
-
-        prevS = currentS;
         currentS = nextScene;
         Game::camera->removeImmediateChild(MyGame::currentScene);
-        //Transition to scene
 		MyGame::currentScene = currentS;    
 		Game::camera->addChild(MyGame::currentScene);
         prevCam.x = Game::camera->position.x; 
@@ -324,7 +320,7 @@ void SceneManager::handleEvent(Event* e)
         MyGame::actionMenu->visible = false;
         MyGame::actionMenu->decideFate = true; 
         TextBox* victoryMSG = new TextBox(); 
-        victoryMSG->setText("Congrats, you won! Press TAb to decide the enemy's fate.");
+        victoryMSG->setText("Congrats, you won! Press Tab to decide the enemy's fate.");
         victoryMSG->visible = true;
         MyGame::currentScene->addChild(victoryMSG);
 
@@ -359,11 +355,17 @@ void SceneManager::handleEvent(Event* e)
     }
     if (e->getType() == REVERTBATTLE)
     {
-        currentS = prevS;
         //if e->getEnemy()->state = "killed" or e->getEnemy()->state = "captured"
         //delete currentS->enemy.at(e->getEnemy()->id)
+        // currentS->getEnemy()->gameType = "defeated";
+        currentS = prevS;
         currentS->isBattle = false;
+        player = e->getPlayer();
         player->position = prevPos;
+        player->enemy = NULL;
+        player->inBattle = false;
+        currentS->setPlayer(player);
+        currentS->setEnemy(NULL);
         MyGame::actionMenu->visible = false;
         MyGame::enemyFate->visible = false;
         MyGame::actionMenu->selectInd = 0;
@@ -371,12 +373,14 @@ void SceneManager::handleEvent(Event* e)
         enemyHP->visible = false;
         enemyHP->curVal = enemyHP->maxVal;
         e->getEnemy()->gameType = "defeated"; //so player doesn't collide with it again
-
+        //remove from collisionsystem 
         Game::camera->removeImmediateChild(MyGame::currentScene);
         MyGame::currentScene = currentS;       
         Game::camera->addChild(MyGame::currentScene);
         Game::camera->position.x = prevCam.x; 
         Game::camera->position.y = prevCam.y; 
+        MyGame::collisionSystem->watchForCollisions("player", "platform"); 
+	    MyGame::collisionSystem->watchForCollisions("player", "enemy");
         jumpAbility = false;
         block = false;
         abilityUse = 0;

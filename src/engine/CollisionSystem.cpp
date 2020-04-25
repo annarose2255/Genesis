@@ -17,6 +17,9 @@ void CollisionSystem::clearAllData(){
 	typeMap.clear();
 	collisionPairs.clear();
 }
+void CollisionSystem::clearCollisionPairs(){
+	collisionPairs.clear();
+}
 //checks collisions between pairs of DOs where the corresponding types have been requested
 //to be checked (via a single call to watchForCollisions) below.
 void CollisionSystem::update(){
@@ -53,7 +56,7 @@ void CollisionSystem::update(){
 
 				if (collidesWith(*doType1, *doType2)){
 					// cout << "HEY" << endl;
-					//cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
+					// cout << (*doType1)->gameType << " object collided with a " << (*doType2)->gameType << " object. " << rand() << endl;
 					//(*doType1)->onCollision(*doType2); 
 					// (*doType2)->onCollision(*doType1);
 					resolveCollision(*doType2,*doType1, xDelta1, yDelta1, xDelta2, yDelta2);
@@ -148,10 +151,13 @@ bool CollisionSystem::collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 void CollisionSystem::resolveCollision(DisplayObject* other, DisplayObject* d, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
 	//if mvmt > 0, then DO that moved position - mvmt, change back to old position
 	//checking that object moved 	
+	// cout << "Resolving collision between: " << other->gameType << " and "<< d->gameType << endl; 
 	if (d->onCollision(other) || other->onCollision(d)){
 		return;
 	}
-
+	if (d->gameType == "defeated" || other->gameType == "defeated"){
+		return;
+	}
 	// check if collision in y direction
 	// d->position.x -= xDelta1; 
 	// bool yCol = collidesWith(d, other); 
