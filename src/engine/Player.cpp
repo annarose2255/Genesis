@@ -193,7 +193,16 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		activated = true;
 		state_combat_cooldown_counter++;
 	}
-
+	if (MyGame::camera->position.x == MyGame::currentScene->right){
+		left = true;
+		right = false;
+		cout << "changed to left" << endl;
+	}
+	else if (MyGame::camera->position.x == MyGame::currentScene->left){
+		right = true;
+		left = false;
+		cout << "changed to right!" << endl;
+	}
 	//Movement arrow keys
 	//Controls is a class we wrote that just checks the SDL Scancode values and game controller values in one check
 	if(MyGame::controls->holdRight()){
@@ -202,17 +211,18 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		if(this->standing){
 			this->play("Run");
 		}
-		//if (MyGame::camera->position.x == MyGame::currentScene->right)
-		//set backwards
-		//check if going forward or backward through a level
-		//if forward
-		if (this->position.x > 400 && MyGame::camera->position.x-2 + sprint > MyGame::currentScene->right) { //windowWidth/2
+		//when to move camera at start of level 
+		if (right && this->position.x > 400
+			&& MyGame::camera->position.x-2 + sprint >= MyGame::currentScene->right) { //windowWidth/2
 			MyGame::camera->position.x-=2 + sprint;
+			cout << "first right" << endl;
 		}
-		//if backwards
-		// if (this->position.x < 400 && MyGame::camera->position.x+2 > MyGame::currentScene->right){
-			
-		// }
+		//when to move at end of level
+		else if (left && MyGame::camera->position.x-2 + sprint >= MyGame::currentScene->right
+			&& this->position.x > (MyGame::currentScene->right + 400)) {
+				MyGame::camera->position.x-=2 + sprint;
+				cout << "second right" << endl;
+		} 
 	}
 	else if(MyGame::controls->holdLeft()){
 		this->position.x -= 2 + sprint;
@@ -220,10 +230,16 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		if(this->standing){
 			this->play("Run");
 		}
-		//if (MyGame::camera->position.x > MyGame::currentScene->left)
-		//set forwards
-		if (this->position.x > 400 && MyGame::camera->position.x + 2 + sprint < MyGame::currentScene->left) {
+		//move camera at start of level 
+		if (right && this->position.x > 400 && MyGame::camera->position.x + 2 + sprint <= MyGame::currentScene->left
+			&& this->position.x > MyGame::currentScene->right + 400) {
 			MyGame::camera->position.x+=2 + sprint;
+			cout << "first left" << endl;
+		}
+		else if (left && MyGame::camera->position.x + 2 + sprint <= MyGame::currentScene->left
+			&& this->position.x > (MyGame::currentScene->right + 400)) {
+				MyGame::camera->position.x+=2 + sprint;
+				cout << "second left" << endl;
 		}
 	} 
 	else if (this->standing){

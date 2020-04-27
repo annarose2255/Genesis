@@ -1,10 +1,8 @@
 # Genesis
 *Movement*
 WASD to move Player
+Space to Jump
 Up/Down/Left/Right to move camera 
-
-*4.24 Updates* 
--Weird behavior with collision when reverting from the battle scene 
 
 *World*  
 - Player spawns in Room 7, move all the way to the left to go to Room 5

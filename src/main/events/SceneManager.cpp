@@ -6,7 +6,7 @@
 #include "MenuItem.h"
 #include <iostream>
 #include <string>
-
+using namespace std;
 SceneManager::SceneManager(Player* chara, Scene* s)
 {
     currentS = s;
@@ -84,9 +84,6 @@ void SceneManager::handleEvent(Event* e)
         Scene* nextScene = new Scene();
         nextScene->inBattle = true;
         player = e->getPlayer();
-    
-        e->getEnemy()->position.x = 400;
-        e->getEnemy()->position.y = 400;
 
         Layer* layer = new Layer(); 
         layer->scrollSpeed = 1;
@@ -110,19 +107,30 @@ void SceneManager::handleEvent(Event* e)
         Game::camera->removeImmediateChild(MyGame::currentScene);
 		MyGame::currentScene = currentS;    
 		Game::camera->addChild(MyGame::currentScene);
-        prevCam.x = Game::camera->position.x; 
-        prevCam.y = Game::camera->position.y; 
-        Game::camera->position.x = 0; //reset camera position
-        Game::camera->position.y = 0; 
+ 
         Tween* menuMove = new Tween(MyGame::actionMenu);
         Tween* enemyMove = new Tween(MyGame::currentScene->getEnemy());
-        TweenableParams mfade, emove, egrowX, egrowY; 
+        TweenableParams mfade, emove, emove2, egrowX, egrowY; 
         mfade.name = "alpha"; 
         emove.name = "position.x";
+        emove2.name = "position.y";
         egrowX.name = "scaleX";
         egrowY.name = "scaleY";
         menuMove->animate(mfade, 0, 255, 5);
-        enemyMove->animate(emove, 800, MyGame::currentScene->getEnemy()->position.x, 5);
+        int newPosX; 
+        //camera at start or end of a level 
+        if (Game::camera->position.x == MyGame::currentScene->left) {
+            newPosX = (int) (Game::camera->position.x + 800)/2;
+        }
+        else if (Game::camera->position.x == MyGame::currentScene->right){
+            newPosX = (int) (Game::camera->position.x - 400);
+        }
+        else {
+            newPosX = MyGame::currentScene->getPlayer()->position.x;
+        }
+        //camera at end of level 
+        enemyMove->animate(emove, MyGame::currentScene->getEnemy()->position.x, newPosX, 5);
+        enemyMove->animate(emove2, MyGame::currentScene->getEnemy()->position.y, 400, 5);
         enemyMove->animate(egrowX, MyGame::currentScene->getEnemy()->scaleX, 2.5, 5);
         enemyMove->animate(egrowY, MyGame::currentScene->getEnemy()->scaleY, 2.5, 5);
         MyGame::tj->add(menuMove); 
@@ -373,12 +381,12 @@ void SceneManager::handleEvent(Event* e)
         enemyHP->visible = false;
         enemyHP->curVal = enemyHP->maxVal;
         e->getEnemy()->gameType = "defeated"; //so player doesn't collide with it again
-        //remove from collisionsystem 
+        //e->getEnemy()->position.x = e->getEnemy()->prevPos;
+        //e->getEnemy()->scaleX = e->getEnemy)()->prevPos;
+        //e->getEnemy()->scaleY = e->getEnemy)()->prevPos;
         Game::camera->removeImmediateChild(MyGame::currentScene);
         MyGame::currentScene = currentS;       
         Game::camera->addChild(MyGame::currentScene);
-        Game::camera->position.x = prevCam.x; 
-        Game::camera->position.y = prevCam.y; 
         MyGame::collisionSystem->watchForCollisions("player", "platform"); 
 	    MyGame::collisionSystem->watchForCollisions("player", "enemy");
         jumpAbility = false;

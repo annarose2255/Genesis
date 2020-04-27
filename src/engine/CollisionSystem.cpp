@@ -155,9 +155,6 @@ void CollisionSystem::resolveCollision(DisplayObject* other, DisplayObject* d, i
 	if (d->onCollision(other) || other->onCollision(d)){
 		return;
 	}
-	if (d->gameType == "defeated" || other->gameType == "defeated"){
-		return;
-	}
 	// check if collision in y direction
 	// d->position.x -= xDelta1; 
 	// bool yCol = collidesWith(d, other); 
