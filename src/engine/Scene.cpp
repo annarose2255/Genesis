@@ -561,12 +561,12 @@ Player* Scene::makePlayer(json data){
 }
 void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
     if (this->sceneNum == 7 && 
-       ( this->player->position.y > this->transitionPts["rm5Greater"].y && 
-        (this->player->position.x > this->transitionPts["rm5Greater"].x && this->player->position.x < this->transitionPts["rm5Less"].x)))
+       ( this->player->position.y > this->transitionPts["from5Greater"].y && 
+        (this->player->position.x > this->transitionPts["from5Greater"].x && this->player->position.x < this->transitionPts["from5Less"].x)))
     {
         //call change scene event
         MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
-            "./resources/scenes/area1files/Area 1 - Room 5.json"));
+            "./resources/scenes/area1files/Area1Room5.json"));
     }
     //if the scene isn't a battle and the character collided with an enemy 
     if (!isBattle && this->player->inBattle && this->player->enemy != NULL) {
@@ -577,21 +577,13 @@ void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
         this->player->enemy = NULL;
         this->player->inBattle = false;
     }
-    // if (isBattle) {
-    //     if (enemyTurn) {
-    //         Game::camera->removeImmediateChild(MyGame::currentScene);
-    //         MyGame::currentScene->removeImmediateChild(enemyattack);    
-	// 	    Game::camera->addChild(MyGame::currentScene);
-    //         MyGame::actionMenu->visible = true;
-    //     }
-    // }
     if (this->sceneNum == 5 && 
-       ( this->player->position.y > this->transitionPts["rm7Greater"].y && this->player->position.y < this->transitionPts["rm7Less"].y)
-        && (this->player->position.x > this->transitionPts["rm7Greater"].x && this->player->position.x < this->transitionPts["rm7Less"].x))
+       ( this->player->position.y > this->transitionPts["to7Greater"].y && this->player->position.y < this->transitionPts["to7Less"].y)
+        && (this->player->position.x > this->transitionPts["to7Greater"].x && this->player->position.x < this->transitionPts["to7Less"].x))
     {
         //call change scene event
         MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
-            "./resources/scenes/area1files/Area 1 - Room 7.json"));
+            "./resources/scenes/area1files/Area1Room7.json"));
     }
     //revert from battle to previous scene 
     //if (isBattle && keyboard press or something to get out?)

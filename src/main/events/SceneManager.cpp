@@ -23,6 +23,7 @@ void SceneManager::handleEvent(Event* e)
         // Event* event = dynamic_cast<Event*>(event);
         MyGame::collisionSystem->clearAllData();
         Scene* nextScene = new Scene();
+        cout << "scene path " << e->getScenePath() << endl;
         nextScene->loadTileMap(e->getScenePath());
         int fromRm = currentS->getSceneNum(); 
         int toRm = nextScene->getSceneNum(); //room numbers of current level and next level
@@ -119,23 +120,31 @@ void SceneManager::handleEvent(Event* e)
         menuMove->animate(mfade, 0, 255, 5);
         int newPosX; 
         //camera at start or end of a level 
-        if (Game::camera->position.x == MyGame::currentScene->left) {
+        if (e->getEnemy()->position.x < 800) {
             newPosX = (int) (Game::camera->position.x + 800)/2;
         }
-        else if (Game::camera->position.x == MyGame::currentScene->right){
-            newPosX = (int) (Game::camera->position.x - 400);
+        else if (e->getEnemy()->position.x > MyGame::currentScene->right + 800){
+            newPosX = (int) (abs(Game::camera->position.x) + 400);
         }
         else {
             newPosX = MyGame::currentScene->getPlayer()->position.x;
         }
+        int newPosY; 
+        if (Game::camera->position.y > 0) { //render with respect to camera
+            cout << "camera moved!"<< endl;
+            newPosY = 400 - Game::camera->position.y;
+        }
+        else {
+            cout << "camera not moved!" << endl;
+            newPosY = 400; 
+        }
         //camera at end of level 
-        enemyMove->animate(emove, MyGame::currentScene->getEnemy()->position.x, newPosX, 5);
-        enemyMove->animate(emove2, MyGame::currentScene->getEnemy()->position.y, 400, 5);
-        enemyMove->animate(egrowX, MyGame::currentScene->getEnemy()->scaleX, 2.5, 5);
-        enemyMove->animate(egrowY, MyGame::currentScene->getEnemy()->scaleY, 2.5, 5);
+        enemyMove->animate(emove, e->getEnemy()->position.x, newPosX, 5);
+        enemyMove->animate(emove2, e->getEnemy()->position.y, newPosY, 5);
+        enemyMove->animate(egrowX, e->getEnemy()->scaleX, 2.5, 5);
+        enemyMove->animate(egrowY, e->getEnemy()->scaleY, 2.5, 5);
         MyGame::tj->add(menuMove); 
         MyGame::tj->add(enemyMove); 
-        cout << "in fight" << endl;
     }
     else if (e->getType() == ATTACK){
          TextBox* playerturn = new TextBox(); 

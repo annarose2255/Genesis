@@ -6,15 +6,14 @@
                      "y": 370
               }
        ],
-       "charEnd": [],
        "transitionPts": [
               {
-                    "name": "rm5Greater", 
+                    "name": "from5Greater", 
                     "x": 0, 
                     "y": 100
               }, 
               {
-                    "name": "rm5Less",
+                    "name": "from5Less",
                     "x": 12, 
                     "y": 326
               }

@@ -34,7 +34,7 @@ public:
 	bool iFrames = false;
 	int iFrameCount = 0;
 	int numIFrames = 0;
-
+	bool left, right; 
 	/* Current Enemy player is engaging with*/
 	//Enemy* curEnemy = NULL;
 
@@ -59,7 +59,6 @@ private:
 	int _yAcc = 2; //one pixel every two frames
 	int _yAccCount = 0;
 	//int _yVel = 0;
-	bool left, right; 
 	void initIFrames(int numFrames);
 
 };
