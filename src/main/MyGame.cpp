@@ -250,7 +250,16 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		malpha.name = "alpha";
 		menuTween->animate(malpha, 0, 255, 3); 
 		tj->add(menuTween);
-		change = true;
+		change = !change;
+	}
+	else if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && change) {
+		mainMenu->visible = false; 
+		Tween* menuTween = new Tween(mainMenu);
+		TweenableParams malpha;
+		malpha.name = "alpha";
+		menuTween->animate(malpha, 255, 0, 3); 
+		tj->add(menuTween);
+		change = !change;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end() && !tchange) {
 		tBox->visible = true; 
@@ -259,7 +268,16 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		talpha.name = "alpha";
 		textTween->animate(talpha, 0, 255, 3);
 		tj->add(textTween);
-		tchange = true;
+		tchange = !tchange;
+	}
+	else if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end() && tchange) {
+		tBox->visible = false; 
+		Tween* textTween = new Tween(tBox);
+		TweenableParams talpha;
+		talpha.name = "alpha";
+		textTween->animate(talpha, 255, 0, 3);
+		tj->add(textTween);
+		tchange = !tchange;
 	}
 	// To change text
 	if (pressedKeys.find(SDL_SCANCODE_J) != pressedKeys.end()) {
