@@ -18,6 +18,7 @@
 #define SPARE "SpareEnemy"
 #define KILL "KillEnemy"
 #define CONSUME "ConsumeEnemy"
+#define STRENGTH "StrengthEvent"
 
 class SceneManager: public EventListener{
 

@@ -122,13 +122,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 			MyGame::camera->position.y+=this->_yVel;
 		}
 	}
-/* 	if(this->standing){
-		jump_buffer_start = false;
-		jump_buffer = 0;
-	}
-	if (jump_buffer_start == true){
-		jump_buffer++;
-	} */
+
 	/* double jump*/
 	if(this->state == "MovAblStart"){
 		activestates.insert("MovAblStart");
@@ -242,7 +236,14 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	else if (this->standing){
 		this->play("Idle");
 	}
-	
+	else{
+
+	}
+	/* strength ability*/
+	if (this->state == "strength"){
+		MyGame::eDispatcher->dispatchEvent(new Event(STRENGTH, MyGame::eDispatcher, this, 
+					MyGame::currentScene->getObject())); //change last to rock object
+	}
 	/* cool down combat ability timer */
 	if (state_combat_cooldown_counter == 200){
 		cout<<"state_combat_cooldown_counter == 200"<<endl;

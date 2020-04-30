@@ -229,7 +229,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	}
 	//sprint
 	if (pressedKeys.find(SDL_SCANCODE_X)!=pressedKeys.end()){
-		currentScene->getPlayer()->setState("sprint");//prevPos.y = currentScene->getCharacter()->position.y;
+		currentScene->getPlayer()->setState("strength");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}	
 	//shield

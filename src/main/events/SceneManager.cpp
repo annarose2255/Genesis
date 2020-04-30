@@ -409,6 +409,11 @@ void SceneManager::handleEvent(Event* e)
         turnAbilityStop = 0; //turn where ability stops being used;
         lastAction = "";
     }
+    if (e->getType() == STRENGTH){
+        player = e->getPlayer();
+        chara = e->getEnemy();
+        cout<<"strength: "<<chara->id<<endl;
+    }
 }
 
 Scene* SceneManager::getCurrentScene(){

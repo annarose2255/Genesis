@@ -50,6 +50,8 @@ string Event::getScenePath(){
     return this->scenePath;
 }
 DisplayObject* Event::getEnemy(){
+    //cout<<"in event"<<endl;
+    //cout<<this->enemy<<endl;
     return this->enemy;
 }
 

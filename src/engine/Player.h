@@ -37,6 +37,8 @@ public:
 	bool left, right; 
 	/* Current Enemy player is engaging with*/
 	//Enemy* curEnemy = NULL;
+	//Event* eventaction;
+	//void initIFrames(int numFrames);
 
 private:
 
