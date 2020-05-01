@@ -48,15 +48,18 @@ public:
 	int top, left, bottom, right;
 	int getSceneNum(); 
 	bool isBattle; 
+	bool selectitem = false;
 	vector<pair<string, DisplayObject*>> enemies;
 	vector<pair<string, DisplayObject*>> objects;
+	bool enemyTurn = false;
+	bool dead = false;
 	
 private:
 	map<int, SDL_Texture*> tilesets; //store texture of tilesets
 	map<string, SDL_Point> transitionPts;  
 	AnimatedSprite* character;
 	Player* player;
-
+	// HealthBar* enemyHP;
 	bool fromTileMap;
 	int sceneNum; //tells us what room we're loading 
 	// vector<DisplayObject*>enemies;

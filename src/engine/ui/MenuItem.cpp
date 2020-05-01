@@ -24,6 +24,7 @@ MenuItem::MenuItem(string name, int posX, int posY) : TextBox() {
 
 MenuItem::MenuItem(string name, int posX, int posY, Event* e) : TextBox() {
 	this->id = "MenuItem";
+	this->name = name;
 
 	this->position.x = posX;
 	this->position.y = posY;
@@ -47,7 +48,12 @@ void MenuItem::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButto
 void MenuItem::draw(AffineTransform &at) {
 	Sprite::draw(at);
 }
-
+Event* MenuItem::getAction(){
+	return this->itemAction;
+}
+string MenuItem::getName(){
+	return this->name;
+}
 void MenuItem::setAction(Event* e) {
 	this->itemAction = e;
 }

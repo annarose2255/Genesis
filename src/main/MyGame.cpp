@@ -22,6 +22,10 @@ Scene* MyGame::currentScene = new Scene();
 TweenJuggler* MyGame::tj = new TweenJuggler();
 CollisionSystem* MyGame::collisionSystem = new CollisionSystem();
 Controls* MyGame::controls = new Controls();
+SelectionMenu* MyGame::actionMenu = new SelectionMenu();
+SelectionMenu* MyGame::decision = new SelectionMenu(); 
+SelectionMenu* MyGame::abilities = new SelectionMenu();
+SelectionMenu* MyGame::enemyFate = new SelectionMenu(); 
 
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
@@ -29,7 +33,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	eDispatcher->addEventListener(collisionSystem, DO_REMOVED_EVENT);
     scene1 = new Scene();
     // scene1->loadScene("./resources/scenes/character.json");
-	scene1->loadTileMap("./resources/scenes/area1files/Area 1 - Room 7.json");
+	scene1->loadTileMap("./resources/scenes/area1files/Area1Room7.json");
 	scene1->loadScene("./resources/scenes/ghostchar.json");
 	scene1->loadScene("./resources/scenes/Room7.json"); //contains objects and enemies
 	//test playable char
@@ -40,13 +44,13 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	// Game::camera->addChild(chara);
 
     currentScene = scene1;
-
+	sceneStart = new Scene();
+	sceneStart = scene1;
     // UI Components
-    hp = new HealthBar(0, 100, 0);
+    // hp = new HealthBar(0, 100, 0);
     tBox = new TextBox();
     tBox->setText("Hello World !");
     tBox->visible = false;
-
     mainMenu = new SelectionMenu();
     MenuItem* items = new MenuItem("Items", 0, 0);
     MenuItem* save = new MenuItem("Save", 250, 0);
@@ -56,6 +60,43 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     MenuItem* healthPotion = new MenuItem("Health Potion", 0, 0);
     items->nextMenu = itemsMenu;
 
+    actionMenu->position.y = 600;
+	attack = new MenuItem("Attack", 0, 0);
+	defend = new MenuItem("Defend", 0, 50);
+	transform = new MenuItem("Transform", 399, 0);
+	flee = new MenuItem("Flee", 399, 50);
+    actionMenu->addItem(attack);
+	actionMenu->addItem(defend);
+    actionMenu->addItem(transform);
+    actionMenu->addItem(flee);
+    abilities->position.y = 600;
+
+	enemyFate->position.y = 600;
+	spare = new MenuItem("Spare", 0, 0);
+	kill = new MenuItem("Kill", 250, 0);
+	consume = new MenuItem("Consume", 500, 0);
+	enemyFate->addItem(spare);
+	enemyFate->addItem(kill);
+	enemyFate->addItem(consume);
+	enemyFate->visible = false;
+
+    //if statements with each ability!!
+	
+    MenuItem* ghost = new MenuItem("Ghost", 10, 10);
+	ghost->width = 150;
+    abilities->addItem(ghost);
+	//MenuItem* doubleJump = new MenuItem("Frog (Double jump)", 350, 10);
+	//doubleJump->width = 400;
+   // abilities->addItem(doubleJump);
+	MenuItem* strength = new MenuItem("strength", 350, 10);
+    abilities->addItem(strength);
+	MenuItem* none = new MenuItem("NO ABILITIES", 350, 10);
+    abilities->addItem(none);
+	
+	//none->nextMenu = transform;
+	//none->prevMenu = transform;
+	transform->nextMenu = abilities; 
+
     mainMenu->addItem(items);
     mainMenu->addItem(save);
     mainMenu->addItem(settings);
@@ -63,22 +104,38 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     mainMenu->id = "Main";
     itemsMenu->id = "items";
     mainMenu->visible = false;
-
-
+	
+	hp = new HealthBar(0,100,0);
+	enemyHP = new HealthBar(0,100,0);
+	hp->position = { 100, 100 };
+	enemyHP->position = {600, 100};
+	Game::camera->position.x = 0;
 	Game::camera->addChild(currentScene);
 	instance->addChild(Game::camera);
 	instance->addChild(tBox);
 	instance->addChild(mainMenu);
+	instance->addChild(actionMenu); //try child of scene or camera
+	instance->addChild(abilities);
+	instance->addChild(enemyFate);
 	instance->addChild(itemsMenu);
 	instance->addChild(hp);
-
-	hp->position = { 100, 100 };
+	instance->addChild(enemyHP);
+	// hp->visible = true;
+	enemyHP->visible = false;
     //Sound 
 	mainMusic = new Sound();
 	//Change Scene 
 	sm = new SceneManager(currentScene->getPlayer(), currentScene);
+	sm->playerHP = hp; 
+	sm->enemyHP = enemyHP;
+	sm->startS = sceneStart;
+
+	sm->startPos = currentScene->getPlayer()->position;
+	sm->startCam = Game::camera->position;
+	
 	eDispatcher = EventDispatcher::getInstance();
 	eDispatcher->addEventListener(sm, CHANGE);
+	// eDispatcher->addEventListener(sm, FIGHT);
 	//Collision Detection 
 	collisionSystem->watchForCollisions("player", "platform"); 
 	collisionSystem->watchForCollisions("player", "enemy");
@@ -98,10 +155,11 @@ MyGame::~MyGame(){
 	delete eDispatcher;
 }
 
-
 void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
 	mainMenu->update(pressedKeys, pressedButtons, movedAxis);
     itemsMenu->update(pressedKeys, pressedButtons, movedAxis);
+	hp->update(pressedKeys);
+	enemyHP->update(pressedKeys);
 	controls->key(pressedKeys,pressedButtons,movedAxis);
     // if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
     //     cout << "abc" << endl;
@@ -153,11 +211,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		}
 	}
 
-	//automove camera
-	/* if (currentScene->getCharacter()->position.x-100 > Game::camera->position.x){
-		Game::camera->position.x = -currentScene->getCharacter()->position.x + 30;
-	}
- */
+
 	//character moves separately from scene
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
 
@@ -184,7 +238,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	}
 	//double jump
 	if (pressedKeys.find(SDL_SCANCODE_Z)!=pressedKeys.end()){
-		currentScene->getPlayer()->setState("MovAblStart");//prevPos.y = currentScene->getCharacter()->position.y;
+		currentScene->getPlayer()->setState("double jump");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}
 	//ghost
@@ -193,7 +247,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		//currentScene->getCharacter()->position.y +=2;
 	}
 	//sprint
-	if (pressedKeys.find(SDL_SCANCODE_C)!=pressedKeys.end()){
+	if (pressedKeys.find(SDL_SCANCODE_X)!=pressedKeys.end()){
 		currentScene->getPlayer()->setState("sprint");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}	
@@ -208,35 +262,54 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	}
 
 	/***************** UI COMPONENTS ******************/
-	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && !change) {
+	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && !change && !currentScene->getPlayer()->inBattle) {
 		mainMenu->visible = true; 
 		Tween* menuTween = new Tween(mainMenu);
 		TweenableParams malpha;
 		malpha.name = "alpha";
 		menuTween->animate(malpha, 0, 255, 3); 
 		tj->add(menuTween);
-		change = true;
+		change = !change;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end() && !tchange) {
+	else if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && change ) {
+		mainMenu->visible = false; 
+		Tween* menuTween = new Tween(mainMenu);
+		TweenableParams malpha;
+		malpha.name = "alpha";
+		menuTween->animate(malpha, 255, 0, 3); 
+		tj->add(menuTween);
+		change = !change;
+	}
+	/* if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end() && !tchange) {
 		tBox->visible = true; 
 		Tween* textTween = new Tween(tBox);
 		TweenableParams talpha;
 		talpha.name = "alpha";
 		textTween->animate(talpha, 0, 255, 3);
 		tj->add(textTween);
-		tchange = true;
+		tchange = !tchange;
+	}
+	else if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end() && tchange) {
+		tBox->visible = false; 
+		Tween* textTween = new Tween(tBox);
+		TweenableParams talpha;
+		talpha.name = "alpha";
+		textTween->animate(talpha, 255, 0, 3);
+		tj->add(textTween);
+		tchange = !tchange;
 	}
 	// To change text
 	if (pressedKeys.find(SDL_SCANCODE_J) != pressedKeys.end()) {
 		tBox->setText("Testing this out !"); 
-	}	
+	}	 */
 	//updating camera position
-    Game::camera->camera.x =  currentScene->position.x +  currentScene->width/2 - 400;
-	Game::camera->camera.y =  currentScene->position.y +  currentScene->height/2 - 350;
+    Game::camera->camera.x =  currentScene->position.x + currentScene->width/2 - 400;
+	Game::camera->camera.y =  currentScene->position.y + currentScene->height/2 - 350;
+
 	// cout << "Camera x " << Game::camera->position.x << endl; 
 	// cout << "Camera y " << Game::camera->position.y << endl; 
-	// cout << "Character x " << currentScene->getCharacter()->position.x << endl;
-	// cout << "Character y " << currentScene->getCharacter()->position.y << endl;
+	// cout << "Character x " << currentScene->getPlayer()->position.x << endl;
+	// cout << "Character y " << currentScene->getPlayer()->position.y << endl;
 	if( Game::camera->camera.x < 0){
 		Game::camera->camera.x = 0;
 	}

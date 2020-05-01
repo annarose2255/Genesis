@@ -49,7 +49,6 @@ void HealthBar::draw(AffineTransform &at){
 		//Reset blendmode (just in case) and alpha and color to black
 		SDL_SetRenderDrawBlendMode(Game::renderer, SDL_BLENDMODE_BLEND);
 		SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, this->alpha);
-
 		//draw a black border around the health bar.
 		SDL_RenderDrawLine(Game::renderer, this->position.x, this->position.y, this->position.x + this->width, this->position.y);
 		SDL_RenderDrawLine(Game::renderer, this->position.x+this->width, this->position.y, this->position.x + this->width, this->position.y+this->height);

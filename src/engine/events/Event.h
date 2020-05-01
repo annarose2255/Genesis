@@ -35,6 +35,7 @@ public:
 	Player* getPlayer(); 
 	string getScenePath(); 
 	DisplayObject* getEnemy(); 
+	void setType(string newtype);
 private:
 	string eventType = "";
 	EventDispatcher* source;

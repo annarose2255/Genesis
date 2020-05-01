@@ -15,7 +15,7 @@ class Player : public AnimatedSprite{
 public:
 	Player();
 	Player(string id);
-	Player(string id, string spriteSheetPath, string xmlPath);
+	Player(string id, bool isSheet);
 
 	virtual void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 	virtual void draw(AffineTransform &at);
@@ -34,9 +34,13 @@ public:
 	bool iFrames = false;
 	int iFrameCount = 0;
 	int numIFrames = 0;
-
+	bool left, right; 
 	/* Current Enemy player is engaging with*/
 	//Enemy* curEnemy = NULL;
+	int num_enemies_killed = 0; //number of enemies the player has killed
+	int num_enemies_spared = 0; //number of enemies the player has saved
+	set<string> possiblestates = {}; //if player consumes enemy, they now has acess to these states.
+
 
 private:
 
@@ -59,9 +63,8 @@ private:
 	int _yAcc = 2; //one pixel every two frames
 	int _yAccCount = 0;
 	//int _yVel = 0;
-
 	void initIFrames(int numFrames);
-
+	
 };
 
 #endif

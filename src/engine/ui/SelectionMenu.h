@@ -23,14 +23,22 @@ public:
 	virtual void draw(AffineTransform &at);
 
 	void addItem(MenuItem* item);
+	MenuItem* getItem(int index);
 	void selectItem(int ind);
 	void goBack();
-
+	int selectInd;
+	bool selectedaitem = false;
+	int counter_for_pressing = 0;
+	bool enemyTurn = false;
+	bool decideFate = false;
+	bool betweenturns = false;
+	int enterframe = 0;
+	bool death = false;
 private:
 
 	vector<MenuItem*> menuItems;
 	MenuItem* prevItem;
-	int selectInd;
+
 
 };
 

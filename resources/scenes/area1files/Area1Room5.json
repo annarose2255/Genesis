@@ -1,4 +1,4 @@
-{"room": 5,
+{  "room": 5,
    "charStart": [
           {
                  "name": 4, 
@@ -9,21 +9,31 @@
    "charEnd": [
           {
                  "name": 7, 
-                 "x": 2298, 
-                 "y": 396
+                 "x": 2306, 
+                 "y": 422
           }
    ], 
     "transitionPts": [
-          {
-                "name": "rm7Greater", 
-                "x": 2324, 
-                "y": 248
-          }, 
-          {
-                "name": "rm7Less",
-                "x": 4000, 
-                "y": 428
-          }
+       {
+              "name": "to7Greater", 
+              "x": 2302, 
+              "y": 422
+       }, 
+       {
+              "name": "to7Less",
+              "x": 4000, 
+              "y": 428
+       }, 
+       {
+              "name": "to6Greater", 
+              "x": 2328, 
+              "y": -100
+       }, 
+       {
+              "name": "to6Less",
+              "x": 2334, 
+              "y": 70
+       }
    ],
    "top": 255,
    "bottom": 125,

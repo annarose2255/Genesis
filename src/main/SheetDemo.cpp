@@ -4,6 +4,8 @@
 #include "Sprite.h"
 #include "SheetDemo.h"
 #include "QuestManager.h"
+#include "TextBox.h"
+#include "HealthBar.h"
 
 using namespace std;
 
@@ -15,7 +17,10 @@ SheetDemo::SheetDemo() : Game(1200, 1000) {
 	allSprites->position = {600, 500};
 	instance->addChild(allSprites);
 
-	coin = new AnimatedSprite("coin", "./resources/quest/Gold.png", "./resources/quest/Gold.xml");
+	coin = new AnimatedSprite("coin", true);
+	cout << "hi" << endl;
+	coin->addSSAnimation("./resources/quest/Gold.png", "./resources/quest/Gold.xml", 4, true);
+	cout << "ic" << endl;
 	questComplete = new DisplayObjectContainer("quest complete", "./resources/quest/questComplete.png");
 	questComplete->visible = false;
 	coin->play("Gold");
@@ -45,6 +50,16 @@ SheetDemo::SheetDemo() : Game(1200, 1000) {
     isWalking = false;
     isJumping = false;
     left = false;
+
+
+    tb = new TextBox(2);
+    //16 +6
+    tb->setText("Hi this is just a test to see if this thing actually works or not");
+    instance->addChild(tb);
+
+    hb = new HealthBar(0, 50, 0);
+    instance->addChild(hb);
+
 }
 
 SheetDemo::~SheetDemo(){
@@ -52,7 +67,6 @@ SheetDemo::~SheetDemo(){
 
 
 void SheetDemo::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis){
-
 
     if ( (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) || 
 		 (pressedButtons.find(SDL_CONTROLLER_BUTTON_B) != pressedButtons.end()) ||
