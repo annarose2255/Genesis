@@ -14,7 +14,7 @@
              "filepath": "./resources/scenes/area1files/imgs/frog2.png",
              "height": 32,
              "id": "rock0",
-             "gameType":"platform",
+             "gameType":"enemy",
              "pivot.x": 0,
              "pivot.y": 0,
              "position.x": 608,
@@ -43,7 +43,8 @@
                "type": "DisplayObject",
                "visible": true,
                "width": 32
-         }, "./resources/scenes/area1files/imgs/Prop_5.png2": {
+         }, 
+         "./resources/scenes/area1files/imgs/Prop_5.png2": {
             "alpha": 255,
             "facingRight": true,
             "filepath": "./resources/scenes/area1files/imgs/Prop_5.png",
@@ -60,7 +61,8 @@
             "type": "DisplayObject",
             "visible": true,
             "width": 32
-               }, "./resources/scenes/area1files/imgs/Prop_5.png3": {
+         }, 
+         "./resources/scenes/area1files/imgs/Prop_5.png3": {
                   "alpha": 255,
                   "facingRight": true,
                   "filepath": "./resources/scenes/area1files/imgs/Prop_5.png",
