@@ -48,6 +48,7 @@ public:
 	int top, left, bottom, right;
 	int getSceneNum(); 
 	bool isBattle; 
+	bool selectitem = false;
 	vector<pair<string, DisplayObject*>> enemies;
 	vector<pair<string, DisplayObject*>> objects;
 	bool enemyTurn = false;

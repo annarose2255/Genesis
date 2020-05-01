@@ -85,7 +85,7 @@ void SceneManager::handleEvent(Event* e)
         Scene* nextScene = new Scene();
         nextScene->inBattle = true;
         player = e->getPlayer();
-
+        MyGame::actionMenu->decideFate = false;
         Layer* layer = new Layer(); 
         layer->scrollSpeed = 1;
         layer->addChild(e->getEnemy());
@@ -288,8 +288,8 @@ void SceneManager::handleEvent(Event* e)
         playerturn->setText("You transformed into a ghost! Press SPACE to continue.");
         //MyGame::abilities->goBack();
         MyGame::actionMenu->enemyTurn = true;
-        MyGame::actionMenu->selectedaitem = false;
         MyGame::actionMenu->visible = false; 
+        MyGame::abilities->visible = false; 
         MyGame::currentScene->addChild(playerturn);
     }
      else if (e->getType() == STRENGTHCOMBAT){

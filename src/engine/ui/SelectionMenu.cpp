@@ -35,8 +35,10 @@ void SelectionMenu::selectItem(int ind) {
 		this->visible = false;
 		selItem->nextMenu->prevItem = selItem;
 		selItem->nextMenu->visible = true;
+		MyGame::currentScene->selectitem = true;
 	} else if (selItem->itemAction != NULL) {
 		selItem->action(MyGame::eDispatcher); // This game's dispatcher
+		MyGame::currentScene->selectitem = true;
 		cout << "DISPATCH ACTION" << endl;
 	}
 }
@@ -54,6 +56,7 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 	// Only accept inputs if visible
 	//counter_for_pressing++;
 	//cout<<"enemy turn3: "<<enemyTurn<<endl;
+	//selectedaitem = false;
 		if(pressedKeys.find(SDL_SCANCODE_SPACE) != pressedKeys.end() && enemyTurn == true){ //end of player turn textbox
 		cout<<"enemy turn2: "<<MyGame::currentScene->numChildren()<<endl;
 			if (MyGame::currentScene->numChildren() == 2 ){
@@ -62,14 +65,18 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 				//MyGame::eDispatcher->
 				MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
 						MyGame::currentScene->getEnemy()));
+						betweenturns = true;
 				
 				//cout<<"enemy turn3: "<<enemyTurn<<endl;
 			}
 		}
 			//if (this->getItem(0)->getAction() == NULL){
-		if (pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end() && !decideFate ){ //end of enemy turn textbox
+		//cout<<"between: "<<betweenturns<<endl;
+		if (pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end() && !decideFate && betweenturns){ //end of enemy turn textbox
+			cout<<"enemy turn: "<<endl;
 			MyGame::currentScene->removeChild(1);
 			//cout<<"C"<<endl;
+			MyGame::currentScene->selectitem = false;
 			MyGame::actionMenu->visible = true;
 			//cout << "inside enemy" << endl;
 			if (MyGame::actionMenu->getItem(0)->getAction() == NULL){
@@ -89,6 +96,7 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 					MyGame::currentScene->getEnemy()));
 			} */
 			enemyTurn = false;
+			betweenturns = false;
 		}
 		if (decideFate && pressedKeys.find(SDL_SCANCODE_TAB) != pressedKeys.end()) { //defeated enemy
 			cout << "inside decide fate" << endl;
@@ -96,35 +104,62 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 			if (MyGame::currentScene->numChildren() == 2 ){
 				cout<<"num child 3"<<endl;
 				//MyGame::currentScene->removeChild(2);
+				MyGame::currentScene->selectitem = false;
 				MyGame::currentScene->removeChild(1);
 				MyGame::actionMenu->visible = false;
 				MyGame::eDispatcher->dispatchEvent(new Event(DECIDEFATE, MyGame::eDispatcher, MyGame::currentScene->getPlayer(),
 					MyGame::currentScene->getEnemy()));
 			}
 		}
+	//MyGame::currentScene->selectitem = false;
+	counter_for_pressing++;
 	if(this->visible) {
 		for(SDL_Scancode key : pressedKeys) {
 			switch (key) {
 				case SDL_SCANCODE_RETURN:
+				cout<<"enter"<<endl;
+				
+				//cout<<"frame: "<<Game::frameCounter<<endl;
 					if(!enemyTurn){
-						if (Game::frameCounter%6 == 0) {
-							cout<<"frame: "<<Game::frameCounter<<endl;
-							cout<<"select: "<<selectInd<<endl;
-							this->selectItem(selectInd);
-						}
+						//if (Game::frameCounter%6 == 0) {
+							if (this == MyGame::abilities){
+								cout<<"ability"<<endl;
+								if (Game::frameCounter%5 == 0) {
+									cout<<"frame2: "<<Game::frameCounter<<endl;
+									cout<<"select2: "<<selectInd<<endl;
+									selectItem(selectInd);
+								}
+							}
+							else{
+								cout<<"frame: "<<Game::frameCounter<<endl;
+								cout<<"select: "<<selectInd<<endl;
+								selectItem(selectInd);
+							}
+							//if (MyGame::currentScene->selectitem == false){
+
+							//}
+							/* if (MyGame::abilities->visible && MyGame::abilities->numChildren() < 3){
+								cout<<"frame2: "<<Game::frameCounter<<endl;
+								cout<<"select2: "<<selectInd<<endl;
+								selectItem(selectInd);
+							} */
+						//}
 					}
 					break;
 				case SDL_SCANCODE_BACKSPACE:
 					this->goBack();
+					MyGame::currentScene->selectitem = false;
 					break;
 				case SDL_SCANCODE_N:
 					if (selectInd != 0 && Game::frameCounter%4 == 0) {
 						selectInd -= 1;
+						MyGame::currentScene->selectitem = false;
 					}
 					break;
 				case SDL_SCANCODE_M:
 					if (selectInd != menuItems.size()-1 && Game::frameCounter%4 == 0) {
 						selectInd +=1;
+						MyGame::currentScene->selectitem = false;
 					}
 					break;
 			}
