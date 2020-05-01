@@ -12,7 +12,7 @@
                 "useSpriteSheet": true,
                 "visible": true,
                 "position.x": 70,
-                "position.y": 300,
+                "position.y": 270,
                 "width": 100,
                 "height": 100, 
                 "pivot.x": 50, 

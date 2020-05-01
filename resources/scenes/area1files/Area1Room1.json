@@ -2,15 +2,15 @@
    "charStart": [
       {
              "name": 4, 
-             "x": 60, 
-             "y": 356
+             "x": 70, 
+             "y": 270
       }
       ],
       "charEnd": [
             {
                   "name": 7, 
-                  "x": 2306, 
-                  "y": 422
+                  "x": 2058, 
+                  "y": 500
             }
       ], 
       "transitionPts": [
@@ -36,8 +36,8 @@
          }
       ],
    "top": 0, 
-   "bottom": -35,
-   "right": -1950,
+   "bottom": 0,
+   "right": -800,
    "left": 0,
 "compressionlevel":0,
 "height":20,
