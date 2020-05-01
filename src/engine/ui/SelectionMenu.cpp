@@ -54,59 +54,60 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 	// Only accept inputs if visible
 	//counter_for_pressing++;
 	//cout<<"enemy turn3: "<<enemyTurn<<endl;
-	if(pressedKeys.find(SDL_SCANCODE_SPACE) != pressedKeys.end() && enemyTurn == true){ //end of player turn textbox
-	cout<<"enemy turn2: "<<MyGame::currentScene->numChildren()<<endl;
-		if (MyGame::currentScene->numChildren() == 2 ){
+		if(pressedKeys.find(SDL_SCANCODE_SPACE) != pressedKeys.end() && enemyTurn == true){ //end of player turn textbox
+		cout<<"enemy turn2: "<<MyGame::currentScene->numChildren()<<endl;
+			if (MyGame::currentScene->numChildren() == 2 ){
+				MyGame::currentScene->removeChild(1);
+				//MyGame::actionMenu->visible = true;
+				//MyGame::eDispatcher->
+				MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
+						MyGame::currentScene->getEnemy()));
+				
+				//cout<<"enemy turn3: "<<enemyTurn<<endl;
+			}
+		}
+			//if (this->getItem(0)->getAction() == NULL){
+		if (pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end() && !decideFate ){ //end of enemy turn textbox
 			MyGame::currentScene->removeChild(1);
-			//MyGame::actionMenu->visible = true;
-			//MyGame::eDispatcher->
-			MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
+			//cout<<"C"<<endl;
+			MyGame::actionMenu->visible = true;
+			//cout << "inside enemy" << endl;
+			if (MyGame::actionMenu->getItem(0)->getAction() == NULL){
+				MyGame::actionMenu->getItem(0)->setAction(new Event(ATTACK, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
 					MyGame::currentScene->getEnemy()));
-			
-			//cout<<"enemy turn3: "<<enemyTurn<<endl;
+			}
+			/* if (this->getItem(1)->getAction() == NULL){
+				this->getItem(1)->setAction(new Event(DEFEND, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
+					MyGame::currentScene->getEnemy()));
+			} */
+			/* if (this->getItem(2)->nextMenu->getItem(0)->visible && this->getItem(2)->nextMenu->getItem(0)->getAction() == NULL){
+				this->getItem(2)->nextMenu->getItem(0)->setAction(new Event(GHOST, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
+					MyGame::currentScene->getEnemy()));
+			}
+			if (this->getItem(2)->nextMenu->getItem(3)->visible && this->getItem(2)->nextMenu->getItem(3)->getAction() == NULL){
+				this->getItem(2)->nextMenu->getItem(3)->setAction(new Event(STRENGTHCOMBAT, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
+					MyGame::currentScene->getEnemy()));
+			} */
+			enemyTurn = false;
 		}
-	}
-		//if (this->getItem(0)->getAction() == NULL){
-	if (pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end() && !decideFate){ //end of enemy turn textbox
-		MyGame::currentScene->removeChild(1);
-		MyGame::actionMenu->visible = true;
-		//cout << "inside enemy" << endl;
-		if (this->getItem(0)->getAction() == NULL){
-			this->getItem(0)->setAction(new Event(ATTACK, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
-				MyGame::currentScene->getEnemy()));
+		if (decideFate && pressedKeys.find(SDL_SCANCODE_TAB) != pressedKeys.end()) { //defeated enemy
+			cout << "inside decide fate" << endl;
+			cout<<"child : "<<MyGame::currentScene->numChildren()<<endl;
+			if (MyGame::currentScene->numChildren() == 2 ){
+				cout<<"num child 3"<<endl;
+				//MyGame::currentScene->removeChild(2);
+				MyGame::currentScene->removeChild(1);
+				MyGame::actionMenu->visible = false;
+				MyGame::eDispatcher->dispatchEvent(new Event(DECIDEFATE, MyGame::eDispatcher, MyGame::currentScene->getPlayer(),
+					MyGame::currentScene->getEnemy()));
+			}
 		}
-		/* if (this->getItem(1)->getAction() == NULL){
-			this->getItem(1)->setAction(new Event(DEFEND, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
-				MyGame::currentScene->getEnemy()));
-		} */
-		/* if (this->getItem(2)->nextMenu->getItem(0)->visible && this->getItem(2)->nextMenu->getItem(0)->getAction() == NULL){
-			this->getItem(2)->nextMenu->getItem(0)->setAction(new Event(GHOST, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
-				MyGame::currentScene->getEnemy()));
-		}
-		if (this->getItem(2)->nextMenu->getItem(3)->visible && this->getItem(2)->nextMenu->getItem(3)->getAction() == NULL){
-			this->getItem(2)->nextMenu->getItem(3)->setAction(new Event(STRENGTHCOMBAT, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
-				MyGame::currentScene->getEnemy()));
-		} */
-		enemyTurn = false;
-	}
-	if (decideFate && pressedKeys.find(SDL_SCANCODE_TAB) != pressedKeys.end()) { //defeated enemy
-		cout << "inside decide fate" << endl;
-		cout<<"child : "<<MyGame::currentScene->numChildren()<<endl;
-		if (MyGame::currentScene->numChildren() == 2 ){
-			cout<<"num child 3"<<endl;
-			//MyGame::currentScene->removeChild(2);
-			MyGame::currentScene->removeChild(1);
-			MyGame::actionMenu->visible = false;
-			MyGame::eDispatcher->dispatchEvent(new Event(DECIDEFATE, MyGame::eDispatcher, MyGame::currentScene->getPlayer(),
-				MyGame::currentScene->getEnemy()));
-		}
-	}
 	if(this->visible) {
 		for(SDL_Scancode key : pressedKeys) {
 			switch (key) {
 				case SDL_SCANCODE_RETURN:
 					if(!enemyTurn){
-						if (Game::frameCounter%4 == 0) {
+						if (Game::frameCounter%6 == 0) {
 							cout<<"frame: "<<Game::frameCounter<<endl;
 							cout<<"select: "<<selectInd<<endl;
 							this->selectItem(selectInd);
