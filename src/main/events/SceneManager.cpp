@@ -229,7 +229,6 @@ void SceneManager::handleEvent(Event* e)
             enemyHP->curVal = 0; 
             cout << "ENEMY DEFEATED"<<endl;
             enemyHP->curVal = 0;
-            MyGame::actionMenu->selectedaitem = false;
              if (playerLastAction == "strength"){
             playerdamage = playerdamage/2;
             }
@@ -335,7 +334,13 @@ void SceneManager::handleEvent(Event* e)
         if (choose <= 33){ 
             //attack
             cout<<"use attack"<<endl;
-             playerHP->curVal-=enemyDamage;  
+            if (playerHP->curVal-enemyDamage <= 0){
+               MyGame::currentScene->dead = true;
+               MyGame::eDispatcher->dispatchEvent(new Event(DEATH, MyGame::eDispatcher, player, e->getEnemy()));  
+               lastAction = "";          
+            }
+            else{
+                 playerHP->curVal-=enemyDamage;  
             // if(lasting > 0){ //if the old ability is still lasting,
             //      lasting++;
             //      if (lasting  == 2){ //if the end of the ability lasting decrease cooldown
@@ -346,6 +351,7 @@ void SceneManager::handleEvent(Event* e)
              MyGame::currentScene->addChild(enemyattack);
              lastAction = "attack";
              
+            }
         }
         else if (choose > 33 && choose <= 66){
             //use ability 
@@ -492,12 +498,63 @@ void SceneManager::handleEvent(Event* e)
     }
     else if (e->getType() == REVERT) 
     {
-        currentS = prevS;
-        //if e->getEnemy()->state = "killed" or e->getEnemy()->state = "captured"
-        //delete currentS->enemy.at(e->getEnemy()->id)
+        //currentS = prevS;
+                 //if e->getEnemy()->state = "killed" or e->getEnemy()->state = "captured"
+                    //delete currentS->enemy.at(e->getEnemy()->id)
+        //currentS->isBattle = false;
+       // player->position = prevPos;
+       cout<<"Reset"<<endl;
+        playerHP->curVal = 100;
+        currentS = startS;
         currentS->isBattle = false;
-        player->position = prevPos;
+        player = e->getPlayer();
+        player->position = startPos;
+        player->enemy = NULL;
+        player->inBattle = false;
+        currentS->setPlayer(player);
+        currentS->setEnemy(NULL);
+        MyGame::actionMenu->visible = false;
+        MyGame::abilities->visible = false;
+        MyGame::enemyFate->visible = false;
+        MyGame::actionMenu->selectInd = 0;
+        e->getEnemy()->visible = false;
+        enemyHP->visible = false;
+        enemyHP->curVal = enemyHP->maxVal;
+       
+        //e->getEnemy()->gameType = "defeated"; //so player doesn't collide with it again
+        //e->getEnemy()->position.x = e->getEnemy()->prevPos;
+        //e->getEnemy()->scaleX = e->getEnemy)()->prevPos;
+        //e->getEnemy()->scaleY = e->getEnemy)()->prevPos;
+        Game::camera->removeImmediateChild(MyGame::currentScene);  
+        //currentS->loadTileMap("./resources/scenes/area1files/Area1Room7.json");
+	    currentS->loadScene("./resources/scenes/Room7.json");     
+         MyGame::currentScene = currentS;
+        Game::camera->addChild(MyGame::currentScene);
+        Game::camera->position.x = 0;
+        //delete MyGame::scene1;
+        MyGame::collisionSystem->watchForCollisions("player", "platform"); 
+	    MyGame::collisionSystem->watchForCollisions("player", "enemy");
+        jumpAbility = false;
+        block = false;
+        abilityUse = 0;
+        enemyDefeated = false;
+        blockUse = 0;
+        ghostAbility = false;
+        turnCount = 0; //the current turn #
+        turnAbilityUse = 0; // turn where ability can be used again
+        turnAbilityStop = 0; //turn where ability stops being used;
+        lastAction = "";
 
+    }
+    else if (e->getType() == DEATH){
+        playerHP->curVal = 0;
+        TextBox* playerturn = new TextBox(); 
+        playerturn->setText("You have died. Press 1 to be returned to the dream. Good Luck!");
+        //MyGame::abilities->goBack();
+        MyGame::actionMenu->death = true;
+        MyGame::actionMenu->visible = false; 
+        MyGame::abilities->visible = false; 
+        MyGame::currentScene->addChild(playerturn);
     }
     if (e->getType() == REVERTBATTLE)
     {

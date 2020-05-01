@@ -33,6 +33,7 @@ public:
 	bool decideFate = false;
 	bool betweenturns = false;
 	int enterframe = 0;
+	bool death = false;
 private:
 
 	vector<MenuItem*> menuItems;

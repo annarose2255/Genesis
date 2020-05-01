@@ -43,7 +43,8 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	// Game::camera->addChild(chara);
 
     currentScene = scene1;
-
+	sceneStart = new Scene();
+	sceneStart = scene1;
     // UI Components
     // hp = new HealthBar(0, 100, 0);
     tBox = new TextBox();
@@ -126,6 +127,11 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	sm = new SceneManager(currentScene->getPlayer(), currentScene);
 	sm->playerHP = hp; 
 	sm->enemyHP = enemyHP;
+	sm->startS = sceneStart;
+
+	sm->startPos = currentScene->getPlayer()->position;
+	sm->startCam = Game::camera->position;
+	
 	eDispatcher = EventDispatcher::getInstance();
 	eDispatcher->addEventListener(sm, CHANGE);
 	// eDispatcher->addEventListener(sm, FIGHT);

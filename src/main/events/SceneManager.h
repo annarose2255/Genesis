@@ -22,6 +22,7 @@
 #define TRANSFORM "PlayerTransformAction"
 #define GHOST "PlayerGhostTransform"
 #define STRENGTHCOMBAT "PlayerStrengthTransform"
+#define DEATH "PlayerDeath"
 
 class SceneManager: public EventListener{
 
@@ -33,6 +34,9 @@ public:
     Scene* getCurrentScene();
     HealthBar* playerHP;
     HealthBar* enemyHP; 
+    Scene* startS;
+    SDL_Point startPos;
+    SDL_Point startCam;
 
 private:	
     Scene* currentS;

@@ -52,13 +52,15 @@ public:
     static SelectionMenu* abilities; 
     static SelectionMenu* decision; 
     static SelectionMenu* enemyFate; 
+     Scene* scene1;
     
 private:
     Sound* mainMusic;
     
     bool change = false; 
-    bool tchange = false;    
-    Scene* scene1;
+    bool tchange = false;   
+    Scene* sceneStart; 
+    //Scene* scene1;
     // Scene* scene2; 
     // Scene* scene3;   	
     // Camera* cam;

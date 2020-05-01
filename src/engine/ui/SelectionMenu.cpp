@@ -57,7 +57,12 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 	//counter_for_pressing++;
 	//cout<<"enemy turn3: "<<enemyTurn<<endl;
 	//selectedaitem = false;
-		if(pressedKeys.find(SDL_SCANCODE_SPACE) != pressedKeys.end() && enemyTurn == true){ //end of player turn textbox
+	if(pressedKeys.find(SDL_SCANCODE_1) != pressedKeys.end() && MyGame::currentScene->dead){
+		MyGame::currentScene->dead = false;
+		MyGame::eDispatcher->dispatchEvent(new Event(REVERT, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
+						MyGame::currentScene->getEnemy()));
+	}
+		if(pressedKeys.find(SDL_SCANCODE_SPACE) != pressedKeys.end() && enemyTurn == true && !MyGame::currentScene->dead){ //end of player turn textbox
 		cout<<"enemy turn2: "<<MyGame::currentScene->numChildren()<<endl;
 			if (MyGame::currentScene->numChildren() == 2 ){
 				MyGame::currentScene->removeChild(1);
@@ -72,7 +77,7 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 		}
 			//if (this->getItem(0)->getAction() == NULL){
 		//cout<<"between: "<<betweenturns<<endl;
-		if (pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end() && !decideFate && betweenturns){ //end of enemy turn textbox
+		if (pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end() && !decideFate && betweenturns && !MyGame::currentScene->dead){ //end of enemy turn textbox
 			cout<<"enemy turn: "<<endl;
 			MyGame::currentScene->removeChild(1);
 			//cout<<"C"<<endl;
@@ -98,7 +103,7 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 			enemyTurn = false;
 			betweenturns = false;
 		}
-		if (decideFate && pressedKeys.find(SDL_SCANCODE_TAB) != pressedKeys.end()) { //defeated enemy
+		if (decideFate && pressedKeys.find(SDL_SCANCODE_TAB) != pressedKeys.end()  && !MyGame::currentScene->dead) { //defeated enemy
 			cout << "inside decide fate" << endl;
 			cout<<"child : "<<MyGame::currentScene->numChildren()<<endl;
 			if (MyGame::currentScene->numChildren() == 2 ){
