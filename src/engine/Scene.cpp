@@ -305,7 +305,6 @@ DisplayObjectContainer* Scene::makeDisplayObjectContainer(json data) {
     newDOC->rotation = data["rotation"];
     newDOC->alpha = data["alpha"];
     newDOC->facingRight = data["facingRight"];
-    newDOC->gameType = data["gameType"];
     if(data["filepath"] != "") {
         newDOC->imgPath = data["filepath"];
         newDOC->loadTexture(data["filepath"]);

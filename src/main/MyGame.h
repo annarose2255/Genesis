@@ -52,7 +52,7 @@ public:
     static SelectionMenu* abilities; 
     static SelectionMenu* decision; 
     static SelectionMenu* enemyFate; 
-    
+    static Layer* forestBG; 
 private:
     Sound* mainMusic;
     
