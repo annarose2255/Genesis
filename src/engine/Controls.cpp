@@ -48,6 +48,28 @@ bool Controls::pressJump(){
      }
     return false;
 }
+
+bool Controls::openMenu(){
+    if (keys.find(SDL_SCANCODE_Y) != keys.end() || buttons.find(SDL_CONTROLLER_BUTTON_START) != buttons.end()){
+        return true;
+    }
+    return false;
+}
+
+bool Controls::select(){
+    if (keys.find(SDL_SCANCODE_RETURN) != keys.end() || keys.find(SDL_SCANCODE_C) != keys.end() || keys.find(SDL_SCANCODE_TAB) != keys.end() || keys.find(SDL_SCANCODE_SPACE) != keys.end() || keys.find(SDL_SCANCODE_1) != keys.end() || buttons.find(SDL_CONTROLLER_BUTTON_A) != buttons.end()){
+        return true;
+    }
+    return false;
+}
+
+bool Controls::back(){
+    if (keys.find(SDL_SCANCODE_BACKSPACE) != keys.end() || buttons.find(SDL_CONTROLLER_BUTTON_B) != buttons.end()){
+        return true;
+    }
+    return false;
+}
+
 bool Controls::useMovementAbility(){
     if(keys.find(SDL_SCANCODE_Z) != keys.end()){
         return true;

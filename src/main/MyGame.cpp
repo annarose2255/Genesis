@@ -282,7 +282,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	}
 
 	/***************** UI COMPONENTS ******************/
-	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && !change && !currentScene->getPlayer()->inBattle) {
+	if ( controls->openMenu() && !change && !currentScene->getPlayer()->inBattle) {
 		mainMenu->visible = true; 
 		Tween* menuTween = new Tween(mainMenu);
 		TweenableParams malpha;
@@ -291,7 +291,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		tj->add(menuTween);
 		change = !change;
 	}
-	else if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && change ) {
+	else if (controls->openMenu() && change ) {
 		mainMenu->visible = false; 
 		Tween* menuTween = new Tween(mainMenu);
 		TweenableParams malpha;
