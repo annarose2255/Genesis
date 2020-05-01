@@ -52,8 +52,10 @@ public:
 	bool isBattle; 
 	map<string, DisplayObject*> enemies;
 	map<string, DisplayObject*> objects;
-	bool enemyTurn = false;
 	string tileFilePath;
+	bool selectitem = false;
+	bool enemyTurn = false;
+	bool dead = false;
 	
 private:
 	map<int, SDL_Texture*> tilesets; //store texture of tilesets

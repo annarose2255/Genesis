@@ -54,11 +54,10 @@ bool EventDispatcher::hasEventListener(EventListener* l, string eventType) {
 }
 
 void EventDispatcher::dispatchEvent(Event *e) {
-    for(pair<string, vector<EventListener*>*> listener : *listeners) {
-        string eType = listener.first;
-        vector<EventListener*> *l = listener.second;
-        for(int i=0; i<l->size(); i++) {
-            (*l)[i]->handleEvent(e);
+    if (listeners->find(e->getType()) != listeners->end()){
+        vector<EventListener*>* eListeners = listeners->at(e->getType());
+        for(auto listener : *eListeners){
+            listener->handleEvent(e);
         }
     }
 }

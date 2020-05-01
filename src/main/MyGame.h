@@ -56,12 +56,14 @@ public:
     static SelectionMenu* enemyFate; 
     static Layer* bg; 
     static GameSave* saveGame; 
+    Scene* scene1;
 private:
     Sound* mainMusic;
     
     bool change = false; 
-    bool tchange = true;    
-    Scene* scene1;
+    bool tchange = false;   
+    Scene* sceneStart; 
+    //Scene* scene1;
     // Scene* scene2; 
     // Scene* scene3;   	
     // Camera* cam;

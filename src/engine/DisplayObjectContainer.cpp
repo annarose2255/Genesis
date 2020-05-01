@@ -34,7 +34,7 @@ DisplayObjectContainer::~DisplayObjectContainer() {
 }
 
 void DisplayObjectContainer::addChild(DisplayObject* child) {
-    cout << "adding child" << endl;
+    // cout << "adding child" << endl;
     // cout << "parent camPerspective: " << camPerspective << endl;
     child->camPerspective = camPerspective;
     children.push_back(child);
@@ -48,6 +48,9 @@ void DisplayObjectContainer::addChild(DisplayObject* child) {
 void DisplayObjectContainer::removeImmediateChild(DisplayObject* child) {
     for (int i = 0; i < children.size(); i++) {
         if (children[i] == child) {
+            // dispatch event for collision system
+            DisplayObjectEvent* e = new DisplayObjectEvent(DO_REMOVED_EVENT, EventDispatcher::getInstance(), child);
+            EventDispatcher::getInstance()->dispatchEvent(e);
             //delete child;
             children.erase(children.begin() + i);
         }
@@ -58,6 +61,9 @@ void DisplayObjectContainer::removeImmediateChild(string id) {
     for (int i = 0; i < children.size(); i++) {
         cout << "Children id " << children[i]->id << endl;
         if (children[i]->id == id) {
+             // dispatch event for collision system
+            DisplayObjectEvent* e = new DisplayObjectEvent(DO_REMOVED_EVENT, EventDispatcher::getInstance(), children[i]);
+            EventDispatcher::getInstance()->dispatchEvent(e);
             // delete the child
             //delete children[i];
             children.erase(children.begin() + i);
@@ -68,12 +74,18 @@ void DisplayObjectContainer::removeImmediateChild(string id) {
 void DisplayObjectContainer::removeChild(int index) {
     if (index < children.size()) {
         //delete children[index];
+         // dispatch event for collision system
+        DisplayObjectEvent* e = new DisplayObjectEvent(DO_REMOVED_EVENT, EventDispatcher::getInstance(), children[index]);
+        EventDispatcher::getInstance()->dispatchEvent(e);
         children.erase(children.begin() + index);
     }
 }
 
 void DisplayObjectContainer::removeThis() {
     if (this->parent != NULL) {
+         // dispatch event for collision system
+        DisplayObjectEvent* e = new DisplayObjectEvent(DO_REMOVED_EVENT, EventDispatcher::getInstance(), this);
+        EventDispatcher::getInstance()->dispatchEvent(e);
         ((DisplayObjectContainer*)this->parent)->removeImmediateChild(this);
     }
 }

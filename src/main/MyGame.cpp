@@ -29,8 +29,8 @@ SelectionMenu* MyGame::enemyFate = new SelectionMenu();
 Layer* MyGame::bg = new Layer();
 GameSave* MyGame::saveGame = new GameSave();
 MyGame::MyGame() : Game(800, 700) { //rendered space
+	cout << "past declarations" << endl;
 	instance = this;
-	eDispatcher->addEventListener(collisionSystem, DO_ADDED_EVENT);
     scene1 = new Scene();
     // scene1->loadScene("./resources/scenes/character.json");
 	DisplayObjectContainer* forestIMG = new DisplayObjectContainer();
@@ -57,7 +57,8 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	// Game::camera->addChild(chara);
 
     currentScene = scene1;
-
+	sceneStart = new Scene();
+	sceneStart = scene1;
     // UI Components
     // hp = new HealthBar(0, 100, 0);
     tBox = new TextBox(3);
@@ -93,8 +94,20 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	enemyFate->visible = false;
 
     //if statements with each ability!!
-    MenuItem* ghost = new MenuItem("Ghost", 0, 0);
+	
+    MenuItem* ghost = new MenuItem("Ghost", 10, 10);
+	ghost->width = 150;
     abilities->addItem(ghost);
+	//MenuItem* doubleJump = new MenuItem("Frog (Double jump)", 350, 10);
+	//doubleJump->width = 400;
+   // abilities->addItem(doubleJump);
+	MenuItem* strength = new MenuItem("strength", 350, 10);
+    abilities->addItem(strength);
+	MenuItem* none = new MenuItem("NO ABILITIES", 350, 10);
+    abilities->addItem(none);
+	
+	//none->nextMenu = transform;
+	//none->prevMenu = transform;
 	transform->nextMenu = abilities; 
 
     mainMenu->addItem(items);
@@ -125,16 +138,41 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	enemyHP->visible = false;
     //Sound 
 	mainMusic = new Sound();
+	//Collision Detection 
+	collisionSystem->watchForCollisions("player", "platform"); 
+	collisionSystem->watchForCollisions("player", "enemy");
+	// set up collision system before scene manager is called
+	// EventDispatcher::getInstance()->addEventListener(collisionSystem, DO_ADDED_EVENT);
+	//EventDispatcher::getInstance()->addEventListener(this, DO_REMOVED_EVENT);
+	EventDispatcher::getInstance()->addEventListener(collisionSystem, SCENE_CHANGE_EVENT);
 	//Change Scene 
 	sm = new SceneManager(currentScene->getPlayer(), currentScene);
 	sm->playerHP = hp; 
 	sm->enemyHP = enemyHP;
+	sm->startS = sceneStart;
+
+	sm->startPos = currentScene->getPlayer()->position;
+	sm->startCam = Game::camera->position;
+	
 	eDispatcher = EventDispatcher::getInstance();
 	eDispatcher->addEventListener(sm, CHANGE);
-	// eDispatcher->addEventListener(sm, FIGHT);
-	//Collision Detection 
-	collisionSystem->watchForCollisions("player", "platform"); 
-	collisionSystem->watchForCollisions("player", "enemy");
+	eDispatcher->addEventListener(sm, FIGHT);
+	eDispatcher->addEventListener(sm, ATTACK);
+	eDispatcher->addEventListener(sm, REVERT);
+	eDispatcher->addEventListener(sm, REVERTBATTLE);
+	eDispatcher->addEventListener(sm, ENEMYTURN);
+	eDispatcher->addEventListener(sm, DEFEATEDENEMY);
+	eDispatcher->addEventListener(sm, DECIDEFATE);
+	eDispatcher->addEventListener(sm, SPARE);
+	eDispatcher->addEventListener(sm, KILL);
+	eDispatcher->addEventListener(sm, CONSUME);
+	eDispatcher->addEventListener(sm, DEFEND);
+	eDispatcher->addEventListener(sm, TRANSFORM);
+	eDispatcher->addEventListener(sm, GHOST);
+	eDispatcher->addEventListener(sm, STRENGTHCOMBAT);
+	eDispatcher->addEventListener(sm, DEATH);
+	//eDispatcher->addEventListener(sm, )
+	
 	//Tween
 	currentScene->getPlayer()->play("Idle");
 	
@@ -143,6 +181,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	chalpha.name = "alpha";
 	charTween->animate(chalpha, 0, 255, 3); 
 	tj->add(charTween);
+	cout << "end constructor" << endl;
 }
 
 MyGame::~MyGame(){
@@ -234,7 +273,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	// }
 	//double jump
 	if (pressedKeys.find(SDL_SCANCODE_Z)!=pressedKeys.end()){
-		currentScene->getPlayer()->setState("MovAblStart");//prevPos.y = currentScene->getCharacter()->position.y;
+		currentScene->getPlayer()->setState("double jump");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}
 	//ghost
@@ -258,7 +297,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	}
 
 	/***************** UI COMPONENTS ******************/
-	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && !change) {
+	if ( controls->openMenu() && !change && !currentScene->getPlayer()->inBattle) {
 		mainMenu->visible = true; 
 		Tween* menuTween = new Tween(mainMenu);
 		TweenableParams malpha;
@@ -267,7 +306,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		tj->add(menuTween);
 		change = !change;
 	}
-	else if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && change) {
+	else if (controls->openMenu() && change ) {
 		mainMenu->visible = false; 
 		Tween* menuTween = new Tween(mainMenu);
 		TweenableParams malpha;

@@ -2,6 +2,7 @@
 #include "Event.h"
 #include "ControllerManager.h"
 #include "ControllerEvent.h"
+#include "RumbleEvent.h"
 #include <SDL2/SDL.h>
 #include <iostream>
 
@@ -26,7 +27,7 @@ void ControllerManager::handleEvent(Event* e){
         cout << "Controller connected." << endl;
         this->rumbleController(0.3, 500);
     }
-    if (e->getType() == CONTROLLER_REMOVED_EVENT){
+    else if (e->getType() == CONTROLLER_REMOVED_EVENT){
         ControllerEvent* cEvent = (ControllerEvent*) e;
         SDL_GameControllerClose(this->controller);
         this->controller = NULL;
@@ -36,6 +37,10 @@ void ControllerManager::handleEvent(Event* e){
             this->haptic = NULL;
         }
         cout << "Controller disconnected." << endl;
+    }
+    else if (e->getType() == RUMBLE_EVENT){
+        RumbleEvent* rEvent = (RumbleEvent*) e;
+        rumbleController(rEvent->intensity, rEvent->duration);
     }
 }
 

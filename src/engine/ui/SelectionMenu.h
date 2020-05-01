@@ -31,6 +31,9 @@ public:
 	int counter_for_pressing = 0;
 	bool enemyTurn = false;
 	bool decideFate = false;
+	bool betweenturns = false;
+	int enterframe = 0;
+	bool death = false;
 private:
 
 	vector<MenuItem*> menuItems;

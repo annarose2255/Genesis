@@ -1,7 +1,10 @@
 #include "CollisionSystem.h"
 #include "DisplayObject.h"
 #include "DisplayObjectEvent.h"
+#include "SceneManager.h"
+#include <queue>
 #include <iostream>
+#include <algorithm>
 #include "Player.h"
 using namespace std;
 
@@ -11,8 +14,9 @@ CollisionSystem::CollisionSystem(){
 }
 
 CollisionSystem::~CollisionSystem(){
-
+	
 }
+
 void CollisionSystem::clearAllData(){
 	typeMap.clear();
 	collisionPairs.clear();
@@ -26,8 +30,17 @@ void CollisionSystem::update(){
 	// iterate over colllision pairs
 	for (auto pair=collisionPairs.begin(); pair != collisionPairs.end(); ++pair) {
 		// check for collisions between the elements in each vector
+		try{
+			if (typeMap.find(pair->first) == typeMap.end()){
+				continue;
+			}
+		} catch (...) {
+			continue;
+		}
 		for (auto doType1=typeMap.at(pair->first).begin(); doType1 != typeMap.at(pair->first).end(); ++doType1) {
-
+			if (typeMap.find(pair->second) == typeMap.end()){
+				continue;
+			}
 			for (auto doType2=typeMap.at(pair->second).begin(); doType2 != typeMap.at(pair->second).end(); ++doType2) {
 				
 				// check if anything has changed since last time
@@ -77,23 +90,62 @@ void CollisionSystem::update(){
 //or taken off of the tree. Thus, the collision system always knows what DOs are in the game at any moment automatically.
 void CollisionSystem::handleEvent(Event* e){
 	if (e->getType() == DO_ADDED_EVENT){
-		DisplayObjectEvent* doEvent = (DisplayObjectEvent*) e;
-		DisplayObject* displayObject = doEvent->displayObject;
-		// check if gameType is not already in map
-		if (typeMap.find(displayObject->gameType) == typeMap.end()){
-			// if not go ahead and insert new vector with element
-			vector<DisplayObject*> newList = vector<DisplayObject*>();
-			newList.push_back(displayObject);
-			typeMap.insert({displayObject->gameType, newList});
-		} else {
-			// if already present insert into existing vector
-			typeMap.at(displayObject->gameType).push_back(displayObject);
-		}
-		// put in prev map to keep track of previous point
-		if (prevMap.find(displayObject) == prevMap.end()){
-			prevMap.insert({displayObject, displayObject->getHitboxPts().topLeft});
+		// DisplayObjectEvent* doEvent = (DisplayObjectEvent*) e;
+		// DisplayObject* displayObject = doEvent->displayObject;
+		// addDisplayObject(displayObject);
+	}
+	else if (e->getType() == DO_REMOVED_EVENT){
+		// DisplayObjectEvent* doEvent = (DisplayObjectEvent*) e;
+		// DisplayObject* displayObject = doEvent->displayObject;
+		
+	}
+	else if (e->getType() == SCENE_CHANGE_EVENT){
+		typeMap.clear();
+		prevMap.clear();
+		Scene* scene = SceneManager::getInstance()->getCurrentScene();
+		queue<DisplayObjectContainer*> containers;
+		containers.push(scene);
+		DisplayObjectContainer* container;
+		// process scene changes
+		while (containers.size() != 0 ) {
+			container = (DisplayObjectContainer*) containers.front();
+			containers.pop();
+			for (DisplayObject* child : container->children){
+				if (child->type == "DisplayObjectContainer"){
+					containers.push((DisplayObjectContainer*) child);
+				}
+				addDisplayObject(child);
+			}
 		}
 	}
+}
+
+void CollisionSystem::addDisplayObject(DisplayObject* displayObject){
+	// check if gameType is not already in map
+	if (typeMap.find(displayObject->gameType) == typeMap.end()){
+		// if not go ahead and insert new vector with element
+		vector<DisplayObject*> newList = vector<DisplayObject*>();
+		newList.push_back(displayObject);
+		typeMap.insert({displayObject->gameType, newList});
+	} else {
+		// if already present insert into existing vector
+		typeMap.at(displayObject->gameType).push_back(displayObject);
+	}
+	// put in prev map to keep track of previous point
+	if (prevMap.find(displayObject) == prevMap.end()){
+		prevMap.insert({displayObject, displayObject->getHitboxPts().topLeft});
+	}
+}
+
+void CollisionSystem::removeDisplayObject(DisplayObject* displayObject){
+	// if the gametype is registered in the map
+	if (typeMap.find(displayObject->gameType) != typeMap.end()){
+		// remove the display object from the map
+		vector<DisplayObject*> doList = typeMap.at(displayObject->gameType);
+		doList.erase(std::remove(doList.begin(), doList.end(), displayObject), doList.end());
+	}
+	// remove from previous map
+	prevMap.erase(displayObject);
 }
 
 //This function asks the collision system to start checking for collisions between all pairs
@@ -101,6 +153,17 @@ void CollisionSystem::handleEvent(Event* e){
 //against all platform objects that are in the current scene.
 void CollisionSystem::watchForCollisions(string type1, string type2){
     this->collisionPairs.emplace_back(type1, type2);
+	// ensures types are already in map
+	if (typeMap.find(type1) == typeMap.end()){
+		// if not go ahead and insert new vector with element
+		vector<DisplayObject*> newList = vector<DisplayObject*>();
+		typeMap.insert({type1, newList});
+	}
+	if (typeMap.find(type2) == typeMap.end()){
+		// if not go ahead and insert new vector with element
+		vector<DisplayObject*> newList = vector<DisplayObject*>();
+		typeMap.insert({type2, newList});
+	}
 }
 
 //returns true iff obj1 hitbox and obj2 hitbox overlap. Uses the following method from DO:

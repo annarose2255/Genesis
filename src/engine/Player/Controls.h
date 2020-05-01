@@ -21,6 +21,9 @@ public:
     bool holdRight();//method that returns if the player is moving right
     bool holdLeft();//method that returns if player is moving left
     bool pressJump();//returns if the character has had jump pressed
+    bool openMenu();
+    bool select();
+    bool back();
     bool useMovementAbility(); //returns if the character is using a movement ability 
 
 private:

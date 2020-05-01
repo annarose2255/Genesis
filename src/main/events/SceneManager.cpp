@@ -5,14 +5,28 @@
 #include "SelectionMenu.h"
 #include "RoomSave.h"
 #include "MenuItem.h"
+#include "RumbleEvent.h"
 #include <iostream>
 #include <string>
 using namespace std;
+
+SceneManager* SceneManager::instance;
+
 SceneManager::SceneManager(Player* chara, Scene* s)
 {
     currentS = s;
     player = chara;
+    instance = this;
+    // update collision system
+    Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
+    EventDispatcher::getInstance()->dispatchEvent(e);
 }
+
+SceneManager::SceneManager()
+{
+    instance = this;
+}
+
 SceneManager::~SceneManager()
 {
     delete door;
@@ -21,18 +35,8 @@ void SceneManager::handleEvent(Event* e)
 {
     if (e->getType() == CHANGE)
     {
-        //save previous room state 
-        // RoomSave* saveRm; 
-        // saveRm->player = MyGame::currentScene->getPlayer(); 
-        // saveRm->roomNum = MyGame::currentScene->getSceneNum(); 
-        // saveRm->enemies = MyGame::currentScene->enemies;
-        // saveRm->objects = MyGame::currentScene->objects;
-        // saveRm->tileFilePath = MyGame::currentScene->tileFilePath;
-        // MyGame::saveGame->addRoom(saveRm);
-        MyGame::collisionSystem->clearAllData();
-        //check to see if loading room for the first time
-
-        //if MyGame::saveGame->loadedRoom()
+        // Event* event = dynamic_cast<Event*>(event);
+        //MyGame::collisionSystem->clearAllData();
         Scene* nextScene = new Scene();
         // cout << "scene path " << e->getScenePath() << endl;
         nextScene->loadTileMap(e->getScenePath());
@@ -90,8 +94,8 @@ void SceneManager::handleEvent(Event* e)
         Game::camera->removeImmediateChild(MyGame::currentScene);
 		MyGame::currentScene = currentS;       
 		Game::camera->addChild(MyGame::currentScene);
-        MyGame::collisionSystem->watchForCollisions("player", "platform"); 
-	    MyGame::collisionSystem->watchForCollisions("player", "enemy");
+        //MyGame::collisionSystem->watchForCollisions("player", "platform"); 
+	    //MyGame::collisionSystem->watchForCollisions("player", "enemy");
         //Tween scene in
         Tween* newFade = new Tween(currentS);
         TweenableParams alpha; 
@@ -100,24 +104,48 @@ void SceneManager::handleEvent(Event* e)
         MyGame::tj->add(newFade); 
 
         // ed->addEventListener(this, CHANGE);
-
+        Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
+        EventDispatcher::getInstance()->dispatchEvent(e);
 
     }
     else if (e->getType() == FIGHT)
     {   
+        // rumble
+        EventDispatcher::getInstance()->dispatchEvent(new RumbleEvent(RUMBLE_EVENT, EventDispatcher::getInstance(), 0.5, 500));
         //add player and enemy turn listeners 
         //when player finishes a move, move on to enemy turn 
         prevS = currentS;
-        MyGame::collisionSystem->clearCollisionPairs();
+        // MyGame::collisionSystem->clearCollisionPairs();
         Scene* nextScene = new Scene();
         nextScene->inBattle = true;
         player = e->getPlayer();
-
+        MyGame::actionMenu->decideFate = false;
         Layer* layer = new Layer(); 
         layer->scrollSpeed = 1;
         layer->addChild(e->getEnemy());
         //set action menu
         MyGame::actionMenu->getItem(0)->setAction(new Event(ATTACK, MyGame::eDispatcher, player, e->getEnemy()));
+        //visability and transform choice
+        if (player->possiblestates.find("ghost") == player->possiblestates.end()){
+           
+           MyGame::abilities->getItem(0)->visible = false; /// MyGame::actionMenu->getItem(2)->nextMenu->getItem(0)
+        }
+        else{
+             MyGame::abilities->getItem(0)->visible = true;
+            MyGame::abilities->getItem(0)->setAction(new Event(GHOST, MyGame::eDispatcher, player, e->getEnemy()));
+        }
+        if (player->possiblestates.find("strength") == player->possiblestates.end()){
+            // MyGame::actionMenu->getItem(2)->nextMenu->getItem(0)->setAction(new Event(TRANSFORM, MyGame::eDispatcher, player, e->getEnemy()));
+            MyGame::abilities->getItem(1)->visible = false; /// MyGame::actionMenu->getItem(2)->nextMenu->getItem(0)
+        }
+        else{
+             MyGame::abilities->getItem(1)->visible = true;
+            MyGame::abilities->getItem(1)->setAction(new Event(STRENGTHCOMBAT, MyGame::eDispatcher, player, e->getEnemy()));
+        }
+        /* if (player->possiblestates.find("ghost") != player->possiblestates.end() && player->possiblestates.find("strength") != player->possiblestates.end()){
+            // MyGame::actionMenu->getItem(2)->nextMenu->removeChild(2);//->getItem(2)->nextMenu = MyGame::actionMenu;//setAction(new Event(TRAN, MyGame::eDispatcher, player, e->getEnemy()));
+        } */
+        MyGame::actionMenu->getItem(1)->setAction(new Event(DEFEND, MyGame::eDispatcher, player, e->getEnemy()));
         MyGame::actionMenu->getItem(3)->setAction(new Event(REVERTBATTLE, MyGame::eDispatcher, player, e->getEnemy()));
         MyGame::actionMenu->visible = true;
         enemyHP->visible = true;
@@ -136,7 +164,7 @@ void SceneManager::handleEvent(Event* e)
         Game::camera->removeImmediateChild(MyGame::currentScene);
 		MyGame::currentScene = currentS;    
 		Game::camera->addChild(MyGame::currentScene);
- 
+        
         Tween* menuMove = new Tween(MyGame::actionMenu);
         Tween* enemyMove = new Tween(MyGame::currentScene->getEnemy());
         TweenableParams mfade, emove, emove2, egrowX, egrowY; 
@@ -192,53 +220,76 @@ void SceneManager::handleEvent(Event* e)
         MyGame::tj->add(menuMove); 
         MyGame::tj->add(enemyMove);
         Game::camera->position = {0,0}; 
+   
+        Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
+        EventDispatcher::getInstance()->dispatchEvent(e);
     }
     else if (e->getType() == ATTACK){
-        TextBox* playerturn = new TextBox(); 
-        turnCount++;
-        if (enemyHP->curVal < 10) {
+        cout<<"attack"<<endl;
+        if (playerLastAction == "defend"){ //fix damage
+            enemyDamage = enemyDamage*2;
+        }
+        if (playerLastAction == "ghost"){
+            enemyDamage = baseEnemyDamage;
+        }
+        
+         TextBox* playerturn = new TextBox(); 
+         turnCount++;
+        if (enemyHP->curVal < playerdamage) { //less heath than player damage
             cout << "ENEMY HEALTH DEPLETED"<<endl;
             enemyHP->curVal = 0;
             MyGame::actionMenu->selectedaitem = false;
             MyGame::eDispatcher->dispatchEvent(new Event(DEFEATEDENEMY, MyGame::eDispatcher, player, e->getEnemy()));
              cout<<"defeat enemy"<<endl;
              enemyDefeated = true;
+             if (playerLastAction == "strength"){
+            playerdamage = playerdamage/2;
+            }
+             playerLastAction="end";
             // break;
             //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;  
         }
         else { //damage
+       
             if (jumpAbility == false && (block != true || blockUse == 2)  && turnCount >= turnAbilityStop){ //|| abilityUse == 4) &&  && (lasting == 0 || lasting == 3)){ //check for not block, not jump, and make sure 
             //actions havent been used in a row too much, and make sure ghost isnt still happening 
                 abilityUse = 0;
                 blockUse =0;
-                enemyHP->curVal -= 10;
+                enemyHP->curVal -= playerdamage;
                 turnAbilityStop = 0;
                 playerturn->setText("You attacked! Press SPACE to continue.");
             }
             else if( turnCount < turnAbilityStop){ //lasting == 1 || lasting == 2 ){
-                 playerturn->setText("You attack goes right through the enemy! Press SPACE to continue.");
+                 playerturn->setText("Your attack goes right through the enemy! Press SPACE to continue.");
             }
             else if (block == true){
-                enemyHP->curVal -= 5;
+                enemyHP->curVal -= playerdamage/2;
                  playerturn->setText("You attacked but it isnt very effective. Press SPACE to continue.");
             }
             else{ //do no damage 
-                 playerturn->setText("You attack seems to cause no harm! Press SPACE to continue.");
+                 playerturn->setText("Your attack seems to cause no harm! Press SPACE to continue.");
             }
             // if (lasting == 2){ //reset lasting
             //     lasting = 0;
             // }
+            if (playerLastAction == "strength"){
+            playerdamage = playerdamage/2;
+            }
+            playerLastAction = "attack";
             jumpAbility = false;
             block = false;
             MyGame::actionMenu->enemyTurn = true;
             MyGame::actionMenu->selectedaitem = false;
             //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
         }
-        if (enemyHP->curVal <= 0 && enemyDefeated == false){
+        if (enemyHP->curVal <= 0 && enemyDefeated == false){ //player 0's enemy health
             enemyHP->curVal = 0; 
             cout << "ENEMY DEFEATED"<<endl;
             enemyHP->curVal = 0;
-            MyGame::actionMenu->selectedaitem = false;
+             if (playerLastAction == "strength"){
+            playerdamage = playerdamage/2;
+            }
+            playerLastAction = "end";
             MyGame::eDispatcher->dispatchEvent(new Event(DEFEATEDENEMY, MyGame::eDispatcher, player, e->getEnemy()));
             cout<<"defeat enemy"<<endl;
         }
@@ -247,13 +298,72 @@ void SceneManager::handleEvent(Event* e)
             if (enemyDefeated == false){
                 TextBox* playerturn = new TextBox(); 
                 playerturn->setText("You attacked! Press SPACE to continue.");
-                playerturn->position.x = 0;
-                MyGame::currentScene->addChild(playerturn); 
+                // playerturn->position.x = 0;
+                MyGame::currentScene->addChild(playerturn);
+                if (playerLastAction == "strength"){
+                    playerdamage = playerdamage/2;
+                }
+                playerLastAction = "attack";
             }
             //MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
-            cout<<"player turn over"<<endl;
+            //cout<<"player turn over"<<endl;
         }
         //player turn over
+        
+    }
+    else if (e->getType() == DEFEND){
+        if (playerLastAction != "defend"){
+            enemyDamage = enemyDamage/2;
+        }
+        if (playerLastAction == "ghost"){
+            enemyDamage = baseEnemyDamage;
+        }
+        if (playerLastAction == "strength"){
+            playerdamage = playerdamage/2;
+        }
+        playerLastAction = "defend";
+        TextBox* playerturn = new TextBox(); 
+        cout<<"defend"<<endl;
+        playerturn->setText("You defended! Press SPACE to continue.");
+        MyGame::actionMenu->enemyTurn = true;
+        MyGame::actionMenu->selectedaitem = false;
+        MyGame::actionMenu->visible = false; 
+        MyGame::currentScene->addChild(playerturn);
+
+    }
+    else if (e->getType() == GHOST){
+        if (playerLastAction == "defend"){
+            enemyDamage = enemyDamage*2;
+        }
+       if (playerLastAction == "strength"){
+            playerdamage = playerdamage/2;
+        }
+        playerLastAction = "ghost";
+        cout<<"ghost"<<endl;
+        enemyDamage = enemyDamage-enemyDamage;
+        TextBox* playerturn = new TextBox(); 
+        playerturn->setText("You transformed into a ghost! Press SPACE to continue.");
+        //MyGame::abilities->goBack();
+        MyGame::actionMenu->enemyTurn = true;
+        MyGame::actionMenu->visible = false; 
+        MyGame::abilities->visible = false; 
+        MyGame::currentScene->addChild(playerturn);
+    }
+     else if (e->getType() == STRENGTHCOMBAT){
+        if (playerLastAction == "defend"){
+            enemyDamage = enemyDamage*2;
+        }
+        if (playerLastAction == "ghost"){
+            enemyDamage = baseEnemyDamage;
+        }
+        playerLastAction = "strength";
+        playerdamage = playerdamage*2;
+        TextBox* playerturn = new TextBox(); 
+        playerturn->setText("You transformed into a bear! Press SPACE to continue.");
+        MyGame::actionMenu->enemyTurn = true;
+        MyGame::actionMenu->selectedaitem = false;
+        MyGame::actionMenu->visible = false; 
+        MyGame::currentScene->addChild(playerturn);
     }
     else if (e->getType() == ENEMYTURN) {
         //if (lasting )
@@ -282,7 +392,13 @@ void SceneManager::handleEvent(Event* e)
         if (choose <= 33){ 
             //attack
             cout<<"use attack"<<endl;
-             playerHP->curVal-=5;  
+            if (playerHP->curVal-enemyDamage <= 0){
+               MyGame::currentScene->dead = true;
+               MyGame::eDispatcher->dispatchEvent(new Event(DEATH, MyGame::eDispatcher, player, e->getEnemy()));  
+               lastAction = "";          
+            }
+            else{
+                 playerHP->curVal-=enemyDamage;  
             // if(lasting > 0){ //if the old ability is still lasting,
             //      lasting++;
             //      if (lasting  == 2){ //if the end of the ability lasting decrease cooldown
@@ -290,10 +406,11 @@ void SceneManager::handleEvent(Event* e)
             //     }
             // } 
             enemyattack->setText("The enemy attacked back! Press C to continue.");
-            enemyattack->position.x = 0;
+            // enemyattack->position.x = 0;
             MyGame::currentScene->addChild(enemyattack);
             lastAction = "attack";
              
+            }
         }
         else if (choose > 33 && choose <= 66){
             //use ability 
@@ -331,7 +448,7 @@ void SceneManager::handleEvent(Event* e)
             }
             
             //enemyattack->setText("The enemy used an ability! Press C to continue.");
-            enemyattack->position.x = 0;
+            // enemyattack->position.x = 0;
             MyGame::currentScene->addChild(enemyattack);
             lastAction = "ability";        
         }
@@ -366,7 +483,7 @@ void SceneManager::handleEvent(Event* e)
                 enemyattack->setText("The enemy blocked! Press C to continue.");
                
             }
-            enemyattack->position.x = 0;
+            // enemyattack->position.x = 0;
             MyGame::currentScene->addChild(enemyattack);
             lastAction = "block";
         }
@@ -387,31 +504,111 @@ void SceneManager::handleEvent(Event* e)
     }
      else if (e->getType() == DECIDEFATE) {
         cout << "inside decide fate event"<<endl;
+        string id = MyGame::currentScene->getEnemy()->id;
+        id.pop_back();
         MyGame::actionMenu->visible = false;
         MyGame::enemyFate->visible = true;
         MyGame::enemyFate->getItem(0)->setAction(new Event(SPARE, MyGame::eDispatcher, player, e->getEnemy()));
         MyGame::enemyFate->getItem(1)->setAction(new Event(KILL, MyGame::eDispatcher, player, e->getEnemy()));
-        MyGame::enemyFate->getItem(2)->setAction(new Event(CONSUME, MyGame::eDispatcher, player, e->getEnemy()));
+        
+        if (id == "frog" && player->possiblestates.find("frog") == player->possiblestates.end()){
+             MyGame::enemyFate->getItem(2)->setAction(new Event(CONSUME, MyGame::eDispatcher, player, e->getEnemy()));
+        }
+        else if (id == "ghost" && player->possiblestates.find("ghost") == player->possiblestates.end()){
+             MyGame::enemyFate->getItem(2)->setAction(new Event(CONSUME, MyGame::eDispatcher, player, e->getEnemy()));
+        }
+        else{
+            MyGame::enemyFate->removeChild(2);
+        }
+       
     }
     else if (e->getType() == SPARE) {
         //Same as Revert battle basically
         //character stuff 
+        player->num_enemies_spared ++;
         e->setType(REVERTBATTLE);
     }
     else if (e->getType() == KILL) {
+        player->num_enemies_killed ++;
         e->setType(REVERTBATTLE);
     }
     else if (e->getType() == CONSUME) {
+        string id = MyGame::currentScene->getEnemy()->id;
+        id.pop_back();
+        if (id == "ghost"){
+            if (player->possiblestates.size() == 0){
+               MyGame::abilities->removeChild(2);
+            }
+            player->possiblestates.insert("ghost");
+        }
+        if (id == "frog"){
+             if (player->possiblestates.size() == 0){
+                MyGame::abilities->removeChild(2);
+            }
+            player->possiblestates.insert("frog");
+        }
         e->setType(REVERTBATTLE);
     }
     else if (e->getType() == REVERT) 
     {
-        currentS = prevS;
-        //if e->getEnemy()->state = "killed" or e->getEnemy()->state = "captured"
-        //delete currentS->enemy.at(e->getEnemy()->id)
+        //currentS = prevS;
+                 //if e->getEnemy()->state = "killed" or e->getEnemy()->state = "captured"
+                    //delete currentS->enemy.at(e->getEnemy()->id)
+        //currentS->isBattle = false;
+       // player->position = prevPos;
+       cout<<"Reset"<<endl;
+        playerHP->curVal = 100;
+        currentS = startS;
         currentS->isBattle = false;
-        player->position = prevPos;
-
+        player = e->getPlayer();
+        player->position = startPos;
+        player->enemy = NULL;
+        player->inBattle = false;
+        currentS->setPlayer(player);
+        currentS->setEnemy(NULL);
+        MyGame::actionMenu->visible = false;
+        MyGame::abilities->visible = false;
+        MyGame::enemyFate->visible = false;
+        MyGame::actionMenu->selectInd = 0;
+        e->getEnemy()->visible = false;
+        enemyHP->visible = false;
+        enemyHP->curVal = enemyHP->maxVal;
+       
+        //e->getEnemy()->gameType = "defeated"; //so player doesn't collide with it again
+        //e->getEnemy()->position.x = e->getEnemy()->prevPos;
+        //e->getEnemy()->scaleX = e->getEnemy)()->prevPos;
+        //e->getEnemy()->scaleY = e->getEnemy)()->prevPos;
+        Game::camera->removeImmediateChild(MyGame::currentScene);  
+        //currentS->loadTileMap("./resources/scenes/area1files/Area1Room7.json");
+	    currentS->loadScene("./resources/scenes/Room7.json");     
+        MyGame::currentScene = currentS;
+        Game::camera->addChild(MyGame::currentScene);
+        Game::camera->position.x = 0;
+        //delete MyGame::scene1;
+        // MyGame::collisionSystem->watchForCollisions("player", "platform"); 
+	    // MyGame::collisionSystem->watchForCollisions("player", "enemy");
+        jumpAbility = false;
+        block = false;
+        abilityUse = 0;
+        enemyDefeated = false;
+        blockUse = 0;
+        ghostAbility = false;
+        turnCount = 0; //the current turn #
+        turnAbilityUse = 0; // turn where ability can be used again
+        turnAbilityStop = 0; //turn where ability stops being used;
+        lastAction = "";
+        Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
+        EventDispatcher::getInstance()->dispatchEvent(e);
+    }
+    else if (e->getType() == DEATH){
+        playerHP->curVal = 0;
+        TextBox* playerturn = new TextBox(); 
+        playerturn->setText("You have died. Press 1 to be returned to the dream. Good Luck!");
+        //MyGame::abilities->goBack();
+        MyGame::actionMenu->death = true;
+        MyGame::actionMenu->visible = false; 
+        MyGame::abilities->visible = false; 
+        MyGame::currentScene->addChild(playerturn);
     }
     if (e->getType() == REVERTBATTLE)
     {
@@ -438,8 +635,8 @@ void SceneManager::handleEvent(Event* e)
         Game::camera->removeImmediateChild(MyGame::currentScene);
         MyGame::currentScene = currentS;       
         Game::camera->addChild(MyGame::currentScene);
-        MyGame::collisionSystem->watchForCollisions("player", "platform"); 
-	    MyGame::collisionSystem->watchForCollisions("player", "enemy");
+        // MyGame::collisionSystem->watchForCollisions("player", "platform"); 
+	    // MyGame::collisionSystem->watchForCollisions("player", "enemy");
         jumpAbility = false;
         block = false;
         abilityUse = 0;
@@ -450,9 +647,19 @@ void SceneManager::handleEvent(Event* e)
         turnAbilityUse = 0; // turn where ability can be used again
         turnAbilityStop = 0; //turn where ability stops being used;
         lastAction = "";
+        Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
+        EventDispatcher::getInstance()->dispatchEvent(e);
     }
 }
 
 Scene* SceneManager::getCurrentScene(){
     return this->currentS;
+}
+
+
+SceneManager* SceneManager::getInstance(){
+    if (!instance){
+        instance = new SceneManager();
+    }
+    return instance;
 }

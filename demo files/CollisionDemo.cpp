@@ -39,6 +39,7 @@ CollisionDemo::CollisionDemo() : Game(1200, 1000) {
 	allSprites->addChild(questComplete);
 
 	collisionSystem->watchForCollisions("not collectable", "collectable");
+	collisionSystem->watchForCollisions("collectable", "not collectable");
 }
 
 CollisionDemo::~CollisionDemo(){

@@ -66,7 +66,7 @@ void Game::start(){
 	EventDispatcher* eDispatcher = EventDispatcher::getInstance();
 	controllerManager = new ControllerManager();
 	eDispatcher->addEventListener(controllerManager, CONTROLLER_ADDED_EVENT);
-
+	eDispatcher->addEventListener(controllerManager, RUMBLE_EVENT);
 	int ms_per_frame = (1.0/(double)this->frames_per_sec)*1000;
 	std::clock_t start = std::clock();
 
