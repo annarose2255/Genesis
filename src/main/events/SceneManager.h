@@ -18,6 +18,10 @@
 #define SPARE "SpareEnemy"
 #define KILL "KillEnemy"
 #define CONSUME "ConsumeEnemy"
+#define DEFEND "PlayerDefendAction"
+#define TRANSFORM "PlayerTransformAction"
+#define GHOST "PlayerGhostTransform"
+#define STRENGTHCOMBAT "PlayerStrengthTransform"
 
 class SceneManager: public EventListener{
 
@@ -47,10 +51,14 @@ private:
     bool ghostAbility = false;
     int lasting = 0;
     int cooldown = 4;
+    int enemyDamage = 5;
+    int baseEnemyDamage = 5;
+    int playerdamage = 10;
     int turnCount = 0; //the current turn #
     int turnAbilityUse = 0; // turn where ability can be used again
     int turnAbilityStop = 0; //turn where ability stops being used;
     string lastAction = "";
+    string playerLastAction ="";
 };
 
 #endif

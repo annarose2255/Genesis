@@ -79,8 +79,18 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	enemyFate->visible = false;
 
     //if statements with each ability!!
-    MenuItem* ghost = new MenuItem("Ghost", 0, 0);
+    MenuItem* ghost = new MenuItem("Ghost", 10, 10);
+	ghost->width = 150;
     abilities->addItem(ghost);
+	//MenuItem* doubleJump = new MenuItem("Frog (Double jump)", 350, 10);
+	//doubleJump->width = 400;
+   // abilities->addItem(doubleJump);
+	MenuItem* strength = new MenuItem("strength", 350, 10);
+    abilities->addItem(strength);
+	MenuItem* none = new MenuItem("NO ABILITIES", 350, 10);
+    abilities->addItem(none);
+	//none->nextMenu = transform;
+	//none->prevMenu = transform;
 	transform->nextMenu = abilities; 
 
     mainMenu->addItem(items);
@@ -219,7 +229,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	}
 	//double jump
 	if (pressedKeys.find(SDL_SCANCODE_Z)!=pressedKeys.end()){
-		currentScene->getPlayer()->setState("MovAblStart");//prevPos.y = currentScene->getCharacter()->position.y;
+		currentScene->getPlayer()->setState("double jump");//prevPos.y = currentScene->getCharacter()->position.y;
 		//currentScene->getCharacter()->position.y +=2;
 	}
 	//ghost
@@ -243,7 +253,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	}
 
 	/***************** UI COMPONENTS ******************/
-	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && !change) {
+	if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && !change && !currentScene->getPlayer()->inBattle) {
 		mainMenu->visible = true; 
 		Tween* menuTween = new Tween(mainMenu);
 		TweenableParams malpha;
@@ -252,7 +262,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		tj->add(menuTween);
 		change = !change;
 	}
-	else if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && change) {
+	else if (pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end() && change ) {
 		mainMenu->visible = false; 
 		Tween* menuTween = new Tween(mainMenu);
 		TweenableParams malpha;
@@ -261,7 +271,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		tj->add(menuTween);
 		change = !change;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end() && !tchange) {
+	/* if (pressedKeys.find(SDL_SCANCODE_U) != pressedKeys.end() && !tchange) {
 		tBox->visible = true; 
 		Tween* textTween = new Tween(tBox);
 		TweenableParams talpha;
@@ -282,7 +292,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	// To change text
 	if (pressedKeys.find(SDL_SCANCODE_J) != pressedKeys.end()) {
 		tBox->setText("Testing this out !"); 
-	}	
+	}	 */
 	//updating camera position
     Game::camera->camera.x =  currentScene->position.x + currentScene->width/2 - 400;
 	Game::camera->camera.y =  currentScene->position.y + currentScene->height/2 - 350;

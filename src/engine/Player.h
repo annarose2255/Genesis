@@ -37,6 +37,10 @@ public:
 	bool left, right; 
 	/* Current Enemy player is engaging with*/
 	//Enemy* curEnemy = NULL;
+	int num_enemies_killed = 0; //number of enemies the player has killed
+	int num_enemies_spared = 0; //number of enemies the player has saved
+	set<string> possiblestates = {}; //if player consumes enemy, they now has acess to these states.
+
 
 private:
 
@@ -60,7 +64,7 @@ private:
 	int _yAccCount = 0;
 	//int _yVel = 0;
 	void initIFrames(int numFrames);
-
+	
 };
 
 #endif
