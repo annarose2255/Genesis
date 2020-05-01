@@ -26,7 +26,8 @@ SelectionMenu* MyGame::actionMenu = new SelectionMenu();
 SelectionMenu* MyGame::decision = new SelectionMenu(); 
 SelectionMenu* MyGame::abilities = new SelectionMenu();
 SelectionMenu* MyGame::enemyFate = new SelectionMenu(); 
-Layer* MyGame::forestBG = new Layer();
+Layer* MyGame::bg = new Layer();
+
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
 	eDispatcher->addEventListener(collisionSystem, DO_ADDED_EVENT);
@@ -35,10 +36,15 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	DisplayObjectContainer* forestIMG = new DisplayObjectContainer();
 	forestIMG->width = 800; 
 	forestIMG->height = 700; 
- 
 	forestIMG->loadTexture("./resources/backgrounds/Background.png");
-	forestBG->addChild(forestIMG);
+	bg->addChild(forestIMG);
 	forestIMG->visible = true;
+	DisplayObjectContainer* caveIMG = new DisplayObjectContainer();
+	caveIMG->width = 800; 
+	caveIMG->height = 700; 
+	caveIMG->loadTexture("./resources/backgrounds/cave.png");
+	bg->addChild(caveIMG);
+	caveIMG->visible = false;
 	// forestBG->getChild(0)->visible = false;
 	scene1->loadTileMap("./resources/scenes/area1files/Area1Room1.json");
 	scene1->loadScene("./resources/scenes/ghostchar.json");
@@ -105,7 +111,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	enemyHP->position = {600, 100};
 	Game::camera->position.x = 0;
 	Game::camera->addChild(currentScene);
-	instance->addChild(forestBG);
+	instance->addChild(bg);
 	instance->addChild(Game::camera);
 	instance->addChild(tBox);
 	instance->addChild(mainMenu);
