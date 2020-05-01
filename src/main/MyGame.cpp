@@ -79,6 +79,8 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	enemyFate->visible = false;
 
     //if statements with each ability!!
+	MenuItem* none = new MenuItem("NO ABILITIES", 350, 10);
+    abilities->addItem(none);
     MenuItem* ghost = new MenuItem("Ghost", 10, 10);
 	ghost->width = 150;
     abilities->addItem(ghost);
@@ -87,8 +89,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
    // abilities->addItem(doubleJump);
 	MenuItem* strength = new MenuItem("strength", 350, 10);
     abilities->addItem(strength);
-	MenuItem* none = new MenuItem("NO ABILITIES", 350, 10);
-    abilities->addItem(none);
+	
 	//none->nextMenu = transform;
 	//none->prevMenu = transform;
 	transform->nextMenu = abilities; 

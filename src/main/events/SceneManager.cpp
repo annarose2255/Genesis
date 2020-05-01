@@ -92,23 +92,51 @@ void SceneManager::handleEvent(Event* e)
         //set action menu
         MyGame::actionMenu->getItem(0)->setAction(new Event(ATTACK, MyGame::eDispatcher, player, e->getEnemy()));
         //visability and transform choice
-        if (player->possiblestates.find("ghost")== player->possiblestates.end()){
-            // MyGame::actionMenu->getItem(2)->nextMenu->getItem(0)->setAction(new Event(TRANSFORM, MyGame::eDispatcher, player, e->getEnemy()));
-            MyGame::actionMenu->getItem(2)->nextMenu->getItem(0)->visible = false; /// MyGame::actionMenu->getItem(2)->nextMenu->getItem(0)
+        
+        if (player->possiblestates.find("ghost") == player->possiblestates.end()){
+            if (MyGame::abilities->numChildren() == 2){
+                MyGame::abilities->getItem(0)->visible = false; /// MyGame::actionMenu->getItem(2)->nextMenu->getItem(0)
+            }
+            else{
+                MyGame::abilities->getItem(1)->visible = false; 
+            }
+           //MyGame::abilities->getItem(0)->
         }
         else{
-            MyGame::actionMenu->getItem(2)->nextMenu->getItem(0)->setAction(new Event(GHOST, MyGame::eDispatcher, player, e->getEnemy()));
+            if (MyGame::abilities->numChildren() == 2){
+                MyGame::abilities->getItem(0)->visible = true; 
+                cout<<"action ghost"<<endl;
+                MyGame::abilities->getItem(0)->setAction(new Event(GHOST, MyGame::eDispatcher, player, e->getEnemy()));
+            }
+            else{
+                MyGame::abilities->getItem(1)->visible = true; 
+                cout<<"action ghost2"<<endl;
+                MyGame::abilities->getItem(1)->setAction(new Event(GHOST, MyGame::eDispatcher, player, e->getEnemy()));
+            }
         }
-        if (player->possiblestates.find("strength")== player->possiblestates.end()){
+        if (player->possiblestates.find("strength") == player->possiblestates.end()){
             // MyGame::actionMenu->getItem(2)->nextMenu->getItem(0)->setAction(new Event(TRANSFORM, MyGame::eDispatcher, player, e->getEnemy()));
-            MyGame::actionMenu->getItem(2)->nextMenu->getItem(1)->visible = false; /// MyGame::actionMenu->getItem(2)->nextMenu->getItem(0)
+             /// MyGame::actionMenu->getItem(2)->nextMenu->getItem(0)
+             if (MyGame::abilities->numChildren() == 2){
+                MyGame::abilities->getItem(1)->visible = false; 
+            }
+            else{
+                MyGame::abilities->getItem(2)->visible = false; 
+            }
         }
         else{
-            MyGame::actionMenu->getItem(2)->nextMenu->getItem(1)->setAction(new Event(STRENGTHCOMBAT, MyGame::eDispatcher, player, e->getEnemy()));
+             if (MyGame::abilities->numChildren() == 2){
+                MyGame::abilities->getItem(1)->visible = true; 
+                MyGame::abilities->getItem(1)->setAction(new Event(GHOST, MyGame::eDispatcher, player, e->getEnemy()));
+            }
+            else{
+                MyGame::abilities->getItem(2)->visible = true; 
+                MyGame::abilities->getItem(2)->setAction(new Event(STRENGTHCOMBAT, MyGame::eDispatcher, player, e->getEnemy()));
+            }
         }
-        if (player->possiblestates.find("ghost")== player->possiblestates.end() && player->possiblestates.find("strength")== player->possiblestates.end()){
-             MyGame::actionMenu->getItem(2)->nextMenu->getItem(2)->nextMenu = MyGame::actionMenu;//setAction(new Event(TRAN, MyGame::eDispatcher, player, e->getEnemy()));
-        }
+        /* if (player->possiblestates.find("ghost") != player->possiblestates.end() && player->possiblestates.find("strength") != player->possiblestates.end()){
+            // MyGame::actionMenu->getItem(2)->nextMenu->removeChild(2);//->getItem(2)->nextMenu = MyGame::actionMenu;//setAction(new Event(TRAN, MyGame::eDispatcher, player, e->getEnemy()));
+        } */
         MyGame::actionMenu->getItem(1)->setAction(new Event(DEFEND, MyGame::eDispatcher, player, e->getEnemy()));
         MyGame::actionMenu->getItem(3)->setAction(new Event(REVERTBATTLE, MyGame::eDispatcher, player, e->getEnemy()));
         MyGame::actionMenu->visible = true;
@@ -279,9 +307,15 @@ void SceneManager::handleEvent(Event* e)
             playerdamage = playerdamage/2;
         }
         playerLastAction = "ghost";
+        cout<<"ghost"<<endl;
         enemyDamage = enemyDamage-enemyDamage;
         TextBox* playerturn = new TextBox(); 
         playerturn->setText("You transformed into a ghost! Press SPACE to continue.");
+        MyGame::abilities->goBack();
+        MyGame::actionMenu->enemyTurn = true;
+        MyGame::actionMenu->selectedaitem = false;
+        MyGame::actionMenu->visible = false; 
+        MyGame::currentScene->addChild(playerturn);
     }
      else if (e->getType() == STRENGTHCOMBAT){
         if (playerLastAction == "defend"){
@@ -292,9 +326,12 @@ void SceneManager::handleEvent(Event* e)
         }
         playerLastAction = "strength";
         playerdamage = playerdamage*2;
-        //enemyDamage = enemyDamage-enemyDamage;
         TextBox* playerturn = new TextBox(); 
-        playerturn->setText("You transformed into a ghost! Press SPACE to continue.");
+        playerturn->setText("You transformed into a bear! Press SPACE to continue.");
+        MyGame::actionMenu->enemyTurn = true;
+        MyGame::actionMenu->selectedaitem = false;
+        MyGame::actionMenu->visible = false; 
+        MyGame::currentScene->addChild(playerturn);
     }
     else if (e->getType() == ENEMYTURN) {
         //if (lasting )
@@ -465,9 +502,15 @@ void SceneManager::handleEvent(Event* e)
         string id = MyGame::currentScene->getEnemy()->id;
         id.pop_back();
         if (id == "ghost"){
+            if (player->possiblestates.size() == 0){
+               MyGame::abilities->removeChild(0);
+            }
             player->possiblestates.insert("ghost");
         }
         if (id == "frog"){
+             if (player->possiblestates.size() == 0){
+                MyGame::abilities->removeChild(0);
+            }
             player->possiblestates.insert("frog");
         }
         e->setType(REVERTBATTLE);
