@@ -14,6 +14,7 @@
 #define CONTROLLER_ADDED_EVENT "Controller Added Event"
 #define CONTROLLER_REMOVED_EVENT "Controller Removed Event"
 #define SCENE_CHANGE_EVENT "Scene Change Event"
+#define RUMBLE_EVENT "Rumble Event"
 
 using namespace std;
 

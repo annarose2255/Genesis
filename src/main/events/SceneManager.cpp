@@ -4,6 +4,7 @@
 #include "MyGame.h"
 #include "SelectionMenu.h"
 #include "MenuItem.h"
+#include "RumbleEvent.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -92,6 +93,8 @@ void SceneManager::handleEvent(Event* e)
     }
     else if (e->getType() == FIGHT)
     {   
+        // rumble
+        EventDispatcher::getInstance()->dispatchEvent(new RumbleEvent(RUMBLE_EVENT, EventDispatcher::getInstance(), 0.5, 500));
         //add player and enemy turn listeners 
         //when player finishes a move, move on to enemy turn 
         prevS = currentS;
@@ -219,14 +222,14 @@ void SceneManager::handleEvent(Event* e)
                 playerturn->setText("You attacked! Press SPACE to continue.");
             }
             else if( turnCount < turnAbilityStop){ //lasting == 1 || lasting == 2 ){
-                 playerturn->setText("You attack goes right through the enemy! Press SPACE to continue.");
+                 playerturn->setText("Your attack goes right through the enemy! Press SPACE to continue.");
             }
             else if (block == true){
                 enemyHP->curVal -= playerdamage/2;
                  playerturn->setText("You attacked but it isnt very effective. Press SPACE to continue.");
             }
             else{ //do no damage 
-                 playerturn->setText("You attack seems to cause no harm! Press SPACE to continue.");
+                 playerturn->setText("Your attack seems to cause no harm! Press SPACE to continue.");
             }
             // if (lasting == 2){ //reset lasting
             //     lasting = 0;
