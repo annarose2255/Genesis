@@ -2,6 +2,7 @@
 #include "DisplayObject.h"
 #include "DisplayObjectEvent.h"
 #include <iostream>
+#include <algorithm>
 #include "Player.h"
 using namespace std;
 
@@ -89,6 +90,17 @@ void CollisionSystem::handleEvent(Event* e){
 		// put in prev map to keep track of previous point
 		if (prevMap.find(displayObject) == prevMap.end()){
 			prevMap.insert({displayObject, displayObject->getHitboxPts().topLeft});
+		}
+	}
+	else if (e->getType() == DO_REMOVED_EVENT){
+		DisplayObjectEvent* doEvent = (DisplayObjectEvent*) e;
+		DisplayObject* displayObject = doEvent->displayObject;
+		cout << "REMOVING OBJECT of type : " << displayObject->gameType << endl;
+		// if the gametype is registered in the map
+		if (typeMap.find(displayObject->gameType) != typeMap.end()){
+			// remove the display object from the map
+			vector<DisplayObject*> doList = typeMap.at(displayObject->gameType);
+			doList.erase(std::remove(doList.begin(), doList.end(), displayObject), doList.end());
 		}
 	}
 }

@@ -26,6 +26,7 @@ Controls* MyGame::controls = new Controls();
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
 	eDispatcher->addEventListener(collisionSystem, DO_ADDED_EVENT);
+	eDispatcher->addEventListener(collisionSystem, DO_REMOVED_EVENT);
     scene1 = new Scene();
     // scene1->loadScene("./resources/scenes/character.json");
 	scene1->loadTileMap("./resources/scenes/area1files/Area 1 - Room 7.json");

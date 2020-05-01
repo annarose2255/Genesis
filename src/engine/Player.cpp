@@ -88,7 +88,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	AnimatedSprite::update(pressedKeys, pressedButtons, movedAxis);
 	//cout<<"yaccount num: "<<_yAccCount<<endl;
 	state_combat_cooldown_counter_start++;
-	cout<<"yaccount num: "<<state_combat_cooldown_counter_start<<endl;
+	// cout<<"yaccount num: "<<state_combat_cooldown_counter_start<<endl;
 	// oldY = this->position.y;
 	// oldX = this->position.x;
 	// this->prevPos.x = oldX;
