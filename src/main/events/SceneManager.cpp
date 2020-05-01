@@ -7,11 +7,24 @@
 #include <iostream>
 #include <string>
 using namespace std;
+
+SceneManager* SceneManager::instance;
+
 SceneManager::SceneManager(Player* chara, Scene* s)
 {
     currentS = s;
     player = chara;
+    instance = this;
+    // update collision system
+    Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
+    EventDispatcher::getInstance()->dispatchEvent(e);
 }
+
+SceneManager::SceneManager()
+{
+    instance = this;
+}
+
 SceneManager::~SceneManager()
 {
     delete door;
@@ -21,7 +34,7 @@ void SceneManager::handleEvent(Event* e)
     if (e->getType() == CHANGE)
     {
         // Event* event = dynamic_cast<Event*>(event);
-        MyGame::collisionSystem->clearAllData();
+        //MyGame::collisionSystem->clearAllData();
         Scene* nextScene = new Scene();
         cout << "scene path " << e->getScenePath() << endl;
         nextScene->loadTileMap(e->getScenePath());
@@ -63,8 +76,8 @@ void SceneManager::handleEvent(Event* e)
         Game::camera->removeImmediateChild(MyGame::currentScene);
 		MyGame::currentScene = currentS;       
 		Game::camera->addChild(MyGame::currentScene);
-        MyGame::collisionSystem->watchForCollisions("player", "platform"); 
-	    MyGame::collisionSystem->watchForCollisions("player", "enemy");
+        //MyGame::collisionSystem->watchForCollisions("player", "platform"); 
+	    //MyGame::collisionSystem->watchForCollisions("player", "enemy");
         //Tween scene in
         Tween* newFade = new Tween(currentS);
         TweenableParams alpha; 
@@ -73,7 +86,8 @@ void SceneManager::handleEvent(Event* e)
         MyGame::tj->add(newFade); 
 
         // ed->addEventListener(this, CHANGE);
-
+        Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
+        EventDispatcher::getInstance()->dispatchEvent(e);
 
     }
     else if (e->getType() == FIGHT)
@@ -81,7 +95,7 @@ void SceneManager::handleEvent(Event* e)
         //add player and enemy turn listeners 
         //when player finishes a move, move on to enemy turn 
         prevS = currentS;
-        MyGame::collisionSystem->clearCollisionPairs();
+        // MyGame::collisionSystem->clearCollisionPairs();
         Scene* nextScene = new Scene();
         nextScene->inBattle = true;
         player = e->getPlayer();
@@ -129,7 +143,7 @@ void SceneManager::handleEvent(Event* e)
         Game::camera->removeImmediateChild(MyGame::currentScene);
 		MyGame::currentScene = currentS;    
 		Game::camera->addChild(MyGame::currentScene);
- 
+        
         Tween* menuMove = new Tween(MyGame::actionMenu);
         Tween* enemyMove = new Tween(MyGame::currentScene->getEnemy());
         TweenableParams mfade, emove, emove2, egrowX, egrowY; 
@@ -165,7 +179,9 @@ void SceneManager::handleEvent(Event* e)
         enemyMove->animate(egrowX, e->getEnemy()->scaleX, 2.5, 5);
         enemyMove->animate(egrowY, e->getEnemy()->scaleY, 2.5, 5);
         MyGame::tj->add(menuMove); 
-        MyGame::tj->add(enemyMove); 
+        MyGame::tj->add(enemyMove);
+        Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
+        EventDispatcher::getInstance()->dispatchEvent(e);
     }
     else if (e->getType() == ATTACK){
         cout<<"attack"<<endl;
@@ -528,12 +544,12 @@ void SceneManager::handleEvent(Event* e)
         Game::camera->removeImmediateChild(MyGame::currentScene);  
         //currentS->loadTileMap("./resources/scenes/area1files/Area1Room7.json");
 	    currentS->loadScene("./resources/scenes/Room7.json");     
-         MyGame::currentScene = currentS;
+        MyGame::currentScene = currentS;
         Game::camera->addChild(MyGame::currentScene);
         Game::camera->position.x = 0;
         //delete MyGame::scene1;
-        MyGame::collisionSystem->watchForCollisions("player", "platform"); 
-	    MyGame::collisionSystem->watchForCollisions("player", "enemy");
+        // MyGame::collisionSystem->watchForCollisions("player", "platform"); 
+	    // MyGame::collisionSystem->watchForCollisions("player", "enemy");
         jumpAbility = false;
         block = false;
         abilityUse = 0;
@@ -544,7 +560,8 @@ void SceneManager::handleEvent(Event* e)
         turnAbilityUse = 0; // turn where ability can be used again
         turnAbilityStop = 0; //turn where ability stops being used;
         lastAction = "";
-
+        Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
+        EventDispatcher::getInstance()->dispatchEvent(e);
     }
     else if (e->getType() == DEATH){
         playerHP->curVal = 0;
@@ -582,8 +599,8 @@ void SceneManager::handleEvent(Event* e)
         Game::camera->removeImmediateChild(MyGame::currentScene);
         MyGame::currentScene = currentS;       
         Game::camera->addChild(MyGame::currentScene);
-        MyGame::collisionSystem->watchForCollisions("player", "platform"); 
-	    MyGame::collisionSystem->watchForCollisions("player", "enemy");
+        // MyGame::collisionSystem->watchForCollisions("player", "platform"); 
+	    // MyGame::collisionSystem->watchForCollisions("player", "enemy");
         jumpAbility = false;
         block = false;
         abilityUse = 0;
@@ -594,9 +611,19 @@ void SceneManager::handleEvent(Event* e)
         turnAbilityUse = 0; // turn where ability can be used again
         turnAbilityStop = 0; //turn where ability stops being used;
         lastAction = "";
+        Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
+        EventDispatcher::getInstance()->dispatchEvent(e);
     }
 }
 
 Scene* SceneManager::getCurrentScene(){
     return this->currentS;
+}
+
+
+SceneManager* SceneManager::getInstance(){
+    if (!instance){
+        instance = new SceneManager();
+    }
+    return instance;
 }

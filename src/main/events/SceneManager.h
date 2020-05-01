@@ -27,8 +27,9 @@
 class SceneManager: public EventListener{
 
 public:
-
+    static SceneManager* getInstance();
     SceneManager(Player* chara, Scene* s);
+    SceneManager();
     ~SceneManager();
 	void handleEvent(Event* e);
     Scene* getCurrentScene();
@@ -38,7 +39,8 @@ public:
     SDL_Point startPos;
     SDL_Point startCam;
 
-private:	
+private:
+    static SceneManager* instance;
     Scene* currentS;
 	Scene* prevS;
 	SDL_Point prevPos;

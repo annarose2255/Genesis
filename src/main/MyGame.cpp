@@ -28,9 +28,8 @@ SelectionMenu* MyGame::abilities = new SelectionMenu();
 SelectionMenu* MyGame::enemyFate = new SelectionMenu(); 
 
 MyGame::MyGame() : Game(800, 700) { //rendered space
+	cout << "past declarations" << endl;
 	instance = this;
-	eDispatcher->addEventListener(collisionSystem, DO_ADDED_EVENT);
-	eDispatcher->addEventListener(collisionSystem, DO_REMOVED_EVENT);
     scene1 = new Scene();
     // scene1->loadScene("./resources/scenes/character.json");
 	scene1->loadTileMap("./resources/scenes/area1files/Area1Room7.json");
@@ -124,6 +123,13 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	enemyHP->visible = false;
     //Sound 
 	mainMusic = new Sound();
+	//Collision Detection 
+	collisionSystem->watchForCollisions("player", "platform"); 
+	collisionSystem->watchForCollisions("player", "enemy");
+	// set up collision system before scene manager is called
+	// EventDispatcher::getInstance()->addEventListener(collisionSystem, DO_ADDED_EVENT);
+	//EventDispatcher::getInstance()->addEventListener(this, DO_REMOVED_EVENT);
+	EventDispatcher::getInstance()->addEventListener(collisionSystem, SCENE_CHANGE_EVENT);
 	//Change Scene 
 	sm = new SceneManager(currentScene->getPlayer(), currentScene);
 	sm->playerHP = hp; 
@@ -135,10 +141,23 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	
 	eDispatcher = EventDispatcher::getInstance();
 	eDispatcher->addEventListener(sm, CHANGE);
-	// eDispatcher->addEventListener(sm, FIGHT);
-	//Collision Detection 
-	collisionSystem->watchForCollisions("player", "platform"); 
-	collisionSystem->watchForCollisions("player", "enemy");
+	eDispatcher->addEventListener(sm, FIGHT);
+	eDispatcher->addEventListener(sm, ATTACK);
+	eDispatcher->addEventListener(sm, REVERT);
+	eDispatcher->addEventListener(sm, REVERTBATTLE);
+	eDispatcher->addEventListener(sm, ENEMYTURN);
+	eDispatcher->addEventListener(sm, DEFEATEDENEMY);
+	eDispatcher->addEventListener(sm, DECIDEFATE);
+	eDispatcher->addEventListener(sm, SPARE);
+	eDispatcher->addEventListener(sm, KILL);
+	eDispatcher->addEventListener(sm, CONSUME);
+	eDispatcher->addEventListener(sm, DEFEND);
+	eDispatcher->addEventListener(sm, TRANSFORM);
+	eDispatcher->addEventListener(sm, GHOST);
+	eDispatcher->addEventListener(sm, STRENGTHCOMBAT);
+	eDispatcher->addEventListener(sm, DEATH);
+	//eDispatcher->addEventListener(sm, )
+	
 	//Tween
 	currentScene->getPlayer()->play("Idle");
 	
@@ -147,6 +166,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	chalpha.name = "alpha";
 	charTween->animate(chalpha, 0, 255, 3); 
 	tj->add(charTween);
+	cout << "end constructor" << endl;
 }
 
 MyGame::~MyGame(){
