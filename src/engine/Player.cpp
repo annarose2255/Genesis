@@ -114,13 +114,11 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		this->play("Jump");
 		cout<<"jump"<<endl;
 		jump_buffer_start = true;
-		if (this->position.y < 350 && MyGame::camera->position.y+this->_yVel > MyGame::currentScene->top && 
-			MyGame::camera->position.y+this->_yVel < MyGame::currentScene->bottom) 
-		{
-			cout << "added " << MyGame::camera->position.y+this->_yVel << endl; 
-			cout << "top " << MyGame::currentScene->top << endl;
-			MyGame::camera->position.y+=this->_yVel;
-		}
+		// if (this->position.y < 350 && Game::camera->position.y+this->_yVel < MyGame::currentScene->top) 
+		// {
+		// 	Game::camera->position.y+=this->_yVel;
+		// 	cout << "Jumping cam " << endl;
+		// }
 	}
 /* 	if(this->standing){
 		jump_buffer_start = false;
@@ -213,12 +211,16 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		}
 		//when to move camera at start of level 
 		if (right && this->position.x > 400
-			&& MyGame::camera->position.x-2 + sprint > MyGame::currentScene->right) { //windowWidth/2
+			&& MyGame::camera->position.x-2 + sprint >= MyGame::currentScene->right) { //windowWidth/2
 			MyGame::camera->position.x-=2 + sprint;
 			// cout << "first right" << endl;
 		}
+		else if (left && this->position.x > 400) {
+			left = false; 
+			right = true; 
+		}
 		//when to move at end of level
-		else if (left && MyGame::camera->position.x-2 + sprint > MyGame::currentScene->right
+		else if (left && MyGame::camera->position.x-2 + sprint >= MyGame::currentScene->right
 			&& this->position.x < (abs(MyGame::currentScene->right) + 400)) {
 				MyGame::camera->position.x-=2 + sprint;
 		} 
@@ -230,11 +232,15 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 			this->play("Run");
 		}
 		//move camera at start of level 
-		if (right && this->position.x > 400 && MyGame::camera->position.x + 2 + sprint < MyGame::currentScene->left) {
+		if (right && this->position.x > 400 && MyGame::camera->position.x + 2 + sprint <= MyGame::currentScene->left) {
 			MyGame::camera->position.x+=2 + sprint;
 			// cout << "first left" << endl;
 		}
-		else if (left && MyGame::camera->position.x + 2 + sprint < MyGame::currentScene->left
+		else if (right && this->position.x < 400) {
+			right = false; 
+			left = true;
+		}
+		else if (left && MyGame::camera->position.x + 2 + sprint <= MyGame::currentScene->left
 			&& this->position.x < (abs(MyGame::currentScene->right) + 400)) {
 				MyGame::camera->position.x+=2 + sprint;
 		}
@@ -306,13 +312,11 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 	/* Actual falling depending on falling versus whether a jump occurred */
 	this->position.y += this->_yVel;
-	if (this->position.y > 350 && !this->standing && MyGame::camera->position.y-this->_yVel < MyGame::currentScene->bottom &&
-		MyGame::camera->position.y-this->_yVel > MyGame::currentScene->top) 
-	{
-		cout << "subtracted " << MyGame::camera->position.y-this->_yVel << endl;
-		cout << "bottom " << MyGame::currentScene->bottom << endl;
-		MyGame::camera->position.y-=this->_yVel;
-	}
+	// if (this->position.y > 350 && !this->standing && Game::camera->position.y-this->_yVel > MyGame::currentScene->bottom) 
+	// {
+	// 	Game::camera->position.y-=this->_yVel;
+	// 	cout << "fell cam " << endl;
+	// }
 }
 
 /*void Player::onEnemyCollision(Enemy* enemy){

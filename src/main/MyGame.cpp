@@ -46,9 +46,9 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 
     // UI Components
     // hp = new HealthBar(0, 100, 0);
-    tBox = new TextBox();
-    tBox->setText("Hello World !");
-    tBox->visible = false;
+    tBox = new TextBox(3);
+    tBox->setText("Press [A][D] to move! Press [SPACE] to jump! (Press [J])");
+    tBox->visible = true;
     mainMenu = new SelectionMenu();
     MenuItem* items = new MenuItem("Items", 0, 0);
     MenuItem* save = new MenuItem("Save", 250, 0);
@@ -281,7 +281,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	}
 	// To change text
 	if (pressedKeys.find(SDL_SCANCODE_J) != pressedKeys.end()) {
-		tBox->setText("Testing this out !"); 
+		tBox->setText("Seems like we can't get through the room without defeating these creatures! Run into them to battle! (Press [U] to close)"); 
 	}	
 	//updating camera position
     Game::camera->camera.x =  currentScene->position.x + currentScene->width/2 - 400;

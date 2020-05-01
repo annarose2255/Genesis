@@ -57,7 +57,7 @@ private:
     Sound* mainMusic;
     
     bool change = false; 
-    bool tchange = false;    
+    bool tchange = true;    
     Scene* scene1;
     // Scene* scene2; 
     // Scene* scene3;   	

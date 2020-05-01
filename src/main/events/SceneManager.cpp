@@ -105,6 +105,7 @@ void SceneManager::handleEvent(Event* e)
         // EventDispatcher* ed = e->getSource();
         // ed->removeEventListener(this, CHANGE);
         currentS = nextScene;
+        prevCam = Game::camera->position;
         Game::camera->removeImmediateChild(MyGame::currentScene);
 		MyGame::currentScene = currentS;    
 		Game::camera->addChild(MyGame::currentScene);
@@ -118,37 +119,56 @@ void SceneManager::handleEvent(Event* e)
         egrowX.name = "scaleX";
         egrowY.name = "scaleY";
         menuMove->animate(mfade, 0, 255, 5);
-        int newPosX; 
+        // int newPosX; 
         //camera at start or end of a level 
-        if (e->getEnemy()->position.x < 800) {
-            newPosX = (int) (Game::camera->position.x + 800)/2;
+        // if (e->getEnemy()->position.x < 400) {
+        //     newPosX = (int) (Game::camera->position.x + 800)/2;
+        //     cout << "beginning of level" << endl;
+        // }
+        // else if (e->getEnemy()->position.x > MyGame::currentScene->right + 400 &&
+        //     e->getPlayer()->left){
+        //     newPosX = (int) (abs(Game::camera->position.x) + 400);
+        //     cout << "end of level" << endl;
+        // }
+        // else {
+        //     newPosX = MyGame::currentScene->getPlayer()->position.x;
+        // }
+        // int newPosY; 
+        // if (Game::camera->position.y > 0) { //render with respect to camera
+        //     cout << "camera moved!"<< endl;
+        //     newPosY = 400 - Game::camera->position.y;
+        // }
+        // else {
+        //     cout << "camera not moved!" << endl;
+        //     newPosY = 400; 
+        // }
+        int convertedX; 
+        if (Game::camera->position.x > -3) { //beginning of level 
+            convertedX = e->getEnemy()->position.x; 
+            cout << "at beginning!" << endl;
         }
-        else if (e->getEnemy()->position.x > MyGame::currentScene->right + 800){
-            newPosX = (int) (abs(Game::camera->position.x) + 400);
+        //end of level 
+        else if (Game::camera->position.x < MyGame::currentScene->right + 400
+            && !e->getPlayer()->right) {
+            double ratio = ((double) (e->getEnemy()->position.x)/(abs(Game::camera->position.x) + 800));
+            convertedX = (int) ratio * 800; 
         }
         else {
-            newPosX = MyGame::currentScene->getPlayer()->position.x;
-        }
-        int newPosY; 
-        if (Game::camera->position.y > 0) { //render with respect to camera
-            cout << "camera moved!"<< endl;
-            newPosY = 400 - Game::camera->position.y;
-        }
-        else {
-            cout << "camera not moved!" << endl;
-            newPosY = 400; 
+            convertedX = 400; 
+            cout << "in the middle" << endl;
         }
         //camera at end of level 
-        enemyMove->animate(emove, e->getEnemy()->position.x, newPosX, 5);
-        enemyMove->animate(emove2, e->getEnemy()->position.y, newPosY, 5);
+        enemyMove->animate(emove, convertedX, 400, 5);
+        enemyMove->animate(emove2, e->getEnemy()->position.y, 400, 5);
         enemyMove->animate(egrowX, e->getEnemy()->scaleX, 2.5, 5);
         enemyMove->animate(egrowY, e->getEnemy()->scaleY, 2.5, 5);
         MyGame::tj->add(menuMove); 
-        MyGame::tj->add(enemyMove); 
+        MyGame::tj->add(enemyMove);
+        Game::camera->position = {0,0}; 
     }
     else if (e->getType() == ATTACK){
-         TextBox* playerturn = new TextBox(); 
-         turnCount++;
+        TextBox* playerturn = new TextBox(); 
+        turnCount++;
         if (enemyHP->curVal < 10) {
             cout << "ENEMY HEALTH DEPLETED"<<endl;
             enemyHP->curVal = 0;
@@ -200,7 +220,8 @@ void SceneManager::handleEvent(Event* e)
             if (enemyDefeated == false){
                 TextBox* playerturn = new TextBox(); 
                 playerturn->setText("You attacked! Press SPACE to continue.");
-                MyGame::currentScene->addChild(playerturn);
+                playerturn->position.x = 0;
+                MyGame::currentScene->addChild(playerturn); 
             }
             //MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
             cout<<"player turn over"<<endl;
@@ -209,7 +230,7 @@ void SceneManager::handleEvent(Event* e)
     }
     else if (e->getType() == ENEMYTURN) {
         //if (lasting )
-         TextBox* enemyattack = new TextBox(); 
+         TextBox* enemyattack = new TextBox();
         //  cout<<"cooldown: "<<cooldown<<endl;
         //  if (cooldown == 0){ //rest cooldown
         //      cooldown = 4;
@@ -242,8 +263,9 @@ void SceneManager::handleEvent(Event* e)
             //     }
             // } 
             enemyattack->setText("The enemy attacked back! Press C to continue.");
-             MyGame::currentScene->addChild(enemyattack);
-             lastAction = "attack";
+            enemyattack->position.x = 0;
+            MyGame::currentScene->addChild(enemyattack);
+            lastAction = "attack";
              
         }
         else if (choose > 33 && choose <= 66){
@@ -282,6 +304,7 @@ void SceneManager::handleEvent(Event* e)
             }
             
             //enemyattack->setText("The enemy used an ability! Press C to continue.");
+            enemyattack->position.x = 0;
             MyGame::currentScene->addChild(enemyattack);
             lastAction = "ability";        
         }
@@ -316,7 +339,7 @@ void SceneManager::handleEvent(Event* e)
                 enemyattack->setText("The enemy blocked! Press C to continue.");
                
             }
-            
+            enemyattack->position.x = 0;
             MyGame::currentScene->addChild(enemyattack);
             lastAction = "block";
         }
@@ -324,13 +347,6 @@ void SceneManager::handleEvent(Event* e)
        cout<<"END OF ENEMY TURN"<<endl;
     
         //enemy turn over
-        //how to remove/change actionMenu??? use the same menu but change the options?? 
-        
-        // Game::camera->removeImmediateChild(MyGame::currentScene);
-        // MyGame::currentScene->removeImmediateChild(enemyattack);    
-		// Game::camera->addChild(MyGame::currentScene);
-        // MyGame::actionMenu->visible = true;
-        // MyGame::actionMenu->visible = true; 
     }
     else if (e->getType() == DEFEATEDENEMY) {
         cout << "u defeated the enemy!"<< endl;
@@ -393,6 +409,7 @@ void SceneManager::handleEvent(Event* e)
         //e->getEnemy()->position.x = e->getEnemy()->prevPos;
         //e->getEnemy()->scaleX = e->getEnemy)()->prevPos;
         //e->getEnemy()->scaleY = e->getEnemy)()->prevPos;
+        Game::camera->position = prevCam;
         Game::camera->removeImmediateChild(MyGame::currentScene);
         MyGame::currentScene = currentS;       
         Game::camera->addChild(MyGame::currentScene);
