@@ -1,12 +1,12 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
-#include "Sprite.h"
-#include "Scene.h"
+//#include "Sprite.h"
+//#include "Scene.h"
 #include "MyGame.h"
 #include "Camera.h"
-#include "QuestDemo.h"
-#include "QuestManager.h"
+//#include "QuestDemo.h"
+//#include "QuestManager.h"
 #include "Tween.h"
 #include "TweenableParams.h"
 #include "TweenJuggler.h"

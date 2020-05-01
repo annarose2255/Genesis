@@ -3,10 +3,10 @@
 #include <DisplayObject.h>
 #include <iostream>
 #include "MyGame.h"
-#include "DevTool.h"
-#include "SheetDemo.h"
-#include "QuestDemo.h"
-#include "CollisionDemo.h"
+//#include "DevTool.h"
+//#include "SheetDemo.h"
+//#include "QuestDemo.h"
+//#include "CollisionDemo.h"
 #include "AnimatedSprite.h"
 #include "rapidxml_utils.hpp"
 
@@ -33,30 +33,30 @@ int main(int argc, char ** argv)
 		if ( string(argv[1]) == "-h" || string(argv[1]) == "--help" ){
 			show_usage(argv[0]);
 		}
-		else if ( string(argv[1]) == "-c" ){
+		/* else if ( string(argv[1]) == "-c" ){
 			cout << "Starting Collision Demo..." << endl;
-			CollisionDemo* collisionDemo = new CollisionDemo();
+			//CollisionDemo* collisionDemo = new CollisionDemo();
 			collisionDemo->start();
 			delete collisionDemo;
 		}
 		else if (string(argv[1]) == "-d"){
 			cout << "Starting DevTool..." << endl;
-			DevTool* devTool = new DevTool();
+			//DevTool* devTool = new DevTool();
 			devTool->start();
 			delete devTool;
 		}
 		else if (string(argv[1]) == "-q"){
 			cout << "Starting Sheet Demo..." << endl;
-			SheetDemo* sheetDemo = new SheetDemo();
+			//SheetDemo* sheetDemo = new SheetDemo();
 			sheetDemo->start();
 			delete sheetDemo;
 		} 
 		else if (string(argv[1]) == "-s"){
 			cout << "Starting Sheet Demo..." << endl;
-			SheetDemo* sheetDemo = new SheetDemo();
+			//SheetDemo* sheetDemo = new SheetDemo();
 			sheetDemo->start();
 			delete sheetDemo;
-		}
+		} */
 		else {
 			std::cerr << "Invalid flag: " << argv[1] << "\n";
 			show_usage(argv[0]);
