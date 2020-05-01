@@ -12,6 +12,7 @@
 #include <json.hpp>
 #include <fstream>
 #include "Player.h"
+#include "Enemy.h"
 using namespace std;
 
 using json = nlohmann::json;
@@ -30,6 +31,7 @@ public:
     DisplayObjectContainer* makeDisplayObjectContainer(json data);
 	Layer* makeLayer(json data);
     Sprite* makeSprite(json data);
+	Enemy* makeEnemy(json data);
     AnimatedSprite* makeAnimatedSprite(json data);
 	Player* makePlayer(json data);
 
@@ -38,7 +40,9 @@ public:
 
 	DisplayObject* getObject();
 	DisplayObject* getEnemy();
+	Enemy* getRealEnemy();
 	void setEnemy(DisplayObject* enemy);
+	void setRealEnemy(Enemy* enemy);
 	// void addEnemy(DisplayObject* enemy);
 	AnimatedSprite* getCharacter();
 	Player* getPlayer();
@@ -59,6 +63,7 @@ private:
 	map<string, SDL_Point> transitionPts;  
 	AnimatedSprite* character;
 	Player* player;
+	Enemy* enemy;
 	// HealthBar* enemyHP;
 	bool fromTileMap;
 	int sceneNum; //tells us what room we're loading 

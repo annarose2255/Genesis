@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include "Player.h"
+#include "Enemy.h"
 
 Scene::Scene() : DisplayObjectContainer() {
     this->type = "Scene";
@@ -135,8 +136,14 @@ DisplayObject* Scene::getObject(){
 DisplayObject* Scene::getEnemy(){
     return this->curEnemy;
 }
+Enemy* Scene::getRealEnemy(){
+    return this->enemy;
+}
 void Scene::setEnemy(DisplayObject* enemy){
     this->curEnemy = enemy;
+}
+void Scene::setRealEnemy(Enemy* enemy){
+    this->enemy = enemy;
 }
 AnimatedSprite* Scene::getCharacter(){
     return this->character;
@@ -192,6 +199,10 @@ void Scene::loadScene(string sceneFilePath) {
         if(data["type"] == "AnimatedSprite") {
             AnimatedSprite* newAS = makeAnimatedSprite(data); 
             this->addChild(newAS);
+        }
+        if(data["type"] == "Enemy") {
+            Sprite* newS = makeEnemy(data);
+            this->addChild(newS);
         }
     }
     ifs.close();
@@ -377,6 +388,11 @@ Layer* Scene::makeLayer(json data) {
             newLayer->addChild(newP);
             this->player = newP; 
         }
+         if(childData["type"] == "Enemy") {
+            Enemy* newP = makeEnemy(childData); //possibly use root var
+            newLayer->addChild(newP);
+            this->enemy = newP; 
+        }
     }
     // cout << "children of newLayer " << newLayer->children.size() << endl;
     return newLayer;
@@ -428,8 +444,6 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     Player* newplayer;
     if (data["useSpriteSheet"]) {
          newAS = new Player(data["id"], true);
-         // newAS->addSSAnimation(data["animations"]["0"]["filepath"], 
-         //    data["animations"]["0"]["xmlpath"]);
     }
     else {
         newAS = new AnimatedSprite(data["id"]);
@@ -437,27 +451,7 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
             newAS->addAnimation(value["filepath"], value["name"], value["frames"], value["rate"], value["loop"]);
         }
     }
-    // AnimatedSprite* newAS = new AnimatedSprite(data["id"]);
-   // newplayer = newAS;
- /*  if (newplayer->id != "null"){
-      newplayer->visible = data["visible"];
-    newplayer->position.x = data["position.x"];
-    newplayer->position.y = data["position.y"];
-    newplayer->width = data["width"];
-    newplayer->height = data["height"];
-    newplayer->pivot.x = data["pivot.x"];
-    newplayer->pivot.y = data["pivot.y"];
-    newplayer->scaleX = data["scaleX"];
-    newplayer->scaleY = data["scaleY"];
-    newplayer->rotation = data["rotation"];
-    newplayer->alpha = data["alpha"];
-    newplayer->facingRight = data["facingRight"];
-    newplayer->srcrect.x = 0;
-    newplayer->srcrect.y = 0;
-    newplayer->gameType = data["gameType"];
-    this->player = newplayer;
-  } */
-  //else{
+
     newAS->visible = data["visible"];
     newAS->position.x = data["position.x"];
     newAS->position.y = data["position.y"];
@@ -473,10 +467,6 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     newAS->srcrect.x = 0;
     newAS->srcrect.y = 0;
     newAS->gameType = data["gameType"];
-    // if (data["gameType"] == "character") {
-    //     this->character = newAS;
-    // }
-  //}
 
 
     string anim = data["animations"]["0"]["name"];
@@ -558,6 +548,44 @@ Player* Scene::makePlayer(json data){
     }
     return newplayer;
 
+}
+Enemy* Scene::makeEnemy(json data) {
+    Enemy* newS = new Enemy(data["id"], data["filepath"]);
+    newS->visible = data["visible"];
+    newS->position.x = data["position.x"];
+    newS->position.y = data["position.y"];
+    newS->width = data["width"];
+    newS->height = data["height"];
+    newS->pivot.x = data["pivot.x"];
+    newS->pivot.y = data["pivot.y"];
+    newS->scaleX = data["scaleX"];
+    newS->scaleY = data["scaleY"];
+    newS->rotation = data["rotation"];
+    newS->alpha = data["alpha"];
+    newS->facingRight = data["facingRight"];
+    //newS->imgPath = data["filepath"];
+            
+    // Children
+    for(auto& [key, value] : data["children"].items()) {
+        json childData = value;
+        if(childData["type"] == "DisplayObject") {
+            DisplayObject* newDO = makeDisplayObject(childData);
+            newS->addChild(newDO);
+        }
+        if(childData["type"] == "DisplayObjectContainer") {
+            DisplayObjectContainer* newDOC = makeDisplayObjectContainer(childData);
+            newS->addChild(newDOC);
+        }
+        if(childData["type"] == "Sprite") {
+            Sprite* newS2 = makeSprite(childData);
+            newS->addChild(newS2);
+        }
+        if(childData["type"] == "AnimatedSprite") {
+            AnimatedSprite* newAS = makeAnimatedSprite(childData);
+            newS->addChild(newAS);
+        }
+    }
+    return newS;
 }
 void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
     if (this->sceneNum == 7 && 

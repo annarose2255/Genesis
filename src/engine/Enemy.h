@@ -3,21 +3,17 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "AffineTransform.h"
 #include <string>
 #include "Player.h"
-#include "MyGame.h"
-#include "AnimatedSprite.h"
-#include "Sprite.h"
 #include "Game.h"
-#include "Controls.h"
 #include <fstream>
 using namespace std;
 
-class Enemy : public AnimatedSprite{
+class Enemy : public Sprite{
 public:
 //Here, "Sayu" is the player character
 Enemy(Player* p);
+Enemy(string id, string path);
 
 void update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis);
 
@@ -57,6 +53,7 @@ int shield = 20;
 bool clean =0;
 int health = 20; //??
 Player* player;
+string state;
 };
 
 #endif

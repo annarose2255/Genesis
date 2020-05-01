@@ -1,14 +1,21 @@
 #include "Enemy.h"
 #include "DisplayObjectContainer.h"
-#include "AnimatedSprite.h"
+#include "Sprite.h"
+
 #include <cstdlib>
 
 using namespace std;
 
 //Here, "Sayu" is the player character
-Enemy::Enemy(Player* p): AnimatedSprite("Enemy"){
+Enemy::Enemy(Player* p): Sprite(){
 	this->type = "Enemy";
 	this->player = p;
+	this->width = 42; this->height = 40;
+	this->pivot.x = this->width/2;
+	this->pivot.y = this->height/2;
+}
+Enemy::Enemy(string id, string path) : Sprite(id, path){
+	this->type = "Enemy";
 	this->width = 42; this->height = 40;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
