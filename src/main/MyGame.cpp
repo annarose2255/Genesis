@@ -34,7 +34,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
     // scene1->loadScene("./resources/scenes/character.json");
 	scene1->loadTileMap("./resources/scenes/area1files/Area1Room1.json");
 	//scene1->loadScene("./resources/scenes/ghostchar.json");
-	//scene1->loadScene("./resources/scenes/Room1.json"); //contains objects and enemies
+	scene1->loadScene("./resources/scenes/Room7.json"); //contains objects and enemies
 	//test playable char
 	// AnimatedSprite* chara = new AnimatedSprite("chara"); 
 	// chara->addSSAnimation("./resources/ghostchar/idle.png", "./resources/ghostchar/idle.xml");
