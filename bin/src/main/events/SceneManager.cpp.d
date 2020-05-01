@@ -14,7 +14,7 @@ bin/./src/main/events/SceneManager.cpp.o: \
  src/engine/lib/json.hpp src/engine/ui/HealthBar.h \
  src/engine/AffineTransform.h src/engine/Layer.h src/engine/Game.h \
  src/engine/Camera.h src/engine/ControllerManager.h src/main/MyGame.h \
- src/engine/ui/../Game.h src/engine/Sound.h \
+ src/engine/events/../Game.h src/engine/Sound.h \
  src/engine/events/EventDispatcher.h src/main/events/SceneManager.h \
  src/engine/tweening/TweenJuggler.h src/engine/tweening/Tween.h \
  src/engine/CollisionSystem.h src/engine/ui/TextBox.h \
@@ -84,7 +84,7 @@ src/engine/ControllerManager.h:
 
 src/main/MyGame.h:
 
-src/engine/ui/../Game.h:
+src/engine/events/../Game.h:
 
 src/engine/Sound.h:
 
