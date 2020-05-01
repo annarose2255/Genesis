@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "MyGame.h"
 #include "SelectionMenu.h"
+#include "RoomSave.h"
 #include "MenuItem.h"
 #include <iostream>
 #include <string>
@@ -20,17 +21,43 @@ void SceneManager::handleEvent(Event* e)
 {
     if (e->getType() == CHANGE)
     {
-        // Event* event = dynamic_cast<Event*>(event);
+        //save previous room state 
+        // RoomSave* saveRm; 
+        // saveRm->player = MyGame::currentScene->getPlayer(); 
+        // saveRm->roomNum = MyGame::currentScene->getSceneNum(); 
+        // saveRm->enemies = MyGame::currentScene->enemies;
+        // saveRm->objects = MyGame::currentScene->objects;
+        // saveRm->tileFilePath = MyGame::currentScene->tileFilePath;
+        // MyGame::saveGame->addRoom(saveRm);
         MyGame::collisionSystem->clearAllData();
+        //check to see if loading room for the first time
+
+        //if MyGame::saveGame->loadedRoom()
         Scene* nextScene = new Scene();
-        cout << "scene path " << e->getScenePath() << endl;
+        // cout << "scene path " << e->getScenePath() << endl;
         nextScene->loadTileMap(e->getScenePath());
         int fromRm = currentS->getSceneNum(); 
         int toRm = nextScene->getSceneNum(); //room numbers of current level and next level
-        string otherFilepath = "./resources/scenes/Room"+ to_string(toRm) + ".json"; //get filepath for enemies in scene
-        nextScene->loadScene(otherFilepath); 
+        //check to see if loading room for the first time 
+        // if (MyGame::saveGame->savedRooms[toRm]){
+        //     for (auto enemy = MyGame::saveGame->savedRooms[toRm]->enemies.rbegin(); 
+        //         enemy != MyGame::saveGame->savedRooms[toRm]->enemies.rend(); enemy++) {      
+                
+        //         nextScene->addChild(enemy->second);
+        //     }
+        //     for (auto obj = MyGame::saveGame->savedRooms[toRm]->objects.rbegin(); 
+        //         obj != MyGame::saveGame->savedRooms[toRm]->objects.rend(); obj++) {      
+                
+        //         nextScene->addChild(obj->second);
+        //     }
+        //     player = MyGame::saveGame->savedRooms[toRm]->player; 
+        // }
+        // else {
+            string otherFilepath = "./resources/scenes/Room"+ to_string(toRm) + ".json"; //get filepath for enemies in scene
+            nextScene->loadScene(otherFilepath);
+            player = e->getPlayer();
+        // } 
         //load enemies + objects
-        player = e->getPlayer();
 
         Layer* layer = new Layer(); 
         layer->scrollSpeed = 1;
@@ -406,9 +433,7 @@ void SceneManager::handleEvent(Event* e)
         enemyHP->visible = false;
         enemyHP->curVal = enemyHP->maxVal;
         e->getEnemy()->gameType = "defeated"; //so player doesn't collide with it again
-        //e->getEnemy()->position.x = e->getEnemy()->prevPos;
-        //e->getEnemy()->scaleX = e->getEnemy)()->prevPos;
-        //e->getEnemy()->scaleY = e->getEnemy)()->prevPos;
+        // currentS->removeEnemy(e->getEnemy()->id);
         Game::camera->position = prevCam;
         Game::camera->removeImmediateChild(MyGame::currentScene);
         MyGame::currentScene = currentS;       

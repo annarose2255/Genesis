@@ -27,7 +27,7 @@ SelectionMenu* MyGame::decision = new SelectionMenu();
 SelectionMenu* MyGame::abilities = new SelectionMenu();
 SelectionMenu* MyGame::enemyFate = new SelectionMenu(); 
 Layer* MyGame::bg = new Layer();
-
+GameSave* MyGame::saveGame = new GameSave();
 MyGame::MyGame() : Game(800, 700) { //rendered space
 	instance = this;
 	eDispatcher->addEventListener(collisionSystem, DO_ADDED_EVENT);
@@ -38,17 +38,17 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	forestIMG->height = 700; 
 	forestIMG->loadTexture("./resources/backgrounds/Background.png");
 	bg->addChild(forestIMG);
-	forestIMG->visible = true;
+	forestIMG->visible = false;
 	DisplayObjectContainer* caveIMG = new DisplayObjectContainer();
 	caveIMG->width = 800; 
 	caveIMG->height = 700; 
 	caveIMG->loadTexture("./resources/backgrounds/cave.png");
 	bg->addChild(caveIMG);
-	caveIMG->visible = false;
+	caveIMG->visible = true;
 	// forestBG->getChild(0)->visible = false;
-	scene1->loadTileMap("./resources/scenes/area1files/Area1Room1.json");
+	scene1->loadTileMap("./resources/scenes/area1files/Area1Room7.json");
 	scene1->loadScene("./resources/scenes/ghostchar.json");
-	scene1->loadScene("./resources/scenes/Room1.json"); //contains objects and enemies
+	scene1->loadScene("./resources/scenes/Room7.json"); //contains objects and enemies
 	//test playable char
 	// AnimatedSprite* chara = new AnimatedSprite("chara"); 
 	// chara->addSSAnimation("./resources/ghostchar/idle.png", "./resources/ghostchar/idle.xml");
@@ -209,29 +209,29 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 
 
 	//character moves separately from scene
-	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
+	// if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
 
-		//currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
-		//currentScene->getCharacter()->position.y -=2;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
-		//currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
-		//currentScene->getCharacter()->position.y +=2;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
-		//currentScene->getCharacter()->facingRight = false;
-		//currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
-		//currentScene->getCharacter()->position.x -=2;
+	// 	//currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
+	// 	//currentScene->getCharacter()->position.y -=2;
+	// }
+	// if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
+	// 	//currentScene->getCharacter()->prevPos.y = currentScene->getCharacter()->position.y;
+	// 	//currentScene->getCharacter()->position.y +=2;
+	// }
+	// if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
+	// 	//currentScene->getCharacter()->facingRight = false;
+	// 	//currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
+	// 	//currentScene->getCharacter()->position.x -=2;
 
-			// currentScene->position.x+=2; //comment out to just move sprite
-	}
-	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
-		//currentScene->getCharacter()->facingRight = true;
-		//currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
-		//currentScene->getCharacter()->position.x +=2; 
+	// 		// currentScene->position.x+=2; //comment out to just move sprite
+	// }
+	// if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
+	// 	//currentScene->getCharacter()->facingRight = true;
+	// 	//currentScene->getCharacter()->prevPos.x = currentScene->getCharacter()->position.x;
+	// 	//currentScene->getCharacter()->position.x +=2; 
 
-			// currentScene->position.x-=2; //comment out to just move sprite
-	}
+	// 		// currentScene->position.x-=2; //comment out to just move sprite
+	// }
 	//double jump
 	if (pressedKeys.find(SDL_SCANCODE_Z)!=pressedKeys.end()){
 		currentScene->getPlayer()->setState("MovAblStart");//prevPos.y = currentScene->getCharacter()->position.y;
@@ -318,50 +318,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	if (Game::camera->camera.y > Game::camera->camera.h) {
 		Game::camera->camera.y = Game::camera->camera.h;
 	}
-	// //Change scene 
-	// if ((currentScene == scene1) && (currentScene->getCharacter()->position.y < 70)) {
-	// 		cout << "exited room!" << endl;
-	// 		eDispatcher->dispatchEvent(new Event(CHANGE, eDispatcher, currentScene->getCharacter(), 
-	// 			scene2));
-	// 		cout << "out of dispatcher" << endl;
-	// 		Game::camera->removeImmediateChild(currentScene);
-	// 		currentScene = sm->getCurrentScene();       
-	// 		Game::camera->addChild(currentScene);
-	// 		eDispatcher->addEventListener(sm, CHANGE);
-	// }
-	// else if ((currentScene->enemies.size() > 0) && (!fight) && (isCharInCoin(currentScene->getCharacter(), currentScene->getEnemy(0)))) {
-	// 	cout << "inside fight!" << endl;
-	// 	eDispatcher->dispatchEvent(new Event(FIGHT, eDispatcher, currentScene->getCharacter(),
-	// 		currentScene->getEnemy(0), scene3));
-	// 	Game::camera->removeImmediateChild(currentScene);
-	// 	currentScene = sm->getCurrentScene();       
-	// 	Game::camera->addChild(currentScene);
-	// 	fight = true;
-	// 	eDispatcher->addEventListener(sm, REVERT);
-	// }
-	// else if ((fight) && (isCharInCoin(currentScene->getCharacter(), currentScene->getEnemy(0)))) {
-	// 		cout << "inside revert!" << endl;
-	// 		eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher));
-	// 		cout << "out of revert dispatch" << endl;
-	// 		Game::camera->removeImmediateChild(currentScene);
-	// 		currentScene = sm->getCurrentScene();      
-	// 		Game::camera->addChild(currentScene);
-	// 		fight = false;
-	// 		// eDispatcher->addEventListener(sm, CHANGE);
-	// 		// eDispatcher->addEventListener(sm, FIGHT);
-	// }
-	// else if ((currentScene == scene2) && (currentScene->getCharacter()->position.y > 572)) {
-	// 		cout << "exited mountain!" << endl;
-	// 		// eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher, currentScene->getCharacter(), 
-	// 		//	scene1));
-	// 		eDispatcher->dispatchEvent(new Event(REVERT, eDispatcher));
-	// 		cout << "out of dispatcher" << endl;
-	// 		Game::camera->removeImmediateChild(currentScene);
-	// 		currentScene = sm->getCurrentScene();       
-	// 		Game::camera->addChild(currentScene);
-	// 		eDispatcher->addEventListener(sm, CHANGE);
-	// }
-
 	//sm->handleEvent(CHANGE);
 	tj->nextFrame(); 
 	

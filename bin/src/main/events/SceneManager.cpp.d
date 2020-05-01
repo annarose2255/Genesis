@@ -19,7 +19,9 @@ bin/./src/main/events/SceneManager.cpp.o: \
  src/engine/tweening/TweenJuggler.h src/engine/tweening/Tween.h \
  src/engine/CollisionSystem.h src/engine/ui/TextBox.h \
  src/engine/ui/SelectionMenu.h src/engine/Player/Controls.h \
- src/engine/Camera.h src/engine/ui/MenuItem.h src/engine/ui/TextBox.h \
+ src/engine/Camera.h src/main/gameSave/GameSave.h \
+ src/main/gameSave/RoomSave.h src/main/gameSave/RoomSave.h \
+ src/engine/ui/MenuItem.h src/engine/ui/TextBox.h \
  src/engine/ui/SelectionMenu.h
 
 src/main/events/SceneManager.h:
@@ -105,6 +107,12 @@ src/engine/ui/SelectionMenu.h:
 src/engine/Player/Controls.h:
 
 src/engine/Camera.h:
+
+src/main/gameSave/GameSave.h:
+
+src/main/gameSave/RoomSave.h:
+
+src/main/gameSave/RoomSave.h:
 
 src/engine/ui/MenuItem.h:
 

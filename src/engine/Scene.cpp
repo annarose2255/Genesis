@@ -21,6 +21,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
     //Level Info
     int rows, cols, tile_width, tile_height; 
     sceneNum = j["room"];
+    tileFilePath = tilePath;
     //save coord of entrance/exits of Level 
     for (auto& pt : j["transitionPts"]) {
         SDL_Point temp = {pt["x"], pt["y"]};
@@ -138,8 +139,11 @@ DisplayObject* Scene::getEnemy(){
 void Scene::setEnemy(DisplayObject* enemy){
     this->curEnemy = enemy;
 }
-AnimatedSprite* Scene::getCharacter(){
-    return this->character;
+// AnimatedSprite* Scene::getCharacter(){
+//     return this->character;
+// }
+void Scene::removeEnemy(string id){
+    enemies.erase(id);
 }
 Player* Scene::getPlayer(){
     return this->player;
@@ -349,10 +353,10 @@ Layer* Scene::makeLayer(json data) {
             DisplayObject* newDO = makeDisplayObject(childData);
             newLayer->addChild(newDO);
             if (childData["gameType"] == "enemy") {
-                enemies.push_back(make_pair(childData["id"], newDO));
+                enemies.insert(std::pair<string, DisplayObject*>(childData["id"], newDO));
             }
             else if (childData["gameType"] == "platform") {
-                objects.push_back(make_pair(childData["id"], newDO));
+                objects.insert(std::pair<string, DisplayObject*>(childData["id"], newDO));
             }
         }
         if(childData["type"] == "DisplayObjectContainer") {
@@ -369,7 +373,7 @@ Layer* Scene::makeLayer(json data) {
         if(childData["type"] == "AnimatedSprite") {
             AnimatedSprite* newAS = makeAnimatedSprite(childData); //possibly use root var
             newLayer->addChild(newAS);
-            this->character = newAS;
+            // this->character = newAS;
         }
         if(childData["type"] == "Player") {
             Player* newP = makePlayer(childData); //possibly use root var

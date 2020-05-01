@@ -19,8 +19,10 @@
 #include "TextBox.h"
 #include "SelectionMenu.h"
 #include "Controls.h"
+#include "GameSave.h"
 
 using namespace std;
+
 
 class MyGame : public Game{
 
@@ -53,6 +55,7 @@ public:
     static SelectionMenu* decision; 
     static SelectionMenu* enemyFate; 
     static Layer* bg; 
+    static GameSave* saveGame; 
 private:
     Sound* mainMusic;
     
