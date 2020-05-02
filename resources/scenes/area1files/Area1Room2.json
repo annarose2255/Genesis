@@ -1,12 +1,44 @@
-{ "compressionlevel":0,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"json",
-         "target":"Area 1 - Room 2.json"
-        }
-    },
+{ "room": 2,
+   "charStart": [
+      {
+             "name": 4, 
+             "x": 70, 
+             "y": 270
+      }
+      ],
+      "charEnd": [
+            {
+                  "name": 7, 
+                  "x": 2058, 
+                  "y": 500
+            }
+      ], 
+      "transitionPts": [
+         {
+               "name": "to7Greater", 
+               "x": 2302, 
+               "y": 422
+         }, 
+         {
+               "name": "to7Less",
+               "x": 4000, 
+               "y": 428
+         }, 
+         {
+               "name": "to6Greater", 
+               "x": 2328, 
+               "y": -100
+         }, 
+         {
+               "name": "to6Less",
+               "x": 2334, 
+               "y": 70
+         }
+      ],
+   "top": 0, 
+   "bottom": 0,
+   "right": -2000,
+   "left": 0,
  "height":17,
  "infinite":false,
  "layers":[
@@ -21,342 +53,8 @@
          "width":91,
          "x":0,
          "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":2,
-         "name":"Rocks",
-         "objects":[
-                {
-                 "gid":234,
-                 "height":26,
-                 "id":16,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":35,
-                 "x":2326,
-                 "y":189
-                }, 
-                {
-                 "gid":234,
-                 "height":26,
-                 "id":17,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":35,
-                 "x":2265.5,
-                 "y":440
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":3,
-         "name":"Logs",
-         "objects":[
-                {
-                 "gid":233,
-                 "height":32,
-                 "id":2,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":1304.5,
-                 "y":437
-                }, 
-                {
-                 "gid":233,
-                 "height":32,
-                 "id":4,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":1370.5,
-                 "y":409
-                }, 
-                {
-                 "gid":233,
-                 "height":32,
-                 "id":5,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":69,
-                 "x":1360.5,
-                 "y":439
-                }, 
-                {
-                 "gid":233,
-                 "height":32,
-                 "id":6,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":1368.5,
-                 "y":373
-                }, 
-                {
-                 "gid":234,
-                 "height":26,
-                 "id":18,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":35,
-                 "x":1332.5,
-                 "y":408
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":5,
-         "name":"Enemies",
-         "objects":[
-                {
-                 "gid":235,
-                 "height":42,
-                 "id":20,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":50,
-                 "x":1199,
-                 "y":444
-                }, 
-                {
-                 "gid":1073742059,
-                 "height":42,
-                 "id":21,
-                 "name":"",
-                 "rotation":180,
-                 "type":"",
-                 "visible":true,
-                 "width":50,
-                 "x":2219,
-                 "y":401
-                }, 
-                {
-                 "gid":235,
-                 "height":42,
-                 "id":22,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":50,
-                 "x":2260,
-                 "y":189
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":4,
-         "name":"Text",
-         "objects":[
-                {
-                 "height":95,
-                 "id":7,
-                 "name":"",
-                 "rotation":0,
-                 "text":
-                    {
-                     "color":"#ff0000",
-                     "fontfamily":"MS Shell Dlg 2",
-                     "pixelsize":32,
-                     "text":"Start of Room 2",
-                     "wrap":true
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":112,
-                 "x":9,
-                 "y":31.5
-                }, 
-                {
-                 "height":137,
-                 "id":9,
-                 "name":"",
-                 "rotation":0,
-                 "text":
-                    {
-                     "color":"#ff0000",
-                     "fontfamily":"MS Shell Dlg 2",
-                     "pixelsize":32,
-                     "text":"Exit To Room 2.5 ",
-                     "wrap":true
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":112,
-                 "x":271,
-                 "y":246.5
-                }, 
-                {
-                 "height":137,
-                 "id":10,
-                 "name":"",
-                 "rotation":0,
-                 "text":
-                    {
-                     "color":"#ff0000",
-                     "fontfamily":"MS Shell Dlg 2",
-                     "pixelsize":32,
-                     "text":"Exit To Room 3 ->",
-                     "wrap":true
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":112,
-                 "x":2742,
-                 "y":30.5
-                }, 
-                {
-                 "height":49,
-                 "id":11,
-                 "name":"",
-                 "rotation":0,
-                 "text":
-                    {
-                     "color":"#aaaaff",
-                     "fontfamily":"MS Shell Dlg 2",
-                     "pixelsize":32,
-                     "text":"Get Fall Damage",
-                     "wrap":true
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":283,
-                 "x":573.5,
-                 "y":148.5
-                }, 
-                {
-                 "height":172,
-                 "id":12,
-                 "name":"",
-                 "rotation":0,
-                 "text":
-                    {
-                     "color":"#00ff00",
-                     "fontfamily":"MS Shell Dlg 2",
-                     "pixelsize":32,
-                     "text":"Fight First Enemy (Frog)",
-                     "wrap":true
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":147,
-                 "x":1179.5,
-                 "y":230.5
-                }, 
-                {
-                 "height":142,
-                 "id":13,
-                 "name":"",
-                 "rotation":0,
-                 "text":
-                    {
-                     "color":"#aaaaff",
-                     "fontfamily":"MS Shell Dlg 2",
-                     "pixelsize":32,
-                     "text":"Use Double Jump",
-                     "wrap":true
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":147,
-                 "x":1668.5,
-                 "y":184.5
-                }, 
-                {
-                 "height":142,
-                 "id":14,
-                 "name":"",
-                 "rotation":0,
-                 "text":
-                    {
-                     "color":"#aaaaff",
-                     "fontfamily":"MS Shell Dlg 2",
-                     "pixelsize":32,
-                     "text":"Use Double Jump",
-                     "wrap":true
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":147,
-                 "x":2098.5,
-                 "y":122
-                }, 
-                {
-                 "height":142,
-                 "id":15,
-                 "name":"",
-                 "rotation":0,
-                 "text":
-                    {
-                     "color":"#aaaaff",
-                     "fontfamily":"MS Shell Dlg 2",
-                     "pixelsize":32,
-                     "text":"Use Double Jump",
-                     "wrap":true
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":147,
-                 "x":2564.5,
-                 "y":97
-                }, 
-                {
-                 "height":49,
-                 "id":23,
-                 "name":"",
-                 "rotation":0,
-                 "text":
-                    {
-                     "color":"#aaaaff",
-                     "fontfamily":"MS Shell Dlg 2",
-                     "pixelsize":32,
-                     "text":"Use Double Jump",
-                     "wrap":true
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":283,
-                 "x":387.5,
-                 "y":265.5
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }],
+        } ],
+        
  "nextlayerid":6,
  "nextobjectid":25,
  "orientation":"orthogonal",
@@ -366,23 +64,8 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"..\/Forest Tiles.tsx"
-        }, 
-        {
-         "firstgid":233,
-         "source":"..\/log.tsx"
-        }, 
-        {
-         "firstgid":234,
-         "source":"..\/Rock1.tsx"
-        }, 
-        {
-         "firstgid":235,
-         "source":"..\/frogy.tsx"
-        }, 
-        {
-         "firstgid":236,
-         "source":"..\/bear.tsx"
+         "source":"..\/Forest Tiles.tsx",
+         "path": "./resources/scenes/area1files/imgs/tileset.png"
         }],
  "tilewidth":32,
  "type":"map",

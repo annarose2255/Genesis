@@ -51,6 +51,7 @@ public:
 	vector<pair<string, DisplayObject*>> enemies;
 	vector<pair<string, DisplayObject*>> objects;
 	bool enemyTurn = false;
+	int sceneNum; //tells us what room we're loading 
 	
 private:
 	map<int, SDL_Texture*> tilesets; //store texture of tilesets
@@ -59,7 +60,7 @@ private:
 	Player* player;
 	// HealthBar* enemyHP;
 	bool fromTileMap;
-	int sceneNum; //tells us what room we're loading 
+	
 	// vector<DisplayObject*>enemies;
 	DisplayObject* curEnemy; 
 	DisplayObject* curObj; 

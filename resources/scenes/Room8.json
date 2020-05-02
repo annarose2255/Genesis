@@ -1,0 +1,121 @@
+{
+   "Layer 1": {
+       "alpha": 255,
+       "loadTextures": [
+           {
+               "id": "rock", 
+               "filepath": "./resources/scenes/area1files/imgs/Prop_5.png"
+           },
+           {
+            "id": "boss", 
+            "filepath": "./resources/scenes/area1files/imgs/Toady.png"
+        } 
+       ], 
+       "children": {
+         "./resources/scenes/area1files/imgs/Prop_5.png0": {
+             "alpha": 255,
+             "facingRight": false,
+             "filepath": "./resources/scenes/area1files/imgs/Prop_5.png",
+             "height": 32,
+             "id": "rock0",
+             "gameType":"platform",
+             "pivot.x": 0,
+             "pivot.y": 0,
+             "position.x": 923,
+             "position.y": 182,
+             "rotation": 0.0,
+             "scaleX": 1.0,
+             "scaleY": 1.0,
+             "type": "DisplayObject",
+             "visible": true,
+             "width": 32
+            }, 
+            "./resources/scenes/area1files/imgs/Prop_5.png1": {
+               "alpha": 255,
+               "facingRight": true,
+               "filepath": "./resources/scenes/area1files/imgs/Prop_5.png",
+               "height": 32,
+               "id": "rock1",
+               "gameType":"platform",
+               "pivot.x": 0,
+               "pivot.y": 0,
+               "position.x": 1137,
+               "position.y": 287,
+               "rotation": 0.0,
+               "scaleX": 1.0,
+               "scaleY": 1.0,
+               "type": "DisplayObject",
+               "visible": true,
+               "width": 32
+         }, "./resources/scenes/area1files/imgs/Prop_5.png2": {
+            "alpha": 255,
+            "facingRight": true,
+            "filepath": "./resources/scenes/area1files/imgs/Prop_5.png",
+            "height": 32,
+            "id": "rock2",
+            "gameType":"platform",
+            "pivot.x": 0,
+            "pivot.y": 0,
+            "position.x": 1217,
+            "position.y": 377,
+            "rotation": 0.0,
+            "scaleX": 1.0,
+            "scaleY": 1.0,
+            "type": "DisplayObject",
+            "visible": true,
+            "width": 32
+               }, "./resources/scenes/area1files/imgs/Prop_5.png3": {
+                  "alpha": 255,
+                  "facingRight": true,
+                  "filepath": "./resources/scenes/area1files/imgs/Prop_5.png",
+                  "height": 32,
+                  "id": "rock3",
+                  "gameType":"platform",
+                  "pivot.x": 0,
+                  "pivot.y": 0,
+                  "position.x": 605,
+                  "position.y": 285,
+                  "rotation": 0.0,
+                  "scaleX": 1.0,
+                  "scaleY": 1.0,
+                  "type": "DisplayObject",
+                  "visible": true,
+                  "width": 32
+            },
+            
+        "./resources/scenes/area1files/imgs/Toady.png0": {
+         "alpha": 255,
+         "facingRight": false,
+         "filepath": "./resources/scenes/area1files/imgs/Toady.png",
+         "height": 194,
+         "id": "boss0",
+         "gameType":"enemy",
+         "pivot.x": 0,
+         "pivot.y": 0,
+         "position.x": 781,
+         "position.y": 445,
+         "rotation": 0.0,
+         "scaleX": 1.0,
+         "scaleY": 1.0,
+         "type": "DisplayObject",
+         "visible": true,
+         "width": 211
+        }
+      },
+      "facingRight": true,
+        "filepath": "",
+        "height": 100,
+        "id": "Layer 1",
+        "pivot.x": 0,
+        "pivot.y": 0,
+        "position.x": 0,
+        "position.y": 0,
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "type": "Layer",
+        "scroll": 1.0,
+        "visible": true,
+        "width": 100 
+      }
+   }

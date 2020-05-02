@@ -32,15 +32,15 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	eDispatcher->addEventListener(collisionSystem, DO_ADDED_EVENT);
     scene1 = new Scene();
     // scene1->loadScene("./resources/scenes/character.json");
-	scene1->loadTileMap("./resources/scenes/area1files/Area1Room1.json");
+	scene1->loadTileMap("./resources/scenes/area1files/Area1Room8.json");
 	scene1->loadScene("./resources/scenes/ghostchar.json");
-	scene1->loadScene("./resources/scenes/Room1.json"); //contains objects and enemies
+	scene1->loadScene("./resources/scenes/Room8.json"); //contains objects and enemies
 	//test playable char
 	// AnimatedSprite* chara = new AnimatedSprite("chara"); 
 	// chara->addSSAnimation("./resources/ghostchar/idle.png", "./resources/ghostchar/idle.xml");
 	// chara->play("Idle");
     // chara->position = {70, 200};
-	// Game::camera->addChild(chara);
+	 Game::camera->position.x = 500;
 
     currentScene = scene1;
 
@@ -121,13 +121,15 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	collisionSystem->watchForCollisions("player", "platform"); 
 	collisionSystem->watchForCollisions("player", "enemy");
 	//Tween
-	currentScene->getPlayer()->play("Idle");
-	
+	//currentScene->getPlayer()->play("Idle");
+	//currentScene->getPlayer()->position = {500, 200};
 	Tween* charTween = new Tween(currentScene->getPlayer());
 	TweenableParams chalpha;
 	chalpha.name = "alpha";
 	charTween->animate(chalpha, 0, 255, 3); 
 	tj->add(charTween);
+	//Game::camera->position.x = -850;
+	//currentScene->getPlayer()->position.x = -800;
 }
 
 MyGame::~MyGame(){
@@ -142,6 +144,15 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	hp->update(pressedKeys);
 	enemyHP->update(pressedKeys);
 	controls->key(pressedKeys,pressedButtons,movedAxis);
+	if (currentScene->sceneNum == 4){
+		if (!mainMusic->playing){
+			cout<<"playing?"<<endl;
+			mainMusic->playMusic();	
+		}
+		if (Game::camera->position.x < 200 && Game::frameCounter < 10){
+			
+		}
+	}
     // if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end() && change) {
     //     cout << "abc" << endl;
     //     Game::camera->removeImmediateChild(currentScene);
@@ -161,8 +172,18 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
     //for music - press1 and the music will play
 	//user press 1 --> play music
 	if ((pressedKeys.find(SDL_SCANCODE_1) != pressedKeys.end())) {
-		cout<<"playing?"<<endl;
-		mainMusic->playMusic();	
+		if (!mainMusic->playing && mainMusic->stopped){
+			cout<<"resume"<<endl;
+			mainMusic->resumeMusic();
+		}
+		else if (!mainMusic->playing && !mainMusic->stopped){
+			cout<<"playing?"<<endl;
+			mainMusic->playMusic();	
+		}
+		else{
+
+		}
+		
 	} 
 	//user press2 --> stop music
     if ((pressedKeys.find(SDL_SCANCODE_2) != pressedKeys.end())) {

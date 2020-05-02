@@ -21,11 +21,13 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
     //Level Info
     int rows, cols, tile_width, tile_height; 
     sceneNum = j["room"];
+    cout<<"room"<<endl;
     //save coord of entrance/exits of Level 
     for (auto& pt : j["transitionPts"]) {
         SDL_Point temp = {pt["x"], pt["y"]};
         transitionPts.insert(std::pair<string, SDL_Point>(pt["name"], temp));
     }
+      cout<<"trans"<<endl;
     //where the char should spawn 
     for (auto& pt : j["charStart"]) {
         SDL_Point temp = {pt["x"], pt["y"]};
@@ -35,6 +37,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
         SDL_Point temp = {pt["x"], pt["y"]};
         charEnd.insert(std::pair<int, SDL_Point>(pt["name"], temp));
     }
+      cout<<"char"<<endl;
     //level boundaries 
     top = j["top"];
     bottom = j["bottom"];
@@ -44,6 +47,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
     cols = j["width"];
     tile_width = j["tilewidth"];
     tile_height = j["tileheight"];
+      cout<<"bounds"<<endl;
     //make a new Layer 
     Layer* newLayer = new Layer();
     newLayer->id = "Layer 1";
@@ -53,10 +57,15 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
     for (auto& tset : j["tilesets"]) {
         //load and save textures for easy access later 
         string path = tset["path"];
+        cout<<"path"<<endl;
         SDL_Surface* image = IMG_Load(path.c_str());
+        cout<<"image"<<endl;
 	    SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::renderer, image);
+        cout<<"texture"<<endl;
         this->tilesets.insert(std::pair<int, SDL_Texture*>(tset["firstgid"], texture));
+        cout<<"insert"<<endl;
     }
+    cout<<"tileset"<<endl;
     // cout << "first gid of tset " << tilesets[1] << endl;
     for (auto& layer : j["layers"]) {
         if (layer["type"] != "tilelayer") { //rendering only tile layers
@@ -128,6 +137,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
             }
          }
     }
+      cout<<"layer"<<endl;
 }
 DisplayObject* Scene::getObject(){
     return this->curObj;
@@ -534,7 +544,7 @@ Player* Scene::makePlayer(json data){
 
     string anim = data["animations"]["0"]["name"];
     // Animations
-    newplayer->play(anim);
+    //newplayer->play(anim);
  
     // Children
     for(auto& [key, value] : data["children"].items()) {

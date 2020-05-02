@@ -66,7 +66,7 @@ Player::Player(string id, bool isSheet) : AnimatedSprite(id, true){
 	this->addSSAnimation("resources/ghostchar/run.png", "resources/ghostchar/run.xml", 2, true);
 	this->addSSAnimation("resources/ghostchar/jump.png", "resources/ghostchar/jump.xml", 1, false);
 	this->addSSAnimation("resources/ghostchar/death.png", "resources/ghostchar/death.xml", 1, false);
-	this->play("Idle");
+	//this->play("Idle");
 }
 
 //Called automatically by collision system when something collides with the player
@@ -246,7 +246,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		}
 	} 
 	else if (this->standing){
-		this->play("Idle");
+		//this->play("Idle");
 	}
 	
 	/* cool down combat ability timer */
