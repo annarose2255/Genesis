@@ -225,6 +225,7 @@ void SceneManager::handleEvent(Event* e)
     }
     else if (e->getType() == ATTACK){
         cout<<"attack"<<endl;
+         MyGame::actionMenu->canSelect == false;
         if (playerLastAction == "defend"){ //fix damage
             enemyDamage = enemyDamage*2;
         }
@@ -234,10 +235,11 @@ void SceneManager::handleEvent(Event* e)
         
          TextBox* playerturn = new TextBox(); 
          turnCount++;
-        if (enemyHP->curVal < playerdamage) { //less heath than player damage
+        if (enemyHP->curVal <= playerdamage) { //less heath than player damage
             cout << "ENEMY HEALTH DEPLETED"<<endl;
             enemyHP->curVal = 0;
             MyGame::actionMenu->selectedaitem = false;
+             MyGame::actionMenu->canSelect == false;
             MyGame::eDispatcher->dispatchEvent(new Event(DEFEATEDENEMY, MyGame::eDispatcher, player, e->getEnemy()));
              cout<<"defeat enemy"<<endl;
              enemyDefeated = true;
@@ -249,7 +251,7 @@ void SceneManager::handleEvent(Event* e)
             //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;  
         }
         else { //damage
-       
+            
             if (jumpAbility == false && (block != true || blockUse == 2)  && turnCount >= turnAbilityStop){ //|| abilityUse == 4) &&  && (lasting == 0 || lasting == 3)){ //check for not block, not jump, and make sure 
             //actions havent been used in a row too much, and make sure ghost isnt still happening 
                 abilityUse = 0;
@@ -257,22 +259,22 @@ void SceneManager::handleEvent(Event* e)
                 enemyHP->curVal -= playerdamage;
                 turnAbilityStop = 0;
                  if (lastAction == "fog" && playerLastAction != "defend"){
-                     playerturn->setText("The fog is in your lungs and its hard to get a good hit. Press SPACE to continue.");
+                     playerturn->setText("The fog is in your lungs and its hard to get a good hit. ");
                  }
                  else{
-                     playerturn->setText("You attacked! Press SPACE to continue.");
+                     playerturn->setText("You attacked! ");
                  }
                 
             }
             else if( turnCount < turnAbilityStop){ //lasting == 1 || lasting == 2 ){
-                 playerturn->setText("Your attack goes right through the enemy! Press SPACE to continue.");
+                 playerturn->setText("Your attack goes right through the enemy! ");
             }
             else if (block == true){
                 enemyHP->curVal -= playerdamage/2;
-                 playerturn->setText("You attacked but it isnt very effective. Press SPACE to continue.");
+                 playerturn->setText("You attacked but it isnt very effective. ");
             }
             else{ //do no damage 
-                 playerturn->setText("Your attack seems to cause no harm! Press SPACE to continue.");
+                 playerturn->setText("Your attack seems to cause no harm! ");
             }
             // if (lasting == 2){ //reset lasting
             //     lasting = 0;
@@ -283,11 +285,18 @@ void SceneManager::handleEvent(Event* e)
             playerLastAction = "attack";
             jumpAbility = false;
             block = false;
+            
             MyGame::actionMenu->enemyTurn = true;
             MyGame::actionMenu->selectedaitem = false;
+            MyGame::actionMenu->canSelect = false;
+            MyGame::actionMenu->visible = false;
+            cout<<"change menu"<<endl;
+            MyGame::currentScene->addChild(playerturn);
+            
             //cout<<"selected: "<<MyGame::actionMenu->selectedaitem<<endl;
         }
-        if (enemyHP->curVal <= 0 && enemyDefeated == false){ //player 0's enemy health
+    }
+/*         if (enemyHP->curVal <= 0 && enemyDefeated == false){ //player 0's enemy health
             enemyHP->curVal = 0; 
             cout << "ENEMY DEFEATED"<<endl;
             enemyHP->curVal = 0;
@@ -295,6 +304,7 @@ void SceneManager::handleEvent(Event* e)
             playerdamage = playerdamage/2;
             }
             playerLastAction = "end";
+             MyGame::actionMenu->canSelect == false;
             MyGame::eDispatcher->dispatchEvent(new Event(DEFEATEDENEMY, MyGame::eDispatcher, player, e->getEnemy()));
             cout<<"defeat enemy"<<endl;
         }
@@ -302,20 +312,20 @@ void SceneManager::handleEvent(Event* e)
             MyGame::actionMenu->visible = false; 
             if (enemyDefeated == false){
                 TextBox* playerturn = new TextBox(); 
-                playerturn->setText("You attacked! Press SPACE to continue.");
+                playerturn->setText("You attacked HELP!! ");
                 // playerturn->position.x = 0;
+                 MyGame::actionMenu->canSelect == false;
                 MyGame::currentScene->addChild(playerturn);
                 if (playerLastAction == "strength"){
                     playerdamage = playerdamage/2;
                 }
                 playerLastAction = "attack";
-            }
+            } */
             //MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, e->getPlayer(), e->getEnemy()));
             //cout<<"player turn over"<<endl;
-        }
+        //}
         //player turn over
         
-    }
     else if (e->getType() == DEFEND){
          TextBox* playerturn = new TextBox(); 
          turnCount++;
@@ -333,13 +343,15 @@ void SceneManager::handleEvent(Event* e)
             playerdamage = playerdamage*2;
             //enemyDamage = enemyDamage/2;
             cout<<"defend"<<endl;
-            playerturn->setText("You withstood the fog! But you can't see the boss... Press SPACE to continue.");
+            playerturn->setText("You withstood the fog! But you can't see the boss...");
         }
        
+       playerturn->setText("You defended yourself.");
         MyGame::actionMenu->enemyTurn = true;
         MyGame::actionMenu->selectedaitem = false;
         MyGame::actionMenu->visible = false; 
         MyGame::currentScene->addChild(playerturn);
+         MyGame::actionMenu->canSelect = false;
 
     }
     else if (e->getType() == GHOST){
@@ -354,12 +366,13 @@ void SceneManager::handleEvent(Event* e)
         cout<<"ghost"<<endl;
         enemyDamage = enemyDamage-enemyDamage;
         TextBox* playerturn = new TextBox(); 
-        playerturn->setText("You transformed into a ghost! Press SPACE to continue.");
+        playerturn->setText("You transformed into a ghost! ");
         //MyGame::abilities->goBack();
         MyGame::actionMenu->enemyTurn = true;
         MyGame::actionMenu->visible = false; 
         MyGame::abilities->visible = false; 
         MyGame::currentScene->addChild(playerturn);
+         MyGame::actionMenu->canSelect == false;
     }
      else if (e->getType() == STRENGTHCOMBAT){
           turnCount++;
@@ -372,11 +385,12 @@ void SceneManager::handleEvent(Event* e)
         playerLastAction = "strength";
         playerdamage = playerdamage*2;
         TextBox* playerturn = new TextBox(); 
-        playerturn->setText("You transformed into a bear! Press SPACE to continue.");
+        playerturn->setText("You transformed into a bear! ");
         MyGame::actionMenu->enemyTurn = true;
         MyGame::actionMenu->selectedaitem = false;
         MyGame::actionMenu->visible = false; 
         MyGame::currentScene->addChild(playerturn);
+        MyGame::actionMenu->canSelect == false;
     }
     else if (e->getType() == ENEMYTURN) {
         //if (lasting )
@@ -388,6 +402,7 @@ void SceneManager::handleEvent(Event* e)
         //  if (cooldown <= 3){ //decrease cooldown
         //     cooldown--;
         // }
+         MyGame::actionMenu->canSelect = false;
         TextBox* enemyattack = new TextBox();
         string id = MyGame::currentScene->getEnemy()->id;
         id.pop_back();
@@ -397,7 +412,7 @@ void SceneManager::handleEvent(Event* e)
                if (choose < 33){ //use fog
                     playerdamage = playerdamage/2;
                     enemyDamage = enemyDamage*2;
-                     enemyattack->setText("A huge wave of fog is about to chrash into you! Press C to continue.");
+                     enemyattack->setText("A huge wave of fog is about to chrash into you! .");
                     MyGame::currentScene->addChild(enemyattack);
                     turnAbilityUse = turnCount + 8;
                     turnAbilityStop = turnCount+4;
@@ -426,12 +441,12 @@ void SceneManager::handleEvent(Event* e)
                     if (blockUse >= 3){ //rest block if over 3 attempts
                         blockUse = 0;
                     }
-                    enemyattack->setText("The enemy tried and failed to use block! Press C to continue.");
+                    enemyattack->setText("The enemy tried and failed to use block!");
                     //blockUse
                     //blockUse = 0;
                 }
                 else{
-                    enemyattack->setText("The enemy blocked! Press C to continue.");
+                    enemyattack->setText("The enemy blocked!");
                 
                 }
                 // enemyattack->position.x = 0;
@@ -448,10 +463,10 @@ void SceneManager::handleEvent(Event* e)
                     else{
                         playerHP->curVal-=enemyDamage;  
                         if (lastAction == "fog" || turnCount - turnAbilityStop > 0){
-                             enemyattack->setText("The enemy attacked back with more force in the fog! Press C to continue.");
+                             enemyattack->setText("The enemy attacked back with more force in the fog!");
                         }
                         else{
-                             enemyattack->setText("The enemy attacked back! Press C to continue.");
+                             enemyattack->setText("The enemy attacked back!");
                         }
                    
                     // enemyattack->position.x = 0;
@@ -495,9 +510,9 @@ void SceneManager::handleEvent(Event* e)
                 //         cooldown--;
                 //     }
                 // } 
-                enemyattack->setText("The enemy attacked back! Press C to continue.");
+                enemyattack->setText("The enemy attacked back!");
                 // enemyattack->position.x = 0;
-                MyGame::currentScene->addChild(enemyattack);
+                //MyGame::currentScene->addChild(enemyattack);
                 lastAction = "attack";
                 
                 }
@@ -516,7 +531,7 @@ void SceneManager::handleEvent(Event* e)
                     jumpAbility = true;
                     turnAbilityUse = turnCount + 4;
                     turnAbilityStop = turnCount+2;
-                    enemyattack->setText("The enemy jumped up high! Press C to continue.");
+                    enemyattack->setText("The enemy jumped up high!");
                     // if (cooldown <= 4){ //start cooldown
                     //     cooldown--;
                     // }
@@ -529,7 +544,7 @@ void SceneManager::handleEvent(Event* e)
                     // if (lasting  == 2){ //if its the end of the duration, start cooldown 
                     //     cooldown--;
                     // }
-                    enemyattack->setText("The enemy is transparent! Press C to continue.");
+                    enemyattack->setText("The enemy is transparent!");
                 }
                 else if (id == "bear"){ //if its a ghost
                     //ghostAbility = true;
@@ -541,16 +556,16 @@ void SceneManager::handleEvent(Event* e)
                     // if (lasting  == 2){ //if its the end of the duration, start cooldown 
                     //     cooldown--;
                     // }
-                    enemyattack->setText("The enemy is huge! Press C to continue.");
+                    enemyattack->setText("The enemy is huge!");
                 }
                 //cout<<id<<endl; 
                 if (abilityUse == 4){ //if abilities has been used 4 times in a row
-                    enemyattack->setText("The enemy tried and failed to use an ability! Press C to continue.");
+                    enemyattack->setText("The enemy tried and failed to use an ability!");
                 }
                 
-                //enemyattack->setText("The enemy used an ability! Press C to continue.");
+                //enemyattack->setText("The enemy used an ability! .");
                 // enemyattack->position.x = 0;
-                MyGame::currentScene->addChild(enemyattack);
+                //MyGame::currentScene->addChild(enemyattack);
                 lastAction = "ability";        
             }
             else{
@@ -576,20 +591,20 @@ void SceneManager::handleEvent(Event* e)
                     if (blockUse >= 3){ //rest block if over 3 attempts
                         blockUse = 0;
                     }
-                    enemyattack->setText("The enemy tried and failed to use block! Press C to continue.");
+                    enemyattack->setText("The enemy tried and failed to use block!");
                     //blockUse
                     //blockUse = 0;
                 }
                 else{
-                    enemyattack->setText("The enemy blocked! Press C to continue.");
+                    enemyattack->setText("The enemy blocked!");
                 
                 }
                 // enemyattack->position.x = 0;
-                MyGame::currentScene->addChild(enemyattack);
+              
                 lastAction = "block";
             }
         }
-       
+        MyGame::currentScene->addChild(enemyattack);
        MyGame::actionMenu->enemyTurn = false;
        cout<<"END OF ENEMY TURN"<<endl;
     
@@ -609,15 +624,16 @@ void SceneManager::handleEvent(Event* e)
         }
         else if (id == "boss"){
             MyGame::actionMenu->decideFate = true; 
-            victoryMSG->setText("Congrats, you defeated the boss! Press Tab to decide the enemy's fate.");
+            victoryMSG->setText("Congrats, you defeated the boss! Now decide the enemy's fate.");
         }
         else{
             MyGame::actionMenu->decideFate = true; 
-            victoryMSG->setText("Congrats, you won! Press Tab to decide the enemy's fate.");
+            victoryMSG->setText("Congrats, you won! Now decide the enemy's fate.");
         }
 
         victoryMSG->visible = true;
         MyGame::currentScene->addChild(victoryMSG);
+         MyGame::actionMenu->canSelect = false;
 
     }
      else if (e->getType() == DECIDEFATE) {
@@ -626,6 +642,7 @@ void SceneManager::handleEvent(Event* e)
         id.pop_back();
         MyGame::actionMenu->visible = false;
         MyGame::enemyFate->visible = true;
+         MyGame::actionMenu->canSelect = false;
         MyGame::enemyFate->getItem(0)->setAction(new Event(SPARE, MyGame::eDispatcher, player, e->getEnemy()));
         MyGame::enemyFate->getItem(1)->setAction(new Event(KILL, MyGame::eDispatcher, player, e->getEnemy()));
         
@@ -653,6 +670,7 @@ void SceneManager::handleEvent(Event* e)
     else if (e->getType() == CONSUME) {
         string id = MyGame::currentScene->getEnemy()->id;
         id.pop_back();
+        playerHP->curVal = 100;
         if (id == "ghost"){
             if (player->possiblestates.size() == 0){
                MyGame::abilities->removeChild(2);
@@ -715,6 +733,7 @@ void SceneManager::handleEvent(Event* e)
         turnAbilityUse = 0; // turn where ability can be used again
         turnAbilityStop = 0; //turn where ability stops being used;
         lastAction = "";
+        MyGame::actionMenu->canSelect = true;
         Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
         EventDispatcher::getInstance()->dispatchEvent(e);
     }
@@ -742,6 +761,7 @@ void SceneManager::handleEvent(Event* e)
         currentS->setPlayer(player);
         currentS->setEnemy(NULL);
         MyGame::actionMenu->visible = false;
+        MyGame::actionMenu->canSelect = true;
         MyGame::enemyFate->visible = false;
         MyGame::actionMenu->selectInd = 0;
         e->getEnemy()->visible = false;
