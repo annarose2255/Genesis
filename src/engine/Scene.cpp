@@ -24,7 +24,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
     tileFilePath = tilePath;
     //save coord of entrance/exits of Level 
     for (auto& pt : j["transitionPts"]) {
-        SDL_Point tem = {pt["x"], pt["y"]};
+        SDL_Point temp = {pt["x"], pt["y"]};
         transitionPts.insert(std::pair<string, SDL_Point>(pt["name"], temp));
     }
       cout<<"trans"<<endl;
@@ -120,7 +120,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                     temp->scaleY = 1;
                     temp->alpha = 255;
                     temp->facingRight = true;
-                    if (cur_gid == 159 || cur_gid == 158 || cur_gid < 130) {
+                    if (cur_gid == 159 || cur_gid == 158 || cur_gid < 132) {
                         // cout << "cur_gid " << cur_gid << endl;
                         temp->gameType = "grass";
                     }
@@ -573,6 +573,14 @@ Player* Scene::makePlayer(json data){
 
 }
 void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> pressedButtons, set<pair<SDL_GameControllerAxis, float>> movedAxis) {
+     if (this->sceneNum == 1 && 
+       ( (this->player->position.y > this->transitionPts["to2Greater"].y && this->player->position.y < this->transitionPts["to2Less"].y)
+       && (this->player->position.x > this->transitionPts["to2Greater"].x && this->player->position.x < this->transitionPts["to2Less"].x)))
+    {
+        //call change scene event
+        MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
+            "./resources/scenes/area1files/Area1Room2.json"));
+    }
     if (this->sceneNum == 7 && 
        ( this->player->position.y > this->transitionPts["from5Greater"].y && 
         (this->player->position.x > this->transitionPts["from5Greater"].x && this->player->position.x < this->transitionPts["from5Less"].x)))
