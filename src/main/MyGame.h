@@ -40,6 +40,7 @@ public:
     const int levelWidth = 1280;
 	const int levelHeight = 960;
 
+    SDL_Point cameraPrev;
     // UI Components
     // HealthBar* hp;
     TextBox* tBox;

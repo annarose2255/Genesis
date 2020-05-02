@@ -184,6 +184,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	Game::camera->position.y = currentScene->bottom; 
 	//Game::camera->position.x = -850;
 	//currentScene->getPlayer()->position.x = -800;
+	cameraPrev = {camera->position.x, camera->position.y};
 }
 
 MyGame::~MyGame(){
@@ -383,8 +384,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	
 	// cout << "Char alpha " << currentScene->getCharacter()->alpha << endl;
 	Game::update(pressedKeys, pressedButtons, movedAxis);
-	collisionSystem->update();
-
+	collisionSystem->update((Game::camera->position.x - cameraPrev.x), (Game::camera->position.y - cameraPrev.y));
+	cameraPrev = {Game::camera->position.x, Game::camera->position.y};
 	// currentScene->doCam = cam->camera;
 }
 

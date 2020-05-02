@@ -26,7 +26,7 @@ void CollisionSystem::clearCollisionPairs(){
 }
 //checks collisions between pairs of DOs where the corresponding types have been requested
 //to be checked (via a single call to watchForCollisions) below.
-void CollisionSystem::update(){
+void CollisionSystem::update(int camX, int camY){
 	// iterate over colllision pairs
 	for (auto pair=collisionPairs.begin(); pair != collisionPairs.end(); ++pair) {
 		// check for collisions between the elements in each vector
@@ -45,10 +45,10 @@ void CollisionSystem::update(){
 				SDL_Point curPos1 = (*doType1)->getHitboxPts().topLeft;
 				SDL_Point curPos2 = (*doType2)->getHitboxPts().topLeft;
 
-				int xDelta1 = curPos1.x - prevPos1.x;
-				int yDelta1 = curPos1.y - prevPos1.y;
-				int xDelta2 = curPos2.x - prevPos2.x;
-				int yDelta2 = curPos2.y - prevPos2.y;
+				int xDelta1 = curPos1.x - (prevPos1.x + camX);
+				int yDelta1 = curPos1.y - (prevPos1.y + camY);
+				int xDelta2 = curPos2.x - (prevPos2.x + camX);
+				int yDelta2 = curPos2.y - (prevPos2.y + camY);
 
 				// cout << xDelta1 << endl;
 				// cout << xDelta2 << endl;
