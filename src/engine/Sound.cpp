@@ -21,7 +21,7 @@ Sound::Sound(){
         success = false;
     }
     //the mp3 format does not work --> have to conver the music to ogg format
-    gMusic = Mix_LoadMUS( "game.ogg" );
+    gMusic = Mix_LoadMUS( "country.ogg" );
     if( gMusic == NULL )
     {
         printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
@@ -48,16 +48,22 @@ void Sound::playMusic(){
 	// }
 
     Mix_PlayMusic( gMusic, -1 );
+    playing = true;
+    stopped = false;
 
 }
 
 //created another method to pause playing music
 void Sound::pauseMusic(){
     Mix_PauseMusic();
+    playing = false;
+    stopped = true;
 
 }
 //created another method to pause playing music
 void Sound::resumeMusic(){
    Mix_ResumeMusic();
+   playing = false;
+   //stopped = false
 
 }

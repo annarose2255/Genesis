@@ -1,0 +1,171 @@
+{
+    "Layer 1": {
+        "alpha": 255,
+        "loadTextures": [
+            {
+                "id": "frog", 
+                "filepath": "./resources/scenes/area1files/imgs/frog2.png"
+            }, 
+            {
+                "id": "ghost", 
+                "filepath": "./resources/scenes/area1files/imgs/Ghost.png"
+            }, 
+            {
+                "id": "rock", 
+                "filepath": "./resources/scenes/area1files/imgs/Prop_5.png"
+            },
+             {
+                "id": "log", 
+                "filepath": "./resources/scenes/area1files/imgs/Prop_3.png"
+             },
+             {
+                "id": "bear", 
+                "filepath": "./resources/scenes/area1files/imgs/Pink_Monster.png"
+             } 
+        ], 
+        "children": {
+            "./resources/scenes/area1files/imgs/Ghost.png0": {
+                "alpha": 255,
+                "facingRight": false,
+                "filepath": "./resources/scenes/area1files/imgs/Ghost.png",
+                "height": 32,
+                "id": "ghost0",
+                "gameType":"enemy",
+                "pivot.x": 0,
+                "pivot.y": 0,
+                "position.x": 668,
+                "position.y": 573,
+                "rotation": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "type": "DisplayObject",
+                "visible": true,
+                "width": 32
+            }, 
+            "./resources/scenes/area1files/imgs/Prop_5.png0": {
+                "alpha": 255,
+                "facingRight": true,
+                "filepath": "./resources/scenes/area1files/imgs/Prop_5.png",
+                "height": 32,
+                "id": "rock0",
+                "gameType":"platform",
+                "pivot.x": 0,
+                "pivot.y": 0,
+                "position.x": 872,
+                "position.y": 221,
+                "rotation": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "type": "DisplayObject",
+                "visible": true,
+                "width": 32
+            },
+            "./resources/scenes/area1files/imgs/frog2.png0": {
+                "alpha": 255,
+                "facingRight": false,
+                "filepath": "./resources/scenes/area1files/imgs/frog2.png",
+                "height": 32,
+                "id": "frog0",
+                "gameType":"enemy",
+                "pivot.x": 0,
+                "pivot.y": 0,
+                "position.x": 1020,
+                "position.y": 225,
+                "rotation": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "type": "DisplayObject",
+                "visible": true,
+                "width": 32
+            }, 
+            "./resources/scenes/area1files/imgs/Prop_3.png0": {
+                "alpha": 255,
+                "facingRight": true,
+                "filepath": "./resources/scenes/area1files/imgs/Prop_3.png",
+                "height": 32,
+                "id": "log0",
+                "gameType":"platform",
+                "pivot.x": 0,
+                "pivot.y": 0,
+                "position.x": 987,
+                "position.y": 573,
+                "rotation": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "type": "DisplayObject",
+                "visible": true,
+                "width": 64
+            },
+            "./resources/scenes/area1files/imgs/Pink_Monster.png0": {
+                "alpha": 255,
+                "facingRight": false,
+                "filepath": "./resources/scenes/area1files/imgs/Pink_Monster.png",
+                "height": 32,
+                "id": "bear0",
+                "gameType":"enemy",
+                "pivot.x": 0,
+                "pivot.y": 0,
+                "position.x": 1088,
+                "position.y": 553,
+                "rotation": 0.0,
+                "scaleX": 1.5,
+                "scaleY": 1.5,
+                "type": "DisplayObject",
+                "visible": true,
+                "width": 32
+            }, 
+
+            "./resources/scenes/area1files/imgs/Prop_5.png1": {
+                "alpha": 255,
+                "facingRight": true,
+                "filepath": "./resources/scenes/area1files/imgs/Prop_5.png",
+                "height": 32,
+                "id": "rock1",
+                "gameType":"platform",
+                "pivot.x": 0,
+                "pivot.y": 0,
+                "position.x": 1211,
+                "position.y": 347,
+                "rotation": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "type": "DisplayObject",
+                "visible": true,
+                "width": 32
+            },
+            "./resources/scenes/area1files/imgs/frog2.png1": {
+                "alpha": 255,
+                "facingRight": false,
+                "filepath": "./resources/scenes/area1files/imgs/frog2.png",
+                "height": 32,
+                "id": "frog1",
+                "gameType":"enemy",
+                "pivot.x": 0,
+                "pivot.y": 0,
+                "position.x": 1338,
+                "position.y": 347,
+                "rotation": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "type": "DisplayObject",
+                "visible": true,
+                "width": 32
+            }
+        }, 
+        "facingRight": true,
+        "filepath": "",
+        "height": 100,
+        "id": "Layer 1",
+        "pivot.x": 0,
+        "pivot.y": 0,
+        "position.x": 0,
+        "position.y": 0,
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "type": "Layer",
+        "scroll": 1.0,
+        "visible": true,
+        "width": 100
+    }
+}

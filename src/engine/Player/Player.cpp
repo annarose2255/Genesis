@@ -62,10 +62,10 @@ Player::Player(string id, bool isSheet) : AnimatedSprite(id, true){
 	this->pivot.x = this->width / 2;
 	this->pivot.y = this->height / 2;
 
-	// this->addSSAnimation("resources/ghostchar/idle.png", "resources/ghostchar/idle.xml", 12, true);
-	// this->addSSAnimation("resources/ghostchar/run.png", "resources/ghostchar/run.xml", 2, true);
-	// this->addSSAnimation("resources/ghostchar/jump.png", "resources/ghostchar/jump.xml", 1, false);
-	// this->addSSAnimation("resources/ghostchar/death.png", "resources/ghostchar/death.xml", 1, false);
+	this->addSSAnimation("resources/ghostchar/idle.png", "resources/ghostchar/idle.xml", 12, true);
+	this->addSSAnimation("resources/ghostchar/run.png", "resources/ghostchar/run.xml", 2, true);
+	this->addSSAnimation("resources/ghostchar/jump.png", "resources/ghostchar/jump.xml", 1, false);
+	this->addSSAnimation("resources/ghostchar/death.png", "resources/ghostchar/death.xml", 1, false);
 	this->play("Idle");
 }
 
@@ -204,15 +204,15 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 	//Movement arrow keys
 	//Controls is a class we wrote that just checks the SDL Scancode values and game controller values in one check
 	if(MyGame::controls->holdRight()){
-		this->position.x += 2 + sprint;
+		this->position.x += 4 + sprint;
 		this->facingRight = true;
 		if(this->standing){
 			// this->play("Run");
 		}
 		//when to move camera at start of level 
 		if (right && this->position.x > 400
-			&& MyGame::camera->position.x-2 + sprint >= MyGame::currentScene->right) { //windowWidth/2
-			MyGame::camera->position.x-=2 + sprint;
+			&& MyGame::camera->position.x-4 + sprint >= MyGame::currentScene->right) { //windowWidth/2
+			MyGame::camera->position.x-=4 + sprint;
 			// cout << "first right" << endl;
 		}
 		else if (left && this->position.x > 400) {
@@ -220,13 +220,13 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 			right = true; 
 		}
 		//when to move at end of level
-		else if (left && MyGame::camera->position.x-2 + sprint >= MyGame::currentScene->right
+		else if (left && MyGame::camera->position.x-4 + sprint >= MyGame::currentScene->right
 			&& this->position.x < (abs(MyGame::currentScene->right) + 400)) {
-				MyGame::camera->position.x-=2 + sprint;
+				MyGame::camera->position.x-=4 + sprint;
 		} 
 	}
 	else if(MyGame::controls->holdLeft()){
-		this->position.x -= 2 + sprint;
+		this->position.x -= 4 + sprint;
 		this->facingRight = false;
 		if(this->standing){
 			// this->play("Run");
@@ -242,7 +242,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		}
 		else if (left && MyGame::camera->position.x + 2 + sprint <= MyGame::currentScene->left
 			&& this->position.x < (abs(MyGame::currentScene->right) + 400)) {
-				MyGame::camera->position.x+=2 + sprint;
+				MyGame::camera->position.x+=4 + sprint;
 		}
 	} 
 	else if (this->standing){

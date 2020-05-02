@@ -1,44 +1,12 @@
-{ "room": 20,
-       "charStart": [
-          {
-                 "name": 4, 
-                 "x": 70, 
-                 "y": 270
-          }
-          ],
-          "charEnd": [
-                {
-                      "name": 7, 
-                      "x": 2058, 
-                      "y": 500
-                }
-          ], 
-          "transitionPts": [
-             {
-                   "name": "to7Greater", 
-                   "x": 2302, 
-                   "y": 422
-             }, 
-             {
-                   "name": "to7Less",
-                   "x": 4000, 
-                   "y": 428
-             }, 
-             {
-                   "name": "to6Greater", 
-                   "x": 2328, 
-                   "y": -100
-             }, 
-             {
-                   "name": "to6Less",
-                   "x": 2334, 
-                   "y": 70
-             }
-          ],
-       "top": 0, 
-       "bottom": 0,
-       "right": -230,
-       "left": -70,
+{ "compressionlevel":0,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"Area 1 - Room 2.json"
+        }
+    },
  "height":21,
  "infinite":false,
  "layers":[
@@ -53,8 +21,79 @@
          "width":32,
          "x":0,
          "y":0
-        } ],
-        
+        }, 
+        {
+         "draworder":"topdown",
+         "id":2,
+         "name":"pickup",
+         "objects":[
+                {
+                 "gid":233,
+                 "height":80.543,
+                 "id":1,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":93.6442,
+                 "x":123.619,
+                 "y":507.874
+                }, 
+                {
+                 "height":195.635,
+                 "id":2,
+                 "name":"",
+                 "rotation":0,
+                 "text":
+                    {
+                     "color":"#ff0000",
+                     "fontfamily":"MS Shell Dlg 2",
+                     "pixelsize":32,
+                     "text":"Entrance and exit of Room 2.5",
+                     "wrap":true
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":140.482,
+                 "x":839.772,
+                 "y":36.101
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":3,
+         "name":"text",
+         "objects":[
+                {
+                 "height":49,
+                 "id":3,
+                 "name":"",
+                 "rotation":0,
+                 "text":
+                    {
+                     "color":"#aaaaff",
+                     "fontfamily":"MS Shell Dlg 2",
+                     "pixelsize":32,
+                     "text":"Use Double Jump",
+                     "wrap":true
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":283,
+                 "x":611.864,
+                 "y":368.601
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }],
  "nextlayerid":4,
  "nextobjectid":4,
  "orientation":"orthogonal",
@@ -64,8 +103,11 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"..\/Forest Tiles.tsx",
-         "path": "./resources/scenes/area1files/imgs/tileset.png"
+         "source":"..\/Forest Tiles.tsx"
+        }, 
+        {
+         "firstgid":233,
+         "source":"..\/pickup.tsx"
         }],
  "tilewidth":32,
  "type":"map",

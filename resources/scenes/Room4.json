@@ -1,0 +1,90 @@
+{
+   "Layer 1": {
+       "alpha": 255,
+       "loadTextures": [
+           {
+               "id": "todd", 
+               "filepath": "./resources/scenes/area1files/imgs/todd.jpg"
+           },
+           {
+            "id": "floryan", 
+            "filepath": "./resources/scenes/area1files/imgs/wizard.jpg"
+        },
+           {
+              "id": "frog", 
+            "filepath": "./resources/scenes/area1files/imgs/frog2.png"
+         }
+       ], 
+       "children": {
+         "./resources/scenes/area1files/imgs/todd.jpg0": {
+             "alpha": 255,
+             "facingRight": false,
+             "filepath": "./resources/scenes/area1files/imgs/todd.jpg",
+             "height": 200,
+             "id": "todd0",
+             "gameType":"platform",
+             "pivot.x": 0,
+             "pivot.y": 0,
+             "position.x": 523.619,
+             "position.y": 250.874,
+             "rotation": 0.0,
+             "scaleX": 1.0,
+             "scaleY": 1.0,
+             "type": "DisplayObject",
+             "visible": true,
+             "width": 300
+            },
+            "./resources/scenes/area1files/imgs/wizard.jpg0": {
+              "alpha": 255,
+              "facingRight": false,
+              "filepath": "./resources/scenes/area1files/imgs/wizard.jpg",
+              "height": 200,
+              "id": "floryan0",
+              "gameType":"platform",
+              "pivot.x": 0,
+              "pivot.y": 0,
+              "position.x": 223.619,
+              "position.y": 390.874,
+              "rotation": 0.0,
+              "scaleX": 1.0,
+              "scaleY": 1.0,
+              "type": "DisplayObject",
+              "visible": true,
+              "width": 150
+             }, 
+        "./resources/scenes/area1files/imgs/frog2.png2": {
+         "alpha": 255,
+         "facingRight": false,
+         "filepath": "./resources/scenes/area1files/imgs/frog2.png",
+         "height": 32,
+         "id": "frog2",
+         "gameType":"enemy",
+         "pivot.x": 0,
+         "pivot.y": 0,
+         "position.x": 960,
+         "position.y": -30,
+         "rotation": 0.0,
+         "scaleX": 1.0,
+         "scaleY": 1.0,
+         "type": "DisplayObject",
+         "visible": true,
+         "width": 32
+        }
+      },
+      "facingRight": true,
+        "filepath": "",
+        "height": 100,
+        "id": "Layer 1",
+        "pivot.x": 0,
+        "pivot.y": 0,
+        "position.x": 0,
+        "position.y": 0,
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "type": "Layer",
+        "scroll": 1.0,
+        "visible": true,
+        "width": 100 
+      }
+   }

@@ -12,6 +12,8 @@ public:
 	void playMusic();
 	void pauseMusic();
 	void resumeMusic();
+	bool playing = false;
+	bool stopped = false;
 private:
 	bool success = true;
 	Mix_Music *gMusic = NULL;
