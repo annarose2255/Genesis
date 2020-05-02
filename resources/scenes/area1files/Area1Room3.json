@@ -1,9 +1,9 @@
 { "room": 3,
    "charStart": [
       {
-             "name": 4, 
+             "name": 2, 
              "x": 70, 
-             "y": 270
+             "y": 180
       }
       ],
       "charEnd": [
@@ -35,9 +35,9 @@
                "y": 70
          }
       ],
-   "top": 0, 
-   "bottom": -20,
-   "right": -2200,
+   "top": -2000, 
+   "bottom": 100,
+   "right": -2170,
    "left": 0,
  "height":19,
  "infinite":false,

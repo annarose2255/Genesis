@@ -77,7 +77,7 @@ void Scene::loadTileMap(string tilePath) { //working on parsing in tmx room file
                 // cout << "inside nested loop" << endl;
                 int tile_index = x + (y * cols);
                 int cur_gid = layer["data"][tile_index];
-                // cout << "cur_gid " << cur_gid << endl;
+                cout << "cur_gid " << cur_gid << endl;
                 if (cur_gid == 0) {
                     continue;
                 }
@@ -580,6 +580,22 @@ void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
         //call change scene event
         MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
             "./resources/scenes/area1files/Area1Room2.json"));
+    }
+    if (this->sceneNum == 2 && 
+       ( (this->player->position.y > this->transitionPts["to2.5Greater"].y && this->player->position.y < this->transitionPts["to2.5Less"].y)
+       && (this->player->position.x > this->transitionPts["to2.5Greater"].x && this->player->position.x < this->transitionPts["to2.5Less"].x)))
+    {
+        //call change scene event
+        MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
+            "./resources/scenes/area1files/Area1Room2.5.json"));
+    }
+    if (this->sceneNum == 2 && 
+       ( (this->player->position.y > this->transitionPts["to3Greater"].y && this->player->position.y < this->transitionPts["to3Less"].y)
+       && (this->player->position.x > this->transitionPts["to3Greater"].x && this->player->position.x < this->transitionPts["to3Less"].x)))
+    {
+        //call change scene event
+        MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
+            "./resources/scenes/area1files/Area1Room3.json"));
     }
     if (this->sceneNum == 7 && 
        ( this->player->position.y > this->transitionPts["from5Greater"].y && 

@@ -21,27 +21,27 @@
       "transitionPts": [
          {
                "name": "to2.5Greater", 
-               "x": 2302, 
-               "y": 422
+               "x": 106, 
+               "y": 600
          }, 
          {
                "name": "to2.5Less",
-               "x": 4000, 
-               "y": 428
+               "x": 200, 
+               "y": 4000
          }, 
          {
                "name": "to3Greater", 
-               "x": 2328, 
-               "y": -100
+               "x": 2786, 
+               "y": -70
          }, 
          {
                "name": "to3Less",
-               "x": 2334, 
-               "y": 70
+               "x": 2906, 
+               "y": 135
          }
       ],
-   "top": 0, 
-   "bottom": 0,
+   "top": -110, 
+   "bottom": 160,
    "right": -2000,
    "left": 0,
  "height":17,

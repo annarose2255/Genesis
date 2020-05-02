@@ -102,7 +102,6 @@ void SceneManager::handleEvent(Event* e)
         alpha.name = "alpha";
         newFade->animate(alpha, 0, 255, 3);
         MyGame::tj->add(newFade); 
-
         // ed->addEventListener(this, CHANGE);
         Event * e = new Event(SCENE_CHANGE_EVENT, EventDispatcher::getInstance());
         EventDispatcher::getInstance()->dispatchEvent(e);
