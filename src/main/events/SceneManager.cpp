@@ -74,6 +74,11 @@ void SceneManager::handleEvent(Event* e)
             Game::camera->position.x = nextScene->right;
             Game::camera->position.y = nextScene->bottom;
         }
+        else if (toRm == 4) {
+            pos = nextScene->charEnd[fromRm]; 
+            Game::camera->position.x = nextScene->right;
+            Game::camera->position.y = nextScene->bottom;
+        }
         else if (fromRm < toRm) {
             pos = nextScene->charStart[fromRm];
             Game::camera->position.x = nextScene->left;

@@ -1,16 +1,9 @@
 { "room": 4,
-       "charStart": [
-          {
-                 "name": 4, 
-                 "x": 70, 
-                 "y": 270
-          }
-          ],
           "charEnd": [
                 {
-                      "name": 7, 
-                      "x": 2058, 
-                      "y": 500
+                      "name": 3, 
+                      "x": 900, 
+                      "y": 800
                 }
           ], 
           "transitionPts": [
@@ -37,7 +30,7 @@
           ],
        "top": 0, 
        "bottom": 0,
-       "right": -840,
+       "right": -825,
        "left": -80,
  "height":22,
  "infinite":false,

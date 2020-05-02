@@ -233,7 +233,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		}
 		//move camera at start of level 
 		if (right && this->position.x > 400 && MyGame::camera->position.x + 2 + sprint <= MyGame::currentScene->left) {
-			MyGame::camera->position.x+=2 + sprint;
+			MyGame::camera->position.x+=4 + sprint;
 			// cout << "first left" << endl;
 		}
 		else if (right && this->position.x < 400) {

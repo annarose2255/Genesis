@@ -46,9 +46,9 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	bg->addChild(caveIMG);
 	caveIMG->visible = false;
 	// forestBG->getChild(0)->visible = false;
-	scene1->loadTileMap("./resources/scenes/area1files/Area1Room2.json");
+	scene1->loadTileMap("./resources/scenes/area1files/Area1Room3.json");
 	scene1->loadScene("./resources/scenes/ghostchar.json");
-	scene1->loadScene("./resources/scenes/Room2.json"); //contains objects and enemies
+	scene1->loadScene("./resources/scenes/Room3.json"); //contains objects and enemies
 	//test playable char
 	// AnimatedSprite* chara = new AnimatedSprite("chara"); 
 	// chara->addSSAnimation("./resources/ghostchar/idle.png", "./resources/ghostchar/idle.xml");
