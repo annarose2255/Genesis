@@ -485,7 +485,7 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
     string anim = data["animations"]["0"]["name"];
     // Animations
     // cout << "Anim name " << anim << endl;
-    newAS->play(anim);
+    // newAS->play(anim);
     //newplayer->play(anim);
  
     // Children
@@ -512,7 +512,7 @@ AnimatedSprite* Scene::makeAnimatedSprite(json data) {
 }
 Player* Scene::makePlayer(json data){
     Player* newplayer;
-    newplayer = new Player(data["id"], true);
+    newplayer = new Player(data["id"]);
     // newplayer->addSSAnimation(data["animations"]["0"]["filepath"], 
     //     data["animations"]["0"]["xmlpath"]);
     
@@ -537,7 +537,8 @@ Player* Scene::makePlayer(json data){
 
     string anim = data["animations"]["0"]["name"];
     // Animations
-    newplayer->play(anim);
+
+    // newplayer->play(anim);
  
     // Children
     for(auto& [key, value] : data["children"].items()) {

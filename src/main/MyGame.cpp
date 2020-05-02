@@ -174,7 +174,7 @@ MyGame::MyGame() : Game(800, 700) { //rendered space
 	//eDispatcher->addEventListener(sm, )
 	
 	//Tween
-	currentScene->getPlayer()->play("Idle");
+	// currentScene->getPlayer()->play("Idle");
 	
 	Tween* charTween = new Tween(currentScene->getPlayer());
 	TweenableParams chalpha;

@@ -28,7 +28,7 @@ Player::Player() : AnimatedSprite("Player"){
 	this->addAnimation("resources/ghostchar/", "run", 6, 2, true);
 	this->addAnimation("resources/ghostchar/", "jump", 6, 1, false);
 	this->addAnimation("resources/ghostchar/", "Death", 6, 1, false);
-	this->play("Idle");
+	// this->play("Idle");
 }
 Player::Player(string id){
 	this->type = "Player";
@@ -62,10 +62,10 @@ Player::Player(string id, bool isSheet) : AnimatedSprite(id, true){
 	this->pivot.x = this->width / 2;
 	this->pivot.y = this->height / 2;
 
-	this->addSSAnimation("resources/ghostchar/idle.png", "resources/ghostchar/idle.xml", 12, true);
-	this->addSSAnimation("resources/ghostchar/run.png", "resources/ghostchar/run.xml", 2, true);
-	this->addSSAnimation("resources/ghostchar/jump.png", "resources/ghostchar/jump.xml", 1, false);
-	this->addSSAnimation("resources/ghostchar/death.png", "resources/ghostchar/death.xml", 1, false);
+	// this->addSSAnimation("resources/ghostchar/idle.png", "resources/ghostchar/idle.xml", 12, true);
+	// this->addSSAnimation("resources/ghostchar/run.png", "resources/ghostchar/run.xml", 2, true);
+	// this->addSSAnimation("resources/ghostchar/jump.png", "resources/ghostchar/jump.xml", 1, false);
+	// this->addSSAnimation("resources/ghostchar/death.png", "resources/ghostchar/death.xml", 1, false);
 	this->play("Idle");
 }
 
@@ -111,7 +111,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		//cout<<"jump"<<endl;
 		this->_yVel = _jumpVel;
 		this->standing = false;
-		this->play("Jump");
+		// this->play("Jump");
 		cout<<"jump"<<endl;
 		jump_buffer_start = true;
 		// if (this->position.y < 350 && Game::camera->position.y+this->_yVel < MyGame::currentScene->top) 
@@ -158,7 +158,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 				if (!this->standing && MyGame::controls->pressJump() && activated == false) //&& jump_buffer %4 == 0){
 					cout<<"double"<<endl;
 					this->_yVel = _jumpVel;
-					this->play("Jump");
+					// this->play("Jump");
 					activated = true;
 				}
 			if(activestates.find("High jump") != activestates.end()){
@@ -207,7 +207,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		this->position.x += 2 + sprint;
 		this->facingRight = true;
 		if(this->standing){
-			this->play("Run");
+			// this->play("Run");
 		}
 		//when to move camera at start of level 
 		if (right && this->position.x > 400
@@ -229,7 +229,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		this->position.x -= 2 + sprint;
 		this->facingRight = false;
 		if(this->standing){
-			this->play("Run");
+			// this->play("Run");
 		}
 		//move camera at start of level 
 		if (right && this->position.x > 400 && MyGame::camera->position.x + 2 + sprint <= MyGame::currentScene->left) {
@@ -246,7 +246,7 @@ void Player::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton>
 		}
 	} 
 	else if (this->standing){
-		this->play("Idle");
+		// this->play("Idle");
 	}
 	
 	/* cool down combat ability timer */
