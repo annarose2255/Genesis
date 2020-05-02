@@ -613,6 +613,14 @@ void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
         MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
             "./resources/scenes/area1files/Area1Room5.json"));
     }
+    if (this->sceneNum == 6 && 
+       ( this->player->position.y > this->transitionPts["to8Greater"].y && this->player->position.y < this->transitionPts["to8less"].y)
+        && (this->player->position.x > this->transitionPts["to8Greater"].x && this->player->position.x < this->transitionPts["to8Less"].x))
+    {
+        //call change scene event
+        MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
+            "./resources/scenes/area1files/Area1Room8.json"));
+    }
     //if the scene isn't a battle and the character collided with an enemy 
     if (!isBattle && this->player->inBattle && this->player->enemy != NULL) {
         cout << "in battle!" << endl;
