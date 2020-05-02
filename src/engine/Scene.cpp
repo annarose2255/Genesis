@@ -597,6 +597,14 @@ void Scene::update(set<SDL_Scancode> pressedKeys, set<SDL_GameControllerButton> 
         MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
             "./resources/scenes/area1files/Area1Room3.json"));
     }
+    if (this->sceneNum == 3 && 
+       ( (this->player->position.y > this->transitionPts["to4Greater"].y && this->player->position.y < this->transitionPts["to4Less"].y)
+       && (this->player->position.x > this->transitionPts["to4Greater"].x && this->player->position.x < this->transitionPts["to4Less"].x)))
+    {
+        //call change scene event
+        MyGame::eDispatcher->dispatchEvent(new Event(CHANGE, MyGame::eDispatcher, this->player,
+            "./resources/scenes/area1files/Area1Room4.json"));
+    }
     if (this->sceneNum == 7 && 
        ( this->player->position.y > this->transitionPts["from5Greater"].y && 
         (this->player->position.x > this->transitionPts["from5Greater"].x && this->player->position.x < this->transitionPts["from5Less"].x)))

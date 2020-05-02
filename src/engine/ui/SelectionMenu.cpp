@@ -57,31 +57,36 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 	//counter_for_pressing++;
 	//cout<<"enemy turn3: "<<enemyTurn<<endl;
 	//selectedaitem = false;
-	if(MyGame::controls->select() && MyGame::currentScene->dead){
+	if(Game::frameCounter % 5 == 0 && MyGame::controls->select() && !canSelect && MyGame::currentScene->dead){
 		MyGame::currentScene->dead = false;
 		MyGame::eDispatcher->dispatchEvent(new Event(REVERT, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
 						MyGame::currentScene->getEnemy()));
 	}
-	if(MyGame::controls->select() && enemyTurn == true && !MyGame::currentScene->dead){ //end of player turn textbox
-	cout<<"enemy turn2: "<<MyGame::currentScene->numChildren()<<endl;
+	/* cout<<"select: "<<canSelect<<endl;
+	cout<<"controls: "<<MyGame::controls->select()<<endl;
+	cout<<"enemy turn: "<<enemyTurn<<endl;
+	cout<<"dead: "<<MyGame::currentScene->dead <<endl; */
+	if( Game::frameCounter % 4 == 0 && MyGame::controls->select() && !canSelect && enemyTurn && !MyGame::currentScene->dead){ //end of player turn textbox
+	cout<<"player turn2: "<<MyGame::currentScene->numChildren()<<endl;
 		if (MyGame::currentScene->numChildren() == 2 ){
 			MyGame::currentScene->removeChild(1);
 			//MyGame::actionMenu->visible = true;
 			//MyGame::eDispatcher->
 			MyGame::eDispatcher->dispatchEvent(new Event(ENEMYTURN, MyGame::eDispatcher, MyGame::currentScene->getPlayer(), 
-					MyGame::currentScene->getEnemy()));
-					betweenturns = true;
+			MyGame::currentScene->getEnemy()));
+			betweenturns = true;
 			
 			//cout<<"enemy turn3: "<<enemyTurn<<endl;
 		}
 	}
 		//if (this->getItem(0)->getAction() == NULL){
 	//cout<<"between: "<<betweenturns<<endl;
-	if (MyGame::controls->select() && !decideFate && betweenturns && !MyGame::currentScene->dead){ //end of enemy turn textbox
+	
+	if  (Game::frameCounter % 9 == 0 && MyGame::controls->select() &&  !enemyTurn && !decideFate && !canSelect && betweenturns && !MyGame::currentScene->dead){ //end of enemy turn textbox
 		cout<<"enemy turn: "<<endl;
 		MyGame::currentScene->removeChild(1);
 		//cout<<"C"<<endl;
-		MyGame::currentScene->selectitem = false;
+		MyGame::currentScene->selectitem = true;
 		MyGame::actionMenu->visible = true;
 		//cout << "inside enemy" << endl;
 		if (MyGame::actionMenu->getItem(0)->getAction() == NULL){
@@ -102,8 +107,9 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 		} */
 		enemyTurn = false;
 		betweenturns = false;
+		canSelect = true;
 	}
-	if ((decideFate || fakeboss) && MyGame::controls->select() && !MyGame::currentScene->dead) { //defeated enemy
+	if (Game::frameCounter % 11 == 0 &&(decideFate || fakeboss) && MyGame::controls->select() &&  !canSelect && !MyGame::currentScene->dead) { //defeated enemy
 		cout << "inside decide fate" << endl;
 		cout<<"child : "<<MyGame::currentScene->numChildren()<<endl;
 		if (MyGame::currentScene->numChildren() == 2 ){
@@ -113,6 +119,7 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 			MyGame::currentScene->removeChild(1);
 			MyGame::actionMenu->visible = false;
 			if (decideFate){
+				canSelect = true;
 				MyGame::eDispatcher->dispatchEvent(new Event(DECIDEFATE, MyGame::eDispatcher, MyGame::currentScene->getPlayer(),
 				MyGame::currentScene->getEnemy()));
 			}
@@ -128,11 +135,11 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 	counter_for_pressing++;
 	if(this->visible) {
 		if (MyGame::controls->select()){
-			if(!enemyTurn){
+			if(!enemyTurn && canSelect && Game::frameCounter % 5 == 0){
 				//if (Game::frameCounter%6 == 0) {
 				if (this == MyGame::abilities){
 					cout<<"ability"<<endl;
-					if (Game::frameCounter%5 == 0) {
+					if (Game::frameCounter%7 == 0) {
 						cout<<"frame2: "<<Game::frameCounter<<endl;
 						cout<<"select2: "<<selectInd<<endl;
 						selectItem(selectInd);

@@ -15,22 +15,22 @@
       ], 
       "transitionPts": [
          {
-               "name": "to7Greater", 
-               "x": 2302, 
-               "y": 422
+               "name": "to4Greater", 
+               "x": 1600, 
+               "y": 650
          }, 
          {
-               "name": "to7Less",
-               "x": 4000, 
-               "y": 428
+               "name": "to4Less",
+               "x": 1718, 
+               "y": 1000
          }, 
          {
-               "name": "to6Greater", 
+               "name": "to5Greater", 
                "x": 2328, 
                "y": -100
          }, 
          {
-               "name": "to6Less",
+               "name": "to5Less",
                "x": 2334, 
                "y": 70
          }
