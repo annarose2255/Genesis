@@ -71,7 +71,7 @@ Player::Player(string id, bool isSheet) : AnimatedSprite(id, true){
 
 //Called automatically by collision system when something collides with the player
 //our job is to simply react to that collision.
- bool Player::onCollision(DisplayObject* other){
+ bool Player::onCollision(DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
 	 if(other->gameType == "platform"){
 		//MyGame::collisionSystem.resolveCollision(this, other, this->position.x - oldX, this->position.y - oldY);	
 		// cout<<"ydelta in: "<< this->position.y - oldY<<endl;
@@ -80,9 +80,12 @@ Player::Player(string id, bool isSheet) : AnimatedSprite(id, true){
 		//MyGame::collisionSystem->resolveCollision
 		//this->collideing = true;
 		//DisplayObject::onCollision(other);
+		if (yDelta1 > 0){
+			this->standing=true;
+		}
 		this->_yVel = 0;
 		//_yAccCount= 0;
-		this->standing=true;
+		
 		return false;
 	}
 	/* else if(other->type == "Enemy"){

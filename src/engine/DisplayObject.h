@@ -60,7 +60,7 @@ public:
 	void applyTransformations(AffineTransform &at);
 	void reverseTransformations(AffineTransform &at);
 
-	virtual bool onCollision(DisplayObject* other);
+	virtual bool onCollision(DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2);
 	void *globalTransform(AffineTransform &gt);
 
 	int getWidth();
