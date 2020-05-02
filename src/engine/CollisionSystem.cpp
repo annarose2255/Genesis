@@ -30,11 +30,7 @@ void CollisionSystem::update(){
 	// iterate over colllision pairs
 	for (auto pair=collisionPairs.begin(); pair != collisionPairs.end(); ++pair) {
 		// check for collisions between the elements in each vector
-		try{
-			if (typeMap.find(pair->first) == typeMap.end()){
-				continue;
-			}
-		} catch (...) {
+		if (typeMap.find(pair->first) == typeMap.end()){
 			continue;
 		}
 		for (auto doType1=typeMap.at(pair->first).begin(); doType1 != typeMap.at(pair->first).end(); ++doType1) {
@@ -215,7 +211,7 @@ void CollisionSystem::resolveCollision(DisplayObject* other, DisplayObject* d, i
 	//if mvmt > 0, then DO that moved position - mvmt, change back to old position
 	//checking that object moved 	
 	// cout << "Resolving collision between: " << other->gameType << " and "<< d->gameType << endl; 
-	if (d->onCollision(other) || other->onCollision(d)){
+	if (d->onCollision(other, xDelta1, yDelta1, xDelta2, yDelta2) || other->onCollision(d, xDelta1, yDelta1, xDelta2, yDelta2)){
 		return;
 	}
 	// check if collision in y direction

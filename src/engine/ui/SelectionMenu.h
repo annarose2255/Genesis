@@ -35,6 +35,7 @@ public:
 	int enterframe = 0;
 	bool death = false;
 	bool fakeboss = false;
+	bool canSelect = true;
 private:
 
 	vector<MenuItem*> menuItems;

@@ -151,7 +151,7 @@ void DisplayObject::draw(AffineTransform &at){
 	
 }
 //checks type of collision and resolves it accordingly
-bool DisplayObject::onCollision(DisplayObject* other){
+bool DisplayObject::onCollision(DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
 	//cout << "inside onCollision!" << endl;
 	//if (this->gameType == "character"){
 		//Player::this->onCollision(other);
@@ -167,9 +167,9 @@ bool DisplayObject::onCollision(DisplayObject* other){
 		// }
 		return false;
 	}
-	else if (this->gameType == "defeated" || other->gameType == "defeated"){
-		return true;
-	}
+	// else if (this->gameType == "defeated" || other->gameType == "defeated"){
+	// 	return true;
+	// }
 	else if (this->gameType == "enemy") {
 		// cout << "collided with enemy!" << endl;
 		other->enemy = this;

@@ -21,7 +21,7 @@ public:
 	virtual void draw(AffineTransform &at);
 
 	//void onEnemyCollision(Enemy* enemy);
-	virtual bool onCollision(DisplayObject* other);
+	virtual bool onCollision(DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2);
 
 	//set state 
 	void setState(string newstate); //sets the state of the character 
