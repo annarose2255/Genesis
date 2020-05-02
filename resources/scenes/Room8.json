@@ -7,7 +7,7 @@
                "filepath": "./resources/scenes/area1files/imgs/Prop_5.png"
            },
            {
-            "id": "boss", 
+            "id": "fakeboss", 
             "filepath": "./resources/scenes/area1files/imgs/Toady.png"
         } 
        ], 
@@ -52,8 +52,8 @@
             "facingRight": true,
             "filepath": "./resources/scenes/area1files/imgs/Prop_5.png",
             "height": 32,
-            "id": "rock2",
-            "gameType":"platform",
+            "id": "boss",
+            "gameType":"enemy",
             "pivot.x": 0,
             "pivot.y": 0,
             "position.x": 1217,
@@ -88,7 +88,7 @@
          "facingRight": false,
          "filepath": "./resources/scenes/area1files/imgs/Toady.png",
          "height": 194,
-         "id": "boss0",
+         "id": "fakeboss",
          "gameType":"enemy",
          "pivot.x": 0,
          "pivot.y": 0,

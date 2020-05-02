@@ -599,9 +599,24 @@ void SceneManager::handleEvent(Event* e)
     else if (e->getType() == DEFEATEDENEMY) {
         cout << "u defeated the enemy!"<< endl;
         MyGame::actionMenu->visible = false;
-        MyGame::actionMenu->decideFate = true; 
-        TextBox* victoryMSG = new TextBox(); 
-        victoryMSG->setText("Congrats, you won! Press Tab to decide the enemy's fate.");
+        string id = MyGame::currentScene->getEnemy()->id;
+        id.pop_back();
+         TextBox* victoryMSG = new TextBox(); 
+        if (id == "fakeboss"){
+            victoryMSG->setText("Congrats! But your boss is somewhere else. Go find him!");
+            MyGame::actionMenu->decideFate = false; 
+             MyGame::actionMenu->fakeboss = true; 
+             
+        }
+        else if (id == "boss"){
+            MyGame::actionMenu->decideFate = true; 
+            victoryMSG->setText("Congrats, you defeated the boss! Press Tab to decide the enemy's fate.");
+        }
+        else{
+            MyGame::actionMenu->decideFate = true; 
+            victoryMSG->setText("Congrats, you won! Press Tab to decide the enemy's fate.");
+        }
+
         victoryMSG->visible = true;
         MyGame::currentScene->addChild(victoryMSG);
 

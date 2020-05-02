@@ -103,7 +103,7 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 		enemyTurn = false;
 		betweenturns = false;
 	}
-	if (decideFate && MyGame::controls->select() && !MyGame::currentScene->dead) { //defeated enemy
+	if ((decideFate || fakeboss) && MyGame::controls->select() && !MyGame::currentScene->dead) { //defeated enemy
 		cout << "inside decide fate" << endl;
 		cout<<"child : "<<MyGame::currentScene->numChildren()<<endl;
 		if (MyGame::currentScene->numChildren() == 2 ){
@@ -112,8 +112,16 @@ void SelectionMenu::update(set<SDL_Scancode> pressedKeys, set<SDL_GameController
 			MyGame::currentScene->selectitem = false;
 			MyGame::currentScene->removeChild(1);
 			MyGame::actionMenu->visible = false;
-			MyGame::eDispatcher->dispatchEvent(new Event(DECIDEFATE, MyGame::eDispatcher, MyGame::currentScene->getPlayer(),
+			if (decideFate){
+				MyGame::eDispatcher->dispatchEvent(new Event(DECIDEFATE, MyGame::eDispatcher, MyGame::currentScene->getPlayer(),
 				MyGame::currentScene->getEnemy()));
+			}
+			else{
+				MyGame::eDispatcher->dispatchEvent(new Event(REVERTBATTLE, MyGame::eDispatcher, MyGame::currentScene->getPlayer(),
+				MyGame::currentScene->getEnemy()));
+				fakeboss = false;
+			}
+			
 		}
 	}
 	//MyGame::currentScene->selectitem = false;

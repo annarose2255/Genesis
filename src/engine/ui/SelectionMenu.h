@@ -34,6 +34,7 @@ public:
 	bool betweenturns = false;
 	int enterframe = 0;
 	bool death = false;
+	bool fakeboss = false;
 private:
 
 	vector<MenuItem*> menuItems;
